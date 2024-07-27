@@ -11,7 +11,7 @@ function Home() {
 
 
     <>
-      <h1>i am home</h1>
+      <h1>this is  home</h1>
 
     </>
   );
