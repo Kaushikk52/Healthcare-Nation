@@ -11,7 +11,7 @@ function Home() {
 
 
     <>
-      <h1>this is new home</h1>
+      <h1>this is  home</h1>
 
     </>
   );
