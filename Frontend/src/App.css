@@ -228,7 +228,7 @@ background: rgba(5, 128, 196, 1);
 /* Services container styling */
 
 .swiper-button-next {
-    background-image: url('../public/Images/Subtract.png') !important; /* Your custom icon path */
+    background-image: url('../Images/Subtract.png') !important; /* Your custom icon path */
     background-size: contain !important;
     background-repeat: no-repeat !important;
     background-position: center !important;
