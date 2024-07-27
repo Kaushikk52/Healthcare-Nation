@@ -94,7 +94,8 @@ const data1 = [
 
 
 function Home1() {
-    const path = "src/assets/Images/";
+    // const path = "src/assets/Images/";
+    const path = import.meta.env.VITE_APP_IMG_URL;
 
 
     return (

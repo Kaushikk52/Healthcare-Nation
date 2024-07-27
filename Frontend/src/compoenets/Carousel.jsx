@@ -4,7 +4,8 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 
 function Carousel() {
-  const path = "src/assets/Images/"
+  // const path = "src/assets/Images/";
+  const path = import.meta.env.VITE_APP_IMG_URL;
   return (
     <div id="carouselExampleFade" className="carousel slide carousel-fade" data-bs-ride="carousel">
       <div className="carousel-inner">

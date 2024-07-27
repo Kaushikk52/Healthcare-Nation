@@ -3,7 +3,8 @@ import React from 'react';
 
 
 function MyNav() {
-    const path = "src/assets/Images/";
+    // const path = "src/assets/Images/";
+    const path = import.meta.env.VITE_APP_IMG_URL;
     return (
         <>
             <div className="nav1 pt-2 container-fluid">
