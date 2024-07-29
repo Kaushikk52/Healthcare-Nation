@@ -10,6 +10,16 @@ import 'swiper/swiper-bundle.css';
 import '../App.css'
 // import myimg from './Nirav_Vadhiya_img.jpeg'
 
+import 'aos/dist/aos.css'; // Import AOS styles
+import AOS from 'aos';
+
+AOS.init({
+    duration: 1200, // Optional: set the duration for animations in milliseconds
+  });
+
+
+
+
 
 
 
@@ -98,6 +108,9 @@ function Home1() {
     const path = import.meta.env.VITE_APP_IMG_URL;
 
 
+
+ 
+
     return (
         <>
 
@@ -143,7 +156,7 @@ function Home1() {
                     {
                         data.map(user => (
                             <SwiperSlide key={user.id} className='slide'>
-                                <div className="slide-content">
+                                <div className="slide-content" data-aos="fade-up">
                                     <div className="user-image text-center">
                                         <img src={path + user.img} alt="" className='my-img img-fluid' />
                                     </div>
@@ -203,7 +216,7 @@ function Home1() {
                     {
                         data1.map(user => (
                             <SwiperSlide key={user.id} className='slide'>
-                                <div className="slide-content">
+                                <div className="slide-content" data-aos="fade-up">
                                     <div className="user-image text-center">
                                         <img src={path + user.img} alt="" className='my-img img-fluid' />
                                     </div>
@@ -299,14 +312,14 @@ function Home1() {
 
 
                 <div className="row  g-3 mt-2">
-                    <div className="col-md-3 col-6">
+                    <div className="col-md-3 col-6 " data-aos="fade-up">
                         <div className="">
                             <img src={path + "Organ-Transplant-Centres.png"} alt="" className='img-fluid' />
                         </div>
 
                         <p className='semi-head1 mt-1 ps-2'>Hospitals</p>
                     </div>
-                    <div className="col-md-3 col-6 ">
+                    <div className="col-md-3 col-6" data-aos="fade-up">
                         <div className="">
                             <img src={path + "Eye-Care-Centres.png"} alt="" className='img-fluid' />
                         </div>
@@ -314,42 +327,42 @@ function Home1() {
                         <p className='semi-head1 mt-1 ps-2'>Eye Care Centres</p>
                     </div>
 
-                    <div className="col-md-3 col-6 ">
+                    <div className="col-md-3 col-6 " data-aos="fade-up">
                         <div className="">
                             <img src={path + "Pediatric-Centres.png"} alt="" className='img-fluid' />
                         </div>
 
                         <p className='semi-head1 mt-1 ps-2'>Pediatric Centres</p>
                     </div>
-                    <div className="col-md-3 col-6 ">
+                    <div className="col-md-3 col-6 " data-aos="fade-up">
                         <div className="">
                             <img src={path + "Heart-Care-Centres.png"} alt="" className='img-fluid' />
                         </div>
 
                         <p className='semi-head1 mt-1 ps-2'>Heartn Care Centres</p>
                     </div>
-                    <div className="col-md-3 col-6 ">
+                    <div className="col-md-3 col-6 " data-aos="fade-up" data-aos-delay="400">
                         <div className="">
                             <img src={path + "Skincare-Centres.png"} alt="" className='img-fluid' />
                         </div>
 
                         <p className='semi-head1 mt-1 ps-2'>Skincare Centres</p>
                     </div>
-                    <div className="col-md-3 col-6 ">
+                    <div className="col-md-3 col-6 " data-aos="fade-up" data-aos-delay="400">
                         <div className="">
                             <img src={path + "Test-Tube-Baby-Centres.png"} alt="" className='img-fluid' />
                         </div>
 
                         <p className='semi-head1 mt-1 ps-2'>Test Tube Baby Centres</p>
                     </div>
-                    <div className="col-md-3 col-6 ">
+                    <div className="col-md-3 col-6 " data-aos="fade-up" data-aos-delay="500">
                         <div className="">
                             <img src={path + "Kidney-care-Centres.png"} alt="" className='img-fluid' />
                         </div>
 
                         <p className='semi-head1 mt-1 ps-2'>Kidney care Centres</p>
                     </div>
-                    <div className="col-md-3 col-6 ">
+                    <div className="col-md-3 col-6 " data-aos="fade-up" data-aos-delay="500">
                         <div className="">
                             <img src={path + "Cancer-Care-Centres.png"} alt="" className='img-fluid' />
                         </div>
@@ -368,13 +381,13 @@ function Home1() {
 
             <div className="container margin-top3">
                 <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-6" data-aos="fade-up" data-aos-delay="600">
                         <div className="">
                             <img src={path + 'Healthcare-Companies-Startups.png'} alt="" className='img-fluid' />
                         </div>
                         <p className='semi-head1 mt-1 ps-2'>Healthcare Companies Startups</p>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-6" data-aos="fade-up" data-aos-delay="600">
                         <div className="">
                             <img src={path + 'Health-Checkup-near-you.png'} alt="" className='img-fluid' />
                         </div>
@@ -467,41 +480,42 @@ function Home1() {
             <div className="container margin-top3">
                 <h2 className='homepage-section-heading '>Services By Health Concern</h2>
 
-                <div className="row  g-2 mt-3 Services-By-Health-Concern justify-content-evenly">
-                    <div className="col-md-2 col-6 text-center">
+                <div className="d-flex mt-3 Services-By-Health-Concern " data-aos="fade-up" data-aos-delay="600">
+                    <div className=" text-center">
                         <div className="text-center">
                             <img src={path + "Depression-Anxiety.png"} alt="" className='img-fluid' />
                         </div>
 
                         <p className='semi-head1 mt-2'>Depression Anxiety  </p>
                     </div>
-                    <div className="col-md-2 col-6 text-center">
+                    <div className=" text-center px-2">
                         <div className="text-center">
                             <img src={path + "Pregnant.png"} alt="" className='img-fluid' />
                         </div>
                         <p className='semi-head1 mt-2'>Pregnant</p>
                     </div>
-                    <div className="col-md-2 col-6 text-center">
+                    <div className=" text-center">
                         <div className="text-center">
                             <img src={path + "Joint-Pains.png"} alt="" className='img-fluid' />
                         </div>
 
                         <p className='semi-head1 mt-2'>Joint Pains</p>
                     </div>
-                    <div className="col-md-2 col-6 text-center">
+                    <div className=" text-center px-2">
                         <div className="text-center">
                             <img src={path + "Ear-Problems.png"} alt="" className='img-fluid' />
                         </div>
 
                         <p className='semi-head1 mt-2'>Ear Problems</p>
                     </div>
-                    <div className="col-md-2 col-6 text-center">
+                    <div className=" text-center">
                         <div className="text-center">
                             <img src={path + "Digestion-Issues.png"} alt="" className='img-fluid' />
                         </div>
 
                         <p className='semi-head1 mt-2'>Digestion Issues</p>
                     </div>
+                   
 
 
                 </div>
@@ -524,7 +538,7 @@ function Home1() {
 
                 <div className="row g-3 mt-2 ">
 
-                    <div className="col-md-3 col-6">
+                    <div className="col-md-3 col-6" data-aos="fade-up" data-aos-delay="600">
                         <div className="">
                             <img src={path + "SAIFEE-HOSPITAL.png"} alt="" className='img-fluid' />
                         </div>
@@ -532,7 +546,7 @@ function Home1() {
                         <p className='semi-head1 mt-1 ps-2'>SAIFEE HOSPITAL</p>
                     </div>
 
-                    <div className="col-md-3 col-6">
+                    <div className="col-md-3 col-6" data-aos="fade-up" data-aos-delay="700">
                         <div className="">
                             <img src={path + "MAX-NANAVATI-HOSPITAL.png"} alt="" className='img-fluid' />
                         </div>
@@ -540,7 +554,7 @@ function Home1() {
                         <p className='semi-head1 mt-1 ps-2'>MAX NANAVATI HOSPITAL</p>
                     </div>
 
-                    <div className="col-md-3 col-6">
+                    <div className="col-md-3 col-6" data-aos="fade-up" data-aos-delay="800">
                         <div className="">
                             <img src={path + "GLOBAL-HOSPITAL.png"} alt="" className='img-fluid' />
                         </div>
@@ -548,7 +562,7 @@ function Home1() {
                         <p className='semi-head1 mt-1 ps-2'>GLOBAL HOSPITAL</p>
                     </div>
 
-                    <div className="col-md-3 col-6">
+                    <div className="col-md-3 col-6" data-aos="fade-up" data-aos-delay="900">
                         <div className="">
                             <img src={path + "KOKILABEN-HOSPITAL.png"} alt="" className='img-fluid' />
                         </div>

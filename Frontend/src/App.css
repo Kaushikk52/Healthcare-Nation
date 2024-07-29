@@ -523,20 +523,40 @@ background: rgba(5, 128, 196, 1);
         height: 150px;
         width: 150px;
     }
+
+  .Services-By-Health-Concern img{
+    height: 160px;
+    max-width: 160px !important;
+  }
+
 }
 
 /* Public-Sector-Corporates-container css End  */
 .carousel-caption {
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: 50% !important;
     transform: translate(-50%, -50%);
     text-align: center;
+    
   }
 
-/* .new-demo{
-    border: 2px solid blue;
-} */
+
+  /* Services-By-Health-Concern start  */
+
+  .Services-By-Health-Concern img{
+    /* border: 2px solid red; */
+    /* width: 190px !important; */
+  }
+
+
+
+
+
+
+   /* Services-By-Health-Concern End  */
+
+
 
 /* footer css start  */
 
