@@ -24,9 +24,10 @@ function MyNav() {
                                         Location
                                     </a>
                                     <ul className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <li><a className="dropdown-item" href="#">Action</a></li>
-                                        <li><a className="dropdown-item" href="#">Another action</a></li>
-                                        <li><a className="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a className="dropdown-item" href="#">Mumbai</a></li>
+                                        <li><a className="dropdown-item" href="#">Delhi</a></li>
+                                        <li><a className="dropdown-item" href="#">Ahmedabad</a></li>
+                                        <li><a className="dropdown-item" href="#">Bangalore</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -43,7 +44,7 @@ function MyNav() {
                     <div className="col-md-2 d-flex align-self-center justify-content-center">
                         <div className="signupin-box text-center p-1 sign-laptop">
                             <a href="#" className='singupa'>Sign Up</a> |
-                            <a href="#" className='singupa'>Sign In</a>
+                            <a href="#" className='singupa'> Sign In</a>
                         </div>
                     </div>
                 </div>
@@ -59,9 +60,10 @@ function MyNav() {
                             </a>
 
                             <ul className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <li><a className="dropdown-item" href="#">Action</a></li>
-                                <li><a className="dropdown-item" href="#">Another action</a></li>
-                                <li><a className="dropdown-item" href="#">Something else here</a></li>
+                                <li><a className="dropdown-item" href="#">Mumbai</a></li>
+                                <li><a className="dropdown-item" href="#">Delhi</a></li>
+                                <li><a className="dropdown-item" href="#">Ahmedabad</a></li>
+                                <li><a className="dropdown-item" href="#">Bangalore</a></li>
                             </ul>
                         </div>
                     </div>
@@ -83,9 +85,9 @@ function MyNav() {
 
             {/* navbar start  */}
 
-            <nav className="navbar navbar-expand-lg navbar-light sticky1">
+            <nav className="navbar navbar-expand-lg navbar-light py-0 sticky1">
                 <div className="container-fluid">
-                    <a className="navbar-brand" href="#"><img src={path + 'HealthCare Nation 2.png'} alt="" className="logo-phone"/></a>
+                    <a className="navbar-brand" href="#"><img src={path + 'HealthCare Nation 2.png'} alt="" className="logo-phone" /></a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
@@ -93,31 +95,31 @@ function MyNav() {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav m-auto mb-2 mb-lg-0 p-2">
                             <li className="nav-item">
-                                <a className="nav-link active" aria-current="page" href="#">Home</a>
+                                <a className="nav-link active " aria-current="page" href="#">Home</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Services</a>
+                                <a className="nav-link navlink1" href="#">Services</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Speciality Centres</a>
+                                <a className="nav-link navlink1" href="#">Speciality Centres</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Therapies</a>
+                                <a className="nav-link navlink1" href="#">Therapies</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Corporates</a>
+                                <a className="nav-link navlink1" href="#">Corporates</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">FAQs</a>
+                                <a className="nav-link navlink1" href="#">FAQs</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">About</a>
+                                <a className="nav-link navlink1" href="#">About</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Contact</a>
+                                <a className="nav-link navlink1" href="#">Contact</a>
                             </li>
                             <div className="singupin-box text-center p-1 sign-phone">
-                                <a href="" className='singupa'>Sign Up</a><a href="" className='singupa'>Sign In</a>
+                                <a href="" className='singupa'>Sign Up</a><a href="" className='singupa'> Sign In</a>
                             </div>
 
 
@@ -125,7 +127,9 @@ function MyNav() {
                         </ul>
 
                     </div>
+                    <a className=" patient-right-link pe-2">Patient Right & Responsibilities</a>
                 </div>
+              
             </nav>
 
 

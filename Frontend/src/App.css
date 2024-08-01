@@ -1,29 +1,35 @@
-
-
-
 /* General styling */
 * {
-    font-family: 'Inter', sans-serif;
+    font-family: "Lato", sans-serif;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-@media (min-width: 1400px){
-    .container{
+@media (min-width: 1400px) {
+    .container {
         max-width: 1100px !important;
     }
 }
 
 .homepage-section-heading {
-    font-size: 30px;
+    font-size: 26px;
     font-family: "Lato", sans-serif;
-    font-weight: 600;
+    font-weight: 700;
     color: #2d2d32;
-    
+
 
 }
-.alink{
+
+.home-page-semi-head {
+    font-size: 14px;
+    color: #414146;
+    font-weight: 400;
+    margin-top: 5px;
+    margin-bottom: 12px;
+}
+
+.alink {
     color: #000;
     text-decoration: none;
     font-size: 14px;
@@ -31,20 +37,65 @@
 
 
 .semi-head1 {
-    font-size: 16px;
+    font-size: 17px;
     font-family: "Lato", sans-serif;
-    font-weight: 700;
+    font-weight: 600;
     color: #414146;
     line-height: 1.43;
-   
+    margin-top: 10px;
+
 }
 
+.a-links {
+    text-decoration: none;
+}
+
+.a-links:hover .semi-head1 {
+    color: #9B2482;
+
+}
+
+.a-links:hover {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.border-hover:hover {
+    /* border: 1.5px solid #9B2482; */
+    border-radius: 50%;
+    padding: 2px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.btn-small {
+    font-size: 14px;
+    color: #2277b2;
+    font-weight: 400;
+    padding: 7px 16px;
+    border: 1.7px solid #2277b2;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn-small:hover {
+    color: #9B2482;
+    border: 2px solid #9B2482;
+}
+
+.rsdius10 {
+    border-radius: 10px;
+}
+
+
 @media screen and (max-width: 991px) {
-    .homepage-section-heading{
+    .homepage-section-heading {
         font-size: 16px;
     }
 
-    .semi-head1{
+    .semi-head1 {
         font-size: 14px;
     }
 }
@@ -54,10 +105,11 @@
 .background-first {
     background: #EDDBE9;
 }
-.background-Second{
-background: rgba(5, 128, 196, 1);
 
-} 
+.background-Second {
+    background: rgba(5, 128, 196, 1);
+
+}
 
 
 .bg-footer {
@@ -78,16 +130,18 @@ background: rgba(5, 128, 196, 1);
 
 .singupin-box a {
     text-decoration: none;
-    color: black ;
+    color: black;
 }
 
-.singupa{
+.singupa {
     color: #000;
+    text-decoration: none;
 }
+
 .singupin-box a:nth-child(1) {
     border-right: 1px solid black;
-    padding-right: 5px ;
-    font-size: 14px ;
+    padding-right: 5px;
+    font-size: 14px;
 }
 
 .singupin-box a:nth-child(2) {
@@ -170,8 +224,9 @@ background: rgba(5, 128, 196, 1);
 }
 
 .navbar-light .navbar-nav .nav-link {
-    color: #352A2A;
-    font-weight: 400;
+    color: #2d2d32;
+    font-weight: 500;
+    padding-left: 12px !important;
 }
 
 .logo-phone {
@@ -188,6 +243,12 @@ background: rgba(5, 128, 196, 1);
 
 .vadhiya {
     align-items: center;
+}
+
+.patient-right-link {
+    text-decoration: none;
+    color: #cc4c36;
+    font-weight: 700;
 }
 
 /* Search bar input styling */
@@ -228,22 +289,30 @@ background: rgba(5, 128, 196, 1);
 /* Services container styling */
 
 .swiper-button-next {
-    background-image: url('../Images/Subtract.png') !important; /* Your custom icon path */
+    background-image: url('../Images/next-button.png') !important;
+    /* Your custom icon path */
     background-size: contain !important;
     background-repeat: no-repeat !important;
     background-position: center !important;
     /* width: 40px !important; 
     height: 40px !important;  */
-    color: transparent !important; /* Hide any default text/icon */
-    border: none !important; /* Remove any border if present */
+    color: transparent !important;
+    /* Hide any default text/icon */
+    border: none !important;
+    /* Remove any border if present */
     /* transform: translateY(-10%); */
-    top: 45% !important ;
+    top: 45% !important;
+}
+
+.services-img {
+    border-radius: 10px;
+    aspect-ratio: 4.2/3;
+    box-shadow: 0 3px 6px 0 rgba(45, 45, 51, .08);
 }
 
 
 
-
-.swiper-button-prev{
+.swiper-button-prev {
     display: none !important;
 }
 
@@ -315,8 +384,7 @@ background: rgba(5, 128, 196, 1);
     display: none !important;
 }
 
-.swiper-slide {
-}
+.swiper-slide {}
 
 @media screen and (max-width: 768px) {
     .swiper-navBtn {
@@ -456,11 +524,21 @@ background: rgba(5, 128, 196, 1);
 }
 
 
-.Health-Insurance-logo-box{
-    border: 1px solid #000;
-    border-radius: 8px;
+.Health-Insurance-logo-box {
+    /* border: 1px solid #bebebe; */
+    border-radius: 5px;
     height: 120px;
-    
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+
+}
+
+.Health-Insurance-logo-box img {
+    /* height: 100%;
+    width: 100%; */
+}
+
+.tpa-logo {
+    height: 84px !important;
 }
 
 
@@ -472,12 +550,15 @@ background: rgba(5, 128, 196, 1);
     .filter-box1 {
         display: none;
     }
+
     .product-box-colum3 {
         text-align: start;
     }
+
     .margin-top3 {
         margin-top: 1rem;
     }
+
     .text-end-center {
         justify-content: center;
     }
@@ -486,90 +567,107 @@ background: rgba(5, 128, 196, 1);
 
 
 /* Public-Sector-Corporates-container css start  */
-.Public-Sector-Corporates-container img{
+.Public-Sector-Corporates-container img {
 
     height: 150px;
     width: 150px;
+
 }
 
-@media screen and (max-width: 786px){
-    .Public-Sector-Corporates-container{
-     
+.cghs-logo {
+    border: 2px solid green;
+    border-radius: 50%;
+}
+
+@media screen and (max-width: 786px) {
+    .Public-Sector-Corporates-container {
+
         flex-wrap: nowrap !important;
         overflow-x: scroll;
 
-       
+
     }
 
-    .Services-By-Health-Concern{
+    .Services-By-Health-Concern {
         flex-wrap: nowrap !important;
         overflow-x: scroll;
 
     }
 
-    .phone-scroll{
+    .phone-scroll {
         flex-wrap: nowrap !important;
         overflow-x: scroll;
     }
 
-    .Public-Sector-Corporates-container img{
+    .Public-Sector-Corporates-container img {
         width: 100%;
         height: 100%;
     }
 }
 
-@media screen and (max-width: 600px){
-    .Public-Sector-Corporates-container img{
+@media screen and (max-width: 600px) {
+    .Public-Sector-Corporates-container img {
         height: 150px;
         width: 150px;
     }
 
-  .Services-By-Health-Concern img{
-    height: 160px;
-    max-width: 160px !important;
-  }
+    .Services-By-Health-Concern img {
+        height: 160px;
+        max-width: 160px !important;
+    }
 
 }
 
 /* Public-Sector-Corporates-container css End  */
-.carousel-caption {
+/* .carousel-caption {
     position: absolute;
     top: 50%;
     left: 50% !important;
     transform: translate(-50%, -50%);
     text-align: center;
-    
-  }
+    border: 2px solid red;
+
+} */
 
 
-  /* Services-By-Health-Concern start  */
+/* Services-By-Health-Concern start  */
 
-  .Services-By-Health-Concern img{
+.Services-By-Health-Concern img {
     /* border: 2px solid red; */
     /* width: 190px !important; */
-  }
+}
 
 
 
 
 
 
-   /* Services-By-Health-Concern End  */
+/* Services-By-Health-Concern End  */
+
+
+
+.article-para {
+    line-height: 20px;
+    /* text-decoration: initial; */
+
+
+}
 
 
 
 /* footer css start  */
 
-.footer-container ul li{
+.footer-container ul li {
     list-style: none;
-    
+
 
 }
 
-.footer-container ul{
+.footer-container ul {
     padding-left: 0px !important;
 }
-.footer-container ul li a{
+
+.footer-container ul li a {
     text-decoration: none;
     color: #ffffff;
     font-size: 14px;
@@ -577,3 +675,155 @@ background: rgba(5, 128, 196, 1);
 
 
 /* footer css end  */
+
+
+
+
+
+/*** Header ***/
+#header-carousel .carousel-caption {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, .5);
+    z-index: 0;
+}
+
+#header-carousel .carousel-control-prev,
+#header-carousel .carousel-control-next {
+    width: 10%;
+}
+
+#header-carousel .carousel-control-prev-icon,
+#header-carousel .carousel-control-next-icon {
+    width: 3rem;
+    height: 3rem;
+}
+
+.carousel-item {
+    /* height: 65vh; */
+}
+
+.banner-main-head{
+    font-size: 38px;
+   
+}
+
+.banner-semi-head{
+    font-size: 16px;
+}
+
+
+.banner-btn{
+    border: 2px solid #ffffff;
+    background-color: #2277b2;
+    border-radius: 8px;
+    color: #ffffff;
+    padding: 5px 15px;
+    margin-top: 10px;
+
+}
+
+.banner-btn:hover{
+    border: 2px solid #2277b2;
+    background-color: transparent;
+    color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    #header-carousel .carousel-item {
+        position: relative;
+        min-height: 500px;
+    }
+
+    #header-carousel .carousel-item img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+.banner-main-head{
+    line-height: 35px;
+    font-size: 30px;
+}
+
+
+
+}
+
+@media (max-width: 1024px) {
+    .navbar img:nth-child(1) {
+        width: 200px;
+    }
+}
+
+@media (max-width: 375px) {
+    .navbar img:nth-child(1) {
+        width: 180px;
+    }
+}
+
+
+
+#header-carousel .carousel-indicators [data-bs-target] {
+    width: 30px;
+    height: 30px;
+    text-indent: 0;
+    margin-bottom: 15px;
+    border: 2px solid #FFFFFF;
+    border-radius: 60px;
+    overflow: hidden;
+}
+
+#header-carousel .carousel-indicators [data-bs-target] img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* border: 2px solid red; */
+}
+
+.page-header {
+    background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url(../img/main-img/back-img.jpg) center center no-repeat;
+    background-size: cover;
+}
+
+.page-header2 {
+    background: url(../img/newImg/riceabout.jpg) center center no-repeat;
+    background-size: cover;
+}
+
+.breadcrumb-item+.breadcrumb-item::before {
+    color: var(--secondary);
+}
+
+.page-header .breadcrumb-item+.breadcrumb-item::before {
+    color: var(--light);
+}
+
+
+.carousel-control-next-icon{
+    background-image: url('../Images/next-button.png') !important;
+    height: 40px !important;
+    width: 40px !important;
+    z-index: 1000 !important ;
+}
+
+
+.carousel-control-prev-icon{
+    background-image: url('../Images/prev-button.png') !important;
+    height: 40px !important;
+    width: 40px !important;
+    z-index: 1000 !important ;
+}
+
+@media (max-width: 600px){
+    .carousel-control-next-icon,.carousel-control-prev-icon{
+        height: 30px !important;
+        width: 30px !important;
+    }
+} 
