@@ -517,13 +517,13 @@ function Home1() {
 
             <div className="container margin-top3">
                 <div className="row">
-                    <div className="col-md-6" data-aos="fade-up" data-aos-delay="600">
+                    <div className="col-md-6" data-aos="fade-up" data-aos-delay="300">
                         <div className="">
                             <img src={path + 'Health-Checkup-near-you.jpg'} alt="" className='img-fluid rsdius10' />
                         </div>
                         <p className='semi-head1  ps-2'>Healthcare Companies Startups</p>
                     </div>
-                    <div className="col-md-6" data-aos="fade-up" data-aos-delay="600">
+                    <div className="col-md-6" data-aos="fade-up" data-aos-delay="300">
                         <div className="">
                             <img src={path + 'Healthcare-Companies-Startups.jpg'} alt="" className='img-fluid rsdius10' />
                         </div>
@@ -645,7 +645,7 @@ function Home1() {
 
                 </div>
 
-                <div className="d-flex  Services-By-Health-Concern mt-4" data-aos="fade-up" data-aos-delay="600">
+                <div className="d-flex  Services-By-Health-Concern mt-4" data-aos="fade-up" data-aos-delay="300">
                     <div className=" text-center">
                         <a href="" className='a-links'>
                             <div className="text-center">
@@ -1079,6 +1079,9 @@ function Home1() {
                 </div>
 
             </div>
+
+
+            
 
 
 
