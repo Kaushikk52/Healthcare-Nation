@@ -95,9 +95,9 @@ function Carousel() {
               <div className="p-3" style={{ maxWidth: 900 }}>
                 <div className="banner-main-head mb-0">One stop solution to various </div>
                 <div className="banner-main-head ">healthcare services</div>
-                <div className="banner-semi-head">Lorem ipsum dolor sit amet.lorem5 ipsum dolor sit amet.lorem5</div>
+                <div className="banner-semi-head mt-3">Lorem ipsum dolor sit amet.lorem5 ipsum dolor sit amet.lorem5</div>
                 <div className="">Lorem ipsum dolor sit amet.lorem5</div>
-                <button className='banner-btn'>More Info</button>
+                <button className='banner-btn mt-3'>Consult Now</button>
               </div>
             </div>
           </div>
@@ -110,9 +110,11 @@ function Carousel() {
             />
             <div className="carousel-caption">
               <div className="p-3" style={{ maxWidth: 900 }}>
-              <div className="banner-main-head ">One stop solution to various healthcare services</div>
-                <div className="banner-semi-head">Lorem ipsum dolor sit amet.</div>
-                <button className='banner-btn'>More Info</button>
+                <div className="banner-main-head mb-0">One stop solution to various </div>
+                <div className="banner-main-head ">healthcare services</div>
+                <div className="banner-semi-head mt-3">Lorem ipsum dolor sit amet.lorem5 ipsum dolor sit amet.lorem5</div>
+                <div className="">Lorem ipsum dolor sit amet.lorem5</div>
+                <button className='banner-btn mt-3'>See All Speciality</button>
               </div>
             </div>
           </div>
@@ -124,9 +126,11 @@ function Carousel() {
             />
             <div className="carousel-caption">
               <div className="p-3" style={{ maxWidth: 900 }}>
-              <div className="banner-main-head ">One stop solution to various healthcare services</div>
-                <div className="banner-semi-head">Lorem ipsum dolor sit amet.</div>
-                <button className='banner-btn'>More Info</button>
+                <div className="banner-main-head mb-0">One stop solution to various </div>
+                <div className="banner-main-head ">healthcare services</div>
+                <div className="banner-semi-head mt-3">Lorem ipsum dolor sit amet.lorem5 ipsum dolor sit amet.lorem5</div>
+                <div className="">Lorem ipsum dolor sit amet.lorem5</div>
+                <button className='banner-btn mt-3'>Read more articles</button>
               </div>
             </div>
           </div>
