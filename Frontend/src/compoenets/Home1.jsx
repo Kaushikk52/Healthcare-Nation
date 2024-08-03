@@ -621,7 +621,7 @@ function Home1() {
 
             <div className="container margin-top3">
                 <div className="">
-                    <img src={path + 'medical-equipment.png'} alt="" className='img-fluid' />
+                    <img src={path + 'medical-equipment.jpeg'} alt="" className='img-fluid border-r-10' />
                 </div>
             </div>
 
