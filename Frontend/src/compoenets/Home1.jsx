@@ -44,7 +44,7 @@ const data = [
     },
     {
         id: 4,
-        name: "Heartn Care Centres",
+        name: "Heart Care Centres",
         marks: 258,
         img: 'Heart-Care-Centres.png'
     },
@@ -68,7 +68,7 @@ const data = [
 const data1 = [
     {
         id: 1,
-        name: "Skincare Centres",
+        name: "Skin care Centres",
         img: 'Skincare-Centres.png'
     },
     {
@@ -310,7 +310,7 @@ function Home1() {
 
                 <div className="row d-flex justify-content-between">
                     <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Sort by Speciality</h2>
+                        <h2 className='homepage-section-heading'>Sort By Speciality</h2>
                         <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
 
 
