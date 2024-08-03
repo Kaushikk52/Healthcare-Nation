@@ -68,7 +68,7 @@ const data = [
 const data1 = [
     {
         id: 1,
-        name: "Skin care Centres",
+        name: "Skin Care Centres",
         img: 'Skincare-Centres.png'
     },
     {
@@ -78,7 +78,7 @@ const data1 = [
     },
     {
         id: 3,
-        name: "Kidney care Centres",
+        name: "Kidney Care Centres",
         img: 'Kidney-care-Centres.png'
     },
     {
@@ -88,7 +88,7 @@ const data1 = [
     },
     {
         id: 5,
-        name: "Skincare Centres",
+        name: "Skin Care Centres",
         img: 'Skincare-Centres.png'
     },
     {
@@ -527,7 +527,7 @@ function Home1() {
                         <div className="">
                             <img src={path + 'Health-Checkup-near-you.jpg'} alt="" className='img-fluid rsdius10' />
                         </div>
-                        <p className='semi-head1  ps-2'>Health Checkup Near you</p>
+                        <p className='semi-head1  ps-2'>Health Checkup Near You</p>
                     </div>
                 </div>
             </div>
