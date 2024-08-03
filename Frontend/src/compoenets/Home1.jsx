@@ -519,13 +519,13 @@ function Home1() {
                 <div className="row">
                     <div className="col-md-6" data-aos="fade-up" data-aos-delay="600">
                         <div className="">
-                            <img src={path + 'Healthcare-Companies-Startups.jpg'} alt="" className='img-fluid rsdius10' />
+                            <img src={path + 'Health-Checkup-near-you.jpg'} alt="" className='img-fluid rsdius10' />
                         </div>
                         <p className='semi-head1  ps-2'>Healthcare Companies Startups</p>
                     </div>
                     <div className="col-md-6" data-aos="fade-up" data-aos-delay="600">
                         <div className="">
-                            <img src={path + 'Health-Checkup-near-you.jpg'} alt="" className='img-fluid rsdius10' />
+                            <img src={path + 'Healthcare-Companies-Startups.jpg'} alt="" className='img-fluid rsdius10' />
                         </div>
                         <p className='semi-head1  ps-2'>Health Checkup Near You</p>
                     </div>
