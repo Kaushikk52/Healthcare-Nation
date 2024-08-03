@@ -118,8 +118,22 @@ function Home1() {
 
             <div className="container margin-top3">
 
-                <h2 className='homepage-section-heading mb-1'>Healthcare Services</h2>
-                <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+              
+
+
+                <div className="row d-flex justify-content-between">
+                    <div className="col-md-6 col-8">
+                        <h2 className='homepage-section-heading'>Healthcare Services</h2>
+                        <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+
+
+                    </div>
+
+                    <div className="col-md-2 col-4 text-end">
+                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
+                    </div>
+
+                </div>
 
 
 
@@ -292,8 +306,21 @@ function Home1() {
             {/* swiper 1  */}
 
             <div className='container margin-top3'>
-                <h2 className="homepage-section-heading mb-0">Sort by Speciality</h2>
-                <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+              
+
+                <div className="row d-flex justify-content-between">
+                    <div className="col-md-6 col-8">
+                        <h2 className='homepage-section-heading'>Sort by Speciality</h2>
+                        <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+
+
+                    </div>
+
+                    <div className="col-md-2 col-4 text-end">
+                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
+                    </div>
+
+                </div>
                 <Swiper
                     modules={[Navigation, Pagination, Autoplay, A11y]}
                     spaceBetween={16}
@@ -520,11 +547,13 @@ function Home1() {
 
                     </div>
 
-                    <div className="col-md-2 col-3 text-end">
-                        <a href="" className='alink btn-small'>View all</a>
+                    <div className="col-md-2 col-4 text-end">
+                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
                     </div>
 
                 </div>
+
+
 
                 <div className="row Public-Sector-Corporates-container g-2 mt-2">
                     <div className="col-md-2 col-6 text-center">
@@ -600,8 +629,21 @@ function Home1() {
             {/* Services By Health Concern start  */}
 
             <div className="container margin-top3">
-                <h2 className='homepage-section-heading '>Services By Health Concern</h2>
-                <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+
+
+                <div className="row d-flex justify-content-between">
+                    <div className="col-md-6 col-8">
+                        <h2 className='homepage-section-heading'>Services By Health Concern</h2>
+                        <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+
+
+                    </div>
+
+                    <div className="col-md-2 col-4 text-end">
+                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
+                    </div>
+
+                </div>
 
                 <div className="d-flex  Services-By-Health-Concern mt-4" data-aos="fade-up" data-aos-delay="600">
                     <div className=" text-center">
@@ -666,8 +708,21 @@ function Home1() {
 
             <div className="container margin-top3">
 
-                <h2 className='homepage-section-heading'>Top Hospitals In Mumbai</h2>
-                <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+
+
+                <div className="row d-flex justify-content-between">
+                    <div className="col-md-6 col-8">
+                        <h2 className='homepage-section-heading'>Top Hospitals In Mumbai</h2>
+                        <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+
+
+                    </div>
+
+                    <div className="col-md-2 col-4 text-end">
+                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
+                    </div>
+
+                </div>
 
 
                 <div className="row g-3  mt-1">
@@ -728,8 +783,21 @@ function Home1() {
 
             <div className="container margin-top3">
 
-                <h2 className='homepage-section-heading'>Health Insurance Empanelments</h2>
-                <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+
+
+                <div className="row d-flex justify-content-between">
+                    <div className="col-md-6 col-8">
+                        <h2 className='homepage-section-heading'>Health Insurance Empanelments</h2>
+                        <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+
+
+                    </div>
+
+                    <div className="col-md-2 col-4 text-end">
+                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
+                    </div>
+
+                </div>
 
                 <div className="row g-2 mt-2 phone-scroll">
                     <div className="col-md-2 col-6">
@@ -779,8 +847,20 @@ function Home1() {
 
             <div className="container margin-top3">
 
-                <h2 className='homepage-section-heading'>TPA Empanelments</h2>
-                <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+
+                <div className="row d-flex justify-content-between">
+                    <div className="col-md-6 col-8">
+                        <h2 className='homepage-section-heading'>TPA Empanelments</h2>
+                        <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+
+
+                    </div>
+
+                    <div className="col-md-2 col-4 text-end">
+                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
+                    </div>
+
+                </div>
 
                 <div className="row g-2 mt-2 phone-scroll">
                     <div className="col-md-2 col-6">
@@ -823,10 +903,24 @@ function Home1() {
             </div>
 
 
+
+            {/* 2nd  */}
+
             <div className="container margin-top3">
 
-                <h2 className='homepage-section-heading'>Health Insurance Empanelments</h2>
-                <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+                <div className="row d-flex justify-content-between">
+                    <div className="col-md-6 col-8">
+                        <h2 className='homepage-section-heading'>Health Insurance Empanelments</h2>
+                        <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+
+
+                    </div>
+
+                    <div className="col-md-2 col-4 text-end">
+                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
+                    </div>
+
+                </div>
 
                 <div className="row g-2 mt-2 phone-scroll">
                     <div className="col-md-2 col-6">
@@ -871,8 +965,19 @@ function Home1() {
             {/* 2nd  */}
             <div className="container margin-top3">
 
-                <h2 className='homepage-section-heading'>TPA Empanelments</h2>
-                <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+                <div className="row d-flex justify-content-between">
+                    <div className="col-md-6 col-8">
+                        <h2 className='homepage-section-heading'>TPA Empanelments</h2>
+                        <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+
+
+                    </div>
+
+                    <div className="col-md-2 col-4 text-end">
+                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
+                    </div>
+
+                </div>
 
                 <div className="row g-2 mt-2 phone-scroll">
                     <div className="col-md-2 col-6">
@@ -925,10 +1030,23 @@ function Home1() {
 
             <div className="container margin-top3">
 
-                <h2 className='homepage-section-heading text-center'>Articles</h2>
-                <div className="home-page-semi-head text-center">Private online consultations with verified doctors in all specialists</div>
+             
 
-                <div className="row mt-4">
+                <div className="row d-flex justify-content-between">
+                    <div className="col-md-6 col-8">
+                        <h2 className='homepage-section-heading'>Articles</h2>
+                        <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+
+
+                    </div>
+
+                    <div className="col-md-2 col-4 text-end">
+                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
+                    </div>
+
+                </div>
+
+                <div className="row mt-3">
                     <div className="col-md-4 pe-1">
                         <div className="">
                             <img src={path + 'Articles-img1.png'} alt="" className='img-fluid' />
