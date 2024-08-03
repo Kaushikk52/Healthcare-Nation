@@ -118,7 +118,7 @@ function Home1() {
 
             <div className="container margin-top3">
 
-              
+
 
 
                 <div className="row d-flex justify-content-between">
@@ -237,23 +237,13 @@ function Home1() {
                 </div>
 
                 <div className="row Public-Sector-Corporates-container g-2 mt-2">
+
                     <div className="col-md-2 col-6 text-center">
                         <a href="" className='a-links'>
                             <div className="text-center">
-                                <img src={path + "indian_railway_logo.jpg"} alt="" className='img-fluid ' />
+                                <img src={path + "mpt-logo.png"} alt="" className='img-fluid' />
                             </div>
-                            <p className='mb-0 mt-2 semi-head1'>Railway </p>
-                            <p className='semi-head1 mt-0'>Hospitals</p>
-
-
-                        </a>
-                    </div>
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "pmjay-logo.png"} alt="" className='img-fluid' />
-                            </div>
-                            <p className='mb-0 mt-2 semi-head1'>PMJAY</p>
+                            <p className='mb-0 mt-2 semi-head1'>MPT</p>
                             <p className='semi-head1 mt-0'>Hospitals</p>
                         </a>
                     </div>
@@ -269,15 +259,6 @@ function Home1() {
                     <div className="col-md-2 col-6 text-center">
                         <a href="" className='a-links'>
                             <div className="text-center">
-                                <img src={path + "esic-logo.png"} alt="" className='img-fluid' />
-                            </div>
-                            <p className='mb-0 mt-2 semi-head1'>ESIC</p>
-                            <p className='semi-head1 mt-0'>Hospitals</p>
-                        </a>
-                    </div>
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
                                 <img src={path + "mjpjay-logo.png"} alt="" className='img-fluid' />
                             </div>
                             <p className='mb-0 mt-2 semi-head1'>MJPJAY</p>
@@ -287,12 +268,37 @@ function Home1() {
                     <div className="col-md-2 col-6 text-center">
                         <a href="" className='a-links'>
                             <div className="text-center">
-                                <img src={path + "mpt-logo.png"} alt="" className='img-fluid' />
+                                <img src={path + "esic-logo.png"} alt="" className='img-fluid' />
                             </div>
-                            <p className='mb-0 mt-2 semi-head1'>MPT</p>
+                            <p className='mb-0 mt-2 semi-head1'>ESIC</p>
                             <p className='semi-head1 mt-0'>Hospitals</p>
                         </a>
                     </div>
+                   
+                    <div className="col-md-2 col-6 text-center">
+                        <a href="" className='a-links'>
+                            <div className="text-center">
+                                <img src={path + "pmjay-logo.png"} alt="" className='img-fluid' />
+                            </div>
+                            <p className='mb-0 mt-2 semi-head1'>PMJAY</p>
+                            <p className='semi-head1 mt-0'>Hospitals</p>
+                        </a>
+                    </div>
+                    <div className="col-md-2 col-6 text-center">
+                        <a href="" className='a-links'>
+                            <div className="text-center">
+                                <img src={path + "indian_railway_logo.jpg"} alt="" className='img-fluid ' />
+                            </div>
+                            <p className='mb-0 mt-2 semi-head1'>Railway </p>
+                            <p className='semi-head1 mt-0'>Hospitals</p>
+
+
+                        </a>
+                    </div>
+
+                  
+                    
+
 
                 </div>
             </div>
@@ -306,7 +312,7 @@ function Home1() {
             {/* swiper 1  */}
 
             <div className='container margin-top3'>
-              
+
 
                 <div className="row d-flex justify-content-between">
                     <div className="col-md-6 col-8">
@@ -1030,7 +1036,7 @@ function Home1() {
 
             <div className="container margin-top3">
 
-             
+
 
                 <div className="row d-flex justify-content-between">
                     <div className="col-md-6 col-8">
@@ -1081,7 +1087,7 @@ function Home1() {
             </div>
 
 
-            
+
 
 
 
