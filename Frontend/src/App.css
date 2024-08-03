@@ -35,6 +35,9 @@
     font-size: 14px;
 }
 
+.border-r-10{
+    border-radius: 10px;
+}
 
 .semi-head1 {
     font-size: 17px;
