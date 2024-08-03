@@ -118,12 +118,12 @@ function Home1() {
 
             <div className="container margin-top3">
 
-                <h2 className='homepage-section-heading mb-1'>  Healthcare Services</h2>
+                <h2 className='homepage-section-heading mb-1'>Healthcare Services</h2>
                 <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
 
 
 
-                <div className="row  g-3 ">
+                <div className="row  g-3 mt-1">
                     <div className="col-md-3 col-6 " data-aos="fade-up">
                         <a href="" className='a-links'>
                             <div className="">
@@ -216,8 +216,8 @@ function Home1() {
 
                     </div>
 
-                    <div className="col-md-2 col-3 text-end">
-                        <a href="" className=' btn-small'>View all</a>
+                    <div className="col-md-2 col-4 text-end">
+                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
                     </div>
 
                 </div>
@@ -292,7 +292,7 @@ function Home1() {
             {/* swiper 1  */}
 
             <div className='container margin-top3'>
-                <h2 className="homepage-section-heading mb-0">Sort by specialist</h2>
+                <h2 className="homepage-section-heading mb-0">Sort by Speciality</h2>
                 <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
                 <Swiper
                     modules={[Navigation, Pagination, Autoplay, A11y]}
@@ -330,7 +330,7 @@ function Home1() {
 
                     {
                         data.map(user => (
-                            <SwiperSlide key={user.id} className='slide'>
+                            <SwiperSlide key={user.id} className='slide mt-3'>
                                 <div className="slide-content" data-aos="fade-up">
                                     <a href="" className='a-links'>
                                         <div className="user-image text-center">
@@ -603,14 +603,14 @@ function Home1() {
                 <h2 className='homepage-section-heading '>Services By Health Concern</h2>
                 <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
 
-                <div className="d-flex  Services-By-Health-Concern " data-aos="fade-up" data-aos-delay="600">
+                <div className="d-flex  Services-By-Health-Concern mt-4" data-aos="fade-up" data-aos-delay="600">
                     <div className=" text-center">
                         <a href="" className='a-links'>
                             <div className="text-center">
                                 <img src={path + "Depression-Anxiety.png"} alt="" className='img-fluid' />
                             </div>
 
-                            <p className='semi-head1 mt-2'>Depression Anxiety  </p>
+                            <p className='semi-head1 mt-2'>Depression or Anxiety ? </p>
                         </a>
                     </div>
                     <div className=" text-center px-3">
@@ -618,7 +618,7 @@ function Home1() {
                             <div className="text-center">
                                 <img src={path + "Pregnant.png"} alt="" className='img-fluid' />
                             </div>
-                            <p className='semi-head1 mt-2'>Pregnant</p>
+                            <p className='semi-head1 mt-2'>Pregnant ?</p>
                         </a>
                     </div>
                     <div className=" text-center">
@@ -627,7 +627,7 @@ function Home1() {
                                 <img src={path + "Joint-Pains.png"} alt="" className='img-fluid' />
                             </div>
 
-                            <p className='semi-head1 mt-2'>Joint Pains</p>
+                            <p className='semi-head1 mt-2'>Joint Pains ?</p>
                         </a>
                     </div>
                     <div className=" text-center px-3">
@@ -636,7 +636,7 @@ function Home1() {
                                 <img src={path + "Ear-Problems.png"} alt="" className='img-fluid' />
                             </div>
 
-                            <p className='semi-head1 mt-2'>Ear Problems</p>
+                            <p className='semi-head1 mt-2'>Ear Problems ?</p>
                         </a>
                     </div>
                     <div className=" text-center">
@@ -645,7 +645,7 @@ function Home1() {
                                 <img src={path + "Digestion-Issues.png"} alt="" className='img-fluid' />
                             </div>
 
-                            <p className='semi-head1 mt-2'>Digestion Issues</p>
+                            <p className='semi-head1 mt-2'>Digestion Issues ? </p>
                         </a>
                     </div>
 
@@ -670,7 +670,7 @@ function Home1() {
                 <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
 
 
-                <div className="row g-3  ">
+                <div className="row g-3  mt-1">
 
                     <div className="col-md-3 col-6" data-aos="fade-up" data-aos-delay="600">
                         <a href="" className='a-links'>
@@ -729,6 +729,7 @@ function Home1() {
             <div className="container margin-top3">
 
                 <h2 className='homepage-section-heading'>Health Insurance Empanelments</h2>
+                <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
 
                 <div className="row g-2 mt-2 phone-scroll">
                     <div className="col-md-2 col-6">
@@ -779,6 +780,7 @@ function Home1() {
             <div className="container margin-top3">
 
                 <h2 className='homepage-section-heading'>TPA Empanelments</h2>
+                <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
 
                 <div className="row g-2 mt-2 phone-scroll">
                     <div className="col-md-2 col-6">
@@ -821,6 +823,98 @@ function Home1() {
             </div>
 
 
+            <div className="container margin-top3">
+
+                <h2 className='homepage-section-heading'>Health Insurance Empanelments</h2>
+                <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+
+                <div className="row g-2 mt-2 phone-scroll">
+                    <div className="col-md-2 col-6">
+                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center icici-logo-box">
+                            <img src={path + 'icici-logo.png'} alt="" className='img-fluid' />
+                        </div>
+                    </div>
+                    <div className="col-md-2 col-6">
+                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center iffco-logo-box">
+                            <img src={path + 'Iffco-Tokio-Gen-Insurance-1.png'} alt="" className='img-fluid' />
+                        </div>
+                    </div>
+                    <div className="col-md-2 col-6">
+                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center hdfc-logo-box">
+                            <img src={path + 'HDFC-ERGO.png'} alt="" className='img-fluid' />
+                        </div>
+                    </div>
+                    <div className="col-md-2 col-6">
+                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center bajaj-logo-box">
+                            <img src={path + 'bajaj-logo.png'} alt="" className='img-fluid' />
+                        </div>
+                    </div>
+
+                    <div className="col-md-2 col-6">
+                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center care-logo-box">
+                            <img src={path + 'Care_health_insurance_logo-1.png'} alt="" className='img-fluid' />
+                        </div>
+                    </div>
+
+                    <div className="col-md-2 col-6">
+                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center kotak-logo-box">
+                            <img src={path + 'kotak-logo.png'} alt="" className='img-fluid' />
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            {/* 2nd  */}
+            <div className="container margin-top3">
+
+                <h2 className='homepage-section-heading'>TPA Empanelments</h2>
+                <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+
+                <div className="row g-2 mt-2 phone-scroll">
+                    <div className="col-md-2 col-6">
+                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center health-india-logo-box">
+                            <img src={path + 'Health-India.png'} alt="" className='img-fluid ' />
+                        </div>
+                    </div>
+                    <div className="col-md-2 col-6">
+                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center vidal-health-logo-box">
+                            <img src={path + 'Vidal-Health.png'} alt="" className='img-fluid' />
+                        </div>
+                    </div>
+                    <div className="col-md-2 col-6">
+                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center raksha-logo-box">
+                            <img src={path + 'rakshaTPA-logo.png'} alt="" className='img-fluid' />
+                        </div>
+                    </div>
+                    <div className="col-md-2 col-6">
+                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center md-india-logo-box">
+                            <img src={path + 'MD-India-logo.png'} alt="" className='img-fluid tpa-logo' />
+                        </div>
+                    </div>
+
+
+                    <div className="col-md-2 col-6">
+                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center medi-assist-logo-box">
+                            <img src={path + 'medi-assist-logo.png'} alt="" className='img-fluid' />
+                        </div>
+                    </div>
+
+                    <div className="col-md-2 col-6">
+                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center med-save-logo-box">
+                            <img src={path + 'med-save-logo.png'} alt="" className='img-fluid' />
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
             {/* TPA Empanelments End  */}
 
 
@@ -832,8 +926,9 @@ function Home1() {
             <div className="container margin-top3">
 
                 <h2 className='homepage-section-heading text-center'>Articles</h2>
+                <div className="home-page-semi-head text-center">Private online consultations with verified doctors in all specialists</div>
 
-                <div className="row">
+                <div className="row mt-4">
                     <div className="col-md-4 pe-1">
                         <div className="">
                             <img src={path + 'Articles-img1.png'} alt="" className='img-fluid' />

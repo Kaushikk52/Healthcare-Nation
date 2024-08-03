@@ -16,7 +16,7 @@
     font-size: 26px;
     font-family: "Lato", sans-serif;
     font-weight: 700;
-    color: #2d2d32;
+    color: #414146;
 
 
 }
@@ -64,10 +64,12 @@ a:hover {
 }
 
 .border-hover:hover {
-    /* border: 1.5px solid #9B2482; */
+    /* outline: 1px solid #9c959b; */
     border-radius: 50%;
-    padding: 2px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    /* padding: 2px; */
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  
+
 }
 
 .btn-small {
@@ -81,8 +83,11 @@ a:hover {
 }
 
 .btn-small:hover {
-    color: #9B2482;
-    border: 2px solid #9B2482;
+    /* color: #9B2482; */
+    border: 1.7px solid #2277b2;
+    background-color: #2277b2;
+    color: #ffffff;
+
 }
 
 .rsdius10 {
@@ -224,9 +229,15 @@ a:hover {
 }
 
 .navbar-light .navbar-nav .nav-link {
-    color: #2d2d32;
-    font-weight: 500;
+    color: #535357;
+    font-weight: 600;
     padding-left: 12px !important;
+}
+
+.nav-link:hover {
+    color: #9B2482 !important;
+    /* font-weight: 500 !important; */
+    /* transition: 2s; */
 }
 
 .logo-phone {
@@ -289,19 +300,20 @@ a:hover {
 /* Services container styling */
 
 .swiper-button-next {
-    background-image: url('../Images/next-button.png') !important;
+    background-image: url('../Images/Right-arrow.png') !important;
     /* Your custom icon path */
     background-size: contain !important;
     background-repeat: no-repeat !important;
     background-position: center !important;
-    /* width: 40px !important; 
-    height: 40px !important;  */
+    width: 40px !important; 
+    height: 40px !important; 
     color: transparent !important;
     /* Hide any default text/icon */
     border: none !important;
     /* Remove any border if present */
     /* transform: translateY(-10%); */
     top: 45% !important;
+    
 }
 
 .services-img {
@@ -524,6 +536,8 @@ a:hover {
 }
 
 
+/* tpa logo css start  */
+
 .Health-Insurance-logo-box {
     /* border: 1px solid #bebebe; */
     border-radius: 5px;
@@ -537,10 +551,59 @@ a:hover {
     width: 100%; */
 }
 
+.med-save-logo-box{
+    background-color:#ed164f34;
+}
+
+.md-india-logo-box{
+    background-color: #3a4a8c44;
+}
+
+.health-india-logo-box{
+    background-color: #82c45341;
+}
+
+.vidal-health-logo-box{
+    background-color: #21989248;
+}
+
+.raksha-logo-box{
+    background-color: #d123233f;
+}
+
+.medi-assist-logo-box{
+    background-color: #efd31e3f;
+}
+
+
+.icici-logo-box{
+    background-color: #f07b2238;
+}
+
+.iffco-logo-box{
+    background-color: #02a44e42;
+}
+
+.hdfc-logo-box{
+    background-color: #e21f253f;
+}
+
+.bajaj-logo-box{
+    background-color: #006db53f;
+}
+.care-logo-box{
+    background-color: #f8e00844;
+}
+
+.kotak-logo-box{
+    background-color: #e31e253b;
+}
 .tpa-logo {
     height: 84px !important;
 }
 
+
+/* tpa logo css end  */
 
 .text-end-center {
     justify-content: end;
@@ -579,6 +642,8 @@ a:hover {
     border-radius: 50%;
 }
 
+
+
 @media screen and (max-width: 786px) {
     .Public-Sector-Corporates-container {
 
@@ -614,6 +679,10 @@ a:hover {
     .Services-By-Health-Concern img {
         height: 160px;
         max-width: 160px !important;
+    }
+
+    .explore-more-btn-phone{
+        display: none;
     }
 
 }
@@ -709,17 +778,18 @@ a:hover {
     /* height: 65vh; */
 }
 
-.banner-main-head{
+.banner-main-head {
     font-size: 38px;
-   
+    line-height: 45px;
+
 }
 
-.banner-semi-head{
+.banner-semi-head {
     font-size: 16px;
 }
 
 
-.banner-btn{
+.banner-btn {
     border: 2px solid #ffffff;
     background-color: #2277b2;
     border-radius: 8px;
@@ -729,7 +799,7 @@ a:hover {
 
 }
 
-.banner-btn:hover{
+.banner-btn:hover {
     border: 2px solid #2277b2;
     background-color: transparent;
     color: #ffffff;
@@ -747,10 +817,11 @@ a:hover {
         height: 100%;
         object-fit: cover;
     }
-.banner-main-head{
-    line-height: 35px;
-    font-size: 30px;
-}
+
+    .banner-main-head {
+        line-height: 35px;
+        font-size: 30px;
+    }
 
 
 
@@ -771,8 +842,8 @@ a:hover {
 
 
 #header-carousel .carousel-indicators [data-bs-target] {
-    width: 30px;
-    height: 30px;
+    width: 10px;
+    height: 10px;
     text-indent: 0;
     margin-bottom: 15px;
     border: 2px solid #FFFFFF;
@@ -806,24 +877,26 @@ a:hover {
 }
 
 
-.carousel-control-next-icon{
-    background-image: url('../Images/next-button.png') !important;
+.carousel-control-next-icon {
+    background-image: url('../Images/Right-arrow.png') !important;
     height: 40px !important;
     width: 40px !important;
-    z-index: 1000 !important ;
+    z-index: 1000 !important;
 }
 
 
-.carousel-control-prev-icon{
-    background-image: url('../Images/prev-button.png') !important;
+.carousel-control-prev-icon {
+    background-image: url('../Images/left-arrow.png') !important;
     height: 40px !important;
     width: 40px !important;
-    z-index: 1000 !important ;
+    z-index: 1000 !important;
 }
 
-@media (max-width: 600px){
-    .carousel-control-next-icon,.carousel-control-prev-icon{
+@media (max-width: 600px) {
+
+    .carousel-control-next-icon,
+    .carousel-control-prev-icon {
         height: 30px !important;
         width: 30px !important;
     }
-} 
+}

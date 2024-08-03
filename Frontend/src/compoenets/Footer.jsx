@@ -103,7 +103,7 @@ const path = import.meta.env.VITE_APP_IMG_URL;
 
                     <div className="row">
                         <div className="col-12 text-center">
-                              <div className="">
+                              <div className="mt-5 pt-3">
                                 <img src={path + 'HCN-white-logo.png'} alt="" className='img-fluid' />
                             </div>
                             <p className='mt-2'>Copyright © 2024, Healthcare Nation . All rights reserved.</p>

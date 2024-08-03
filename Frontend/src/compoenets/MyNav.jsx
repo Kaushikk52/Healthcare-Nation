@@ -85,7 +85,7 @@ function MyNav() {
 
             {/* navbar start  */}
 
-            <nav className="navbar navbar-expand-lg navbar-light py-0 sticky1">
+            <nav className="navbar navbar-expand-lg navbar-light py-0 px-3 sticky1">
                 <div className="container-fluid">
                     <a className="navbar-brand" href="#"><img src={path + 'HealthCare Nation 2.png'} alt="" className="logo-phone" /></a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -127,7 +127,7 @@ function MyNav() {
                         </ul>
 
                     </div>
-                    <a className=" patient-right-link pe-2">Patient Right & Responsibilities</a>
+                    <a className=" patient-right-link pe-2">Patient Rights & Responsibilities</a>
                 </div>
               
             </nav>

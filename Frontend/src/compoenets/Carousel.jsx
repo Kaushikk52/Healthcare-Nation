@@ -52,12 +52,12 @@ function Carousel() {
             aria-current="true"
             aria-label="Slide 1"
           >
-            <img
+            {/* <img
               className="img-fluid"
               src={path + 'banner-1.jpg'}
               alt="Image"
               height="100vh"
-            />
+            /> */}
           </button>
           <button
             type="button"
@@ -65,11 +65,11 @@ function Carousel() {
             data-bs-slide-to={1}
             aria-label="Slide 2"
           >
-            <img
+            {/* <img
               className="img-fluid"
               src={path + 'banner-2.jpg'}
               alt="Image"
-            />
+            /> */}
           </button>
           <button
             type="button"
@@ -77,11 +77,11 @@ function Carousel() {
             data-bs-slide-to={2}
             aria-label="Slide 3"
           >
-            <img
+            {/* <img
               className="img-fluid"
               src={path + 'banner-3.jpg'}
               alt="Image"
-            />
+            /> */}
           </button>
         </div>
         <div className="carousel-inner">
@@ -93,8 +93,10 @@ function Carousel() {
             />
             <div className="carousel-caption">
               <div className="p-3" style={{ maxWidth: 900 }}>
-                <div className="banner-main-head ">One stop solution to various healthcare services</div>
-                <div className="banner-semi-head">Lorem ipsum dolor sit amet.</div>
+                <div className="banner-main-head mb-0">One stop solution to various </div>
+                <div className="banner-main-head ">healthcare services</div>
+                <div className="banner-semi-head">Lorem ipsum dolor sit amet.lorem5 ipsum dolor sit amet.lorem5</div>
+                <div className="">Lorem ipsum dolor sit amet.lorem5</div>
                 <button className='banner-btn'>More Info</button>
               </div>
             </div>
