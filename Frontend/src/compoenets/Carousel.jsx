@@ -91,14 +91,18 @@ function Carousel() {
               src={path + 'banner-1.jpg'}
               alt="Image"
             />
-            <div className="carousel-caption">
-              <div className="p-3" style={{ maxWidth: 900 }}>
+            <div className="carousel-caption ">
+
+              <div className="container">
+
+
                 <div className="banner-main-head mb-0">One stop solution to various </div>
                 <div className="banner-main-head ">healthcare services</div>
                 <div className="banner-semi-head mt-3">Lorem ipsum dolor sit amet.lorem5 ipsum dolor sit amet.lorem5</div>
                 <div className="">Lorem ipsum dolor sit amet.lorem5</div>
                 <button className='banner-btn mt-3'>Consult Now</button>
               </div>
+
             </div>
           </div>
           {/* 2nd */}
@@ -109,12 +113,15 @@ function Carousel() {
               alt="Image"
             />
             <div className="carousel-caption">
-              <div className="p-3" style={{ maxWidth: 900 }}>
-                <div className="banner-main-head mb-0">One stop solution to various </div>
-                <div className="banner-main-head ">healthcare services</div>
-                <div className="banner-semi-head mt-3">Lorem ipsum dolor sit amet.lorem5 ipsum dolor sit amet.lorem5</div>
-                <div className="">Lorem ipsum dolor sit amet.lorem5</div>
-                <button className='banner-btn mt-3'>See All Speciality</button>
+              <div className="container">
+              
+                
+                  <div className="banner-main-head mb-0">One stop solution to various </div>
+                  <div className="banner-main-head ">healthcare services</div>
+                  <div className="banner-semi-head mt-3">Lorem ipsum dolor sit amet.lorem5 ipsum dolor sit amet.lorem5</div>
+                  <div className="">Lorem ipsum dolor sit amet.lorem5</div>
+                  <button className='banner-btn mt-3'>See All Speciality</button>
+                
               </div>
             </div>
           </div>
@@ -125,12 +132,15 @@ function Carousel() {
               alt="Image"
             />
             <div className="carousel-caption">
-              <div className="p-3" style={{ maxWidth: 900 }}>
-                <div className="banner-main-head mb-0">One stop solution to various </div>
-                <div className="banner-main-head ">healthcare services</div>
-                <div className="banner-semi-head mt-3">Lorem ipsum dolor sit amet.lorem5 ipsum dolor sit amet.lorem5</div>
-                <div className="">Lorem ipsum dolor sit amet.lorem5</div>
-                <button className='banner-btn mt-3'>Read more articles</button>
+              <div className="container">
+              
+               
+                  <div className="banner-main-head mb-0">One stop solution to various </div>
+                  <div className="banner-main-head ">healthcare services</div>
+                  <div className="banner-semi-head mt-3">Lorem ipsum dolor sit amet.lorem5 ipsum dolor sit amet.lorem5</div>
+                  <div className="">Lorem ipsum dolor sit amet.lorem5</div>
+                  <button className='banner-btn mt-3'>Read more articles</button>
+                
               </div>
             </div>
           </div>

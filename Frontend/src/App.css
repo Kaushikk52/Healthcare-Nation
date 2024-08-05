@@ -46,6 +46,7 @@
     color: #414146;
     line-height: 1.43;
     margin-top: 10px;
+    margin-bottom: 0px;
 
 }
 
@@ -535,7 +536,7 @@ a:hover {
 }
 
 .margin-top3 {
-    margin-top: 3rem;
+    margin-top: 3.5rem;
 }
 
 
@@ -725,6 +726,14 @@ a:hover {
 
 }
 
+.wellness{
+    letter-spacing: 1.5px;
+    font-size: 14px;
+    text-align: center;
+    color: #53b6b6;
+    font-weight: 800;
+}
+
 
 
 /* footer css start  */
@@ -764,7 +773,11 @@ a:hover {
     justify-content: center;
     background: rgba(0, 0, 0, .5);
     z-index: 0;
+    text-align: start;
+   
 }
+
+
 
 #header-carousel .carousel-control-prev,
 #header-carousel .carousel-control-next {
@@ -785,10 +798,13 @@ a:hover {
     font-size: 38px;
     line-height: 45px;
 
+
 }
 
 .banner-semi-head {
     font-size: 16px;
+   
+   
 }
 
 
@@ -825,6 +841,12 @@ a:hover {
         line-height: 35px;
         font-size: 30px;
     }
+
+    .carousel-caption{
+        padding-left: 2rem;
+    }
+
+
 
 
 

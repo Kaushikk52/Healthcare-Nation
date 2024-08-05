@@ -625,7 +625,7 @@ function Home1() {
 
 
 
-            <div className="container margin-top3 pb-3">
+            <div className="container margin-top3 ">
                 <div className="">
                     <img src={path + 'medical-equipment.jpeg'} alt="" className='img-fluid border-r-10' />
                 </div>
@@ -1042,6 +1042,7 @@ function Home1() {
                     <div className="col-md-6 col-8">
                         <h2 className='homepage-section-heading'>Articles</h2>
                         <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+                       
 
 
                     </div>
@@ -1057,8 +1058,8 @@ function Home1() {
                         <div className="">
                             <img src={path + 'Articles-img1.png'} alt="" className='img-fluid' />
                         </div>
-
-                        <p className=' mb-0 mt-2 article-para'>The Transformative Power of Early Mornings:
+                        <p className='mb-0  mt-3 text-center'> <i>in</i> <span className='wellness'>WELLNESS</span></p>
+                        <p className=' mb-0  semi-head1 text-center'>The Transformative Power of Early Mornings:
                             Embracing the Benefits of Waking Up Early
                         </p>
                     </div>
@@ -1066,13 +1067,22 @@ function Home1() {
                         <div className="">
                             <img src={path + 'Articles-img2.png'} alt="" className='img-fluid' />
                         </div>
-
-                        <p className=' mb-0 mt-2 article-para'>Taming the Appetite: Harnessing Natural
+                        <p className='mb-0  mt-3 text-center'> <i>in</i> <span className='wellness'>WELLNESS</span></p>
+                        <p className=' mb-0  semi-head1 text-center'>Taming the Appetite: Harnessing Natural
                             Appetite Suppressants for Weight Control
 
                         </p>
                     </div>
-                    <div className="col-md-4 ">
+                    <div className="col-md-4 pe-1">
+                        <div className="">
+                            <img src={path + 'Articles-img3.png'} alt="" className='img-fluid' />
+                        </div>
+                        <p className='mb-0  mt-3 text-center'> <i>in</i> <span className='wellness'>WELLNESS</span></p>
+                        <p className=' mb-0  semi-head1 text-center'>Dive into Wellness: The Incredible Benifits of Swimming
+
+                        </p>
+                    </div>
+                    {/* <div className="col-md-4 ">
                         <div className="">
                             <img src={path + 'Articles-img3.png'} alt="" className='img-fluid' />
                         </div>
@@ -1081,7 +1091,7 @@ function Home1() {
                             Benefits of Swimming
 
                         </p>
-                    </div>
+                    </div> */}
                 </div>
 
             </div>
