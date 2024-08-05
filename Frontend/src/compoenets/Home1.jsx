@@ -129,7 +129,7 @@ function Home1() {
 
                     </div>
 
-                    <div className="col-md-2 col-4 text-end">
+                    <div className="col-md-3 col-4 text-end">
                         <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
                     </div>
 
@@ -230,7 +230,7 @@ function Home1() {
 
                     </div>
 
-                    <div className="col-md-2 col-4 text-end">
+                    <div className="col-md-3 col-4 text-end">
                         <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
                     </div>
 
@@ -322,7 +322,7 @@ function Home1() {
 
                     </div>
 
-                    <div className="col-md-2 col-4 text-end">
+                    <div className="col-md-3 col-4 text-end">
                         <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
                     </div>
 
@@ -525,13 +525,13 @@ function Home1() {
                 <div className="row">
                     <div className="col-md-6" data-aos="fade-up" data-aos-delay="300">
                         <div className="">
-                            <img src={path + 'Health-Checkup-near-you.jpg'} alt="" className='img-fluid rsdius10' />
+                            <img src={path + 'Healthcare-Companies-Startups.jpg'} alt="" className='img-fluid rsdius10' />
                         </div>
                         <p className='semi-head1  ps-2'>Healthcare Companies Startups</p>
                     </div>
                     <div className="col-md-6" data-aos="fade-up" data-aos-delay="300">
                         <div className="">
-                            <img src={path + 'Healthcare-Companies-Startups.jpg'} alt="" className='img-fluid rsdius10' />
+                            <img src={path + 'Health-Checkup-Near-You.jpg'} alt="" className='img-fluid rsdius10' />
                         </div>
                         <p className='semi-head1  ps-2'>Health Checkup Near You</p>
                     </div>
@@ -553,7 +553,7 @@ function Home1() {
 
                     </div>
 
-                    <div className="col-md-2 col-4 text-end">
+                    <div className="col-md-3 col-4 text-end">
                         <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
                     </div>
 
@@ -625,7 +625,7 @@ function Home1() {
 
 
 
-            <div className="container margin-top3">
+            <div className="container margin-top3 pb-3">
                 <div className="">
                     <img src={path + 'medical-equipment.jpeg'} alt="" className='img-fluid border-r-10' />
                 </div>
@@ -645,7 +645,7 @@ function Home1() {
 
                     </div>
 
-                    <div className="col-md-2 col-4 text-end">
+                    <div className="col-md-3 col-4 text-end">
                         <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
                     </div>
 
@@ -724,7 +724,7 @@ function Home1() {
 
                     </div>
 
-                    <div className="col-md-2 col-4 text-end">
+                    <div className="col-md-3 col-4 text-end">
                         <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
                     </div>
 
@@ -799,7 +799,7 @@ function Home1() {
 
                     </div>
 
-                    <div className="col-md-2 col-4 text-end">
+                    <div className="col-md-3 col-4 text-end">
                         <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
                     </div>
 
@@ -862,7 +862,7 @@ function Home1() {
 
                     </div>
 
-                    <div className="col-md-2 col-4 text-end">
+                    <div className="col-md-3 col-4 text-end">
                         <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
                     </div>
 
@@ -922,7 +922,7 @@ function Home1() {
 
                     </div>
 
-                    <div className="col-md-2 col-4 text-end">
+                    <div className="col-md-3 col-4 text-end">
                         <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
                     </div>
 
@@ -979,7 +979,7 @@ function Home1() {
 
                     </div>
 
-                    <div className="col-md-2 col-4 text-end">
+                    <div className="col-md-3 col-4 text-end">
                         <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
                     </div>
 
@@ -1046,7 +1046,7 @@ function Home1() {
 
                     </div>
 
-                    <div className="col-md-2 col-4 text-end">
+                    <div className="col-md-3 col-4 text-end">
                         <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
                     </div>
 
