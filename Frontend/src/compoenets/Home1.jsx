@@ -527,7 +527,7 @@ function Home1() {
                         <div className="">
                             <img src={path + 'Healthcare-Companies-Startups.jpg'} alt="" className='img-fluid rsdius10' />
                         </div>
-                        <p className='semi-head1  ps-2'>Healthcare Companies Startups</p>
+                        <p className='semi-head1  ps-2'>Healthcare Companies & Startups</p>
                     </div>
                     <div className="col-md-6" data-aos="fade-up" data-aos-delay="300">
                         <div className="">
