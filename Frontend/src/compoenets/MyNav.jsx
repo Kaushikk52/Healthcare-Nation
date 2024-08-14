@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
 
 
 
@@ -92,44 +93,126 @@ function MyNav() {
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav m-auto mb-2 mb-lg-0 p-2">
+
+
+                    <div className="collapse navbar-collapse my-navbar" id="navbarSupportedContent">
+
+                        <ul className="navbar-nav m-auto mb-2 mb-lg-0 p-2 ">
                             <li className="nav-item">
-                                <a className="nav-link active " aria-current="page" href="#">Home</a>
+                                <NavLink to="/" className="nav-link  " aria-current="page" href="#">Home</NavLink>
+                            </li>
+                            {/* <li className="nav-item">
+                                <NavLink to='/services' className="nav-link navlink1" >Services</NavLink>
+                            </li> */}
+                            <li>
+                                <div class="nav-item dropdown nav-dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Services</a>
+                                    <div class="dropdown-menu bg-light rounded-0 rounded-bottom m-0">
+                                        <a href="/" class="dropdown-item">Hospitals</a>
+                                        <a href="/" class="dropdown-item">Dialysis Centres</a>
+                                        <a href="/" class="dropdown-item">Blood / Skin Banks</a>
+                                        <a href="/" class="dropdown-item">Clinics</a>
+                                        <a href="/" class="dropdown-item">Home Care Services</a>
+                                        <a href="/" class="dropdown-item">Patient Transports</a>
+                                        <a href="/" class="dropdown-item">Diagnostics</a>
+                                        <a href="/" class="dropdown-item">Financial Help for Treatment</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="nav-item dropdown nav-dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Corporates</a>
+                                    <div class="dropdown-menu bg-light rounded-0 rounded-bottom m-0">
+                                        <a href="/" class="dropdown-item">MPT Hospitals</a>
+                                        <a href="/" class="dropdown-item">CGHS Hospitals</a>
+                                        <a href="/" class="dropdown-item">MJPJAY Hospitals</a>
+                                        <a href="/" class="dropdown-item">ESIC Hospitals</a>
+                                        <a href="/" class="dropdown-item">PMJAY Hospitals</a>
+                                        <a href="/" class="dropdown-item">Railway Hospitals</a>
+                                       
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="nav-item dropdown nav-dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Specialities</a>
+                                    <div class="dropdown-menu bg-light rounded-0 rounded-bottom m-0">
+                                        <a href="/" class="dropdown-item">Organ Transplant Centres</a>
+                                        <a href="/" class="dropdown-item">Eye Care Centres</a>
+                                        <a href="/" class="dropdown-item">Pediatric Centres</a>
+                                        <a href="/" class="dropdown-item">Heart Care Centres</a>
+                                        <a href="/" class="dropdown-item">Skin Care Centres</a>
+                                        <a href="/" class="dropdown-item">Test Tube Baby Centres</a>
+                                        <a href="/" class="dropdown-item">Kidney Care Centres</a>
+                                        <a href="/" class="dropdown-item">Cancer Care Centres</a>
+                                       
+                                    </div>
+                                </div>
+                            </li>
+
+
+                            <li>
+                                <div class="nav-item dropdown nav-dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Diagnostics</a>
+                                    <div class="dropdown-menu bg-light rounded-0 rounded-bottom m-0">
+                                        <a href="/" class="dropdown-item">Xray</a>
+                                        <a href="/" class="dropdown-item">MRI</a>
+                                        <a href="/" class="dropdown-item">Sonography</a>
+                                        <a href="/" class="dropdown-item">Pathology</a>
+                                        <a href="/" class="dropdown-item">CT Scan</a>
+                                        <a href="/" class="dropdown-item">2D Echo</a>
+                                       
+                                       
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="nav-item dropdown nav-dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Health Concerns</a>
+                                    <div class="dropdown-menu bg-light rounded-0 rounded-bottom m-0">
+                                        <a href="/" class="dropdown-item">Depression or Anxiety ?</a>
+                                        <a href="/" class="dropdown-item">Pregnant ?</a>
+                                        <a href="/" class="dropdown-item">Joint Pains ?</a>
+                                        <a href="/" class="dropdown-item">Ear Problems ?</a>
+                                        <a href="/" class="dropdown-item">Digestion Issues ?</a>
+                                       
+                                       
+                                       
+                                    </div>
+                                </div>
+                            </li>
+
+
+                        
+                         
+                            
+                            
+                            <li className="nav-item">
+                                <a className="nav-link navlink1" href="#">Insurance</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link navlink1" href="#">Services</a>
+                                <a className="nav-link navlink1" href="#">TPA</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link navlink1" href="#">Speciality Centres</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link navlink1" href="#">Therapies</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link navlink1" href="#">Corporates</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link navlink1" href="#">FAQs</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link navlink1" href="#">About</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link navlink1" href="#">Contact</a>
+                                <a className="nav-link navlink1" href="#">Articles</a>
                             </li>
                             <div className="singupin-box text-center p-1 sign-phone">
                                 <a href="" className='singupa'>Sign Up</a><a href="" className='singupa'> Sign In</a>
                             </div>
 
 
-
                         </ul>
 
                     </div>
-                    <a className=" patient-right-link pe-2">Patient Rights & Responsibilities</a>
+
+                    <a className=" patient-right-link pe-2 ">Patient Rights & Responsibilities</a>
+
+
+
                 </div>
-              
+
             </nav>
 
 

@@ -1,4 +1,6 @@
 import React from 'react';
+import Carousel from './Carousel';
+import Home1 from './Home1';
 
 
 
@@ -11,7 +13,8 @@ function Home() {
 
 
     <>
-      <h1>this is  home</h1>
+     <Carousel/>
+     <Home1/>
 
     </>
   );

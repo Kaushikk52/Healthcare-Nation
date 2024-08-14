@@ -40,7 +40,7 @@ const data = [
         id: 3,
         name: "Pediatric Centres",
         marks: 225,
-        img: 'Pediatric-Centres.png'
+        img: 'Pediatric-Centres1.jpg'
     },
     {
         id: 4,
@@ -69,12 +69,12 @@ const data1 = [
     {
         id: 1,
         name: "Skin Care Centres",
-        img: 'Skincare-Centres.png'
+        img: 'Skincare-Centres1.jpg'
     },
     {
         id: 2,
         name: "Test Tube Baby Centres",
-        img: 'Test-Tube-Baby-Centres.png'
+        img: 'Test-Tube-Baby-Centres1.jpg'
     },
     {
         id: 3,
@@ -84,17 +84,17 @@ const data1 = [
     {
         id: 4,
         name: "Cancer Care Centres",
-        img: 'Cancer-Care-Centres.png'
+        img: 'Cancer-Centres.jpg'
     },
     {
         id: 5,
         name: "Skin Care Centres",
-        img: 'Skincare-Centres.png'
+        img: 'Skincare-Centres1.jpg'
     },
     {
         id: 6,
         name: "Test Tube Baby Centres",
-        img: 'Test-Tube-Baby-Centres.png'
+        img: 'Test-Tube-Baby-Centres1.jpg'
     },
 
 
@@ -121,7 +121,7 @@ function Home1() {
 
 
 
-                <div className="row d-flex justify-content-between">
+                {/* <div className="row d-flex justify-content-between">
                     <div className="col-md-6 col-8">
                         <h2 className='homepage-section-heading'>Healthcare Services</h2>
                         <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
@@ -129,8 +129,26 @@ function Home1() {
 
                     </div>
 
-                    <div className="col-md-3 col-4 text-end">
+                    <div className="col-md-3 col-4 text-end d-flex justify-content-end align-items-center">
                         <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
+                    </div>
+
+                </div> */}
+
+
+                <div className="row d-flex justify-content-between">
+                    <div className="col-md-6 col-8">
+                        <h2 className='homepage-section-heading'>Healthcare Services</h2>
+                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
+
+
+                    </div>
+
+
+                    <div className="col-md-3 col-4 text-end d-flex justify-content-end align-items-center">
+                 
+                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
+                        
                     </div>
 
                 </div>
@@ -141,7 +159,7 @@ function Home1() {
                     <div className="col-md-3 col-6 " data-aos="fade-up">
                         <a href="" className='a-links'>
                             <div className="">
-                                <img src={path + "hospitals.jpg"} alt="" className='img-fluid services-img' />
+                                <img src={path + "hospitals1.jpg"} alt="" className='img-fluid services-img' />
                             </div>
 
                             <p className='semi-head1 ps-2 mb-0'>Hospitals</p>
@@ -150,10 +168,10 @@ function Home1() {
                     <div className="col-md-3 col-6" data-aos="fade-up">
                         <a href="" className='a-links'>
                             <div className="">
-                                <img src={path + "DialysisCenter-services.jpg"} alt="" className='img-fluid services-img' />
+                                <img src={path + "Dialysis-Centres.jpg"} alt="" className='img-fluid services-img' />
                             </div>
 
-                            <p className='semi-head1  ps-2 mb-0'>Dialysis Center</p>
+                            <p className='semi-head1  ps-2 mb-0'>Dialysis Centres</p>
                         </a>
                     </div>
 
@@ -163,7 +181,7 @@ function Home1() {
                                 <img src={path + "Blood-Bank-1.jpg"} alt="" className='img-fluid services-img' />
                             </div>
 
-                            <p className='semi-head1  ps-2 mb-0'>Blood Bank</p>
+                            <p className='semi-head1  ps-2 mb-0'>Blood / Skin Banks</p>
                         </a>
                     </div>
                     <div className="col-md-3 col-6 " data-aos="fade-up">
@@ -178,10 +196,10 @@ function Home1() {
                     <div className="col-md-3 col-6 " data-aos="fade-up" data-aos-delay="400">
                         <a href="" className='a-links'>
                             <div className="">
-                                <img src={path + "HomeCare-services.png"} alt="" className='img-fluid services-img' />
+                                <img src={path + "HomeCare-services1.jpg"} alt="" className='img-fluid services-img' />
                             </div>
 
-                            <p className='semi-head1 ps-2 mb-0'>Home Care</p>
+                            <p className='semi-head1 ps-2 mb-0'>Home Care Services</p>
                         </a>
                     </div>
                     <div className="col-md-3 col-6 " data-aos="fade-up" data-aos-delay="400">
@@ -190,7 +208,7 @@ function Home1() {
                                 <img src={path + "Patient-Transport-1.png"} alt="" className='img-fluid services-img' />
                             </div>
 
-                            <p className='semi-head1 ps-2 mb-0'>Transport</p>
+                            <p className='semi-head1 ps-2 mb-0'>Patient Transport</p>
                         </a>
                     </div>
                     <div className="col-md-3 col-6 " data-aos="fade-up" data-aos-delay="500">
@@ -208,7 +226,7 @@ function Home1() {
                                 <img src={path + "Donate.jpg"} alt="" className='img-fluid services-img' />
                             </div>
 
-                            <p className='semi-head1  ps-2 mb-0'>Get Financial Help For Treatment</p>
+                            <p className='semi-head1  ps-2 mb-0'>Financial Help for Treatment</p>
                         </a>
                     </div>
 
@@ -225,12 +243,12 @@ function Home1() {
                 <div className="row d-flex justify-content-between">
                     <div className="col-md-6 col-8">
                         <h2 className='homepage-section-heading'>Public Sector Corporates</h2>
-                        <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
 
 
                     </div>
 
-                    <div className="col-md-3 col-4 text-end">
+                    <div className="col-md-3 col-4 text-end d-flex  justify-content-end align-items-center">
                         <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
                     </div>
 
@@ -274,7 +292,7 @@ function Home1() {
                             <p className='semi-head1 mt-0'>Hospitals</p>
                         </a>
                     </div>
-                   
+
                     <div className="col-md-2 col-6 text-center">
                         <a href="" className='a-links'>
                             <div className="text-center">
@@ -296,8 +314,8 @@ function Home1() {
                         </a>
                     </div>
 
-                  
-                    
+
+
 
 
                 </div>
@@ -316,13 +334,13 @@ function Home1() {
 
                 <div className="row d-flex justify-content-between">
                     <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Sort By Speciality</h2>
-                        <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+                        <h2 className='homepage-section-heading'>Sort By Specialities</h2>
+                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
 
 
                     </div>
 
-                    <div className="col-md-3 col-4 text-end">
+                    <div className="col-md-3 col-4 text-end d-flex  justify-content-end align-items-center">
                         <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
                     </div>
 
@@ -367,7 +385,7 @@ function Home1() {
                                 <div className="slide-content" data-aos="fade-up">
                                     <a href="" className='a-links'>
                                         <div className="user-image text-center">
-                                            <img src={path + user.img} alt="" className='my-img img-fluid' />
+                                            <img src={path + user.img} alt="" className='my-img services-img img-fluid' />
                                         </div>
                                         <div className="semi-head1 mt-1">{user.name} </div>
                                     </a>
@@ -429,7 +447,7 @@ function Home1() {
                                 <div className="slide-content" data-aos="fade-up">
                                     <a href="" className='a-links'>
                                         <div className="user-image text-center">
-                                            <img src={path + user.img} alt="" className='my-img img-fluid' />
+                                            <img src={path + user.img} alt="" className='my-img services-img img-fluid' />
                                         </div>
                                         <div className="semi-head1 mt-2">{user.name}</div>
                                     </a>
@@ -444,6 +462,81 @@ function Home1() {
 
 
             </div>
+
+
+
+
+            {/* service by accreditations start */}
+
+
+            <div className='container margin-top3'>
+                <div className="row d-flex justify-content-between">
+                    <div className="col-md-6 col-8">
+                        <h2 className='homepage-section-heading'>Services By Accreditations</h2>
+                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
+
+
+                    </div>
+
+                    <div className="col-md-3 col-4 text-end d-flex  justify-content-end align-items-center">
+                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
+                    </div>
+
+                </div>
+
+
+                <div className="Services-Accreditations-container">
+                    <div className="row mt-2">
+                        <div className="col-md-4 d-flex p-0 accreditations-inner-box">
+
+                            <div className="">
+                                <img src={path + 'joint-commision.png'} alt="" className='' />
+                            </div>
+                            <div className="d-flex align-items-center ps-2">
+                                <div className="">
+                                    <p className='  mb-0'>  Organization Accredited by</p>
+                                    <p className='  mb-0'>  Joint Commission International</p>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div className="col-md-4 d-flex p-0 accreditations-inner-box">
+
+                            <div className="">
+                                <img src={path + 'national-accreditations.png'} alt="" className='' />
+                            </div>
+                            <div className="d-flex align-items-center ps-2">
+                                <div className="">
+                                    <p className='  mb-0'>  Organization Accredited by</p>
+                                    <p className='  mb-0'>  Joint Commission International</p>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div className="col-md-4 d-flex p-0 accreditations-inner-box">
+
+                            <div className="">
+                                <img src={path + 'IGBG-GOLD.jpeg'} alt="" className='' />
+                            </div>
+                            <div className="d-flex align-items-center ps-2">
+                                <div className="">
+                                    <p className='  mb-0'>  Organization Accredited by</p>
+                                    <p className='  mb-0'>  Joint Commission International</p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            {/* service by sccreditations end */}
 
             {/* Sort by specialist start  */}
 
@@ -547,13 +640,13 @@ function Home1() {
             <div className="container margin-top3">
                 <div className="row d-flex justify-content-between">
                     <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Diagnostic  Centres Near You</h2>
-                        <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+                        <h2 className='homepage-section-heading'>Diagnostics  Centres Near You</h2>
+                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
 
 
                     </div>
 
-                    <div className="col-md-3 col-4 text-end">
+                    <div className="col-md-3 col-4 text-end d-flex  justify-content-end align-items-center">
                         <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
                     </div>
 
@@ -565,7 +658,7 @@ function Home1() {
                     <div className="col-md-2 col-6 text-center">
                         <a href="" className='a-links'>
                             <div className="text-center">
-                                <img src={path + "Xray.png"} alt="" className='img-fluid border-hover' />
+                                <img src={path + "Xray2.png"} alt="" className='img-fluid border-hover' />
                             </div>
 
                             <p className='semi-head1 mt-2'>Xray  </p>
@@ -574,7 +667,7 @@ function Home1() {
                     <div className="col-md-2 col-6 text-center">
                         <a href="" className='a-links'>
                             <div className="text-center">
-                                <img src={path + "MRI.png"} alt="" className='img-fluid border-hover' />
+                                <img src={path + "MRI2.png"} alt="" className='img-fluid border-hover' />
                             </div>
                             <p className='semi-head1 mt-2'>MRI</p>
                         </a>
@@ -600,7 +693,7 @@ function Home1() {
                     <div className="col-md-2 col-6 text-center">
                         <a href="" className='a-links'>
                             <div className="text-center">
-                                <img src={path + "CTSCAN.png"} alt="" className='img-fluid border-hover' />
+                                <img src={path + "CTSCAN2.png"} alt="" className='img-fluid border-hover' />
                             </div>
 
                             <p className='semi-head1 mt-2'>CT Scan</p>
@@ -640,12 +733,12 @@ function Home1() {
                 <div className="row d-flex justify-content-between">
                     <div className="col-md-6 col-8">
                         <h2 className='homepage-section-heading'>Services By Health Concern</h2>
-                        <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
 
 
                     </div>
 
-                    <div className="col-md-3 col-4 text-end">
+                    <div className="col-md-3 col-4 text-end d-flex  justify-content-end align-items-center">
                         <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
                     </div>
 
@@ -655,7 +748,7 @@ function Home1() {
                     <div className=" text-center">
                         <a href="" className='a-links'>
                             <div className="text-center">
-                                <img src={path + "Depression-Anxiety.png"} alt="" className='img-fluid' />
+                                <img src={path + "Depression-Anxiety.jpg"} alt="" className='img-fluid' />
                             </div>
 
                             <p className='semi-head1 mt-2'>Depression or Anxiety ? </p>
@@ -719,12 +812,12 @@ function Home1() {
                 <div className="row d-flex justify-content-between">
                     <div className="col-md-6 col-8">
                         <h2 className='homepage-section-heading'>Top Hospitals In Mumbai</h2>
-                        <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
 
 
                     </div>
 
-                    <div className="col-md-3 col-4 text-end">
+                    <div className="col-md-3 col-4 text-end d-flex  justify-content-end align-items-center">
                         <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
                     </div>
 
@@ -785,144 +878,33 @@ function Home1() {
 
 
 
-            {/* Health Insurance Empanelments start  */}
-
-            <div className="container margin-top3">
 
 
 
-                <div className="row d-flex justify-content-between">
-                    <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Health Insurance Empanelments</h2>
-                        <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
 
 
-                    </div>
-
-                    <div className="col-md-3 col-4 text-end">
-                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
-                    </div>
-
-                </div>
-
-                <div className="row g-2 mt-2 phone-scroll">
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center">
-                            <img src={path + 'icici-logo.png'} alt="" className='img-fluid' />
-                        </div>
-                    </div>
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center">
-                            <img src={path + 'Iffco-Tokio-Gen-Insurance-1.png'} alt="" className='img-fluid' />
-                        </div>
-                    </div>
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center">
-                            <img src={path + 'HDFC-ERGO.png'} alt="" className='img-fluid' />
-                        </div>
-                    </div>
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center">
-                            <img src={path + 'bajaj-logo.png'} alt="" className='img-fluid' />
-                        </div>
-                    </div>
-
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center">
-                            <img src={path + 'Care_health_insurance_logo-1.png'} alt="" className='img-fluid' />
-                        </div>
-                    </div>
-
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center">
-                            <img src={path + 'kotak-logo.png'} alt="" className='img-fluid' />
-                        </div>
-                    </div>
-
-                </div>
 
 
-            </div>
+
+
+
+
+
 
 
             {/* Health Insurance Empanelments start  */}
 
-
-            {/* TPA Empanelments start  */}
-
-
-            <div className="container margin-top3">
-
-
-                <div className="row d-flex justify-content-between">
-                    <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>TPA Empanelments</h2>
-                        <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
-
-
-                    </div>
-
-                    <div className="col-md-3 col-4 text-end">
-                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
-                    </div>
-
-                </div>
-
-                <div className="row g-2 mt-2 phone-scroll">
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center">
-                            <img src={path + 'Health-India.png'} alt="" className='img-fluid' />
-                        </div>
-                    </div>
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center">
-                            <img src={path + 'Vidal-Health.png'} alt="" className='img-fluid' />
-                        </div>
-                    </div>
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center">
-                            <img src={path + 'rakshaTPA-logo.png'} alt="" className='img-fluid' />
-                        </div>
-                    </div>
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center">
-                            <img src={path + 'MD-India-logo.png'} alt="" className='img-fluid tpa-logo' />
-                        </div>
-                    </div>
-
-
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center">
-                            <img src={path + 'medi-assist-logo.png'} alt="" className='img-fluid' />
-                        </div>
-                    </div>
-
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center">
-                            <img src={path + 'med-save-logo.png'} alt="" className='img-fluid' />
-                        </div>
-                    </div>
-
-                </div>
-
-
-            </div>
-
-
-
-            {/* 2nd  */}
-
             <div className="container margin-top3">
 
                 <div className="row d-flex justify-content-between">
                     <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Health Insurance Empanelments</h2>
-                        <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+                        <h2 className='homepage-section-heading'>Choose Your Health Insurance</h2>
+                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
 
 
                     </div>
 
-                    <div className="col-md-3 col-4 text-end">
+                    <div className="col-md-3 col-4 text-end d-flex  justify-content-end align-items-center">
                         <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
                     </div>
 
@@ -967,19 +949,21 @@ function Home1() {
 
             </div>
 
+            {/* Health Insurance Empanelments start  */}
 
-            {/* 2nd  */}
+
+            {/* TPA Empanelments start  */}
             <div className="container margin-top3">
 
                 <div className="row d-flex justify-content-between">
                     <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>TPA Empanelments</h2>
-                        <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
+                        <h2 className='homepage-section-heading'>Choose Your TPA</h2>
+                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
 
 
                     </div>
 
-                    <div className="col-md-3 col-4 text-end">
+                    <div className="col-md-3 col-4 text-end d-flex justify-content-end align-items-center">
                         <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
                     </div>
 
@@ -1041,13 +1025,13 @@ function Home1() {
                 <div className="row d-flex justify-content-between">
                     <div className="col-md-6 col-8">
                         <h2 className='homepage-section-heading'>Articles</h2>
-                        <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
-                       
+                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
+
 
 
                     </div>
 
-                    <div className="col-md-3 col-4 text-end">
+                    <div className="col-md-3 col-4 text-end d-flex justify-content-end align-items-center">
                         <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
                     </div>
 
