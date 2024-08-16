@@ -289,7 +289,10 @@ background-color: #53535715;
 
 @media screen and (max-width: 1376px){
     .patient-right-link{
-        position:relative;
+        position:static !important;
+    }
+    .my-navbar{
+        position: static;
     }
 }
 
@@ -792,15 +795,23 @@ background-color: #53535715;
     font-weight: 500;
     line-height: 20px;
 }
+.accreditations-inner-box{
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    /* padding: 1rem 0rem; */
+    padding: 10px;
+    border-radius: 10px;
+}
 
 @media screen and (max-width: 600px) {
     .accreditations-inner-box {
         /* border: 2px solid red; */
-        justify-content: center;
+        /* justify-content: center; */
         margin-top: 10px !important;
         
     }
 }
+
+
 
 
 /* Services-Accreditations-container css End  */

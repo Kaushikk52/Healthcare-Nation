@@ -146,9 +146,9 @@ function Home1() {
 
 
                     <div className="col-md-3 col-4 text-end d-flex justify-content-end align-items-center">
-                 
+
                         <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
-                        
+
                     </div>
 
                 </div>
@@ -156,7 +156,7 @@ function Home1() {
 
 
                 <div className="row  g-3 mt-1">
-                    <div className="col-md-3 col-6 " data-aos="fade-up">
+                    <div className="col-md-3 col-6 "  >
                         <a href="" className='a-links'>
                             <div className="">
                                 <img src={path + "hospitals1.jpg"} alt="" className='img-fluid services-img' />
@@ -165,7 +165,7 @@ function Home1() {
                             <p className='semi-head1 ps-2 mb-0'>Hospitals</p>
                         </a>
                     </div>
-                    <div className="col-md-3 col-6" data-aos="fade-up">
+                    <div className="col-md-3 col-6"  >
                         <a href="" className='a-links'>
                             <div className="">
                                 <img src={path + "Dialysis-Centres.jpg"} alt="" className='img-fluid services-img' />
@@ -175,7 +175,7 @@ function Home1() {
                         </a>
                     </div>
 
-                    <div className="col-md-3 col-6 " data-aos="fade-up">
+                    <div className="col-md-3 col-6 "  >
                         <a href="" className='a-links'>
                             <div className="">
                                 <img src={path + "Blood-Bank-1.jpg"} alt="" className='img-fluid services-img' />
@@ -184,7 +184,7 @@ function Home1() {
                             <p className='semi-head1  ps-2 mb-0'>Blood / Skin Banks</p>
                         </a>
                     </div>
-                    <div className="col-md-3 col-6 " data-aos="fade-up">
+                    <div className="col-md-3 col-6 "  >
                         <a href="" className='a-links'>
                             <div className="">
                                 <img src={path + "Clinics-1.png"} alt="" className='img-fluid services-img' />
@@ -193,16 +193,16 @@ function Home1() {
                             <p className='semi-head1  ps-2 mb-0'>Clinics</p>
                         </a>
                     </div>
-                    <div className="col-md-3 col-6 " data-aos="fade-up" data-aos-delay="400">
+                    <div className="col-md-3 col-6 "   data-aos-delay="400">
                         <a href="" className='a-links'>
                             <div className="">
-                                <img src={path + "HomeCare-services1.jpg"} alt="" className='img-fluid services-img' />
+                                <img src={path + "HomeCare-services2.jpg"} alt="" className='img-fluid services-img' />
                             </div>
 
                             <p className='semi-head1 ps-2 mb-0'>Home Care Services</p>
                         </a>
                     </div>
-                    <div className="col-md-3 col-6 " data-aos="fade-up" data-aos-delay="400">
+                    <div className="col-md-3 col-6 "   data-aos-delay="400">
                         <a href="" className='a-links'>
                             <div className="">
                                 <img src={path + "Patient-Transport-1.png"} alt="" className='img-fluid services-img' />
@@ -211,7 +211,7 @@ function Home1() {
                             <p className='semi-head1 ps-2 mb-0'>Patient Transport</p>
                         </a>
                     </div>
-                    <div className="col-md-3 col-6 " data-aos="fade-up" data-aos-delay="500">
+                    <div className="col-md-3 col-6 "   data-aos-delay="500">
                         <a href="" className='a-links'>
                             <div className="">
                                 <img src={path + "Diagnostics-img1.jpg"} alt="" className='img-fluid services-img' />
@@ -220,7 +220,7 @@ function Home1() {
                             <p className='semi-head1  ps-2 mb-0'>Diagnostics</p>
                         </a>
                     </div>
-                    <div className="col-md-3 col-6 " data-aos="fade-up" data-aos-delay="500">
+                    <div className="col-md-3 col-6 "   data-aos-delay="500">
                         <a href="" className='a-links'>
                             <div className="">
                                 <img src={path + "Donate.jpg"} alt="" className='img-fluid services-img' />
@@ -334,7 +334,7 @@ function Home1() {
 
                 <div className="row d-flex justify-content-between">
                     <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Sort By Specialities</h2>
+                        <h2 className='homepage-section-heading'>Services by Specialities</h2>
                         {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
 
 
@@ -382,7 +382,7 @@ function Home1() {
                     {
                         data.map(user => (
                             <SwiperSlide key={user.id} className='slide mt-3'>
-                                <div className="slide-content" data-aos="fade-up">
+                                <div className="slide-content"  >
                                     <a href="" className='a-links'>
                                         <div className="user-image text-center">
                                             <img src={path + user.img} alt="" className='my-img services-img img-fluid' />
@@ -444,7 +444,7 @@ function Home1() {
                     {
                         data1.map(user => (
                             <SwiperSlide key={user.id} className='slide'>
-                                <div className="slide-content" data-aos="fade-up">
+                                <div className="slide-content"  >
                                     <a href="" className='a-links'>
                                         <div className="user-image text-center">
                                             <img src={path + user.img} alt="" className='my-img services-img img-fluid' />
@@ -465,6 +465,26 @@ function Home1() {
 
 
 
+            <div className="container margin-top3">
+                <div className="row">
+                    <div className="col-md-6"   data-aos-delay="300">
+                        <div className="">
+                            <img src={path + 'Healthcare-Companies-Startups.jpg'} alt="" className='img-fluid rsdius10' />
+                        </div>
+                        <p className='semi-head1  ps-2'>Healthcare Companies & Startups</p>
+                    </div>
+                    <div className="col-md-6"   data-aos-delay="300">
+                        <div className="">
+                            <img src={path + 'Health-Checkup-Near-You2.jpg'} alt="" className='img-fluid rsdius10' />
+                        </div>
+                        <p className='semi-head1  ps-2'>Health Checkup Near You</p>
+                    </div>
+                </div>
+            </div>
+
+
+
+
 
             {/* service by accreditations start */}
 
@@ -478,54 +498,58 @@ function Home1() {
 
                     </div>
 
-                    <div className="col-md-3 col-4 text-end d-flex  justify-content-end align-items-center">
-                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
-                    </div>
+                  
 
                 </div>
 
 
-                <div className="Services-Accreditations-container">
-                    <div className="row mt-2">
-                        <div className="col-md-4 d-flex p-0 accreditations-inner-box">
+                <div className="">
+                    <div className="row mt-2 Services-Accreditations-container ">
+                        <div className="col-md-6 col-lg-4 ">
+                            <div className="d-flex  accreditations-inner-box">
 
-                            <div className="">
-                                <img src={path + 'joint-commision.png'} alt="" className='' />
-                            </div>
-                            <div className="d-flex align-items-center ps-2">
                                 <div className="">
-                                    <p className='  mb-0'>  Organization Accredited by</p>
-                                    <p className='  mb-0'>  Joint Commission International</p>
+                                    <img src={path + 'joint-commision.png'} alt="" className='' />
                                 </div>
+                                <div className="d-flex align-items-center p-2">
+                                    <div className="">
+                                        <p className='  mb-0'>  Organization Accredited by</p>
+                                        <p className='  mb-0'>  Joint Commission International</p>
+                                    </div>
 
+                                </div>
                             </div>
-
                         </div>
-                        <div className="col-md-4 d-flex p-0 accreditations-inner-box">
 
-                            <div className="">
-                                <img src={path + 'national-accreditations.png'} alt="" className='' />
-                            </div>
-                            <div className="d-flex align-items-center ps-2">
+
+                        <div className="col-md-6 col-lg-4 ">
+                            <div className="d-flex  accreditations-inner-box">
+
                                 <div className="">
-                                    <p className='  mb-0'>  Organization Accredited by</p>
-                                    <p className='  mb-0'>  Joint Commission International</p>
+                                    <img src={path + 'national-accreditations.png'} alt="" className='' />
                                 </div>
+                                <div className="d-flex align-items-center ps-2">
+                                    <div className="">
+                                        <p className='  mb-0'>  National Accreditation Board for Hospitals & Healthcare Providers</p>
 
+                                    </div>
+
+                                </div>
                             </div>
-
                         </div>
-                        <div className="col-md-4 d-flex p-0 accreditations-inner-box">
+                        <div className="col-md-6 col-lg-4 ">
+                            <div className="d-flex  accreditations-inner-box acc-inner-box3">
 
-                            <div className="">
-                                <img src={path + 'IGBG-GOLD.jpeg'} alt="" className='' />
-                            </div>
-                            <div className="d-flex align-items-center ps-2">
                                 <div className="">
-                                    <p className='  mb-0'>  Organization Accredited by</p>
-                                    <p className='  mb-0'>  Joint Commission International</p>
+                                    <img src={path + 'IGBG-GOLD.jpeg'} alt="" className='' />
                                 </div>
+                                <div className="d-flex align-items-center p-2">
+                                    <div className="">
+                                        <p className='  mb-0'>  Largest Gold Certified</p>
+                                        <p className='  mb-0'>  Green Hospital in Mumbai</p>
+                                    </div>
 
+                                </div>
                             </div>
 
                         </div>
@@ -547,14 +571,14 @@ function Home1() {
 
 
                 <div className="row  g-3 mt-2">
-                    <div className="col-md-3 col-6 " data-aos="fade-up">
+                    <div className="col-md-3 col-6 "  >
                         <div className="">
                             <img src={path + "Organ-Transplant-Centres.png"} alt="" className='img-fluid' />
                         </div>
 
                         <p className='semi-head1 mt-1 ps-2'>Organ Transplant Centres</p>
                     </div>
-                    <div className="col-md-3 col-6" data-aos="fade-up">
+                    <div className="col-md-3 col-6"  >
                         <div className="">
                             <img src={path + "Eye-Care-Centres.png"} alt="" className='img-fluid' />
                         </div>
@@ -562,42 +586,42 @@ function Home1() {
                         <p className='semi-head1 mt-1 ps-2'>Eye Care Centres</p>
                     </div>
 
-                    <div className="col-md-3 col-6 " data-aos="fade-up">
+                    <div className="col-md-3 col-6 "  >
                         <div className="">
                             <img src={path + "Pediatric-Centres.png"} alt="" className='img-fluid' />
                         </div>
 
                         <p className='semi-head1 mt-1 ps-2'>Pediatric Centres</p>
                     </div>
-                    <div className="col-md-3 col-6 " data-aos="fade-up">
+                    <div className="col-md-3 col-6 "  >
                         <div className="">
                             <img src={path + "Heart-Care-Centres.png"} alt="" className='img-fluid' />
                         </div>
 
                         <p className='semi-head1 mt-1 ps-2'>Heartn Care Centres</p>
                     </div>
-                    <div className="col-md-3 col-6 " data-aos="fade-up" data-aos-delay="400">
+                    <div className="col-md-3 col-6 "   data-aos-delay="400">
                         <div className="">
                             <img src={path + "Skincare-Centres.png"} alt="" className='img-fluid' />
                         </div>
 
                         <p className='semi-head1 mt-1 ps-2'>Skincare Centres</p>
                     </div>
-                    <div className="col-md-3 col-6 " data-aos="fade-up" data-aos-delay="400">
+                    <div className="col-md-3 col-6 "   data-aos-delay="400">
                         <div className="">
                             <img src={path + "Test-Tube-Baby-Centres.png"} alt="" className='img-fluid' />
                         </div>
 
                         <p className='semi-head1 mt-1 ps-2'>Test Tube Baby Centres</p>
                     </div>
-                    <div className="col-md-3 col-6 " data-aos="fade-up" data-aos-delay="500">
+                    <div className="col-md-3 col-6 "   data-aos-delay="500">
                         <div className="">
                             <img src={path + "Kidney-care-Centres.png"} alt="" className='img-fluid' />
                         </div>
 
                         <p className='semi-head1 mt-1 ps-2'>Kidney care Centres</p>
                     </div>
-                    <div className="col-md-3 col-6 " data-aos="fade-up" data-aos-delay="500">
+                    <div className="col-md-3 col-6 "   data-aos-delay="500">
                         <div className="">
                             <img src={path + "Cancer-Care-Centres.png"} alt="" className='img-fluid' />
                         </div>
@@ -614,22 +638,6 @@ function Home1() {
             {/* Sort by specialist End  */}
 
 
-            <div className="container margin-top3">
-                <div className="row">
-                    <div className="col-md-6" data-aos="fade-up" data-aos-delay="300">
-                        <div className="">
-                            <img src={path + 'Healthcare-Companies-Startups.jpg'} alt="" className='img-fluid rsdius10' />
-                        </div>
-                        <p className='semi-head1  ps-2'>Healthcare Companies & Startups</p>
-                    </div>
-                    <div className="col-md-6" data-aos="fade-up" data-aos-delay="300">
-                        <div className="">
-                            <img src={path + 'Health-Checkup-Near-You.jpg'} alt="" className='img-fluid rsdius10' />
-                        </div>
-                        <p className='semi-head1  ps-2'>Health Checkup Near You</p>
-                    </div>
-                </div>
-            </div>
 
 
 
@@ -667,7 +675,7 @@ function Home1() {
                     <div className="col-md-2 col-6 text-center">
                         <a href="" className='a-links'>
                             <div className="text-center">
-                                <img src={path + "MRI2.png"} alt="" className='img-fluid border-hover' />
+                                <img src={path + "CTSCAN2.png"} alt="" className='img-fluid border-hover' />
                             </div>
                             <p className='semi-head1 mt-2'>MRI</p>
                         </a>
@@ -693,7 +701,7 @@ function Home1() {
                     <div className="col-md-2 col-6 text-center">
                         <a href="" className='a-links'>
                             <div className="text-center">
-                                <img src={path + "CTSCAN2.png"} alt="" className='img-fluid border-hover' />
+                                <img src={path + "CTSCAN3.png"} alt="" className='img-fluid border-hover' />
                             </div>
 
                             <p className='semi-head1 mt-2'>CT Scan</p>
@@ -744,7 +752,7 @@ function Home1() {
 
                 </div>
 
-                <div className="d-flex  Services-By-Health-Concern mt-4" data-aos="fade-up" data-aos-delay="300">
+                <div className="d-flex  Services-By-Health-Concern mt-4"   data-aos-delay="300">
                     <div className=" text-center">
                         <a href="" className='a-links'>
                             <div className="text-center">
@@ -811,7 +819,7 @@ function Home1() {
 
                 <div className="row d-flex justify-content-between">
                     <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Top Hospitals In Mumbai</h2>
+                        <h2 className='homepage-section-heading'>Popular Hospitals In Mumbai</h2>
                         {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
 
 
@@ -826,7 +834,7 @@ function Home1() {
 
                 <div className="row g-3  mt-1">
 
-                    <div className="col-md-3 col-6" data-aos="fade-up" data-aos-delay="600">
+                    <div className="col-md-3 col-6"   data-aos-delay="600">
                         <a href="" className='a-links'>
                             <div className="">
                                 <img src={path + "SAIFEE-HOSPITAL.png"} alt="" className='img-fluid services-img' />
@@ -836,7 +844,7 @@ function Home1() {
                         </a>
                     </div>
 
-                    <div className="col-md-3 col-6" data-aos="fade-up" data-aos-delay="700">
+                    <div className="col-md-3 col-6"   data-aos-delay="700">
                         <a href="" className='a-links'>
                             <div className="">
                                 <img src={path + "MAX-NANAVATI-HOSPITAL.png"} alt="" className='img-fluid services-img' />
@@ -846,7 +854,7 @@ function Home1() {
                         </a>
                     </div>
 
-                    <div className="col-md-3 col-6" data-aos="fade-up" data-aos-delay="800">
+                    <div className="col-md-3 col-6"   data-aos-delay="800">
                         <a href="" className='a-links'>
                             <div className="">
                                 <img src={path + "GLOBAL-HOSPITAL.png"} alt="" className='img-fluid services-img' />
@@ -856,7 +864,7 @@ function Home1() {
                         </a>
                     </div>
 
-                    <div className="col-md-3 col-6" data-aos="fade-up" data-aos-delay="900">
+                    <div className="col-md-3 col-6"   data-aos-delay="900">
                         <a href="" className='a-links'>
                             <div className="">
                                 <img src={path + "KOKILABEN-HOSPITAL.png"} alt="" className='img-fluid services-img' />
@@ -913,7 +921,7 @@ function Home1() {
                 <div className="row g-2 mt-2 phone-scroll">
                     <div className="col-md-2 col-6">
                         <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center icici-logo-box">
-                            <img src={path + 'icici-logo.png'} alt="" className='img-fluid' />
+                            <img src={path + 'icici-logo1.png'} alt="" className='img-fluid' />
                         </div>
                     </div>
                     <div className="col-md-2 col-6">
@@ -923,12 +931,12 @@ function Home1() {
                     </div>
                     <div className="col-md-2 col-6">
                         <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center hdfc-logo-box">
-                            <img src={path + 'HDFC-ERGO.png'} alt="" className='img-fluid' />
+                            <img src={path + 'HDFC-ERGO1.png'} alt="" className='img-fluid' />
                         </div>
                     </div>
                     <div className="col-md-2 col-6">
                         <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center bajaj-logo-box">
-                            <img src={path + 'bajaj-logo.png'} alt="" className='img-fluid' />
+                            <img src={path + 'bajaj-logo1.png'} alt="" className='img-fluid' />
                         </div>
                     </div>
 
