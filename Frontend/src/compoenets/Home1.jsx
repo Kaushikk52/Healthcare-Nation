@@ -296,7 +296,7 @@ function Home1() {
                     <div className="col-md-2 col-6 text-center">
                         <a href="" className='a-links'>
                             <div className="text-center">
-                                <img src={path + "pmjay-logo.png"} alt="" className='img-fluid' />
+                                <img src={path + "pmjay-logo2.png"} alt="" className='img-fluid' />
                             </div>
                             <p className='mb-0 mt-2 semi-head1'>PMJAY</p>
                             <p className='semi-head1 mt-0'>Hospitals</p>
