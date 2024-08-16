@@ -47,6 +47,8 @@ function MyNav() {
                             <a href="#" className='singupa'>Sign Up</a> |
                             <a href="#" className='singupa'> Sign In</a>
                         </div>
+                    
+
                     </div>
                 </div>
 
@@ -69,6 +71,8 @@ function MyNav() {
                         </div>
                     </div>
                     <div className="col-9  p-0 background-first serach-bar-phone">
+                  
+                        
                         <span className="d-flex vadhiya">
                             <img src={path + 'search.png'} alt="" height="15px" className="ms-2" /> <input type="text"
                                 placeholder="search here" className="background-first p-1 text14 inp" /></span>
@@ -129,7 +133,7 @@ function MyNav() {
                                         <a href="/" class="dropdown-item">ESIC Hospitals</a>
                                         <a href="/" class="dropdown-item">PMJAY Hospitals</a>
                                         <a href="/" class="dropdown-item">Railway Hospitals</a>
-                                       
+
                                     </div>
                                 </div>
                             </li>
@@ -146,7 +150,7 @@ function MyNav() {
                                         <a href="/" class="dropdown-item">Test Tube Baby Centres</a>
                                         <a href="/" class="dropdown-item">Kidney Care Centres</a>
                                         <a href="/" class="dropdown-item">Cancer Care Centres</a>
-                                       
+
                                     </div>
                                 </div>
                             </li>
@@ -162,8 +166,8 @@ function MyNav() {
                                         <a href="/" class="dropdown-item">Pathology</a>
                                         <a href="/" class="dropdown-item">CT Scan</a>
                                         <a href="/" class="dropdown-item">2D Echo</a>
-                                       
-                                       
+
+
                                     </div>
                                 </div>
                             </li>
@@ -177,18 +181,18 @@ function MyNav() {
                                         <a href="/" class="dropdown-item">Joint Pains ?</a>
                                         <a href="/" class="dropdown-item">Ear Problems ?</a>
                                         <a href="/" class="dropdown-item">Digestion Issues ?</a>
-                                       
-                                       
-                                       
+
+
+
                                     </div>
                                 </div>
                             </li>
 
 
-                        
-                         
-                            
-                            
+
+
+
+
                             <li className="nav-item">
                                 <a className="nav-link navlink1" href="#">Insurance</a>
                             </li>
