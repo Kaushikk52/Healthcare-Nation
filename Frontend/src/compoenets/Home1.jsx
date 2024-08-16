@@ -46,7 +46,7 @@ const data = [
         id: 4,
         name: "Heart Care Centres",
         marks: 258,
-        img: 'Heart-Care-Centres.png'
+        img: 'HomeCare-services2.jpg'
     },
     {
         id: 5,
@@ -196,7 +196,7 @@ function Home1() {
                     <div className="col-md-3 col-6 "   data-aos-delay="400">
                         <a href="" className='a-links'>
                             <div className="">
-                                <img src={path + "HomeCare-services2.jpg"} alt="" className='img-fluid services-img' />
+                                <img src={path + "HomeCare-services1.jpg"} alt="" className='img-fluid services-img' />
                             </div>
 
                             <p className='semi-head1 ps-2 mb-0'>Home Care Services</p>
