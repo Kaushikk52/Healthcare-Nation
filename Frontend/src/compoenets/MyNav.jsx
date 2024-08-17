@@ -1,10 +1,35 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
-
+import { useState } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import ServiceListing from './Services/ServiceListing';
 
 
 function MyNav() {
     // const path = "src/assets/Images/";
+
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const navigate = useNavigate();
+
+    const handleResize = () => {
+        setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    const handleServicesClick = (e) => {
+        if (isMobile) {
+            e.preventDefault(); // Prevent navigation on mobile view
+            setIsDropdownOpen(!isDropdownOpen); // Toggle dropdown visibility
+            if(isDropdownOpen){
+                navigate('/ServiceListing');
+            }
+        } else {
+            navigate('/ServiceListing');
+        }
+    };
+
+
     const path = import.meta.env.VITE_APP_IMG_URL;
     return (
         <>
@@ -36,7 +61,7 @@ function MyNav() {
                                 <span>
                                     <img src={path + 'search.png'} alt="" height="15px" className="ms-2" />
                                 </span>
-                                <input type="text" placeholder="search here" className="background-first p-1 text14 inp" id="myInput" name="myCountry" />
+                                <input type="text" placeholder="search here" className="background-first p-1 text14 inp ps-2" id="myInput" name="myCountry" />
                             </div>
                         </div>
 
@@ -109,39 +134,52 @@ function MyNav() {
                                 <NavLink to='/services' className="nav-link navlink1" >Services</NavLink>
                             </li> */}
                             <li>
-                                <div class="nav-item dropdown nav-dropdown">
-                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Services</a>
-                                    <div class="dropdown-menu bg-light rounded-0 rounded-bottom m-0">
-                                        <a href="/" class="dropdown-item">Hospitals</a>
-                                        <a href="/" class="dropdown-item">Dialysis Centres</a>
-                                        <a href="/" class="dropdown-item">Blood / Skin Banks</a>
-                                        <a href="/" class="dropdown-item">Clinics</a>
-                                        <a href="/" class="dropdown-item">Home Care Services</a>
-                                        <a href="/" class="dropdown-item">Patient Transports</a>
-                                        <a href="/" class="dropdown-item">Diagnostics</a>
-                                        <a href="/" class="dropdown-item">Financial Help for Treatment</a>
+                                <div className="nav-item dropdown nav-dropdown">
+                                    <NavLink
+                                        to='/ServiceListing'
+                                        className="nav-link navlink1 dropdown-toggle"
+                                        onClick={handleServicesClick}
+                                    >
+                                        Services
+                                    </NavLink>
+                                    <div
+                                        className={`dropdown-menu bg-light rounded-0 rounded-bottom m-0 ${isDropdownOpen ? 'show' : ''}`}
+                                    >
+                                        <a href="https://www.youtube.com/" className="dropdown-item">Hospitals</a>
+                                        <a href="/" className="dropdown-item">Dialysis Centres</a>
+                                        <a href="/" className="dropdown-item">Blood / Skin Banks</a>
+                                        <a href="/" className="dropdown-item">Clinics</a>
+                                        <a href="/" className="dropdown-item">Home Care Services</a>
+                                        <a href="/" className="dropdown-item">Patient Transports</a>
+                                        <a href="/" className="dropdown-item">Diagnostics</a>
+                                        <a href="/" className="dropdown-item">Financial Help for Treatment</a>
                                     </div>
                                 </div>
                             </li>
+
                             <li>
-                                <div class="nav-item dropdown nav-dropdown">
-                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Corporates</a>
-                                    <div class="dropdown-menu bg-light rounded-0 rounded-bottom m-0">
+                                <div className="nav-item dropdown nav-dropdown">
+                                    <NavLink to='/services' className="nav-link navlink1 dropdown-toggle" >
+                                        Corporates
+                                    </NavLink>
+                                    <div className="dropdown-menu bg-light rounded-0 rounded-bottom m-0">
                                         <a href="/" class="dropdown-item">MPT Hospitals</a>
                                         <a href="/" class="dropdown-item">CGHS Hospitals</a>
                                         <a href="/" class="dropdown-item">MJPJAY Hospitals</a>
                                         <a href="/" class="dropdown-item">ESIC Hospitals</a>
                                         <a href="/" class="dropdown-item">PMJAY Hospitals</a>
                                         <a href="/" class="dropdown-item">Railway Hospitals</a>
-
                                     </div>
                                 </div>
                             </li>
 
+
                             <li>
-                                <div class="nav-item dropdown nav-dropdown">
-                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Specialities</a>
-                                    <div class="dropdown-menu bg-light rounded-0 rounded-bottom m-0">
+                                <div className="nav-item dropdown nav-dropdown">
+                                    <NavLink to='/services' className="nav-link navlink1 dropdown-toggle" >
+                                        Specialities
+                                    </NavLink>
+                                    <div className="dropdown-menu bg-light rounded-0 rounded-bottom m-0">
                                         <a href="/" class="dropdown-item">Organ Transplant Centres</a>
                                         <a href="/" class="dropdown-item">Eye Care Centres</a>
                                         <a href="/" class="dropdown-item">Pediatric Centres</a>
@@ -150,39 +188,38 @@ function MyNav() {
                                         <a href="/" class="dropdown-item">Test Tube Baby Centres</a>
                                         <a href="/" class="dropdown-item">Kidney Care Centres</a>
                                         <a href="/" class="dropdown-item">Cancer Care Centres</a>
-
                                     </div>
                                 </div>
                             </li>
 
-
                             <li>
-                                <div class="nav-item dropdown nav-dropdown">
-                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Diagnostics</a>
-                                    <div class="dropdown-menu bg-light rounded-0 rounded-bottom m-0">
+                                <div className="nav-item dropdown nav-dropdown">
+                                    <NavLink to='/services' className="nav-link navlink1 dropdown-toggle" >
+                                        Diagnostics
+                                    </NavLink>
+                                    <div className="dropdown-menu bg-light rounded-0 rounded-bottom m-0">
                                         <a href="/" class="dropdown-item">Xray</a>
                                         <a href="/" class="dropdown-item">MRI</a>
                                         <a href="/" class="dropdown-item">Sonography</a>
                                         <a href="/" class="dropdown-item">Pathology</a>
                                         <a href="/" class="dropdown-item">CT Scan</a>
                                         <a href="/" class="dropdown-item">2D Echo</a>
-
-
                                     </div>
                                 </div>
                             </li>
 
+
                             <li>
-                                <div class="nav-item dropdown nav-dropdown">
-                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Health Concerns</a>
-                                    <div class="dropdown-menu bg-light rounded-0 rounded-bottom m-0">
+                                <div className="nav-item dropdown nav-dropdown">
+                                    <NavLink to='/services' className="nav-link navlink1 dropdown-toggle" >
+                                        Health Concerns
+                                    </NavLink>
+                                    <div className="dropdown-menu bg-light rounded-0 rounded-bottom m-0">
                                         <a href="/" class="dropdown-item">Depression or Anxiety ?</a>
                                         <a href="/" class="dropdown-item">Pregnant ?</a>
                                         <a href="/" class="dropdown-item">Joint Pains ?</a>
                                         <a href="/" class="dropdown-item">Ear Problems ?</a>
                                         <a href="/" class="dropdown-item">Digestion Issues ?</a>
-
-
 
                                     </div>
                                 </div>
@@ -211,7 +248,7 @@ function MyNav() {
 
                     </div>
 
-                    <a className=" patient-right-link pe-2 ">Patient Rights & Responsibilities</a>
+                    {/* <a className=" patient-right-link pe-2 ">Patient Rights & Responsibilities</a> */}
 
 
 
