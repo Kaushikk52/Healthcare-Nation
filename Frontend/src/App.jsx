@@ -1,7 +1,7 @@
 import './App.css'
-import { BrowserRouter,Route,Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import MyNav from './compoenets/MyNav'
-import  Carousel  from './compoenets/Carousel';
+import Carousel from './compoenets/Carousel';
 import Home1 from './compoenets/Home1';
 import Footer from './compoenets/Footer';
 import Services from './compoenets/Services/Services';
@@ -17,30 +17,30 @@ function App() {
 
   return (
     <>
-    {/* <MyNav/>
+      {/* <MyNav/>
     <Carousel/>
     <Home1/>
     <Footer/>
     <Services/> */}
 
 
-<BrowserRouter> 
-<Routes>
-  <Route path='/' element={<Layout/>}>
-  <Route path='/' element={<Home/>}/>
-  <Route path='/ServiceListing' element={<ServiceListing/>}/>
- 
-  </Route>
-
-</Routes>
-</BrowserRouter>
-
-
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="ServiceListing" element={<ServiceListing />}>
+              <Route path=":id" element={<Services />} />
+            </Route>
+          </Route>
+        </Routes>
+      </BrowserRouter>
 
 
-  
-  
-  
+
+
+
+
+
 
 
     </>
