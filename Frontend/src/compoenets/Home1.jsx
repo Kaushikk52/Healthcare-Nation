@@ -27,39 +27,53 @@ const data = [
     {
         id: 1,
         name: "Organ Transplant Centres",
-        marks: 625,
         img: 'Organ-Transplant-Centres.png'
     },
     {
         id: 2,
         name: "Eye Care Centres",
-        marks: 825,
         img: 'Eye-Care-Centres.png'
     },
     {
         id: 3,
         name: "Pediatric Centres",
-        marks: 225,
         img: 'Pediatric-Centres1.jpg'
     },
     {
         id: 4,
         name: "Heart Care Centres",
-        marks: 258,
-        img: 'HomeCare-services2.jpg'
+        img: 'Heart-Care-Centres.png'
     },
     {
         id: 5,
-        name: "Organ Transplant Centres",
-        marks: 625,
-        img: 'Organ-Transplant-Centres.png'
+        name: "Psychiatry",
+        img: 'specialities/Psychiatry.jpg'
     },
     {
         id: 6,
-        name: "Eye Care Centres",
-        marks: 825,
-        img: 'Eye-Care-Centres.png'
+        name: "Physiotherapy",
+        img: 'specialities/Physiotherapy.jpg'
     },
+    {
+        id: 7,
+        name: "Onco Surgery",
+        img: 'specialities/Onco-Surgery.jpg'
+    },
+    {
+        id: 8,
+        name: "Spine Surgery",
+        img: 'specialities/Spine-Surgery.jpg'
+    },
+    {
+        id: 9,
+        name: "Rheumatology",
+        img: 'specialities/Rheumatology.jpg'
+    },
+    {
+        id: 10,
+        name: "Radiatio oncology",
+        img: 'specialities/Radiatio-oncology.jpg'
+    }
 
 
 ]
@@ -88,14 +102,90 @@ const data1 = [
     },
     {
         id: 5,
-        name: "Skin Care Centres",
-        img: 'Skincare-Centres1.jpg'
+        name: "Plastic Surgery",
+        img: 'specialities/Plastic-Surgery.jpg'
     },
     {
         id: 6,
-        name: "Test Tube Baby Centres",
-        img: 'Test-Tube-Baby-Centres1.jpg'
+        name: "Pulmonology",
+        img: 'specialities/Pulmonology.jpg'
     },
+    {
+        id: 7,
+        name: "Occupational therapy",
+        img: 'specialities/Physiotherapy-Occupational-therapy.png'
+    },
+    {
+        id: 8,
+        name: "Pediatric Surgery",
+        img: 'specialities/Pediatric-Surgery.jpg'
+    },
+    {
+        id: 9,
+        name: "Oncology",
+        img: 'specialities/Oncology.jpg'
+    },
+    {
+        id: 10,
+        name: "Obstetrics & Gynecology",
+        img: 'specialities/Obstetrics-Gynecology.jpg'
+    },
+    {
+        id: 11,
+        name: "Neurosurgery",
+        img: 'specialities/Neurosurgery.jpg'
+    },
+    {
+        id: 12,
+        name: "Neurology",
+        img: 'specialities/Neurology.jpg'
+    },
+    {
+        id: 13,
+        name: "Laboratory Services",
+        img: 'specialities/Laboratory-Services.jpg'
+    },
+    {
+        id: 14,
+        name: "Hematology",
+        img: 'specialities/Hematology.jpg'
+    },
+    {
+        id: 15,
+        name: "General Medicine",
+        img: 'specialities/General-Medicine.jpg'
+    },
+    {
+        id: 16,
+        name: "Endocrinology",
+        img: 'specialities/Endocrinology.jpg'
+    },
+    {
+        id: 17,
+        name: "Emergency Care",
+        img: 'specialities/Emergency-Care.jpg'
+    },
+    {
+        id: 18,
+        name: "Ear Nose Throat Surgeon",
+        img: 'specialities/Ear-Nose-Throat-Surgeon.jpg'
+    },
+    {
+        id: 19,
+        name: "Dietetics",
+        img: 'specialities/Dietetics.jpg'
+    },
+    {
+        id: 20,
+        name: "Dentistry",
+        img: 'specialities/Dentistry.jpg'
+    },
+    {
+        id: 21,
+        name: "Critical Care",
+        img: 'specialities/Critical-Care.jpg'
+    }
+   
 
 
 ]
@@ -162,7 +252,7 @@ function Home1() {
                                 <img src={path + "hospitals1.jpg"} alt="" className='img-fluid services-img' />
                             </div>
 
-                            <p className='semi-head1 ps-2 mb-0'>Hospitals</p>
+                            <p className='semi-head1 mb-0'>Hospitals</p>
                         </a>
                     </div>
                     <div className="col-md-3 col-6"  >
@@ -171,7 +261,7 @@ function Home1() {
                                 <img src={path + "Dialysis-Centres.jpg"} alt="" className='img-fluid services-img' />
                             </div>
 
-                            <p className='semi-head1  ps-2 mb-0'>Dialysis Centres</p>
+                            <p className='semi-head1 mb-0'>Dialysis Centres</p>
                         </a>
                     </div>
 
@@ -181,7 +271,7 @@ function Home1() {
                                 <img src={path + "Blood-Bank-1.jpg"} alt="" className='img-fluid services-img' />
                             </div>
 
-                            <p className='semi-head1  ps-2 mb-0'>Blood / Skin Banks</p>
+                            <p className='semi-head1 mb-0'>Blood / Skin Banks</p>
                         </a>
                     </div>
                     <div className="col-md-3 col-6 "  >
@@ -190,7 +280,7 @@ function Home1() {
                                 <img src={path + "Clinics-1.png"} alt="" className='img-fluid services-img' />
                             </div>
 
-                            <p className='semi-head1  ps-2 mb-0'>Clinics</p>
+                            <p className='semi-head1 mb-0'>Clinics</p>
                         </a>
                     </div>
                     <div className="col-md-3 col-6 "   data-aos-delay="400">
@@ -199,7 +289,7 @@ function Home1() {
                                 <img src={path + "HomeCare-services1.jpg"} alt="" className='img-fluid services-img' />
                             </div>
 
-                            <p className='semi-head1 ps-2 mb-0'>Home Care Services</p>
+                            <p className='semi-head1  mb-0'>Home Care Services</p>
                         </a>
                     </div>
                     <div className="col-md-3 col-6 "   data-aos-delay="400">
@@ -208,7 +298,7 @@ function Home1() {
                                 <img src={path + "Patient-Transport-1.png"} alt="" className='img-fluid services-img' />
                             </div>
 
-                            <p className='semi-head1 ps-2 mb-0'>Patient Transport</p>
+                            <p className='semi-head1 mb-0'>Patient Transport</p>
                         </a>
                     </div>
                     <div className="col-md-3 col-6 "   data-aos-delay="500">
@@ -217,7 +307,7 @@ function Home1() {
                                 <img src={path + "Diagnostics-img1.jpg"} alt="" className='img-fluid services-img' />
                             </div>
 
-                            <p className='semi-head1  ps-2 mb-0'>Diagnostics</p>
+                            <p className='semi-head1 mb-0'>Diagnostics</p>
                         </a>
                     </div>
                     <div className="col-md-3 col-6 "   data-aos-delay="500">
@@ -226,7 +316,7 @@ function Home1() {
                                 <img src={path + "Donate.jpg"} alt="" className='img-fluid services-img' />
                             </div>
 
-                            <p className='semi-head1  ps-2 mb-0'>Financial Help for Treatment</p>
+                            <p className='semi-head1 mb-0'>Financial Help for Treatment</p>
                         </a>
                     </div>
 
@@ -471,13 +561,13 @@ function Home1() {
                         <div className="">
                             <img src={path + 'Healthcare-Companies-Startups.jpg'} alt="" className='img-fluid rsdius10' />
                         </div>
-                        <p className='semi-head1  ps-2'>Healthcare Companies & Startups</p>
+                        <p className='semi-head1 '>Healthcare Companies & Startups</p>
                     </div>
                     <div className="col-md-6"   data-aos-delay="300">
                         <div className="">
                             <img src={path + 'Health-Checkup-Near-You2.jpg'} alt="" className='img-fluid rsdius10' />
                         </div>
-                        <p className='semi-head1  ps-2'>Health Checkup Near You</p>
+                        <p className='semi-head1 '>Health Checkup Near You</p>
                     </div>
                 </div>
             </div>
@@ -513,7 +603,7 @@ function Home1() {
                                 </div>
                                 <div className="d-flex align-items-center p-2">
                                     <div className="">
-                                        <p className='  mb-0'>  Organization Accredited by</p>
+                                        <p className='  mb-0'>  Organizations Accredited by</p>
                                         <p className='  mb-0'>  Joint Commission International</p>
                                     </div>
 
@@ -530,7 +620,7 @@ function Home1() {
                                 </div>
                                 <div className="d-flex align-items-center ps-2">
                                     <div className="">
-                                        <p className='  mb-0'>  National Accreditation Board for Hospitals & Healthcare Providers</p>
+                                        <p className='  mb-0'>Organizations Accredited by National Accreditation Board for Hospitals & Healthcare Providers</p>
 
                                     </div>
 
@@ -545,8 +635,8 @@ function Home1() {
                                 </div>
                                 <div className="d-flex align-items-center p-2">
                                     <div className="">
-                                        <p className='  mb-0'>  Largest Gold Certified</p>
-                                        <p className='  mb-0'>  Green Hospital in Mumbai</p>
+                                        <p className='  mb-0'>Organizations Accredited by Largest Gold Certified</p>
+                                        <p className='  mb-0'>  Green Hospital</p>
                                     </div>
 
                                 </div>
@@ -683,7 +773,7 @@ function Home1() {
                     <div className="col-md-2 col-6 text-center">
                         <a href="" className='a-links'>
                             <div className="text-center">
-                                <img src={path + "SONOGRAPHY.png"} alt="" className='img-fluid border-hover' />
+                                <img src={path + "Sonography1.png"} alt="" className='img-fluid border-hover' />
                             </div>
 
                             <p className='semi-head1 mt-2'>Sonography</p>
@@ -692,10 +782,10 @@ function Home1() {
                     <div className="col-md-2 col-6 text-center">
                         <a href="" className='a-links'>
                             <div className="text-center">
-                                <img src={path + "PATHOLOGY.png"} alt="" className='img-fluid border-hover' />
+                                <img src={path + "PATHOLOGY1.png"} alt="" className='img-fluid border-hover' />
                             </div>
 
-                            <p className='semi-head1 mt-2'>Pathology</p>
+                            <p className='semi-head1 mt-2'>Lab/Pathology </p>
                         </a>
                     </div>
                     <div className="col-md-2 col-6 text-center">
@@ -756,7 +846,7 @@ function Home1() {
                     <div className=" text-center">
                         <a href="" className='a-links'>
                             <div className="text-center">
-                                <img src={path + "Depression-Anxiety.jpg"} alt="" className='img-fluid' />
+                                <img src={path + "Depression-Anxiety1.jpg"} alt="" className='img-fluid' />
                             </div>
 
                             <p className='semi-head1 mt-2'>Depression or Anxiety ? </p>
@@ -776,7 +866,7 @@ function Home1() {
                                 <img src={path + "Joint-Pains.png"} alt="" className='img-fluid' />
                             </div>
 
-                            <p className='semi-head1 mt-2'>Joint Pains ?</p>
+                            <p className='semi-head1 mt-2 '>Joint Pains ?</p>
                         </a>
                     </div>
                     <div className=" text-center px-3">
@@ -840,7 +930,7 @@ function Home1() {
                                 <img src={path + "SAIFEE-HOSPITAL.png"} alt="" className='img-fluid services-img' />
                             </div>
 
-                            <p className='semi-head1  ps-2'> Saifee Hospital</p>
+                            <p className='semi-head1 '> Saifee Hospital</p>
                         </a>
                     </div>
 
@@ -850,7 +940,7 @@ function Home1() {
                                 <img src={path + "MAX-NANAVATI-HOSPITAL.png"} alt="" className='img-fluid services-img' />
                             </div>
 
-                            <p className='semi-head1  ps-2'> Max Nanavati Hospital </p>
+                            <p className='semi-head1 '> Max Nanavati Hospital </p>
                         </a>
                     </div>
 
@@ -860,7 +950,7 @@ function Home1() {
                                 <img src={path + "GLOBAL-HOSPITAL.png"} alt="" className='img-fluid services-img' />
                             </div>
 
-                            <p className='semi-head1  ps-2'> Global Hospital</p>
+                            <p className='semi-head1 '> Global Hospital</p>
                         </a>
                     </div>
 
@@ -870,7 +960,7 @@ function Home1() {
                                 <img src={path + "KOKILABEN-HOSPITAL.png"} alt="" className='img-fluid services-img' />
                             </div>
 
-                            <p className='semi-head1  ps-2'> Kokilaben Hospital</p>
+                            <p className='semi-head1  '> Kokilaben Hospital</p>
                         </a>
                     </div>
 
