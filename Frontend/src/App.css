@@ -244,6 +244,7 @@ a:hover {
     padding: 5px 10px !important;
 }
 
+
 .nav-dropdown .nav-link:hover{
     color: #9B2482 !important;
     
@@ -275,26 +276,16 @@ background-color: #53535715;
     align-items: center;
 }
 
-.my-navbar{
-    position: relative;
-}
 
 .patient-right-link {
     text-decoration: none;
     color: #cc4c36;
     font-weight: 700;
-    position: absolute;
+    
     right: 0;
 }
 
-@media screen and (max-width: 1376px){
-    .patient-right-link{
-        position:static !important;
-    }
-    .my-navbar{
-        position: static;
-    }
-}
+
 
 
 /* .navbar .dropdown-toggle::after {

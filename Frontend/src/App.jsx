@@ -7,6 +7,7 @@ import Footer from './compoenets/Footer';
 import Services from './compoenets/Services/Services';
 import Layout from './compoenets/Layout';
 import Home from './compoenets/Home';
+import ServiceListing from './compoenets/Services/ServiceListing';
 
 
 
@@ -27,7 +28,7 @@ function App() {
 <Routes>
   <Route path='/' element={<Layout/>}>
   <Route path='/' element={<Home/>}/>
-  <Route path='/services' element={<Services/>}/>
+  <Route path='/ServiceListing' element={<ServiceListing/>}/>
  
   </Route>
 
