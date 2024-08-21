@@ -82,7 +82,7 @@ function Services() {
         <div className="row g-3 mt-1">
           {servicesList.map(service => (
             <div className="col-md-3 col-6" key={service.id}>
-              <Link to={`/ServiceListing/service/${service.id}`} className="a-links">
+              <Link to={`/ServiceListing`} className="a-links">
                 <div>
                   <img src={`${path}${service.img}`} alt={service.name} className="img-fluid services-img" />
                 </div>
