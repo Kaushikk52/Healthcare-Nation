@@ -159,7 +159,7 @@ function MyNav() {
 
                             <li>
                                 <div className="nav-item dropdown nav-dropdown">
-                                    <NavLink to='/services' className="nav-link navlink1 dropdown-toggle" >
+                                    <NavLink to='/ServiceListing' className="nav-link navlink1 dropdown-toggle" >
                                         Corporates
                                     </NavLink>
                                     <div className="dropdown-menu bg-light rounded-0 rounded-bottom m-0">
