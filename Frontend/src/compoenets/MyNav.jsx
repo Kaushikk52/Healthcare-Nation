@@ -22,10 +22,10 @@ function MyNav() {
             e.preventDefault(); // Prevent navigation on mobile view
             setIsDropdownOpen(!isDropdownOpen); // Toggle dropdown visibility
             if(isDropdownOpen){
-                navigate('/ServiceListing');
+                navigate('/Services');
             }
         } else {
-            navigate('/ServiceListing');
+            navigate('/Services');
         }
     };
 
@@ -136,7 +136,7 @@ function MyNav() {
                             <li>
                                 <div className="nav-item dropdown nav-dropdown">
                                     <NavLink
-                                        to='/ServiceListing'
+                                        to='/Services'
                                         className="nav-link navlink1 dropdown-toggle"
                                         onClick={handleServicesClick}
                                     >
