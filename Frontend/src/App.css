@@ -365,6 +365,25 @@ background-color: #53535715;
 
 }
 
+.swiper-button-prev {
+    background-image: url('../Images/left-arrow.png') !important;
+    /* Your custom icon path */
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    width: 40px !important;
+    height: 40px !important;
+    color: transparent !important;
+    /* Hide any default text/icon */
+    border: none !important;
+    /* Remove any border if present */
+    /* transform: translateY(-10%); */
+    top: 47% !important;
+}
+
+
+
+
 .services-img {
     border-radius: 10px;
     aspect-ratio: 4.2/3;
@@ -373,9 +392,7 @@ background-color: #53535715;
 
 
 
-.swiper-button-prev {
-    display: none !important;
-}
+
 
 /* .swiper-button-next-custom {
     background-image: url('./assets/Images/Subtract.png'); 
@@ -554,7 +571,7 @@ background-color: #53535715;
 }
 
 .sev-listing-headline{
-    font-size: 30px;
+    font-size: 24px;
     font-weight: 700;
 }
 
@@ -584,16 +601,21 @@ background-color: #53535715;
 
 }
 
+.filter-box label{
+    padding-left: 8px;
+}
+
 .pro-listing-logo{
-    height: 50px;
-    width: 50px;
+    height: 40px;
+    width: 40px;
 }
 .sort-select-box{
     border: none;
 }
 
 .reviews{
-    color: #c0c4c5;
+    color: #878d8f;
+    font-size: 14px;
 }
 /* .filter-innerbox {
     border-width: 3px, 3px, 0px, 0px;
