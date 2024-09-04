@@ -11,9 +11,10 @@ function ServiceListing() {
     return (
         <>
 
-            <div>
-                <img src={path + 'banner-new1.jpg'} alt="" className='img-fluid' />
+            <div >
+                <img src={path + 'demo/pediatric-banner2.jpg'} alt="" className="img-fluid" style={{ backgroundSize: "cover", height: "300px", width: "100%" }}/>
             </div>
+
 
             <div className="container">
                 <div className="mt-3 sev-listing-headline">Pediatric Hospitals in Mumbai</div>
@@ -42,89 +43,89 @@ function ServiceListing() {
                                 {/* Content of your filter-box goes here */}
                                 <div className="filter-box">
                                     <div className="filter-innerbox ps-2">
-                                    <form action="">
-                                    <span className="text14">
-                                        <b className='text18'> No of beds </b> <br />
-                                        <input type="checkbox" id="a" name="a" value="a" />
+                                        <form action="">
+                                            <span className="text14">
+                                                <b className='text18'> No of beds </b> <br />
+                                                <input type="checkbox" id="a" name="a" value="a" />
 
-                                        <label htmlFor="a" className='mb-0'>Less then 50 Beds </label>
-                                        <br />
-                                        <input type="checkbox" id="b" name="b" value="b" />
-                                        <label htmlFor="b" className='mb-0'>100 to 300 </label>
-                                        <br />
-                                        <input type="checkbox" id="c" name="c" value="c" />
-                                        <label htmlFor="c" className='mb-0'> More than 300 </label>
-                                        <br />
-                                        <br />
-                                    </span>
+                                                <label htmlFor="a" className='mb-0'>Less then 50 Beds.. </label>
+                                                <br />
+                                                <input type="checkbox" id="b" name="b" value="b" />
+                                                <label htmlFor="b" className='mb-0'>100 to 300 </label>
+                                                <br />
+                                                <input type="checkbox" id="c" name="c" value="c" />
+                                                <label htmlFor="c" className='mb-0'> More than 300 </label>
+                                                <br />
+                                                <br />
+                                            </span>
 
-                                    <span className="text14">
-                                        <b className='text18'> Accrediation</b> <br />
-                                        <input type="checkbox" id="d" name="d" value="d" />
-                                        <label htmlFor="d" className='mb-0'> NABH</label>
-                                        <br />
-                                        <input type="checkbox" id="e" name="e" value="e" />
-                                        <label htmlFor="e" className='mb-0'>JCI </label>
-                                        <br />
-                                        <br />
-                                    </span>
+                                            <span className="text14">
+                                                <b className='text18'> Accreditation</b> <br />
+                                                <input type="checkbox" id="d" name="d" value="d" />
+                                                <label htmlFor="d" className='mb-0'> NABH</label>
+                                                <br />
+                                                <input type="checkbox" id="e" name="e" value="e" />
+                                                <label htmlFor="e" className='mb-0'>JCI </label>
+                                                <br />
+                                                <br />
+                                            </span>
 
-                                    <span className="text14">
-                                        <b className='text18'> Ownership </b> <br />
-                                        <input type="checkbox" id="f" name="f" value="f" />
-                                        <label htmlFor="f" className='mb-0'> Private</label>
-                                        <br />
-                                        <input type="checkbox" id="g" name="g" value="g" />
-                                        <label htmlFor="g" className='mb-0'>Government </label>
-                                        <br />
-                                        <br />
-                                    </span>
+                                            <span className="text14">
+                                                <b className='text18'> Ownership </b> <br />
+                                                <input type="checkbox" id="f" name="f" value="f" />
+                                                <label htmlFor="f" className='mb-0'> Private</label>
+                                                <br />
+                                                <input type="checkbox" id="g" name="g" value="g" />
+                                                <label htmlFor="g" className='mb-0'>Government </label>
+                                                <br />
+                                                <br />
+                                            </span>
 
-                                    <span className="text14">
-                                        <b className='text18'> Speciality </b> <br />
-                                        <input
-                                            type="checkbox"
-                                            id="Eye-care"
-                                            name="Eye-care"
-                                            value="Eye-care"
-                                        />
-                                        <label htmlFor="Eye-care" className='mb-0'>Eye-care</label>
-                                        <br />
-                                        <input
-                                            type="checkbox"
-                                            id="Maternity"
-                                            name="Maternity"
-                                            value="Maternity"
-                                        />
-                                        <label htmlFor="Maternity">Maternity </label>
-                                        <br />
-                                        <br />
+                                            <span className="text14">
+                                                <b className='text18'> Speciality </b> <br />
+                                                <input
+                                                    type="checkbox"
+                                                    id="Eye-care"
+                                                    name="Eye-care"
+                                                    value="Eye-care"
+                                                />
+                                                <label htmlFor="Eye-care" className='mb-0'>Eye-care</label>
+                                                <br />
+                                                <input
+                                                    type="checkbox"
+                                                    id="Maternity"
+                                                    name="Maternity"
+                                                    value="Maternity"
+                                                />
+                                                <label htmlFor="Maternity">Maternity </label>
+                                                <br />
+                                                <br />
 
-                                    </span>
+                                            </span>
 
-                                    <span className="text14">
-                                        <b className='text18'> Speciality </b> <br />
-                                        <input
-                                            type="checkbox"
-                                            id="Eye-care"
-                                            name="Eye-care"
-                                            value="Eye-care"
-                                        />
-                                        <label htmlFor="Eye-care" className='mb-0'>Eye-care</label>
-                                        <br />
-                                        <input
-                                            type="checkbox"
-                                            id="Maternity"
-                                            name="Maternity"
-                                            value="Maternity"
-                                        />
-                                        <label htmlFor="Maternity">Maternity </label>
-                                        <br />
-                                        <br />
+                                            <span className="text14">
+                                                <b className='text18'> Speciality </b> <br />
+                                                <input
+                                                    type="checkbox"
+                                                    id="Eye-care"
+                                                    name="Eye-care"
+                                                    value="Eye-care"
+                                                />
+                                                <label htmlFor="Eye-care" className='mb-0'>Eye-care</label>
+                                                <br />
+                                                <input
+                                                    type="checkbox"
+                                                    id="Maternity"
+                                                    name="Maternity"
+                                                    value="Maternity"
+                                                />
+                                                <label htmlFor="Maternity">Maternity </label>
+                                                <br />
+                                                <br />
 
-                                    </span>
+                                            </span>
 
-                                </form>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -172,7 +173,7 @@ function ServiceListing() {
                                     </span>
 
                                     <span className="text14">
-                                        <b className='text18'> Accrediation</b> <br />
+                                        <b className='text18'> Accreditation</b> <br />
                                         <input type="checkbox" id="d" name="d" value="d" />
                                         <label htmlFor="d" className='mb-0'> NABH</label>
                                         <br />
@@ -194,7 +195,7 @@ function ServiceListing() {
                                     </span>
 
                                     <span className="text14">
-                                        <b className='text18'> Speciality </b> <br />
+                                        <b className='text18'> Specialities </b> <br />
                                         <input
                                             type="checkbox"
                                             id="Eye-care"
@@ -216,14 +217,14 @@ function ServiceListing() {
                                     </span>
 
                                     <span className="text14">
-                                        <b className='text18'> Speciality </b> <br />
+                                        <b className='text18'> Corporates</b> <br />
                                         <input
                                             type="checkbox"
                                             id="Eye-care"
                                             name="Eye-care"
                                             value="Eye-care"
                                         />
-                                        <label htmlFor="Eye-care" className='mb-0'>Eye-care</label>
+                                        <label htmlFor="Eye-care" className='mb-0'>MPT Hospitals</label>
                                         <br />
                                         <input
                                             type="checkbox"
@@ -231,9 +232,37 @@ function ServiceListing() {
                                             name="Maternity"
                                             value="Maternity"
                                         />
-                                        <label htmlFor="Maternity">Maternity </label>
+                                        <label htmlFor="Maternity" className='mb-0'>CGHS Hospitals </label>
                                         <br />
+                                        <input
+                                            type="checkbox"
+                                            id="Maternity"
+                                            name="Maternity"
+                                            value="Maternity"
+                                        />
+                                        <label htmlFor="Maternity" className='mb-0'>MJPJAY Hospitals </label>
                                         <br />
+                                        <input
+                                            type="checkbox"
+                                            id="Maternity"
+                                            name="Maternity"
+                                            value="Maternity"
+                                        />
+                                        <label htmlFor="Maternity" className='mb-0'>PMJAY Hospitals </label>
+                                        <br />
+                                        <input
+                                            type="checkbox"
+                                            id="Maternity"
+                                            name="Maternity"
+                                            value="Maternity"
+                                        />
+                                        <label htmlFor="Maternity" className='mb-0'>Railway Hospitals </label>
+                                        <br />
+
+                                       
+                                  
+                                        
+                                        
 
                                     </span>
 
@@ -247,10 +276,10 @@ function ServiceListing() {
                         <div className="col-xl-9 col-lg-9 col-md-12 product-box">
                             <div className=" d-flex justify-content-between">
                                 <div className="d-flex gap-2">
-                                {/* <input type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off"/>
+                                    {/* <input type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off"/>
                                 <label className="btn  btn-outline-primary" for="btn-check-outlined">Single toggle</label> */}
-                                <button className='filter-check-btn'>NABH</button>
-                                <button className='filter-check-btn'>Private</button>
+                                    <button className='filter-check-btn'>NABH</button>
+                                    <button className='filter-check-btn'>Private</button>
                                 </div>
 
 
@@ -286,8 +315,8 @@ function ServiceListing() {
 
                                         <div className="">
                                             <p className='mb-0 text14'><b> 323 Beds</b></p>
-                                            <p className='mb-0 text14'><b>Musltispciality Hospital</b></p>
-                                            <div className="d-flex gap-2">
+                                            <p className='mb-0 text14'><b>Multispeciality Hospital</b></p>
+                                            <div className="d-flex gap-2 mt-2">
                                                 <img src={path + 'national-accreditations.png'} alt="" className='img-fluid pro-listing-logo' />
                                                 <img src={path + "joint-commision.png"} alt="" className='img-fluid pro-listing-logo' />
                                             </div>
@@ -309,7 +338,7 @@ function ServiceListing() {
                                                 <div className="reviews text-end">59 Reviews</div>
                                             </div>
                                             <div className="">
-                                                <div className="text14 mb-3"><i class="fa-solid fa-phone me-1"></i> View Phone </div>
+                                                <div className="text14 mb-3"><i class="fa-solid fa-phone me-1"></i> View Number </div>
                                                 <button className="view-details-btn mb-2"> View Details</button>
                                             </div>
                                         </div>
@@ -320,8 +349,8 @@ function ServiceListing() {
 
                             <div className="horizontal-line"></div>
 
-                              {/* product box inner-container start */}
-                              <div className="product-inner-container">
+                            {/* product box inner-container start */}
+                            <div className="product-inner-container">
                                 <div className="row g-3">
                                     <div className="col-md-5">
                                         <img
@@ -339,8 +368,8 @@ function ServiceListing() {
 
                                         <div className="">
                                             <p className='mb-0 text14'><b> 323 Beds</b></p>
-                                            <p className='mb-0 text14'><b>Musltispciality Hospital</b></p>
-                                            <div className="d-flex gap-2">
+                                            <p className='mb-0 text14'><b>Multispeciality Hospital</b></p>
+                                            <div className="d-flex gap-2 mt-2">
                                                 <img src={path + 'national-accreditations.png'} alt="" className='img-fluid pro-listing-logo' />
                                                 <img src={path + "joint-commision.png"} alt="" className='img-fluid pro-listing-logo' />
                                             </div>
@@ -362,7 +391,7 @@ function ServiceListing() {
                                                 <div className="reviews text-end">59 Reviews</div>
                                             </div>
                                             <div className="">
-                                                <div className="text14 mb-3"><i class="fa-solid fa-phone me-1"></i> View Phone </div>
+                                                <div className="text14 mb-3"><i class="fa-solid fa-phone me-1"></i> View Number </div>
                                                 <button className="view-details-btn mb-2"> View Details</button>
                                             </div>
                                         </div>

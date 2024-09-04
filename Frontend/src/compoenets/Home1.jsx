@@ -447,7 +447,7 @@ function Home1() {
                     // ={{
                     //   nextEl: '.swiper-button-next',
                     // }}
-                    autoplay={{ delay: 10000 }}
+                    autoplay={{ delay: 5000 }}
                     breakpoints={{
                         0: {
                             slidesPerView: 2,
