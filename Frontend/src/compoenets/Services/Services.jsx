@@ -47,7 +47,6 @@ function Services() {
   return (
     <>
 
-
       <div>
         <img src={path + 'banner-new1.jpg'} alt="" className='img-fluid' />
       </div>
