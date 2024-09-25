@@ -6,6 +6,14 @@
     padding: 0;
 }
 
+
+:root {
+    --primary: #9B2482;
+    --secondary: #2277b2;
+    --light: #F8F8F9;
+    --dark: #001D23;
+}
+
 @media (min-width: 1400px) {
     .container {
         max-width: 1100px !important;
@@ -98,7 +106,7 @@ a:hover {
 
 }
 
-.rsdius10 {
+.radius10 {
     border-radius: 10px;
 }
 
@@ -469,6 +477,27 @@ background-color: #53535715;
         display: none;
     }
 }
+
+/* Popular HealthCare Brands In India css start  */
+
+.border2{
+    border: 1px solid #0000;
+}
+
+.brands-india img{
+  background-size: contain;
+    border: 2px solid #000000a2;
+    border-radius: 50%;
+    /* padding: 5px; */
+    
+}
+
+
+
+/* Popular HealthCare Brands In India css End  */
+
+
+
 
 /* Speciality Centres styling */
 .speciality-center-container {
@@ -1101,3 +1130,70 @@ background-color: #53535715;
         width: 30px !important;
     }
 }
+
+
+
+
+/* footer css start  */
+
+/* General link styles */
+.footer1 ul li a {
+    color: white; /* Initial link color */
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.4s ease-in-out; /* Transition for the color */
+  }
+  
+  .footer1 ul li a:hover {
+    color: #3B82F6; /* Color on hover */
+  }
+  
+  /* Styling for the footer container */
+
+  
+  .footer-container p {
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .footer1 ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer1 ul li {
+    margin-bottom: 8px;
+  }
+  
+  .footer1 ul li a {
+    display: inline-block;
+    font-size: 14px;
+    color: #FFFFFF;
+    position: relative;
+    transition: color 0.8s ease-in-out;
+  }
+  
+  /* Hover effect */
+  .footer1 ul li a:hover {
+    color: #8fcdf1; /* The color changes to blue on hover */
+  }
+  
+  /* Optional: Add underline effect on hover */
+  .footer1 ul li a::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #ffffff;
+    transition: width 0.3s ease-in-out;
+  }
+  
+  .footer1 ul li a:hover::after {
+    width: 100%;
+  }
+  
+
+
+
+/* footer css End  */

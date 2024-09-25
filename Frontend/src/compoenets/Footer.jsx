@@ -1,4 +1,6 @@
 import React from 'react'
+import { motion } from 'framer-motion'
+
 
 function Footer() {
     // const path = "src/assets/Images/";
@@ -9,7 +11,7 @@ function Footer() {
 
                 <div className="container margin-top3 text-white footer-container py-5">
 
-                    <div className="row">
+                    <div className="row footer1">
                         <div className="col-md-6 col-lg-6 col-xl-2 col-6">
                             {/* <div className="">
                                 <img src={path + 'HCN-white-logo.png'} alt="" className='img-fluid' />

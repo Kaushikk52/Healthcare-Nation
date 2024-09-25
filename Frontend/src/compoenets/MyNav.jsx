@@ -145,7 +145,7 @@ function MyNav() {
                                     <div
                                         className={`dropdown-menu bg-light rounded-0 rounded-bottom m-0 ${isDropdownOpen ? 'show' : ''}`}
                                     >
-                                        <a href="https://www.youtube.com/" className="dropdown-item">Hospitals</a>
+                                        <a href="/" className="dropdown-item">Hospitals</a>
                                         <a href="/" className="dropdown-item">Dialysis Centres</a>
                                         <a href="/" className="dropdown-item">Blood / Skin Banks</a>
                                         <a href="/" className="dropdown-item">Clinics</a>

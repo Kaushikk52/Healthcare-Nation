@@ -185,7 +185,7 @@ const data1 = [
         name: "Critical Care",
         img: 'specialities/Critical-Care.jpg'
     }
-   
+
 
 
 ]
@@ -283,7 +283,7 @@ function Home1() {
                             <p className='semi-head1 mb-0'>Clinics</p>
                         </a>
                     </div>
-                    <div className="col-md-3 col-6 "   data-aos-delay="400">
+                    <div className="col-md-3 col-6 " data-aos-delay="400">
                         <a href="" className='a-links'>
                             <div className="">
                                 <img src={path + "HomeCare-services1.jpg"} alt="" className='img-fluid services-img' />
@@ -292,7 +292,7 @@ function Home1() {
                             <p className='semi-head1  mb-0'>Home Care Services</p>
                         </a>
                     </div>
-                    <div className="col-md-3 col-6 "   data-aos-delay="400">
+                    <div className="col-md-3 col-6 " data-aos-delay="400">
                         <a href="" className='a-links'>
                             <div className="">
                                 <img src={path + "Patient-Transport-1.png"} alt="" className='img-fluid services-img' />
@@ -301,7 +301,7 @@ function Home1() {
                             <p className='semi-head1 mb-0'>Patient Transport</p>
                         </a>
                     </div>
-                    <div className="col-md-3 col-6 "   data-aos-delay="500">
+                    <div className="col-md-3 col-6 " data-aos-delay="500">
                         <a href="" className='a-links'>
                             <div className="">
                                 <img src={path + "Diagnostics-img1.jpg"} alt="" className='img-fluid services-img' />
@@ -310,7 +310,7 @@ function Home1() {
                             <p className='semi-head1 mb-0'>Diagnostics</p>
                         </a>
                     </div>
-                    <div className="col-md-3 col-6 "   data-aos-delay="500">
+                    <div className="col-md-3 col-6 " data-aos-delay="500">
                         <a href="" className='a-links'>
                             <div className="">
                                 <img src={path + "Donate.jpg"} alt="" className='img-fluid services-img' />
@@ -325,15 +325,14 @@ function Home1() {
             </div>
 
 
+            {/* Popular HealthCare Brands In India start  */}
 
-
-            {/* Public Sector Corporates start */}
 
             <div className="container margin-top3">
                 <div className="row d-flex justify-content-between">
                     <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Public Sector Corporates</h2>
-                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
+                        <h2 className='homepage-section-heading'>Popular HealthCare Brands In India</h2>
+
 
 
                     </div>
@@ -348,61 +347,65 @@ function Home1() {
 
                     <div className="col-md-2 col-6 text-center">
                         <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "mpt-logo.png"} alt="" className='img-fluid' />
+                            <div className="text-center brands-india">
+                                <img src={path + "Brands-In-India/fortis-logo.png"} alt="" className='img-fluid border2' />
                             </div>
-                            <p className='mb-0 mt-2 semi-head1'>MPT</p>
-                            <p className='semi-head1 mt-0'>Hospitals</p>
+
                         </a>
                     </div>
                     <div className="col-md-2 col-6 text-center">
                         <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "cghs-logo.jpg"} alt="" className='img-fluid cghs-logo' />
+                            <div className="text-center brands-india">
+                                <img src={path + "Brands-In-India/wockhardt-logo.png"} alt="" className='img-fluid ' />
                             </div>
-                            <p className='mb-0 mt-2 semi-head1'>CGHS</p>
-                            <p className='semi-head1 mt-0'>Hospitals</p>
-                        </a>
-                    </div>
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "mjpjay-logo.png"} alt="" className='img-fluid' />
-                            </div>
-                            <p className='mb-0 mt-2 semi-head1'>MJPJAY</p>
-                            <p className='semi-head1 mt-0'>Hospitals</p>
-                        </a>
-                    </div>
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "esic-logo.png"} alt="" className='img-fluid' />
-                            </div>
-                            <p className='mb-0 mt-2 semi-head1'>ESIC</p>
-                            <p className='semi-head1 mt-0'>Hospitals</p>
+
                         </a>
                     </div>
 
                     <div className="col-md-2 col-6 text-center">
                         <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "pmjay-logo2.png"} alt="" className='img-fluid' />
+                            <div className="text-center brands-india">
+                                <img src={path + "Brands-In-India/hcg-logo.png"} alt="" className='img-fluid ' />
                             </div>
-                            <p className='mb-0 mt-2 semi-head1'>PMJAY</p>
-                            <p className='semi-head1 mt-0'>Hospitals</p>
+
                         </a>
                     </div>
+
+
                     <div className="col-md-2 col-6 text-center">
                         <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "indian_railway_logo.jpg"} alt="" className='img-fluid ' />
+                            <div className="text-center brands-india">
+                                <img src={path + "Brands-In-India/max-logo.png"} alt="" className='img-fluid ' />
                             </div>
-                            <p className='mb-0 mt-2 semi-head1'>Railway </p>
-                            <p className='semi-head1 mt-0'>Hospitals</p>
-
 
                         </a>
                     </div>
+
+                    <div className="col-md-2 col-6 text-center">
+                        <a href="" className='a-links'>
+                            <div className="text-center brands-india">
+                                <img src={path + "Brands-In-India/apollo.png"} alt="" className='img-fluid ' />
+                            </div>
+
+                        </a>
+                    </div>
+
+                    <div className="col-md-2 col-6 text-center">
+                        <a href="" className='a-links'>
+                            <div className="text-center brands-india">
+                                <img src={path + "Brands-In-India/paras-logo.png"} alt="" className='img-fluid ' />
+                            </div>
+
+                        </a>
+                    </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -413,8 +416,11 @@ function Home1() {
 
 
 
+            {/* Popular HealthCare Brands In India End  */}
 
-            {/* Public Sector Corporates End */}
+
+
+
 
 
             {/* swiper 1  */}
@@ -555,28 +561,409 @@ function Home1() {
 
 
 
+
+            {/* Diagnostic  Centres Near You start  */}
+
+
+
             <div className="container margin-top3">
-                <div className="row">
-                    <div className="col-md-6"   data-aos-delay="300">
-                        <div className="">
-                            <img src={path + 'Healthcare-Companies-Startups.jpg'} alt="" className='img-fluid rsdius10' />
-                        </div>
-                        <p className='semi-head1 '>Healthcare Companies & Startups</p>
+                <div className="row d-flex justify-content-between">
+                    <div className="col-md-6 col-8">
+                        <h2 className='homepage-section-heading'>Diagnostics  Centres Near You</h2>
+                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
+
+
                     </div>
-                    <div className="col-md-6"   data-aos-delay="300">
-                        <div className="">
-                            <img src={path + 'Health-Checkup-Near-You2.jpg'} alt="" className='img-fluid rsdius10' />
-                        </div>
-                        <p className='semi-head1 '>Health Checkup Near You</p>
+
+                    <div className="col-md-3 col-4 text-end d-flex  justify-content-end align-items-center">
+                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
                     </div>
+
+                </div>
+
+
+
+                <div className="row Public-Sector-Corporates-container g-2 mt-2">
+                    <div className="col-md-2 col-6 text-center">
+                        <a href="" className='a-links'>
+                            <div className="text-center">
+                                <img src={path + "Xray2.png"} alt="" className='img-fluid border-hover' />
+                            </div>
+
+                            <p className='semi-head1 mt-2'>Xray  </p>
+                        </a>
+                    </div>
+                    <div className="col-md-2 col-6 text-center">
+                        <a href="" className='a-links'>
+                            <div className="text-center">
+                                <img src={path + "CTSCAN2.png"} alt="" className='img-fluid border-hover' />
+                            </div>
+                            <p className='semi-head1 mt-2'>MRI</p>
+                        </a>
+                    </div>
+                    <div className="col-md-2 col-6 text-center">
+                        <a href="" className='a-links'>
+                            <div className="text-center">
+                                <img src={path + "Sonography1.png"} alt="" className='img-fluid border-hover' />
+                            </div>
+
+                            <p className='semi-head1 mt-2'>Sonography</p>
+                        </a>
+                    </div>
+                    <div className="col-md-2 col-6 text-center">
+                        <a href="" className='a-links'>
+                            <div className="text-center">
+                                <img src={path + "PATHOLOGY1.png"} alt="" className='img-fluid border-hover' />
+                            </div>
+
+                            <p className='semi-head1 mt-2'>Lab/Pathology </p>
+                        </a>
+                    </div>
+                    <div className="col-md-2 col-6 text-center">
+                        <a href="" className='a-links'>
+                            <div className="text-center">
+                                <img src={path + "CTSCAN3.png"} alt="" className='img-fluid border-hover' />
+                            </div>
+
+                            <p className='semi-head1 mt-2'>CT Scan</p>
+                        </a>
+                    </div>
+                    <div className="col-md-2 col-6 text-center">
+                        <a href="" className='a-links'>
+                            <div className="text-center">
+                                <img src={path + "2DECHO.png"} alt="" className='img-fluid border-hover' />
+                            </div>
+
+                            <p className='semi-head1 mt-2'>2D Echo</p>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+            {/* Diagnostic  Centres Near You End  */}
+
+
+
+            {/* Alternative Medicine start  */}
+
+            <div className="container margin-top3">
+
+
+
+                <div className="row d-flex justify-content-between">
+                    <div className="col-md-6 col-8">
+                        <h2 className='homepage-section-heading'>Alternative Medicine</h2>
+                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
+
+
+                    </div>
+
+                    <div className="col-md-3 col-4 text-end d-flex  justify-content-end align-items-center">
+                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
+                    </div>
+
+                </div>
+
+
+                <div className="row g-3  mt-1">
+
+                    <div className="col-md-3 col-6" data-aos-delay="600">
+                        <a href="" className='a-links'>
+                            <div className="">
+                                <img src={path + "Alternative-Medicine/Ayurveda-Centres.jpg"} alt="" className='img-fluid services-img' />
+                            </div>
+
+                            <p className='semi-head1 '> Ayurveda Centres</p>
+                        </a>
+                    </div>
+
+                    <div className="col-md-3 col-6" data-aos-delay="600">
+                        <a href="" className='a-links'>
+                            <div className="">
+                                <img src={path + "Alternative-Medicine/Homeopathy-Centres.jpg"} alt="" className='img-fluid services-img' />
+                            </div>
+
+                            <p className='semi-head1 '>Homeopathy Centres</p>
+                        </a>
+                    </div>
+
+                    <div className="col-md-3 col-6" data-aos-delay="600">
+                        <a href="" className='a-links'>
+                            <div className="">
+                                <img src={path + "Alternative-Medicine/yoga-center.jpg"} alt="" className='img-fluid services-img' />
+                            </div>
+
+                            <p className='semi-head1 '> Yoga Centres</p>
+                        </a>
+                    </div>
+
+                    <div className="col-md-3 col-6" data-aos-delay="600">
+                        <a href="" className='a-links'>
+                            <div className="">
+                                <img src={path + "Alternative-Medicine/Naturopathy-Centres.jpg"} alt="" className='img-fluid services-img' />
+                            </div>
+
+                            <p className='semi-head1 '> Naturopathy Centres</p>
+                        </a>
+                    </div>
+
+
+
+
+                </div>
+
+            </div>
+
+            {/* Alternative Medicine end */}
+
+
+
+
+
+            {/* Online Healthcare Services start  */}
+            <div className="container margin-top3">
+
+
+
+                <div className="row d-flex justify-content-between">
+                    <div className="col-md-6 col-8">
+                        <h2 className='homepage-section-heading'>Online Healthcare Services</h2>
+                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
+
+
+
+                    </div>
+
+                    <div className="col-md-3 col-4 text-end d-flex justify-content-end align-items-center">
+                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
+                    </div>
+
+                </div>
+
+                <div className="row mt-3">
+                    <div className="col-md-4 pe-1">
+                        <div className="">
+                            <img src={path + 'online/Online-Consultation.jpg'} alt="" className='img-fluid radius10' />
+                        </div>
+                        <p className='semi-head1 '> Online Consultation</p>
+                    </div>
+                    <div className="col-md-4 pe-1">
+                        <div className="">
+                            <img src={path + 'online/Monitoring-Services.jpg'} alt="" className='img-fluid radius10' />
+                        </div>
+                        <p className='semi-head1 '> Remote Patient Monitoring Services</p>
+                    </div>
+                    <div className="col-md-4 pe-1">
+                        <div className="">
+                            <img src={path + 'online/Online-Pharmacy.jpg'} alt="" className='img-fluid radius10' />
+                        </div>
+                        <p className='semi-head1 '> Online Pharmacy & Medical Store</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {/* Online Healthcare Services End  */}
+
+
+
+            {/* Public Sector Corporates start */}
+
+            <div className="container margin-top3">
+                <div className="row d-flex justify-content-between">
+                    <div className="col-md-6 col-8">
+                        <h2 className='homepage-section-heading'>Public Sector Corporates</h2>
+                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
+
+
+                    </div>
+
+                    <div className="col-md-3 col-4 text-end d-flex  justify-content-end align-items-center">
+                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
+                    </div>
+
+                </div>
+
+                <div className="row Public-Sector-Corporates-container g-2 mt-2">
+
+                    <div className="col-md-2 col-6 text-center">
+                        <a href="" className='a-links'>
+                            <div className="text-center">
+                                <img src={path + "mpt-logo.png"} alt="" className='img-fluid' />
+                            </div>
+                            <p className='mb-0 mt-2 semi-head1'>MPT</p>
+                         
+                        </a>
+                    </div>
+                    <div className="col-md-2 col-6 text-center">
+                        <a href="" className='a-links'>
+                            <div className="text-center">
+                                <img src={path + "cghs-logo.jpg"} alt="" className='img-fluid cghs-logo' />
+                            </div>
+                            <p className='mb-0 mt-2 semi-head1'>CGHS</p>
+                        
+                        </a>
+                    </div>
+                    <div className="col-md-2 col-6 text-center">
+                        <a href="" className='a-links'>
+                            <div className="text-center">
+                                <img src={path + "mjpjay-logo.png"} alt="" className='img-fluid' />
+                            </div>
+                            <p className='mb-0 mt-2 semi-head1'>MJPJAY</p>
+                           
+                        </a>
+                    </div>
+                    <div className="col-md-2 col-6 text-center">
+                        <a href="" className='a-links'>
+                            <div className="text-center">
+                                <img src={path + "esic-logo.png"} alt="" className='img-fluid' />
+                            </div>
+                            <p className='mb-0 mt-2 semi-head1'>ESIC</p>
+                           
+                        </a>
+                    </div>
+
+                    <div className="col-md-2 col-6 text-center">
+                        <a href="" className='a-links'>
+                            <div className="text-center">
+                                <img src={path + "pmjay-logo2.png"} alt="" className='img-fluid' />
+                            </div>
+                            <p className='mb-0 mt-2 semi-head1'>PMJAY</p>
+                       
+                        </a>
+                    </div>
+                    <div className="col-md-2 col-6 text-center">
+                        <a href="" className='a-links'>
+                            <div className="text-center">
+                                <img src={path + "indian_railway_logo.jpg"} alt="" className='img-fluid ' />
+                            </div>
+                            <p className='mb-0 mt-2 semi-head1'>Railway </p>
+                        
+
+
+                        </a>
+                    </div>
+
+
+
+
+
                 </div>
             </div>
 
 
 
 
+            {/* Public Sector Corporates End */}
+
+
+
+
+            {/* More services start  */}
+
+
+
+            <div className="container margin-top3">
+
+
+
+                <div className="row d-flex justify-content-between">
+                    <div className="col-md-6 col-8">
+                        <h2 className='homepage-section-heading'>More Services</h2>
+                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
+
+
+                    </div>
+
+                    <div className="col-md-3 col-4 text-end d-flex  justify-content-end align-items-center">
+                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
+                    </div>
+
+                </div>
+
+
+                <div className="row g-3  mt-1">
+
+                    <div className="col-md-3 col-6" data-aos-delay="600">
+                        <a href="" className='a-links'>
+                            <div className="">
+                                <img src={path + "Test-Tube-Baby-Centres1.jpg"} alt="" className='img-fluid services-img' />
+                            </div>
+
+                            <p className='semi-head1 '> Ayurveda Centres</p>
+                        </a>
+                    </div>
+
+                    <div className="col-md-3 col-6" data-aos-delay="600">
+                        <a href="" className='a-links'>
+                            <div className="">
+                                <img src={path + "De-Addiction.jpg"} alt="" className='img-fluid services-img' />
+                            </div>
+
+                            <p className='semi-head1'>Rehabilitation / De Addiction Centres</p>
+                        </a>
+                    </div>
+
+                    <div className="col-md-3 col-6" data-aos-delay="600">
+                        <a href="" className='a-links'>
+                            <div className="">
+                                <img src={path + "Burns-Centres.jpg"} alt="" className='img-fluid services-img' />
+                            </div>
+
+                            <p className='semi-head1 '> Burns Centres</p>
+                        </a>
+                    </div>
+
+                    <div className="col-md-3 col-6" data-aos-delay="600">
+                        <a href="" className='a-links'>
+                            <div className="">
+                                <img src={path + "Hair-Transplant.jpg"} alt="" className='img-fluid services-img' />
+                            </div>
+
+                            <p className='semi-head1 '>Hair Transplant Centres</p>
+                        </a>
+                    </div>
+
+
+
+
+                </div>
+
+            </div>
+
+
+            {/* More services End  */}
+
+            {/* <div className="container margin-top3">
+                <div className="row">
+                    <div className="col-md-6" data-aos-delay="300">
+                        <div className="">
+                            <img src={path + 'Healthcare-Companies-Startups.jpg'} alt="" className='img-fluid radius10' />
+                        </div>
+                        <p className='semi-head1 '>Healthcare Companies & Startups</p>
+                    </div>
+                    <div className="col-md-6" data-aos-delay="300">
+                        <div className="">
+                            <img src={path + 'Health-Checkup-Near-You2.jpg'} alt="" className='img-fluid radius10' />
+                        </div>
+                        <p className='semi-head1 '>Health Checkup Near You</p>
+                    </div>
+                </div>
+            </div> */}
+
+
+
+
 
             {/* service by accreditations start */}
+
+
+
 
 
             <div className='container margin-top3'>
@@ -588,7 +975,7 @@ function Home1() {
 
                     </div>
 
-                  
+
 
                 </div>
 
@@ -731,96 +1118,14 @@ function Home1() {
 
 
 
-            {/* Diagnostic  Centres Near You start  */}
 
 
 
-            <div className="container margin-top3">
-                <div className="row d-flex justify-content-between">
-                    <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Diagnostics  Centres Near You</h2>
-                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
-
-
-                    </div>
-
-                    <div className="col-md-3 col-4 text-end d-flex  justify-content-end align-items-center">
-                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
-                    </div>
-
-                </div>
-
-
-
-                <div className="row Public-Sector-Corporates-container g-2 mt-2">
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "Xray2.png"} alt="" className='img-fluid border-hover' />
-                            </div>
-
-                            <p className='semi-head1 mt-2'>Xray  </p>
-                        </a>
-                    </div>
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "CTSCAN2.png"} alt="" className='img-fluid border-hover' />
-                            </div>
-                            <p className='semi-head1 mt-2'>MRI</p>
-                        </a>
-                    </div>
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "Sonography1.png"} alt="" className='img-fluid border-hover' />
-                            </div>
-
-                            <p className='semi-head1 mt-2'>Sonography</p>
-                        </a>
-                    </div>
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "PATHOLOGY1.png"} alt="" className='img-fluid border-hover' />
-                            </div>
-
-                            <p className='semi-head1 mt-2'>Lab/Pathology </p>
-                        </a>
-                    </div>
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "CTSCAN3.png"} alt="" className='img-fluid border-hover' />
-                            </div>
-
-                            <p className='semi-head1 mt-2'>CT Scan</p>
-                        </a>
-                    </div>
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "2DECHO.png"} alt="" className='img-fluid border-hover' />
-                            </div>
-
-                            <p className='semi-head1 mt-2'>2D Echo</p>
-                        </a>
-                    </div>
-
-                </div>
-            </div>
-
-
-
-            {/* Diagnostic  Centres Near You End  */}
-
-
-
-            <div className="container margin-top3 ">
+            {/* <div className="container margin-top3 ">
                 <div className="">
                     <img src={path + 'medical-equipment.jpeg'} alt="" className='img-fluid border-r-10' />
                 </div>
-            </div>
+            </div> */}
 
 
             {/* Services By Health Concern start  */}
@@ -842,7 +1147,7 @@ function Home1() {
 
                 </div>
 
-                <div className="d-flex  Services-By-Health-Concern mt-4"   data-aos-delay="300">
+                <div className="d-flex  Services-By-Health-Concern mt-4" data-aos-delay="300">
                     <div className=" text-center">
                         <a href="" className='a-links'>
                             <div className="text-center">
@@ -909,7 +1214,7 @@ function Home1() {
 
                 <div className="row d-flex justify-content-between">
                     <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Popular Hospitals In Mumbai</h2>
+                        <h2 className='homepage-section-heading'>Popular Hospitals In India</h2>
                         {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
 
 
@@ -924,7 +1229,7 @@ function Home1() {
 
                 <div className="row g-3  mt-1">
 
-                    <div className="col-md-3 col-6"   data-aos-delay="600">
+                    <div className="col-md-3 col-6" data-aos-delay="600">
                         <a href="" className='a-links'>
                             <div className="">
                                 <img src={path + "SAIFEE-HOSPITAL.png"} alt="" className='img-fluid services-img' />
@@ -934,7 +1239,7 @@ function Home1() {
                         </a>
                     </div>
 
-                    <div className="col-md-3 col-6"   data-aos-delay="700">
+                    <div className="col-md-3 col-6" data-aos-delay="700">
                         <a href="" className='a-links'>
                             <div className="">
                                 <img src={path + "MAX-NANAVATI-HOSPITAL.png"} alt="" className='img-fluid services-img' />
@@ -944,7 +1249,7 @@ function Home1() {
                         </a>
                     </div>
 
-                    <div className="col-md-3 col-6"   data-aos-delay="800">
+                    <div className="col-md-3 col-6" data-aos-delay="800">
                         <a href="" className='a-links'>
                             <div className="">
                                 <img src={path + "GLOBAL-HOSPITAL.png"} alt="" className='img-fluid services-img' />
@@ -954,7 +1259,7 @@ function Home1() {
                         </a>
                     </div>
 
-                    <div className="col-md-3 col-6"   data-aos-delay="900">
+                    <div className="col-md-3 col-6" data-aos-delay="900">
                         <a href="" className='a-links'>
                             <div className="">
                                 <img src={path + "KOKILABEN-HOSPITAL.png"} alt="" className='img-fluid services-img' />
@@ -1113,6 +1418,126 @@ function Home1() {
 
 
 
+            {/* Healthcare Videos start  */}
+
+
+            <div className="container margin-top3">
+
+
+
+                <div className="row d-flex justify-content-between">
+                    <div className="col-md-6 col-8">
+                        <h2 className='homepage-section-heading'>Healthcare Videos</h2>
+                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
+
+
+
+                    </div>
+
+                    <div className="col-md-3 col-4 text-end d-flex justify-content-end align-items-center">
+                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
+                    </div>
+
+                </div>
+
+                <div className="row mt-3 g-3">
+                    <div className="col-md-4 pe-1">
+                        <div className="">
+                            <iframe
+                                width="100%"
+                                height="215"
+                                src="https://www.youtube.com/embed/YZ84iQrbYjw?si=mgCWIRNdpW0cOvJ6" 
+                                title="YouTube video player"
+                                frameborder="0" 
+                                class="radius10"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen>
+                            </iframe>
+                        </div>
+                    </div>
+                    <div className="col-md-4 pe-1">
+                        <div className="">
+                            <iframe
+                                width="100%"
+                                height="215"
+                                src="https://www.youtube.com/embed/z2Bbm1Jr0mI?si=dU7ihUF2GeryH-Mt"
+                                title="YouTube video player"
+                                frameborder="0" 
+                                class="radius10"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen>
+                            </iframe>
+                        </div>
+                    </div>
+                    <div className="col-md-4 pe-1">
+                        <div className="">
+                            <iframe
+                                width="100%"
+                                height="215"
+                                src="https://www.youtube.com/embed/y6N8u4OGgXk?si=CK5WiLzO8SzUoWAO"
+                                title="YouTube video player"
+                                frameborder="0" 
+                                class="radius10"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen>
+                            </iframe>
+                        </div>
+                    </div>
+                    <div className="col-md-4 pe-1">
+                        <div className="">
+                            <iframe
+                                width="100%"
+                                height="215"
+                                src="https://www.youtube.com/embed/YZ84iQrbYjw?si=mgCWIRNdpW0cOvJ6" 
+                                title="YouTube video player"
+                                frameborder="0" 
+                                class="radius10"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen>
+                            </iframe>
+                        </div>
+                    </div>
+                    <div className="col-md-4 pe-1">
+                        <div className="">
+                            <iframe
+                                width="100%"
+                                height="215"
+                                src="https://www.youtube.com/embed/z2Bbm1Jr0mI?si=dU7ihUF2GeryH-Mt"
+                                title="YouTube video player"
+                                frameborder="0" 
+                                class="radius10"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen>
+                            </iframe>
+                        </div>
+                    </div>
+                    <div className="col-md-4 pe-1">
+                        <div className="">
+                            <iframe
+                                width="100%"
+                                height="215"
+                                src="https://www.youtube.com/embed/y6N8u4OGgXk?si=CK5WiLzO8SzUoWAO"
+                                title="YouTube video player"
+                                frameborder="0" 
+                                class="radius10"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+
+                
+
+
+            </div>
+
+
+            {/* Healthcare Videos End  */}
+
+
+
+
             {/* Articles start  */}
 
 
@@ -1185,18 +1610,6 @@ function Home1() {
 
 
             {/* Articles End  */}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
