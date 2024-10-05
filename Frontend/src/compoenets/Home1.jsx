@@ -24,10 +24,15 @@ AOS.init({
 
 
 const data = [
+    // {
+    //     id: 1,
+    //     name: "Organ Transplant Centres",
+    //     img: 'Organ-Transplant-Centres.png'
+    // },
     {
         id: 1,
-        name: "Organ Transplant Centres",
-        img: 'Organ-Transplant-Centres.png'
+        name: "General Surgery",
+        img: 'specialities/General-Surgery.jpg'
     },
     {
         id: 2,
@@ -39,10 +44,15 @@ const data = [
         name: "Pediatric Centres",
         img: 'Pediatric-Centres1.jpg'
     },
+    // {
+    //     id: 4,
+    //     name: "Heart Care Centres",
+    //     img: 'Heart-Care-Centres.png'
+    // },
     {
         id: 4,
-        name: "Heart Care Centres",
-        img: 'Heart-Care-Centres.png'
+        name: "Cardiology",
+        img: 'HomeCare-services2.jpg'
     },
     {
         id: 5,
@@ -82,22 +92,23 @@ const data = [
 const data1 = [
     {
         id: 1,
-        name: "Skin Care Centres",
+        name: "Dermatology",
         img: 'Skincare-Centres1.jpg'
     },
     {
         id: 2,
-        name: "Test Tube Baby Centres",
-        img: 'Test-Tube-Baby-Centres1.jpg'
+
+        name: "Dietetics",
+        img: 'specialities/Dietetics.jpg'
     },
     {
         id: 3,
-        name: "Kidney Care Centres",
+        name: "Nephrology",
         img: 'Kidney-care-Centres.png'
     },
     {
         id: 4,
-        name: "Cancer Care Centres",
+        name: "Oncology",
         img: 'Cancer-Centres.jpg'
     },
     {
@@ -172,8 +183,8 @@ const data1 = [
     },
     {
         id: 19,
-        name: "Dietetics",
-        img: 'specialities/Dietetics.jpg'
+        name: "Test Tube Baby Centres",
+        img: 'Test-Tube-Baby-Centres1.jpg'
     },
     {
         id: 20,
@@ -313,10 +324,10 @@ function Home1() {
                     <div className="col-md-3 col-6 " data-aos-delay="500">
                         <a href="" className='a-links'>
                             <div className="">
-                                <img src={path + "Donate.jpg"} alt="" className='img-fluid services-img' />
+                                <img src={path + "Orthotics-Prosthetics.jpg"} alt="" className='img-fluid services-img' />
                             </div>
 
-                            <p className='semi-head1 mb-0'>Financial Help for Treatment</p>
+                            <p className='semi-head1 mb-0'>Orthotics & Prosthetics</p>
                         </a>
                     </div>
 
@@ -453,7 +464,7 @@ function Home1() {
                     // ={{
                     //   nextEl: '.swiper-button-next',
                     // }}
-                    autoplay={{ delay: 5000 }}
+                    autoplay={{ delay: 10000 }}
                     breakpoints={{
                         0: {
                             slidesPerView: 2,
@@ -515,7 +526,7 @@ function Home1() {
                     // ={{
                     //   nextEl: '.swiper-button-next',
                     // }}
-                    autoplay={{ delay: 10000 }}
+                    autoplay={{ delay: 15000 }}
                     breakpoints={{
                         0: {
                             slidesPerView: 2,
@@ -569,7 +580,7 @@ function Home1() {
             <div className="container margin-top3">
                 <div className="row d-flex justify-content-between">
                     <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Diagnostics  Centres Near You</h2>
+                        <h2 className='homepage-section-heading'>Diagnostic  Centres Near You</h2>
                         {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
 
 
@@ -797,7 +808,7 @@ function Home1() {
                                 <img src={path + "mpt-logo.png"} alt="" className='img-fluid' />
                             </div>
                             <p className='mb-0 mt-2 semi-head1'>MPT</p>
-                         
+
                         </a>
                     </div>
                     <div className="col-md-2 col-6 text-center">
@@ -806,7 +817,7 @@ function Home1() {
                                 <img src={path + "cghs-logo.jpg"} alt="" className='img-fluid cghs-logo' />
                             </div>
                             <p className='mb-0 mt-2 semi-head1'>CGHS</p>
-                        
+
                         </a>
                     </div>
                     <div className="col-md-2 col-6 text-center">
@@ -815,7 +826,7 @@ function Home1() {
                                 <img src={path + "mjpjay-logo.png"} alt="" className='img-fluid' />
                             </div>
                             <p className='mb-0 mt-2 semi-head1'>MJPJAY</p>
-                           
+
                         </a>
                     </div>
                     <div className="col-md-2 col-6 text-center">
@@ -824,7 +835,7 @@ function Home1() {
                                 <img src={path + "esic-logo.png"} alt="" className='img-fluid' />
                             </div>
                             <p className='mb-0 mt-2 semi-head1'>ESIC</p>
-                           
+
                         </a>
                     </div>
 
@@ -834,7 +845,7 @@ function Home1() {
                                 <img src={path + "pmjay-logo2.png"} alt="" className='img-fluid' />
                             </div>
                             <p className='mb-0 mt-2 semi-head1'>PMJAY</p>
-                       
+
                         </a>
                     </div>
                     <div className="col-md-2 col-6 text-center">
@@ -843,7 +854,7 @@ function Home1() {
                                 <img src={path + "indian_railway_logo.jpg"} alt="" className='img-fluid ' />
                             </div>
                             <p className='mb-0 mt-2 semi-head1'>Railway </p>
-                        
+
 
 
                         </a>
@@ -895,7 +906,7 @@ function Home1() {
                                 <img src={path + "Test-Tube-Baby-Centres1.jpg"} alt="" className='img-fluid services-img' />
                             </div>
 
-                            <p className='semi-head1 '> Ayurveda Centres</p>
+                            <p className='semi-head1 '> Test Tube Baby / IVF Centres</p>
                         </a>
                     </div>
 
@@ -1121,11 +1132,11 @@ function Home1() {
 
 
 
-            {/* <div className="container margin-top3 ">
+            <div className="container margin-top3 ">
                 <div className="">
-                    <img src={path + 'medical-equipment.jpeg'} alt="" className='img-fluid border-r-10' />
+                    <img src={path + 'Health-Checkup.jpg'} alt="" className='img-fluid border-r-10' />
                 </div>
-            </div> */}
+            </div>
 
 
             {/* Services By Health Concern start  */}
@@ -1148,7 +1159,7 @@ function Home1() {
                 </div>
 
                 <div className="d-flex  Services-By-Health-Concern mt-4" data-aos-delay="300">
-                    <div className=" text-center">
+                    <div className="">
                         <a href="" className='a-links'>
                             <div className="text-center">
                                 <img src={path + "Depression-Anxiety1.jpg"} alt="" className='img-fluid' />
@@ -1157,7 +1168,7 @@ function Home1() {
                             <p className='semi-head1 mt-2'>Depression or Anxiety ? </p>
                         </a>
                     </div>
-                    <div className=" text-center px-3">
+                    <div className=" px-3">
                         <a href="" className='a-links'>
                             <div className="text-center">
                                 <img src={path + "Pregnant.png"} alt="" className='img-fluid' />
@@ -1165,7 +1176,7 @@ function Home1() {
                             <p className='semi-head1 mt-2'>Pregnant ?</p>
                         </a>
                     </div>
-                    <div className=" text-center">
+                    <div className="">
                         <a href="" className='a-links'>
                             <div className="text-center">
                                 <img src={path + "Joint-Pains.png"} alt="" className='img-fluid' />
@@ -1174,7 +1185,7 @@ function Home1() {
                             <p className='semi-head1 mt-2 '>Joint Pains ?</p>
                         </a>
                     </div>
-                    <div className=" text-center px-3">
+                    <div className=" px-3">
                         <a href="" className='a-links'>
                             <div className="text-center">
                                 <img src={path + "Ear-Problems.png"} alt="" className='img-fluid' />
@@ -1183,7 +1194,7 @@ function Home1() {
                             <p className='semi-head1 mt-2'>Ear Problems ?</p>
                         </a>
                     </div>
-                    <div className=" text-center">
+                    <div className=" ">
                         <a href="" className='a-links'>
                             <div className="text-center">
                                 <img src={path + "Digestion-Issues.png"} alt="" className='img-fluid' />
@@ -1446,9 +1457,9 @@ function Home1() {
                             <iframe
                                 width="100%"
                                 height="215"
-                                src="https://www.youtube.com/embed/YZ84iQrbYjw?si=mgCWIRNdpW0cOvJ6" 
+                                src="https://www.youtube.com/embed/YZ84iQrbYjw?si=mgCWIRNdpW0cOvJ6"
                                 title="YouTube video player"
-                                frameborder="0" 
+                                frameborder="0"
                                 class="radius10"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen>
@@ -1462,7 +1473,7 @@ function Home1() {
                                 height="215"
                                 src="https://www.youtube.com/embed/z2Bbm1Jr0mI?si=dU7ihUF2GeryH-Mt"
                                 title="YouTube video player"
-                                frameborder="0" 
+                                frameborder="0"
                                 class="radius10"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen>
@@ -1476,7 +1487,7 @@ function Home1() {
                                 height="215"
                                 src="https://www.youtube.com/embed/y6N8u4OGgXk?si=CK5WiLzO8SzUoWAO"
                                 title="YouTube video player"
-                                frameborder="0" 
+                                frameborder="0"
                                 class="radius10"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen>
@@ -1488,9 +1499,9 @@ function Home1() {
                             <iframe
                                 width="100%"
                                 height="215"
-                                src="https://www.youtube.com/embed/YZ84iQrbYjw?si=mgCWIRNdpW0cOvJ6" 
+                                src="https://www.youtube.com/embed/YZ84iQrbYjw?si=mgCWIRNdpW0cOvJ6"
                                 title="YouTube video player"
-                                frameborder="0" 
+                                frameborder="0"
                                 class="radius10"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen>
@@ -1504,7 +1515,7 @@ function Home1() {
                                 height="215"
                                 src="https://www.youtube.com/embed/z2Bbm1Jr0mI?si=dU7ihUF2GeryH-Mt"
                                 title="YouTube video player"
-                                frameborder="0" 
+                                frameborder="0"
                                 class="radius10"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen>
@@ -1518,7 +1529,7 @@ function Home1() {
                                 height="215"
                                 src="https://www.youtube.com/embed/y6N8u4OGgXk?si=CK5WiLzO8SzUoWAO"
                                 title="YouTube video player"
-                                frameborder="0" 
+                                frameborder="0"
                                 class="radius10"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen>
@@ -1527,7 +1538,7 @@ function Home1() {
                     </div>
                 </div>
 
-                
+
 
 
             </div>
@@ -1565,8 +1576,8 @@ function Home1() {
                         <div className="">
                             <img src={path + 'Articles-img1.png'} alt="" className='img-fluid' />
                         </div>
-                        <p className='mb-0  mt-3 text-center'> <i>in</i> <span className='wellness'>WELLNESS</span></p>
-                        <p className=' mb-0  semi-head1 text-center'>The Transformative Power of Early Mornings:
+                        <p className='mb-0  mt-3 '> <i>in</i> <span className='wellness'>WELLNESS</span></p>
+                        <p className=' mb-0  semi-head1'>The Transformative Power of Early Mornings:
                             Embracing the Benefits of Waking Up Early
                         </p>
                     </div>
@@ -1574,8 +1585,8 @@ function Home1() {
                         <div className="">
                             <img src={path + 'Articles-img2.png'} alt="" className='img-fluid' />
                         </div>
-                        <p className='mb-0  mt-3 text-center'> <i>in</i> <span className='wellness'>WELLNESS</span></p>
-                        <p className=' mb-0  semi-head1 text-center'>Taming the Appetite: Harnessing Natural
+                        <p className='mb-0  mt-3 '> <i>in</i> <span className='wellness'>WELLNESS</span></p>
+                        <p className=' mb-0  semi-head1 '>Taming the Appetite: Harnessing Natural
                             Appetite Suppressants for Weight Control
 
                         </p>
@@ -1584,8 +1595,8 @@ function Home1() {
                         <div className="">
                             <img src={path + 'Articles-img3.png'} alt="" className='img-fluid' />
                         </div>
-                        <p className='mb-0  mt-3 text-center'> <i>in</i> <span className='wellness'>WELLNESS</span></p>
-                        <p className=' mb-0  semi-head1 text-center'>Dive into Wellness: The Incredible Benifits of Swimming
+                        <p className='mb-0  mt-3 '> <i>in</i> <span className='wellness'>WELLNESS</span></p>
+                        <p className=' mb-0  semi-head1 '>Dive into Wellness: The Incredible Benefits of Swimming
 
                         </p>
                     </div>
