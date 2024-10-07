@@ -327,7 +327,7 @@ function Home1() {
                                 <img src={path + "Orthotics-Prosthetics.jpg"} alt="" className='img-fluid services-img' />
                             </div>
 
-                            <p className='semi-head1 mb-0'>Orthotics & Prosthetics</p>
+                            <p className='semi-head1 mb-0'>Orthotic & Prosthetics</p>
                         </a>
                     </div>
 
@@ -950,6 +950,14 @@ function Home1() {
 
             {/* More services End  */}
 
+
+
+            <div className="container margin-top3 ">
+                <div className="">
+                    <img src={path + 'Health-Checkup.jpg'} alt="" className='img-fluid border-r-10' />
+                </div>
+            </div>
+
             {/* <div className="container margin-top3">
                 <div className="row">
                     <div className="col-md-6" data-aos-delay="300">
@@ -1132,11 +1140,7 @@ function Home1() {
 
 
 
-            <div className="container margin-top3 ">
-                <div className="">
-                    <img src={path + 'Health-Checkup.jpg'} alt="" className='img-fluid border-r-10' />
-                </div>
-            </div>
+
 
 
             {/* Services By Health Concern start  */}
