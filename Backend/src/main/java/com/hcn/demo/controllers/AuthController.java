@@ -1,12 +1,11 @@
-package com.hcn.demo.Controllers;
+package com.hcn.demo.controllers;
 
-import com.hcn.demo.Models.JwtRequest;
-import com.hcn.demo.Models.JwtResponse;
-import com.hcn.demo.Models.User;
-import com.hcn.demo.Security.JwtHelper;
-import com.hcn.demo.Services.UserService;
+import com.hcn.demo.models.JwtRequest;
+import com.hcn.demo.models.JwtResponse;
+import com.hcn.demo.models.User;
+import com.hcn.demo.security.JwtHelper;
+import com.hcn.demo.services.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,21 +22,21 @@ import java.util.Map;
 @RequestMapping(value = "/v1/api/auth")
 public class AuthController {
 
-    @Autowired
-    private UserService userServ;
+    private final UserService userServ;
+    private final UserDetailsService userDetailsService;
+    private final AuthenticationManager manager;
+    private final JwtHelper helper;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
-    private AuthenticationManager manager;
-
-    @Autowired
-    private JwtHelper helper;
+    public AuthController(UserService userServ, UserDetailsService userDetailsService, AuthenticationManager manager, JwtHelper helper){
+        this.helper = helper;
+        this.manager = manager;
+        this.userDetailsService = userDetailsService;
+        this.userServ = userServ;
+    }
 
 
     @PostMapping(value = "/register")
-    public ResponseEntity<?> register(@RequestBody User user){
+    public ResponseEntity<Map<String, Object>> register(@RequestBody User user){
         try{
             User savedUser =  userServ.addUser(user);
             Map<String, Object> response = new HashMap<>();
@@ -52,7 +51,7 @@ public class AuthController {
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<?> login(@RequestBody JwtRequest request){
+    public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request){
         try{
             this.doAuthenticate(request.getEmail(), request.getPassword());
             User userDetails = (User)userDetailsService.loadUserByUsername(request.getEmail());
@@ -62,7 +61,7 @@ public class AuthController {
                     .role(String.valueOf(userDetails.getRole()))
                     .build();
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch(Exception e){
+        }catch(RuntimeException e){
             throw new RuntimeException(e.getMessage());
         }
     }

@@ -28,8 +28,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
-            <Route path="ServiceListing" element={<ServiceListing />}>
-              {/* <Route path="service/:id" element={<Services />} /> */}
+            <Route path="/listing" element={<ServiceListing />}> 
             </Route>
             <Route path="services/" element={<Services />} />
           </Route>

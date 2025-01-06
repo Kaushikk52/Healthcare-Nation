@@ -1,7 +1,7 @@
-package com.hcn.demo.Controllers;
+package com.hcn.demo.controllers;
 
-import com.hcn.demo.Models.User;
-import com.hcn.demo.Services.UserService;
+import com.hcn.demo.models.User;
+import com.hcn.demo.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,8 +19,12 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/v1/api/user")
 public class UserController {
 
+    private final UserService userServ;
+
     @Autowired
-    private UserService userServ;
+    public UserController(UserService userServ){
+        this.userServ = userServ;
+    }
 
     @GetMapping(value = "/all")
     public ResponseEntity<Map<String,Object>> getAllUsers(){
@@ -85,7 +89,6 @@ public class UserController {
             log.warn("An Error occurred : {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
-
     }
 
     @GetMapping(value = "/{id}")
@@ -99,6 +102,4 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
-
-
 }

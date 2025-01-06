@@ -1,8 +1,8 @@
-package com.hcn.demo.Services;
+package com.hcn.demo.services;
 
-import com.hcn.demo.Models.User;
-import com.hcn.demo.Repositories.UserRepo;
-import com.hcn.demo.Security.JwtHelper;
+import com.hcn.demo.models.User;
+import com.hcn.demo.repositories.UserRepo;
+import com.hcn.demo.security.JwtHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -31,33 +31,34 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.findByEmail(username);
-        if(user.equals(null)){
+        if(user == null){
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
         return user;
     }
 
     public List<User> getAllUsers(){
-        List<User> users = userRepo.findAll();
-        return users;
+        return userRepo.findAll();
     }
 
     public User getUserById(String id){
-        User user = userRepo.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-        return user;
+        return userRepo.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     public User getCurrentUserRole(Principal principal){
-        User currentUser = (User) this.loadUserByUsername(principal.getName());
-        return  currentUser;
+        return (User) this.loadUserByUsername(principal.getName());
     }
 
     public User addUser(User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         String token = this.helper.generateToken(user);
         user.setToken(token);
-        User savedUser =  userRepo.save(user);
-        return savedUser;
+        return userRepo.save(user);
+    }
+
+    public void deleteUser(Principal principal){
+        User principalUser = (User) loadUserByUsername(principal.getName());
+        userRepo.delete(principalUser);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.hcn.demo.Security;
+package com.hcn.demo.security;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;

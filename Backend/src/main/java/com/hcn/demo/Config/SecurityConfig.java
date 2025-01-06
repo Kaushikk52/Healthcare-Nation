@@ -1,8 +1,8 @@
 package com.hcn.demo.Config;
 
 
-import com.hcn.demo.Security.JwtAuthenticationEntryPoint;
-import com.hcn.demo.Security.JwtAuthenticationFilter;
+import com.hcn.demo.security.JwtAuthenticationEntryPoint;
+import com.hcn.demo.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,7 +36,6 @@ public class SecurityConfig {
         this.filter = filter;
     }
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
@@ -51,6 +50,12 @@ public class SecurityConfig {
 
                         // Users endpoints
                         .requestMatchers(HttpMethod.GET, "/v1/api/user/**").permitAll()
+
+                        // Hospital endpoints
+                        .requestMatchers(HttpMethod.GET,"/v1/api/hospital/**").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/v1/api/hospital/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT,"/v1/api/hospital/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE,"/v1/api/hospital/remove").hasRole("ADMIN")
 
                 )
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(point))

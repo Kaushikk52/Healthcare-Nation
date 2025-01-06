@@ -1,4 +1,4 @@
-package com.hcn.demo.Models;
+package com.hcn.demo.models;
 
 import lombok.*;
 

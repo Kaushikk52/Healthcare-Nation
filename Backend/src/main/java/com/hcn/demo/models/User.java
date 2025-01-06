@@ -1,4 +1,4 @@
-package com.hcn.demo.Models;
+package com.hcn.demo.models;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -41,6 +41,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, length = 10)
     private UserRole role;
+
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    private List<Review> reviews;
 
     public enum UserRole {
         ROLE_USER,ROLE_ADMIN;

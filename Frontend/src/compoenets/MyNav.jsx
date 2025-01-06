@@ -9,6 +9,7 @@ function MyNav() {
 
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [openToggle, setOpenToggle] = useState(false);
     const navigate = useNavigate();
 
     const handleResize = () => {
@@ -29,6 +30,15 @@ function MyNav() {
         }
     };
 
+    const checkIfLogin = ()=>{
+        const token = localStorage.getItem('token');
+        if(!token){
+            setOpenToggle(true);
+        }else {
+            setOpenToggle(false);
+            navigate(`/`);
+        }
+    }
 
     const path = import.meta.env.VITE_APP_IMG_URL;
     return (
@@ -69,7 +79,9 @@ function MyNav() {
 
                     <div className="col-md-2 d-flex align-self-center justify-content-center">
                         <div className="signupin-box text-center p-1 sign-laptop">
-                            <a href="#" className='singupa'>Sign Up</a> |
+                            <button onClick={checkIfLogin}>
+                                <a href="#" className='singupa' >Sign Up</a> |
+                            </button>
                             <a href="#" className='singupa'> Sign In</a>
                         </div>
                     
@@ -101,20 +113,13 @@ function MyNav() {
                         <span className="d-flex vadhiya">
                             <img src={path + 'search.png'} alt="" height="15px" className="ms-2" /> <input type="text"
                                 placeholder="search here" className="background-first p-1 text14 inp" /></span>
-
                     </div>
-
                 </div>
-
-
-
-
                 <div className="horizontal-line"></div>
             </div>
 
 
             {/* navbar start  */}
-
             <nav className="navbar navbar-expand-lg navbar-light py-0 px-3 sticky1">
                 <div className="container-fluid">
                     <a className="navbar-brand" href="#"><img src={path + 'HealthCare Nation 2.png'} alt="" className="logo-phone" /></a>
@@ -136,7 +141,7 @@ function MyNav() {
                             <li>
                                 <div className="nav-item dropdown nav-dropdown">
                                     <NavLink
-                                        to='/Services'
+                                        to='/services'
                                         className="nav-link navlink1 dropdown-toggle"
                                         onClick={handleServicesClick}
                                     >
@@ -159,7 +164,7 @@ function MyNav() {
 
                             <li>
                                 <div className="nav-item dropdown nav-dropdown">
-                                    <NavLink to='/ServiceListing' className="nav-link navlink1 dropdown-toggle" >
+                                    <NavLink to='/listing' className="nav-link navlink1 dropdown-toggle" >
                                         Corporates
                                     </NavLink>
                                     <div className="dropdown-menu bg-light rounded-0 rounded-bottom m-0">
@@ -176,7 +181,7 @@ function MyNav() {
 
                             <li>
                                 <div className="nav-item dropdown nav-dropdown">
-                                    <NavLink to='/services' className="nav-link navlink1 dropdown-toggle" >
+                                    <NavLink to='/specialities' className="nav-link navlink1 dropdown-toggle" >
                                         Specialities
                                     </NavLink>
                                     <div className="dropdown-menu bg-light rounded-0 rounded-bottom m-0">
@@ -194,7 +199,7 @@ function MyNav() {
 
                             <li>
                                 <div className="nav-item dropdown nav-dropdown">
-                                    <NavLink to='/services' className="nav-link navlink1 dropdown-toggle" >
+                                    <NavLink to='/diagnostics' className="nav-link navlink1 dropdown-toggle" >
                                         Diagnostics
                                     </NavLink>
                                     <div className="dropdown-menu bg-light rounded-0 rounded-bottom m-0">
@@ -211,7 +216,7 @@ function MyNav() {
 
                             <li>
                                 <div className="nav-item dropdown nav-dropdown">
-                                    <NavLink to='/services' className="nav-link navlink1 dropdown-toggle" >
+                                    <NavLink to='/health-concerns' className="nav-link navlink1 dropdown-toggle" >
                                         Health Concerns
                                     </NavLink>
                                     <div className="dropdown-menu bg-light rounded-0 rounded-bottom m-0">
@@ -224,11 +229,6 @@ function MyNav() {
                                     </div>
                                 </div>
                             </li>
-
-
-
-
-
 
                             <li className="nav-item">
                                 <a className="nav-link navlink1" href="#">Insurance</a>
