@@ -1,9 +1,11 @@
 package com.hcn.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
@@ -28,4 +30,11 @@ public class Rating {
     private int rating;
 
     private LocalDateTime createdAt;
+
+    @PrePersist
+    public void prePersis() {
+        if (this.id == null) {
+            this.id = UUID.randomUUID().toString();
+        }
+    }
 }

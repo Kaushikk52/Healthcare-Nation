@@ -3,7 +3,10 @@ package com.hcn.demo.services;
 import com.hcn.demo.models.User;
 import com.hcn.demo.repositories.UserRepo;
 import com.hcn.demo.security.JwtHelper;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -31,7 +34,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.findByEmail(username);
-        if(user == null){
+        if(user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
         return user;
@@ -47,6 +50,19 @@ public class UserService implements UserDetailsService {
 
     public User getCurrentUserRole(Principal principal){
         return (User) this.loadUserByUsername(principal.getName());
+    }
+
+    public String checkAndRenewToken(User user){
+        String token = user.getToken();
+        try{
+            boolean isExpired = this.helper.isTokenExpired(token);
+        }catch(ExpiredJwtException e){
+            String newToken = this.helper.generateToken(user);
+            user.setToken(newToken);
+            userRepo.save(user);
+            return newToken;
+        }
+        return token;
     }
 
     public User addUser(User user){

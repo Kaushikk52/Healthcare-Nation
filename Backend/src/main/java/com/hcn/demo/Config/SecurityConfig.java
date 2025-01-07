@@ -54,8 +54,8 @@ public class SecurityConfig {
                         // Hospital endpoints
                         .requestMatchers(HttpMethod.GET,"/v1/api/hospital/**").permitAll()
                         .requestMatchers(HttpMethod.POST,"/v1/api/hospital/**").permitAll()
-                        .requestMatchers(HttpMethod.PUT,"/v1/api/hospital/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE,"/v1/api/hospital/remove").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT,"/v1/api/hospital/edit/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE,"/v1/api/hospital/**").hasRole("ADMIN")
 
                 )
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(point))
@@ -65,8 +65,6 @@ public class SecurityConfig {
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
-
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

@@ -1,5 +1,6 @@
 package com.hcn.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -7,6 +8,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.OptionalDouble;
 import java.util.UUID;
 
 @Entity
@@ -65,9 +67,11 @@ public class Hospital {
     private Double avgRating;
 
     @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({"hospital","user"})
     private List<Rating> ratings;
 
     @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"hospital","user"})
     private List<Review> reviews;
 
     @ManyToMany

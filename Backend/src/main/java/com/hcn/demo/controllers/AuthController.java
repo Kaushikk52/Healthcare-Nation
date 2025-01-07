@@ -55,8 +55,9 @@ public class AuthController {
         try{
             this.doAuthenticate(request.getEmail(), request.getPassword());
             User userDetails = (User)userDetailsService.loadUserByUsername(request.getEmail());
+            String token = userServ.checkAndRenewToken(userDetails);
             JwtResponse response = JwtResponse.builder()
-                    .jwtToken(userDetails.getToken())
+                    .jwtToken(token)
                     .name(userDetails.getUsername())
                     .role(String.valueOf(userDetails.getRole()))
                     .build();
