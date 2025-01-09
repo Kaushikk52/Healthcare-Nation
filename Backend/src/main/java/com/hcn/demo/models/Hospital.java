@@ -8,7 +8,6 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.OptionalDouble;
 import java.util.UUID;
 
 @Entity

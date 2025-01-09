@@ -66,11 +66,14 @@ public class HospitalController {
     }
 
     @GetMapping(value = "/filter")
-    public ResponseEntity<Map<String,Object>> getFilteredHospitals(@RequestParam(required = false) String type){
+    public ResponseEntity<Map<String,Object>> getFilteredHospitals(@RequestParam(required = false) String type,
+    @RequestParam(required = false) List<String> services
+    ){
         Map<String,Object> response = new HashMap<>();
         try{
             Map<String,Object> filters = new HashMap<>();
             if(type != null) filters.put("type",type);
+            if (services != null && !services.isEmpty()) filters.put("services", services);
             List<Hospital> filteredHospitals = hospitalServ.getFilteredHospitals(filters);
             if(filteredHospitals.isEmpty()) {
                 log.warn("No Hospitals found");
