@@ -1,29 +1,14 @@
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import MyNav from './compoenets/MyNav'
-import Carousel from './compoenets/Carousel';
-import Home1 from './compoenets/Home1';
-import Footer from './compoenets/Footer';
-import Services from './compoenets/Services/Services';
-import Layout from './compoenets/Layout';
-import Home from './compoenets/Home';
-import ServiceListing from './compoenets/Services/ServiceListing';
-
-
-
-
+import Services from './components/Services/Services';
+import Layout from './components/Layout';
+import Home from './components/Home';
+import ServiceListing from './components/Services/ServiceListing';
 
 function App() {
 
   return (
     <>
-      {/* <MyNav/>
-    <Carousel/>
-    <Home1/>
-    <Footer/>
-    <Services/> */}
-
-
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -34,17 +19,9 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-
-
-
-
-
-
-
-
-
     </>
   )
 }
 
-export default App
+export default App;
+
