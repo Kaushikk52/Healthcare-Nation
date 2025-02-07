@@ -8,11 +8,11 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/swiper-bundle.css';
 
-import 'aos/dist/aos.css'; 
+import 'aos/dist/aos.css';
 import AOS from 'aos';
 
 AOS.init({
-    duration: 1200, 
+    duration: 1200,
 });
 
 
@@ -151,12 +151,12 @@ const chooseYourTPA = [
 ]
 
 const healthcareVideos = [
-{link: 'https://www.youtube.com/embed/YZ84iQrbYjw?si=mgCWIRNdpW0cOvJ6',},
-{link: 'https://www.youtube.com/embed/z2Bbm1Jr0mI?si=dU7ihUF2GeryH-Mt',},
-{link: 'https://www.youtube.com/embed/y6N8u4OGgXk?si=CK5WiLzO8SzUoWAO',},
-{link: 'https://www.youtube.com/embed/YZ84iQrbYjw?si=mgCWIRNdpW0cOvJ6',},
-{link: 'https://www.youtube.com/embed/z2Bbm1Jr0mI?si=dU7ihUF2GeryH-Mt',},
-{link: 'https://www.youtube.com/embed/y6N8u4OGgXk?si=CK5WiLzO8SzUoWAO',},
+    { link: 'https://www.youtube.com/embed/YZ84iQrbYjw?si=mgCWIRNdpW0cOvJ6', },
+    { link: 'https://www.youtube.com/embed/z2Bbm1Jr0mI?si=dU7ihUF2GeryH-Mt', },
+    { link: 'https://www.youtube.com/embed/y6N8u4OGgXk?si=CK5WiLzO8SzUoWAO', },
+    { link: 'https://www.youtube.com/embed/YZ84iQrbYjw?si=mgCWIRNdpW0cOvJ6', },
+    { link: 'https://www.youtube.com/embed/z2Bbm1Jr0mI?si=dU7ihUF2GeryH-Mt', },
+    { link: 'https://www.youtube.com/embed/y6N8u4OGgXk?si=CK5WiLzO8SzUoWAO', },
 ]
 
 const articles = [
@@ -531,9 +531,7 @@ function Home1() {
 
                 {/* HEALTH CHECKUP IMAGE */}
                 <div className="!mt-10 ">
-                    <div className="">
-                        <img src={path + 'Health-Checkup.jpg'} alt="" className='rounded-xl' />
-                    </div>
+                    <img src={path + 'Health-Checkup.jpg'} alt="health checkup image" className='rounded-xl' />
                 </div>
 
                 {/* SERVICES BY ACCREDITATIONS SECTION */}
