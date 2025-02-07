@@ -22,8 +22,7 @@ function App() {
     <Home1/>
     <Footer/>
     <Services/> */}
-
-
+    
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
