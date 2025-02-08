@@ -172,23 +172,23 @@ function Home1() {
     return (
         <>
 
-            <div className='max-w-7xl container mx-auto'>
+            <div className='max-w-7xl mx-auto px-4'>
 
                 {/* HEALTHCARE SERVICES SECTION */}
                 <div className='!mt-10'>
                     {/* HEALTHCARE SERVICES HEADING AND EXPLORE MORE BUTTON  */}
-                    <div className='flex justify-between items-center'>
-                        <h3 className='!font-semibold !text-gray-700'>Healthcare Services</h3>
+                    <div className='flex justify-between items-center !space-x-2'>
+                        <h3 className='!text-xl min-[425px]:!text-2xl !font-semibold !text-gray-700'>Healthcare Services</h3>
                         <a
                             style={{
                                 textDecoration: 'none',
                             }}
-                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                            className='!py-1.5 !px-4 !text-xs min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
                         >Explore More</a>
                     </div>
 
                     {/* HEALTHCARE SERVICES GRID IMAGES AND TITLE */}
-                    <div className='grid grid-cols-4 gap-x-3 gap-y-2 !mt-5'>
+                    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-x-3.5 gap-y-3 !mt-5'>
                         {healthcareServices.map((service, index) =>
                             <div
                                 key={index}
@@ -201,14 +201,19 @@ function Home1() {
                                     <img
                                         src={path + service.image}
                                         alt={service.title}
-                                        className='rounded-xl aspect-[3/2]'
+                                        className='rounded-xl h-58 min-[425px]:h-68 sm:h-56 md:h-64 lg:h-46 xl:h-50 w-full aspect-[3/2] object-fit'
                                     />
-                                    <p className='text-[17px] font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482]'>{service.title}</p>
+                                    <p className='text-lg min-[425px]:text-lg sm:text-lg !text-left sm:!text-left font-semibold mt-2 px-1 text-gray-700 group-hover:text-[#9b2482]'>{service.title}</p>
                                 </a>
                             </div>
                         )}
                     </div>
                 </div>
+
+
+
+
+
 
                 {/* POPULAR HEALTHCARE BRANDS SECTION */}
                 <div className='!mt-10'>
@@ -240,6 +245,11 @@ function Home1() {
                         )}
                     </div>
                 </div>
+
+
+
+
+
 
                 {/* SERVICES BY SPECIALITIES SECTION */}
                 <div className='!mt-10'>
@@ -351,6 +361,11 @@ function Home1() {
 
                 </div>
 
+
+
+
+
+
                 {/* DIAGNOSTIC CENTRES NEAR YOU SECTION */}
                 <div className='!mt-10'>
                     {/* DIAGNOSTIC CENTRES NEAR YOU HEADING AND EXPLORE MORE BUTTON  */}
@@ -378,13 +393,18 @@ function Home1() {
                                     <div className="text-center rounded-full h-39 w-39 group-hover:shadow-2xl transition-all">
                                         <img src={path + center.image} alt="Diagnostic Centre image" className='rounded-full h-full w-full object-contain' />
                                     </div>
-                                    <p className='mt-2 text-[17px] font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482]'>{center.title}</p>
+                                    <p className='mt-2 text-[17px] font-semibold text-gray-700 group-hover:text-[#9b2482]'>{center.title}</p>
 
                                 </a>
                             </div>
                         )}
                     </div>
                 </div>
+
+
+
+
+
 
                 {/* ALTERNATIVE MEDICINE SECTION */}
                 <div className='!mt-10'>
@@ -400,7 +420,7 @@ function Home1() {
                     </div>
 
                     {/* ALTERNATIVE MEDICINE GRID IMAGES AND TITLE */}
-                    <div className='grid grid-cols-4 gap-x-3 gap-y-2 !mt-5'>
+                    <div className='grid grid-cols-4 gap-x-3 gap-y-3 !mt-5'>
                         {alternativeMedicine.map((item, index) =>
                             <div
                                 key={index}
@@ -422,6 +442,11 @@ function Home1() {
                     </div>
                 </div>
 
+
+
+
+
+
                 {/* ONLINE HEALTHCARE SERVICES SECTION*/}
                 <div className='!mt-10'>
                     {/* ONLINE HEALTHCARE SERVICES HEADING AND EXPLORE MORE BUTTON  */}
@@ -436,7 +461,7 @@ function Home1() {
                     </div>
 
                     {/*  ONLINE HEALTHCARE SERVICES GRID IMAGES AND TITLE */}
-                    <div className='grid grid-cols-3 gap-x-3 gap-y-2 !mt-5'>
+                    <div className='grid grid-cols-3 gap-x-3 gap-y-3 !mt-5'>
                         {onlineHealthcareServices.map((service, index) =>
                             <div
                                 key={index}
@@ -457,6 +482,11 @@ function Home1() {
                         )}
                     </div>
                 </div>
+
+
+
+
+
 
                 {/* PUBLIC SECTOR CORPORATES SECTION */}
                 <div className='!mt-10'>
@@ -485,13 +515,18 @@ function Home1() {
                                     <div className={`${corporate.borderColor} text-center rounded-full h-36 w-36 transition-all`}>
                                         <img src={path + corporate.image} alt="Diagnostic Centre image" className={` rounded-full h-full w-full object-fit`} />
                                     </div>
-                                    <p className='mt-2 text-[17px] font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482]'>{corporate.title}</p>
+                                    <p className='mt-2 text-[17px] font-semibold text-gray-700 group-hover:text-[#9b2482]'>{corporate.title}</p>
 
                                 </a>
                             </div>
                         )}
                     </div>
                 </div>
+
+
+
+
+
 
                 {/* MORE SERVICES SECTION */}
                 <div className='!mt-10'>
@@ -507,7 +542,7 @@ function Home1() {
                     </div>
 
                     {/* MORE SERVICES GRID IMAGES AND TITLE */}
-                    <div className='grid grid-cols-4 gap-x-3 gap-y-2 !mt-5'>
+                    <div className='grid grid-cols-4 gap-x-3 gap-y-3 !mt-5'>
                         {moreServices.map((service, index) =>
                             <div
                                 key={index}
@@ -529,10 +564,20 @@ function Home1() {
                     </div>
                 </div>
 
+
+
+
+
+
                 {/* HEALTH CHECKUP IMAGE */}
                 <div className="!mt-10 ">
                     <img src={path + 'Health-Checkup.jpg'} alt="health checkup image" className='rounded-xl' />
                 </div>
+
+
+
+
+
 
                 {/* SERVICES BY ACCREDITATIONS SECTION */}
                 <div className='!mt-10'>
@@ -542,7 +587,7 @@ function Home1() {
                     </div>
 
                     {/* SERVICES BY ACCREDITATIONS GRID IMAGES AND TITLE */}
-                    <div className='grid grid-cols-3 gap-x-3 gap-y-2 !mt-5'>
+                    <div className='grid grid-cols-3 gap-x-3 gap-y-3 !mt-5'>
                         {servicesByAccrediations.map((service, index) =>
                             <div
                                 key={index}
@@ -563,6 +608,11 @@ function Home1() {
                     </div>
                 </div>
 
+
+
+
+
+
                 {/* SERVICES BY HEALTH CONCERN */}
                 <div className='!mt-10'>
                     {/* SERVICES BY HEALTH CONCERN AND EXPLORE MORE BUTTON  */}
@@ -577,7 +627,7 @@ function Home1() {
                     </div>
 
                     {/* SERVICES BY HEALTH CONCERN GRID IMAGES AND TITLE */}
-                    <div className='grid grid-cols-5 gap-x-3 gap-y-2 !mt-5'>
+                    <div className='grid grid-cols-5 gap-x-3 gap-y-3 !mt-5'>
                         {servicesByHealthConcern.map((service, index) =>
                             <div
                                 key={index}
@@ -599,6 +649,11 @@ function Home1() {
                     </div>
                 </div>
 
+
+
+
+
+
                 {/* POPULAR HOSPITALS IN INDIA */}
                 <div className='!mt-10'>
                     {/* POPULAR HOSPITALS IN INDIA AND EXPLORE MORE BUTTON */}
@@ -613,7 +668,7 @@ function Home1() {
                     </div>
 
                     {/* POPULAR HOSPITALS IN INDIA GRID IMAGES AND TITLE */}
-                    <div className='grid grid-cols-4 gap-x-3 gap-y-2 !mt-5'>
+                    <div className='grid grid-cols-4 gap-x-3 gap-y-3 !mt-5'>
                         {popularHospitals.map((hospital, index) =>
                             <div
                                 key={index}
@@ -635,6 +690,11 @@ function Home1() {
                     </div>
                 </div>
 
+
+
+
+
+
                 {/* CHOOSE YOUR HEALTH INSURANCE */}
                 <div className='!mt-10'>
                     {/* CHOOSE YOUR HEALTH INSURANCE AND EXPLORE MORE BUTTON */}
@@ -649,7 +709,7 @@ function Home1() {
                     </div>
 
                     {/* CHOOSE YOUR HEALTH INSURANCE GRID IMAGES AND TITLE */}
-                    <div className='grid grid-cols-6 gap-x-2 gap-y-2 !mt-5'>
+                    <div className='grid grid-cols-6 gap-x-2 gap-y-3 !mt-5'>
                         {chooseYourHealthInsurance.map((insurance, index) =>
                             <div
                                 key={index}
@@ -665,6 +725,11 @@ function Home1() {
                     </div>
                 </div>
 
+
+
+
+
+
                 {/* CHOOSE YOUR TPA */}
                 <div className='!mt-10'>
                     {/* CHOOSE YOUR TPA AND EXPLORE MORE BUTTON */}
@@ -679,7 +744,7 @@ function Home1() {
                     </div>
 
                     {/* CHOOSE YOUR TPA GRID IMAGES AND TITLE */}
-                    <div className='grid grid-cols-6 gap-x-2 gap-y-2 !mt-5'>
+                    <div className='grid grid-cols-6 gap-x-2 gap-y-3 !mt-5'>
                         {chooseYourTPA.map((tpa, index) =>
                             <div
                                 key={index}
@@ -695,6 +760,11 @@ function Home1() {
                     </div>
                 </div>
 
+
+
+
+
+
                 {/* HEALTHCARE VIDEOS */}
                 <div className='!mt-10'>
                     {/* HEALTHCARE VIDEOS HEADING AND EXPLORE MORE BUTTON  */}
@@ -709,7 +779,7 @@ function Home1() {
                     </div>
 
                     {/* HEALTHCARE VIDEOS GRID VIDEOS */}
-                    <div className='grid grid-cols-3 gap-x-3 gap-y-2 !mt-5'>
+                    <div className='grid grid-cols-3 gap-x-3 gap-y-3 !mt-5'>
                         {healthcareVideos.map((video, index) =>
                             <div
                                 key={index}
@@ -731,6 +801,11 @@ function Home1() {
 
                 </div>
 
+
+
+
+
+
                 {/* ARTICLES SECTION*/}
                 <div className='!mt-10'>
                     {/* ARTICLES HEADING AND EXPLORE MORE BUTTON  */}
@@ -745,7 +820,7 @@ function Home1() {
                     </div>
 
                     {/*  ARTICLES GRID IMAGES AND TITLE */}
-                    <div className='grid grid-cols-3 gap-x-3 gap-y-2 !mt-5'>
+                    <div className='grid grid-cols-3 gap-x-3 gap-y-3 !mt-5'>
                         {articles.map((article, index) =>
                             <div
                                 key={index}
@@ -760,7 +835,7 @@ function Home1() {
                                         alt='article image'
                                         className='rounded-xl aspect-auto object-contain'
                                     />
-                                    <div className='!flex !space-x-1.5 !mt-2'>
+                                    <div className='!flex justify-center !space-x-1.5 !mt-2'>
                                         <i className='text-black'>in</i>
                                         <p className='font-semibold tracking-wider text-cyan-500'>WELLNESS</p>
                                     </div>
@@ -770,6 +845,11 @@ function Home1() {
                         )}
                     </div>
                 </div>
+
+
+
+
+
 
             </div>
 

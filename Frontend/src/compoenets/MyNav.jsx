@@ -248,9 +248,6 @@ function MyNav() {
 
                     </div>
 
-                    {/* <a className=" patient-right-link pe-2 ">Patient Rights & Responsibilities</a> */}
-
-
 
                 </div>
 

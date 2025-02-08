@@ -13,7 +13,7 @@ function Home() {
 
 
     <>
-     <Carousel/>
+     {/* <Carousel/> */}
      <Home1/>
 
     </>
