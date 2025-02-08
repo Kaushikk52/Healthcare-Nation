@@ -5,17 +5,14 @@ function ServiceListing() {
     const path = import.meta.env.VITE_APP_IMG_URL;
 
 
-
-
-
     return (
         <>
 
-        
-<div className="container">Home / Mumbai / Pediatric Hospital</div>
+
+            <div className="container">Home / Mumbai / Pediatric Hospital</div>
 
             <div >
-                <img src={path + 'demo/pediatric-banner2.jpg'} alt="" className="img-fluid" style={{ backgroundSize: "cover", height: "300px", width: "100%" }}/>
+                <img src={path + 'demo/pediatric-banner2.jpg'} alt="" className="img-fluid" style={{ backgroundSize: "cover", height: "300px", width: "100%" }} />
             </div>
 
 
@@ -158,7 +155,7 @@ function ServiceListing() {
                             <div className="horizontal-line2 mb-3"></div>
 
                             {/* filter-innerbox start */}
-                            <div className="filter-innerbox mt-1 pt-2 ps-1 mt-1">
+                            <div className="filter-innerbox pt-2 ps-1 mt-1">
                                 <form action="">
                                     <span className="text14">
                                         <b className='text18'> No of beds </b> <br />
@@ -262,10 +259,10 @@ function ServiceListing() {
                                         <label htmlFor="Maternity" className='mb-0'>Railway Hospitals </label>
                                         <br />
 
-                                       
-                                  
-                                        
-                                        
+
+
+
+
 
                                     </span>
 
