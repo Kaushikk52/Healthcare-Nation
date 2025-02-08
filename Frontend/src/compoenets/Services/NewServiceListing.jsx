@@ -109,14 +109,14 @@ const NewServiceListing = () => {
                 </div>
 
                 {/* GRID CREATED FOR SERVICE LISTING */}
-                <div className='grid grid-cols-12 gap-2 !my-2.5'>
+                <div className='grid grid-cols-12 gap-2 !my-4'>
 
                     {/* COLS FOR FILTERS */}
                     <div className='col-span-3'>
                         <div className='flex flex-col px-1'>
 
                             {/* FILTER TEXT HEADING AND CLEAR ALL BUTTON */}
-                            <div className='flex justify-between items-center border-b !pb-3.5'>
+                            <div className='flex justify-between items-center border-b border-gray-500 !pb-3.5'>
                                 <span>Filters</span>
                                 <button className='text-[#9B2482]'>Clear All</button>
                             </div>
@@ -142,11 +142,12 @@ const NewServiceListing = () => {
                     </div>
 
 
-                    {/* COLS GRID FOR CONTENTS */}
-                    <div className='col-span-9'>
+                    {/* COLS GRID FOR HOSPITAL DETAILS || CONTENTS */}
+                    <div className='col-span-9 border-l border-gray-500 !pl-2'>
+                
                         {/* SORTING AND BUTTONS */}
                         <div className='flex flex-col px-2'>
-                            <div className='flex justify-between items-center border-b pb-2'>
+                            <div className='flex justify-between items-center border-b border-gray-500 pb-2'>
                                 <div className='flex justify-center items-center !space-x-2'>
                                     <button className='border !border-gray-500 !text-sm !font-semibold !rounded !py-1 !px-4'>NABH</button>
                                     <button className='border !border-gray-500 !text-sm !font-semibold !rounded !py-1 !px-4'>Private</button>
