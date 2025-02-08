@@ -96,12 +96,12 @@ const onlineHealthcareServices = [
 ]
 
 const publicSectorCorporates = [
-    { title: 'MPT', image: 'mpt-logo.png', },
-    { title: 'CGHS', image: 'cghs-logo.jpg', borderColor: 'border-2 border-green-700' },
-    { title: 'MJPJAY', image: 'mjpjay-logo.png', },
-    { title: 'ESIC', image: 'esic-logo.png', },
-    { title: 'PMJAY', image: 'pmjay-logo2.png', },
-    { title: 'Railway', image: 'indian_railway_logo.jpg', },
+    { title: 'MPT Hospitals', image: 'mpt-logo.png', },
+    { title: 'CGHS Hospitals', image: 'cghs-logo.jpg', borderColor: 'border-2 border-green-700' },
+    { title: 'MJPJAY Hospitals', image: 'mjpjay-logo.png', },
+    { title: 'ESIC Hospitals', image: 'esic-logo.png', },
+    { title: 'PMJAY Hospitals', image: 'pmjay-logo2.png', },
+    { title: 'Railway Hospitals', image: 'indian_railway_logo.jpg', },
 ]
 
 const moreServices = [
@@ -215,6 +215,11 @@ function Home1() {
 
 
 
+
+
+
+
+
                 {/* POPULAR HEALTHCARE BRANDS SECTION */}
                 <div className='!mt-10'>
                     {/* POPULAR HEALTHCARE BRANDS IN INDIA HEADING AND EXPLORE MORE BUTTON*/}
@@ -245,6 +250,11 @@ function Home1() {
                         )}
                     </div>
                 </div>
+
+
+
+
+
 
 
 
@@ -366,6 +376,11 @@ function Home1() {
 
 
 
+
+
+
+
+
                 {/* DIAGNOSTIC CENTRES NEAR YOU SECTION */}
                 <div className='!mt-10'>
                     {/* DIAGNOSTIC CENTRES NEAR YOU HEADING AND EXPLORE MORE BUTTON  */}
@@ -400,6 +415,11 @@ function Home1() {
                         )}
                     </div>
                 </div>
+
+
+
+
+
 
 
 
@@ -447,6 +467,11 @@ function Home1() {
 
 
 
+
+
+
+
+
                 {/* ONLINE HEALTHCARE SERVICES SECTION*/}
                 <div className='!mt-10'>
                     {/* ONLINE HEALTHCARE SERVICES HEADING AND EXPLORE MORE BUTTON  */}
@@ -488,6 +513,11 @@ function Home1() {
 
 
 
+
+
+
+
+
                 {/* PUBLIC SECTOR CORPORATES SECTION */}
                 <div className='!mt-10'>
                     {/* PUBLIC SECTOR CORPORATES HEADING AND EXPLORE MORE BUTTON  */}
@@ -522,6 +552,11 @@ function Home1() {
                         )}
                     </div>
                 </div>
+
+
+
+
+
 
 
 
@@ -569,10 +604,20 @@ function Home1() {
 
 
 
+
+
+
+
+
                 {/* HEALTH CHECKUP IMAGE */}
                 <div className="!mt-10 ">
                     <img src={path + 'Health-Checkup.jpg'} alt="health checkup image" className='rounded-xl' />
                 </div>
+
+
+
+
+
 
 
 
@@ -607,6 +652,11 @@ function Home1() {
                         )}
                     </div>
                 </div>
+
+
+
+
+
 
 
 
@@ -654,6 +704,11 @@ function Home1() {
 
 
 
+
+
+
+
+
                 {/* POPULAR HOSPITALS IN INDIA */}
                 <div className='!mt-10'>
                     {/* POPULAR HOSPITALS IN INDIA AND EXPLORE MORE BUTTON */}
@@ -695,6 +750,11 @@ function Home1() {
 
 
 
+
+
+
+
+
                 {/* CHOOSE YOUR HEALTH INSURANCE */}
                 <div className='!mt-10'>
                     {/* CHOOSE YOUR HEALTH INSURANCE AND EXPLORE MORE BUTTON */}
@@ -730,6 +790,11 @@ function Home1() {
 
 
 
+
+
+
+
+
                 {/* CHOOSE YOUR TPA */}
                 <div className='!mt-10'>
                     {/* CHOOSE YOUR TPA AND EXPLORE MORE BUTTON */}
@@ -759,6 +824,11 @@ function Home1() {
                         )}
                     </div>
                 </div>
+
+
+
+
+
 
 
 
@@ -806,6 +876,11 @@ function Home1() {
 
 
 
+
+
+
+
+
                 {/* ARTICLES SECTION*/}
                 <div className='!mt-10'>
                     {/* ARTICLES HEADING AND EXPLORE MORE BUTTON  */}
@@ -845,6 +920,11 @@ function Home1() {
                         )}
                     </div>
                 </div>
+
+
+
+
+
 
 
 
