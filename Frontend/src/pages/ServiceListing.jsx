@@ -84,7 +84,7 @@ const hospitalDetails = [
     },
 ]
 
-const NewServiceListing = () => {
+const ServiceListing = () => {
     const path = import.meta.env.VITE_APP_IMG_URL;
     return (
         <>
@@ -145,7 +145,7 @@ const NewServiceListing = () => {
 
                     {/* COLS GRID FOR HOSPITAL DETAILS || CONTENTS */}
                     <div className='col-span-9 border-l border-gray-500 !pl-2'>
-                
+
                         {/* SORTING AND BUTTONS */}
                         <div className='flex flex-col px-2'>
                             <div className='flex justify-between items-center border-b border-gray-500 pb-2'>
@@ -264,4 +264,4 @@ const NewServiceListing = () => {
     )
 }
 
-export default NewServiceListing
+export default ServiceListing

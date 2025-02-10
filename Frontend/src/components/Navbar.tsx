@@ -31,7 +31,7 @@ const dropdowns = [
         title: 'Services',
         icon: FaCaretDown,
         items: [
-            { title: 'Hospitals', },
+            { title: 'Hospitals', path: '/service-listing' },
             { title: 'Dialysis Centres', },
             { title: 'Blood / Skin Banks', },
             { title: 'Clinics', },
@@ -232,7 +232,8 @@ const Navbar = () => {
                                         className="!absolute !bg-white !w-48 !z-40 !shadow-2xl !overflow-hidden !mt-2 !p-2 !-translate-x-4">
                                         {item.items.map((i, index) => (
                                             <Link
-                                                to={'/'}
+                                                onClick={() => setnavgiationDropdownOpen(false)}
+                                                to={i.path}
                                                 style={{ textDecoration: 'none' }}
                                                 key={index} className="!p-2 !text-gray-800 hover:!bg-gray-100 !w-full !cursor-pointer !block !text-sm !text-left !outline-none">{i.title}</Link>
                                         ))}

@@ -8,10 +8,10 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-import {orderBy} from "lodash";
+import { orderBy } from "lodash";
 
 
-import servicesBySpecialities from '../../data/servicesBySpecialities'
+import servicesBySpecialities from '../data/servicesBySpecialities'
 
 
 export default function Services() {
@@ -22,18 +22,18 @@ export default function Services() {
 
   // Handle sorting
   const handleSort = (order) => {
-   
+
     let sortedList = [...list];
 
     if (order === "a-z") {
-      sortedList = orderBy(sortedList,['title'],['asc']);
-   
+      sortedList = orderBy(sortedList, ['title'], ['asc']);
+
     } else if (order === "z-a") {
-      sortedList  = orderBy(sortedList,['title'],['desc']);
+      sortedList = orderBy(sortedList, ['title'], ['desc']);
     }
     setList(sortedList);
     // console.log("sorted list :" , sortedList)
-    
+
   };
 
 
