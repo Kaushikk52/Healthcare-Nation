@@ -1,10 +1,12 @@
 import React from 'react'
-import { Outlet } from 'react-router-dom'
-import MyNav from './MyNav'
+import { Outlet } from 'react-router-dom';
 import Footer from './Footer'
+import Navbar from './Navbar'
+import MyNav from './MyNav'
 function Layout() {
     return (
         <div>
+            <Navbar />
             <MyNav/>
             <Outlet/>
             <Footer/>

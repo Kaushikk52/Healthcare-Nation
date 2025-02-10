@@ -1,4 +1,8 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
+
+import popularBrands from '../data/brands';
+
 import { Navigation, Pagination, Autoplay, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -7,1638 +11,927 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/swiper-bundle.css';
-import '../App.css'
-// import myimg from './Nirav_Vadhiya_img.jpeg'
 
-import 'aos/dist/aos.css'; // Import AOS styles
+import 'aos/dist/aos.css';
 import AOS from 'aos';
 
 AOS.init({
-    duration: 1200, // Optional: set the duration for animations in milliseconds
+    duration: 1200,
 });
 
 
-
-
-
-
-
-const data = [
-    // {
-    //     id: 1,
-    //     name: "Organ Transplant Centres",
-    //     img: 'Organ-Transplant-Centres.png'
-    // },
-    {
-        id: 1,
-        name: "General Surgery",
-        img: 'specialities/General-Surgery.jpg'
-    },
-    {
-        id: 2,
-        name: "Eye Care Centres",
-        img: 'Eye-Care-Centres.png'
-    },
-    {
-        id: 3,
-        name: "Pediatric Centres",
-        img: 'Pediatric-Centres1.jpg'
-    },
-    // {
-    //     id: 4,
-    //     name: "Heart Care Centres",
-    //     img: 'Heart-Care-Centres.png'
-    // },
-    {
-        id: 4,
-        name: "Cardiology",
-        img: 'HomeCare-services2.jpg'
-    },
-    {
-        id: 5,
-        name: "Psychiatry",
-        img: 'specialities/Psychiatry.jpg'
-    },
-    {
-        id: 6,
-        name: "Physiotherapy",
-        img: 'specialities/Physiotherapy.jpg'
-    },
-    {
-        id: 7,
-        name: "Onco Surgery",
-        img: 'specialities/Onco-Surgery.jpg'
-    },
-    {
-        id: 8,
-        name: "Spine Surgery",
-        img: 'specialities/Spine-Surgery.jpg'
-    },
-    {
-        id: 9,
-        name: "Rheumatology",
-        img: 'specialities/Rheumatology.jpg'
-    },
-    {
-        id: 10,
-        name: "Radiatio oncology",
-        img: 'specialities/Radiatio-oncology.jpg'
-    }
-
-
-]
-
-
-const data1 = [
-    {
-        id: 1,
-        name: "Dermatology",
-        img: 'Skincare-Centres1.jpg'
-    },
-    {
-        id: 2,
-
-        name: "Dietetics",
-        img: 'specialities/Dietetics.jpg'
-    },
-    {
-        id: 3,
-        name: "Nephrology",
-        img: 'Kidney-care-Centres.png'
-    },
-    {
-        id: 4,
-        name: "Oncology",
-        img: 'Cancer-Centres.jpg'
-    },
-    {
-        id: 5,
-        name: "Plastic Surgery",
-        img: 'specialities/Plastic-Surgery.jpg'
-    },
-    {
-        id: 6,
-        name: "Pulmonology",
-        img: 'specialities/Pulmonology.jpg'
-    },
-    {
-        id: 7,
-        name: "Occupational therapy",
-        img: 'specialities/Physiotherapy-Occupational-therapy.png'
-    },
-    {
-        id: 8,
-        name: "Pediatric Surgery",
-        img: 'specialities/Pediatric-Surgery.jpg'
-    },
-    {
-        id: 9,
-        name: "Oncology",
-        img: 'specialities/Oncology.jpg'
-    },
-    {
-        id: 10,
-        name: "Obstetrics & Gynecology",
-        img: 'specialities/Obstetrics-Gynecology.jpg'
-    },
-    {
-        id: 11,
-        name: "Neurosurgery",
-        img: 'specialities/Neurosurgery.jpg'
-    },
-    {
-        id: 12,
-        name: "Neurology",
-        img: 'specialities/Neurology.jpg'
-    },
-    {
-        id: 13,
-        name: "Laboratory Services",
-        img: 'specialities/Laboratory-Services.jpg'
-    },
-    {
-        id: 14,
-        name: "Hematology",
-        img: 'specialities/Hematology.jpg'
-    },
-    {
-        id: 15,
-        name: "General Medicine",
-        img: 'specialities/General-Medicine.jpg'
-    },
-    {
-        id: 16,
-        name: "Endocrinology",
-        img: 'specialities/Endocrinology.jpg'
-    },
-    {
-        id: 17,
-        name: "Emergency Care",
-        img: 'specialities/Emergency-Care.jpg'
-    },
-    {
-        id: 18,
-        name: "Ear Nose Throat Surgeon",
-        img: 'specialities/Ear-Nose-Throat-Surgeon.jpg'
-    },
-    {
-        id: 19,
-        name: "Test Tube Baby Centres",
-        img: 'Test-Tube-Baby-Centres1.jpg'
-    },
-    {
-        id: 20,
-        name: "Dentistry",
-        img: 'specialities/Dentistry.jpg'
-    },
-    {
-        id: 21,
-        name: "Critical Care",
-        img: 'specialities/Critical-Care.jpg'
-    }
-
-
-
+const healthcareServices = [
+    { title: 'Hospitals', image: 'hospitals1.jpg', },
+    { title: 'Dialysis Centers', image: 'Dialysis-Centres.jpg', },
+    { title: 'Blood/Skin Banks', image: 'Blood-Bank-1.jpg', },
+    { title: 'Clinics', image: 'Clinics-1.png', },
+    { title: 'Home Care Services', image: 'HomeCare-services1.jpg', },
+    { title: 'Patient Transport', image: 'Patient-Transport-1.png', },
+    { title: 'Diagnostics', image: 'Diagnostics-img1.jpg', },
+    { title: 'Orthotic & Prosthetics', image: 'Orthotics-Prosthetics.jpg', },
 ]
 
 
 
+const servicesBySpecialities = [
+    { id: 1, title: 'General Surgery', image: 'specialities/General-Surgery.jpg', },
+    { id: 2, title: 'Eye Care Centres', image: 'Eye-Care-Centres.png', },
+    { id: 3, title: 'Pediatric Centres', image: 'Pediatric-Centres1.jpg', },
+    { id: 4, title: 'Cardiology', image: 'HomeCare-services2.jpg', },
+    { id: 5, title: 'Psychiatry', image: 'specialities/Psychiatry.jpg', },
+    { id: 6, title: 'Psysiotherapy', image: 'specialities/Physiotherapy.jpg', },
+    { id: 7, title: 'Onco Surgery', image: 'specialities/Onco-Surgery.jpg', },
+    { id: 8, title: 'Spine Surgery', image: 'specialities/Spine-Surgery.jpg', },
+    { id: 9, title: 'Rheumatology', image: 'specialities/Rheumatology.jpg', },
+    { id: 10, title: 'Radiatio oncology', image: 'specialities/Radiatio-oncology.jpg', },
+
+
+    { id: 11, title: 'Dermatology', image: 'Skincare-Centres1.jpg', },
+    { id: 12, title: 'Dietetics', image: 'specialities/Dietetics.jpg', },
+    { id: 13, title: "Nephrology", image: 'Kidney-care-Centres.png' },
+    { id: 14, title: 'Oncology', image: 'Cancer-Centres.jpg', },
+    { id: 15, title: 'Plastic Surgery', image: 'specialities/Plastic-Surgery.jpg', },
+    { id: 16, title: 'Pulmonology', image: 'specialities/Pulmonology.jpg', },
+    { id: 17, title: 'Occupational therapy', image: 'specialities/Physiotherapy-Occupational-therapy.png', },
+    { id: 18, title: 'Pediatric Surgery', image: 'specialities/Pediatric-Surgery.jpg', },
+    { id: 19, title: 'Oncology', image: 'specialities/Oncology.jpg', },
+    { id: 20, title: 'Obstetrics & Gynecology', image: 'specialities/Obstetrics-Gynecology.jpg', },
+    { id: 21, title: 'Neurosurgery', image: 'specialities/Neurosurgery.jpg', },
+    { id: 22, title: 'Neurology', image: 'specialities/Neurology.jpg', },
+    { id: 23, title: 'Laboratory Services', image: 'specialities/Laboratory-Services.jpg', },
+    { id: 24, title: 'Hematology', image: 'specialities/Hematology.jpg', },
+    { id: 25, title: 'General Medicine', image: 'specialities/General-Medicine.jpg', },
+    { id: 26, title: 'Endocrinology', image: 'specialities/Endocrinology.jpg', },
+    { id: 27, title: 'Emergency Care', image: 'specialities/Emergency-Care.jpg', },
+    { id: 28, title: 'Ear Nose Throat Surgeon', image: 'specialities/Ear-Nose-Throat-Surgeon.jpg', },
+    { id: 29, title: 'Test Tube Baby Centres', image: 'Test-Tube-Baby-Centres1.jpg', },
+    { id: 30, title: 'Dentistry', image: 'specialities/Dentistry.jpg', },
+    { id: 31, title: 'Critical Care', image: 'specialities/Critical-Care.jpg', },
+
+]
+
+const diagnosticCentres = [
+    { title: 'Xray', image: 'Xray2.png', },
+    { title: 'MRI', image: 'CTSCAN2.png', },
+    { title: 'Sonography', image: 'Sonography1.png', },
+    { title: 'Lab/Pathology', image: 'PATHOLOGY1.png', },
+    { title: 'CT Scan', image: 'CTSCAN3.png', },
+    { title: '2D Echo', image: '2DECHO.png', },
+]
+
+const alternativeMedicine = [
+    { title: 'Ayurveda Centres', image: 'Alternative-Medicine/Ayurveda-Centres.jpg' },
+    { title: 'Homeopathy Centres', image: 'Alternative-Medicine/Homeopathy-Centres.jpg' },
+    { title: 'Yoga Centres', image: 'Alternative-Medicine/yoga-center.jpg' },
+    { title: 'Naturopathy Centres', image: 'Alternative-Medicine/Naturopathy-Centres.jpg' },
+]
+
+const onlineHealthcareServices = [
+    { title: 'Online Consultation', image: 'online/Online-Consultation.jpg' },
+    { title: 'Remote Patient Monitoring Services', image: 'online/Monitoring-Services.jpg' },
+    { title: 'Online Pharmacy & Medical Store', image: 'online/Online-Pharmacy.jpg' },
+]
+
+const publicSectorCorporates = [
+    { title: 'MPT Hospitals', image: 'mpt-logo.png', },
+    { title: 'CGHS Hospitals', image: 'cghs-logo.jpg', borderColor: 'border-2 border-green-700' },
+    { title: 'MJPJAY Hospitals', image: 'mjpjay-logo.png', },
+    { title: 'ESIC Hospitals', image: 'esic-logo.png', },
+    { title: 'PMJAY Hospitals', image: 'pmjay-logo2.png', },
+    { title: 'Railway Hospitals', image: 'indian_railway_logo.jpg', },
+]
+
+const moreServices = [
+    { title: 'Test Tube Baby / IVF Centres', image: 'Test-Tube-Baby-Centres1.jpg', },
+    { title: 'Rehabilitation / De Addiction Centres', image: 'De-Addiction.jpg', },
+    { title: 'Burns Centres', image: 'Burns-Centres.jpg', },
+    { title: 'Hair Transplant Centres', image: 'Hair-Transplant.jpg', },
+]
+
+const servicesByAccrediations = [
+    { title: 'Organizations Accredited by Joint Commission International', image: 'joint-commision.png', },
+    { title: 'Organizations Accredited by National Accreditation Board for Hospitals & Healthcare Providers', image: 'national-accreditations.png', },
+    { title: 'Organizations Accredited by Largest Gold Certified Green Hospital', image: 'IGBG-GOLD.jpeg', },
+]
+
+const servicesByHealthConcern = [
+    { title: 'Depression or Anxiety ?', image: 'Depression-Anxiety1.jpg', },
+    { title: 'Pregnant ?', image: 'Pregnant.png', },
+    { title: 'Joint Pains ?', image: 'Joint-Pains.png', },
+    { title: 'Ear Problems ?', image: 'Ear-Problems.png', },
+    { title: 'Digestion Issues ?', image: 'Digestion-Issues.png', },
+]
+
+const popularHospitals = [
+    { title: 'Saifee Hospital', image: 'SAIFEE-HOSPITAL.png', },
+    { title: 'Max Nanavati Hospital', image: 'MAX-NANAVATI-HOSPITAL.png', },
+    { title: 'Global Hospital', image: 'GLOBAL-HOSPITAL.png', },
+    { title: 'Kokilaben Hospital', image: 'KOKILABEN-HOSPITAL.png', },
+]
+
+const chooseYourHealthInsurance = [
+    { image: 'icici-logo1.png', bgColor: 'bg-[#f07b2238]', },
+    { image: 'Iffco-Tokio-Gen-Insurance-1.png', bgColor: 'bg-[#02a44e42]', },
+    { image: 'HDFC-ERGO1.png', bgColor: 'bg-[#e21f253f]', },
+    { image: 'bajaj-logo1.png', bgColor: 'bg-[#006db53f]', },
+    { image: 'Care_health_insurance_logo-1.png', bgColor: 'bg-[#f8e00844]', },
+    { image: 'kotak-logo.png', bgColor: 'bg-[#e21f253f]', },
+]
+
+const chooseYourTPA = [
+    { image: 'Health-India.png', bgColor: 'bg-[#82c45341]', },
+    { image: 'Vidal-Health.png', bgColor: 'bg-[#21989248]', },
+    { image: 'rakshaTPA-logo.png', bgColor: 'bg-[#d123233f]', },
+    { image: 'MD-India-logo.png', bgColor: 'bg-[#3a4a8c44]', },
+    { image: 'medi-assist-logo.png', bgColor: 'bg-[#efd31e3f]', },
+    { image: 'med-save-logo.png', bgColor: 'bg-[#ed164f34]', },
+]
+
+const healthcareVideos = [
+    { link: 'https://www.youtube.com/embed/YZ84iQrbYjw?si=mgCWIRNdpW0cOvJ6', },
+    { link: 'https://www.youtube.com/embed/z2Bbm1Jr0mI?si=dU7ihUF2GeryH-Mt', },
+    { link: 'https://www.youtube.com/embed/y6N8u4OGgXk?si=CK5WiLzO8SzUoWAO', },
+    { link: 'https://www.youtube.com/embed/YZ84iQrbYjw?si=mgCWIRNdpW0cOvJ6', },
+    { link: 'https://www.youtube.com/embed/z2Bbm1Jr0mI?si=dU7ihUF2GeryH-Mt', },
+    { link: 'https://www.youtube.com/embed/y6N8u4OGgXk?si=CK5WiLzO8SzUoWAO', },
+]
+
+const articles = [
+    { title: 'The Transformative Power of Early Mornings', text: 'Embracing the Benefits of Waking Up Early', image: 'Articles-img1.png', },
+    { title: 'Taming the Appetite', text: 'Harnessing Natural Appetite Suppressants for Weight Control', image: 'Articles-img2.png', },
+    { title: 'Dive into Wellness', text: 'The Incredible Benefits of Swimming', image: 'Articles-img3.png', },
+]
 
 function Home1() {
-    // const path = "src/assets/Images/";
+
     const path = import.meta.env.VITE_APP_IMG_URL;
-
-
-
-
 
     return (
         <>
 
+            <div className='max-w-7xl mx-auto px-4'>
 
-
-            <div className="container margin-top3">
-
-
-
-
-                {/* <div className="row d-flex justify-content-between">
-                    <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Healthcare Services</h2>
-                        <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div>
-
-
+                {/* HEALTHCARE SERVICES SECTION */}
+                <div className='!mt-10'>
+                    {/* HEALTHCARE SERVICES HEADING AND EXPLORE MORE BUTTON  */}
+                    <div className='flex justify-between items-center !space-x-2'>
+                        <h3 className='!text-xl min-[425px]:!text-2xl !font-semibold !text-gray-700'>Healthcare Services</h3>
+                        <a
+                            style={{
+                                textDecoration: 'none',
+                            }}
+                            className='!py-1.5 !px-4 !text-xs min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                        >Explore More</a>
                     </div>
 
-                    <div className="col-md-3 col-4 text-end d-flex justify-content-end align-items-center">
-                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
+                    {/* HEALTHCARE SERVICES GRID IMAGES AND TITLE */}
+                    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-x-3.5 gap-y-3 !mt-5'>
+                        {healthcareServices.map((service, index) =>
+                            <div
+                                key={index}
+                                className='group'
+                            >
+                                <a
+                                    style={{ textDecoration: 'none' }}
+                                    className='cursor-pointer'
+                                >
+                                    <img
+                                        src={path + service.image}
+                                        alt={service.title}
+                                        className='rounded-xl h-58 min-[425px]:h-68 sm:h-56 md:h-64 lg:h-46 xl:h-50 w-full aspect-[3/2] object-fit'
+                                    />
+                                    <p className='text-lg min-[425px]:text-lg sm:text-lg !text-left sm:!text-left font-semibold mt-2 px-1 text-gray-700 group-hover:text-[#9b2482]'>{service.title}</p>
+                                </a>
+                            </div>
+                        )}
                     </div>
-
-                </div> */}
-
-
-                <div className="row d-flex justify-content-between">
-                    <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Healthcare Services</h2>
-                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
-
-
-                    </div>
-
-
-                    <div className="col-md-3 col-4 text-end d-flex justify-content-end align-items-center">
-
-                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
-
-                    </div>
-
                 </div>
 
 
 
-                <div className="row  g-3 mt-1">
-                    <div className="col-md-3 col-6 "  >
-                        <a href="" className='a-links'>
-                            <div className="">
-                                <img src={path + "hospitals1.jpg"} alt="" className='img-fluid services-img' />
-                            </div>
 
-                            <p className='semi-head1 mb-0'>Hospitals</p>
-                        </a>
-                    </div>
-                    <div className="col-md-3 col-6"  >
-                        <a href="" className='a-links'>
-                            <div className="">
-                                <img src={path + "Dialysis-Centres.jpg"} alt="" className='img-fluid services-img' />
-                            </div>
 
-                            <p className='semi-head1 mb-0'>Dialysis Centres</p>
-                        </a>
-                    </div>
 
-                    <div className="col-md-3 col-6 "  >
-                        <a href="" className='a-links'>
-                            <div className="">
-                                <img src={path + "Blood-Bank-1.jpg"} alt="" className='img-fluid services-img' />
-                            </div>
 
-                            <p className='semi-head1 mb-0'>Blood / Skin Banks</p>
-                        </a>
-                    </div>
-                    <div className="col-md-3 col-6 "  >
-                        <a href="" className='a-links'>
-                            <div className="">
-                                <img src={path + "Clinics-1.png"} alt="" className='img-fluid services-img' />
-                            </div>
 
-                            <p className='semi-head1 mb-0'>Clinics</p>
-                        </a>
-                    </div>
-                    <div className="col-md-3 col-6 " data-aos-delay="400">
-                        <a href="" className='a-links'>
-                            <div className="">
-                                <img src={path + "HomeCare-services1.jpg"} alt="" className='img-fluid services-img' />
-                            </div>
 
-                            <p className='semi-head1  mb-0'>Home Care Services</p>
-                        </a>
-                    </div>
-                    <div className="col-md-3 col-6 " data-aos-delay="400">
-                        <a href="" className='a-links'>
-                            <div className="">
-                                <img src={path + "Patient-Transport-1.png"} alt="" className='img-fluid services-img' />
-                            </div>
 
-                            <p className='semi-head1 mb-0'>Patient Transport</p>
-                        </a>
-                    </div>
-                    <div className="col-md-3 col-6 " data-aos-delay="500">
-                        <a href="" className='a-links'>
-                            <div className="">
-                                <img src={path + "Diagnostics-img1.jpg"} alt="" className='img-fluid services-img' />
-                            </div>
 
-                            <p className='semi-head1 mb-0'>Diagnostics</p>
-                        </a>
-                    </div>
-                    <div className="col-md-3 col-6 " data-aos-delay="500">
-                        <a href="" className='a-links'>
-                            <div className="">
-                                <img src={path + "Orthotics-Prosthetics.jpg"} alt="" className='img-fluid services-img' />
-                            </div>
-
-                            <p className='semi-head1 mb-0'>Orthotic & Prosthetics</p>
-                        </a>
+                {/* POPULAR HEALTHCARE BRANDS SECTION */}
+                <div className='!mt-10'>
+                    {/* POPULAR HEALTHCARE BRANDS IN INDIA HEADING AND EXPLORE MORE BUTTON*/}
+                    <div className='flex justify-between items-center !mt-10'>
+                        <h3 className='!font-semibold !text-gray-700'>Popular Healthcare Brands In India</h3>
+                        <Link
+                        to={'/brands-in-india'}
+                            style={{
+                                textDecoration: 'none',
+                            }}
+                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                        >
+                            Explore More
+                        </Link>
                     </div>
 
-
-                </div>
-            </div>
-
-
-            {/* Popular HealthCare Brands In India start  */}
-
-
-            <div className="container margin-top3">
-                <div className="row d-flex justify-content-between">
-                    <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Popular HealthCare Brands In India</h2>
-
-
-
-                    </div>
-
-                    <div className="col-md-3 col-4 text-end d-flex  justify-content-end align-items-center">
-                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
-                    </div>
-
-                </div>
-
-                <div className="row Public-Sector-Corporates-container g-2 mt-2">
-
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center brands-india">
-                                <img src={path + "Brands-In-India/fortis-logo.png"} alt="" className='img-fluid border2' />
-                            </div>
-
-                        </a>
-                    </div>
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center brands-india">
-                                <img src={path + "Brands-In-India/wockhardt-logo.png"} alt="" className='img-fluid ' />
-                            </div>
-
-                        </a>
-                    </div>
-
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center brands-india">
-                                <img src={path + "Brands-In-India/hcg-logo.png"} alt="" className='img-fluid ' />
-                            </div>
-
-                        </a>
-                    </div>
-
-
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center brands-india">
-                                <img src={path + "Brands-In-India/max-logo.png"} alt="" className='img-fluid ' />
-                            </div>
-
-                        </a>
-                    </div>
-
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center brands-india">
-                                <img src={path + "Brands-In-India/apollo.png"} alt="" className='img-fluid ' />
-                            </div>
-
-                        </a>
-                    </div>
-
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center brands-india">
-                                <img src={path + "Brands-In-India/paras-logo.png"} alt="" className='img-fluid ' />
-                            </div>
-
-                        </a>
-                    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-                </div>
-            </div>
-
-
-
-            {/* Popular HealthCare Brands In India End  */}
-
-
-
-
-
-
-            {/* swiper 1  */}
-
-            <div className='container margin-top3'>
-
-
-                <div className="row d-flex justify-content-between">
-                    <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Services by Specialities</h2>
-                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
-
-
-                    </div>
-
-                    <div className="col-md-3 col-4 text-end d-flex  justify-content-end align-items-center">
-                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
-                    </div>
-
-                </div>
-                <Swiper
-                    modules={[Navigation, Pagination, Autoplay, A11y]}
-                    spaceBetween={16}
-                    slidesPerView={4}
-                    loop={true}
-                    // centeredSlides={true}
-                    // grabCursor={true}
-                    pagination={{ clickable: true, dynamicBullets: true }}
-                    navigation
-                    // ={{
-                    //   nextEl: '.swiper-button-next',
-                    // }}
-                    autoplay={{ delay: 10000 }}
-                    breakpoints={{
-                        0: {
-                            slidesPerView: 2,
-                        },
-                        520: {
-                            slidesPerView: 2,
-                        },
-                        768: {
-                            slidesPerView: 3,
-                        },
-                        1000: {
-                            slidesPerView: 4,
-                        },
-                    }}
-                    // pagination={{ clickable: true }}
-                    // scrollbar={{ draggable: true }}
-                    // onSlideChange={() => console.log('slide change')}
-                    onSwiper={(swiper) => console.log(swiper)}
-                >
-
-
-                    {
-                        data.map(user => (
-                            <SwiperSlide key={user.id} className='slide mt-3'>
-                                <div className="slide-content"  >
-                                    <a href="" className='a-links'>
-                                        <div className="user-image text-center">
-                                            <img src={path + user.img} alt="" className='my-img services-img img-fluid' />
-                                        </div>
-                                        <div className="semi-head1 mt-1">{user.name} </div>
-                                    </a>
-
-
-                                </div>
-                            </SwiperSlide>
-                        ))
-                    }
-                </Swiper>
-
-
-
-            </div>
-
-
-            {/* swiper 2  */}
-
-
-            <div className='container mt-4'>
-
-                <Swiper
-                    modules={[Navigation, Pagination, Autoplay, A11y]}
-                    spaceBetween={16}
-                    slidesPerView={4}
-                    loop={true}
-                    // centeredSlides={true}
-                    // grabCursor={true}
-                    pagination={{ clickable: true, dynamicBullets: true }}
-                    navigation
-                    // ={{
-                    //   nextEl: '.swiper-button-next',
-                    // }}
-                    autoplay={{ delay: 15000 }}
-                    breakpoints={{
-                        0: {
-                            slidesPerView: 2,
-                        },
-                        520: {
-                            slidesPerView: 2,
-                        },
-                        768: {
-                            slidesPerView: 3,
-                        },
-                        1000: {
-                            slidesPerView: 4,
-                        },
-                    }}
-                    // pagination={{ clickable: true }}
-                    // scrollbar={{ draggable: true }}
-                    // onSlideChange={() => console.log('slide change')}
-                    onSwiper={(swiper) => console.log(swiper)}
-                >
-
-
-                    {
-                        data1.map(user => (
-                            <SwiperSlide key={user.id} className='slide'>
-                                <div className="slide-content"  >
-                                    <a href="" className='a-links'>
-                                        <div className="user-image text-center">
-                                            <img src={path + user.img} alt="" className='my-img services-img img-fluid' />
-                                        </div>
-                                        <div className="semi-head1 mt-2">{user.name}</div>
-                                    </a>
-
-
-                                </div>
-                            </SwiperSlide>
-                        ))
-                    }
-                </Swiper>
-
-
-
-            </div>
-
-
-
-
-            {/* Diagnostic  Centres Near You start  */}
-
-
-
-            <div className="container margin-top3">
-                <div className="row d-flex justify-content-between">
-                    <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Diagnostic  Centres Near You</h2>
-                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
-
-
-                    </div>
-
-                    <div className="col-md-3 col-4 text-end d-flex  justify-content-end align-items-center">
-                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
-                    </div>
-
-                </div>
-
-
-
-                <div className="row Public-Sector-Corporates-container g-2 mt-2">
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "Xray2.png"} alt="" className='img-fluid border-hover' />
-                            </div>
-
-                            <p className='semi-head1 mt-2'>Xray  </p>
-                        </a>
-                    </div>
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "CTSCAN2.png"} alt="" className='img-fluid border-hover' />
-                            </div>
-                            <p className='semi-head1 mt-2'>MRI</p>
-                        </a>
-                    </div>
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "Sonography1.png"} alt="" className='img-fluid border-hover' />
-                            </div>
-
-                            <p className='semi-head1 mt-2'>Sonography</p>
-                        </a>
-                    </div>
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "PATHOLOGY1.png"} alt="" className='img-fluid border-hover' />
-                            </div>
-
-                            <p className='semi-head1 mt-2'>Lab/Pathology </p>
-                        </a>
-                    </div>
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "CTSCAN3.png"} alt="" className='img-fluid border-hover' />
-                            </div>
-
-                            <p className='semi-head1 mt-2'>CT Scan</p>
-                        </a>
-                    </div>
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "2DECHO.png"} alt="" className='img-fluid border-hover' />
-                            </div>
-
-                            <p className='semi-head1 mt-2'>2D Echo</p>
-                        </a>
-                    </div>
-
-                </div>
-            </div>
-
-
-
-            {/* Diagnostic  Centres Near You End  */}
-
-
-
-            {/* Alternative Medicine start  */}
-
-            <div className="container margin-top3">
-
-
-
-                <div className="row d-flex justify-content-between">
-                    <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Alternative Medicine</h2>
-                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
-
-
-                    </div>
-
-                    <div className="col-md-3 col-4 text-end d-flex  justify-content-end align-items-center">
-                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
-                    </div>
-
-                </div>
-
-
-                <div className="row g-3  mt-1">
-
-                    <div className="col-md-3 col-6" data-aos-delay="600">
-                        <a href="" className='a-links'>
-                            <div className="">
-                                <img src={path + "Alternative-Medicine/Ayurveda-Centres.jpg"} alt="" className='img-fluid services-img' />
-                            </div>
-
-                            <p className='semi-head1 '> Ayurveda Centres</p>
-                        </a>
-                    </div>
-
-                    <div className="col-md-3 col-6" data-aos-delay="600">
-                        <a href="" className='a-links'>
-                            <div className="">
-                                <img src={path + "Alternative-Medicine/Homeopathy-Centres.jpg"} alt="" className='img-fluid services-img' />
-                            </div>
-
-                            <p className='semi-head1 '>Homeopathy Centres</p>
-                        </a>
-                    </div>
-
-                    <div className="col-md-3 col-6" data-aos-delay="600">
-                        <a href="" className='a-links'>
-                            <div className="">
-                                <img src={path + "Alternative-Medicine/yoga-center.jpg"} alt="" className='img-fluid services-img' />
-                            </div>
-
-                            <p className='semi-head1 '> Yoga Centres</p>
-                        </a>
-                    </div>
-
-                    <div className="col-md-3 col-6" data-aos-delay="600">
-                        <a href="" className='a-links'>
-                            <div className="">
-                                <img src={path + "Alternative-Medicine/Naturopathy-Centres.jpg"} alt="" className='img-fluid services-img' />
-                            </div>
-
-                            <p className='semi-head1 '> Naturopathy Centres</p>
-                        </a>
-                    </div>
-
-
-
-
-                </div>
-
-            </div>
-
-            {/* Alternative Medicine end */}
-
-
-
-
-
-            {/* Online Healthcare Services start  */}
-            <div className="container margin-top3">
-
-
-
-                <div className="row d-flex justify-content-between">
-                    <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Online Healthcare Services</h2>
-                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
-
-
-
-                    </div>
-
-                    <div className="col-md-3 col-4 text-end d-flex justify-content-end align-items-center">
-                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
-                    </div>
-
-                </div>
-
-                <div className="row mt-3">
-                    <div className="col-md-4 pe-1">
-                        <div className="">
-                            <img src={path + 'online/Online-Consultation.jpg'} alt="" className='img-fluid radius10' />
-                        </div>
-                        <p className='semi-head1 '> Online Consultation</p>
-                    </div>
-                    <div className="col-md-4 pe-1">
-                        <div className="">
-                            <img src={path + 'online/Monitoring-Services.jpg'} alt="" className='img-fluid radius10' />
-                        </div>
-                        <p className='semi-head1 '> Remote Patient Monitoring Services</p>
-                    </div>
-                    <div className="col-md-4 pe-1">
-                        <div className="">
-                            <img src={path + 'online/Online-Pharmacy.jpg'} alt="" className='img-fluid radius10' />
-                        </div>
-                        <p className='semi-head1 '> Online Pharmacy & Medical Store</p>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            {/* Online Healthcare Services End  */}
-
-
-
-            {/* Public Sector Corporates start */}
-
-            <div className="container margin-top3">
-                <div className="row d-flex justify-content-between">
-                    <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Public Sector Corporates</h2>
-                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
-
-
-                    </div>
-
-                    <div className="col-md-3 col-4 text-end d-flex  justify-content-end align-items-center">
-                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
-                    </div>
-
-                </div>
-
-                <div className="row Public-Sector-Corporates-container g-2 mt-2">
-
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "mpt-logo.png"} alt="" className='img-fluid' />
-                            </div>
-                            <p className='mb-0 mt-2 semi-head1'>MPT</p>
-
-                        </a>
-                    </div>
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "cghs-logo.jpg"} alt="" className='img-fluid cghs-logo' />
-                            </div>
-                            <p className='mb-0 mt-2 semi-head1'>CGHS</p>
-
-                        </a>
-                    </div>
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "mjpjay-logo.png"} alt="" className='img-fluid' />
-                            </div>
-                            <p className='mb-0 mt-2 semi-head1'>MJPJAY</p>
-
-                        </a>
-                    </div>
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "esic-logo.png"} alt="" className='img-fluid' />
-                            </div>
-                            <p className='mb-0 mt-2 semi-head1'>ESIC</p>
-
-                        </a>
-                    </div>
-
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "pmjay-logo2.png"} alt="" className='img-fluid' />
-                            </div>
-                            <p className='mb-0 mt-2 semi-head1'>PMJAY</p>
-
-                        </a>
-                    </div>
-                    <div className="col-md-2 col-6 text-center">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "indian_railway_logo.jpg"} alt="" className='img-fluid ' />
-                            </div>
-                            <p className='mb-0 mt-2 semi-head1'>Railway </p>
-
-
-
-                        </a>
-                    </div>
-
-
-
-
-
-                </div>
-            </div>
-
-
-
-
-            {/* Public Sector Corporates End */}
-
-
-
-
-            {/* More services start  */}
-
-
-
-            <div className="container margin-top3">
-
-
-
-                <div className="row d-flex justify-content-between">
-                    <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>More Services</h2>
-                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
-
-
-                    </div>
-
-                    <div className="col-md-3 col-4 text-end d-flex  justify-content-end align-items-center">
-                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
-                    </div>
-
-                </div>
-
-
-                <div className="row g-3  mt-1">
-
-                    <div className="col-md-3 col-6" data-aos-delay="600">
-                        <a href="" className='a-links'>
-                            <div className="">
-                                <img src={path + "Test-Tube-Baby-Centres1.jpg"} alt="" className='img-fluid services-img' />
-                            </div>
-
-                            <p className='semi-head1 '> Test Tube Baby / IVF Centres</p>
-                        </a>
-                    </div>
-
-                    <div className="col-md-3 col-6" data-aos-delay="600">
-                        <a href="" className='a-links'>
-                            <div className="">
-                                <img src={path + "De-Addiction.jpg"} alt="" className='img-fluid services-img' />
-                            </div>
-
-                            <p className='semi-head1'>Rehabilitation / De Addiction Centres</p>
-                        </a>
-                    </div>
-
-                    <div className="col-md-3 col-6" data-aos-delay="600">
-                        <a href="" className='a-links'>
-                            <div className="">
-                                <img src={path + "Burns-Centres.jpg"} alt="" className='img-fluid services-img' />
-                            </div>
-
-                            <p className='semi-head1 '> Burns Centres</p>
-                        </a>
-                    </div>
-
-                    <div className="col-md-3 col-6" data-aos-delay="600">
-                        <a href="" className='a-links'>
-                            <div className="">
-                                <img src={path + "Hair-Transplant.jpg"} alt="" className='img-fluid services-img' />
-                            </div>
-
-                            <p className='semi-head1 '>Hair Transplant Centres</p>
-                        </a>
-                    </div>
-
-
-
-
-                </div>
-
-            </div>
-
-
-            {/* More services End  */}
-
-
-
-            <div className="container margin-top3 ">
-                <div className="">
-                    <img src={path + 'Health-Checkup.jpg'} alt="" className='img-fluid border-r-10' />
-                </div>
-            </div>
-
-            {/* <div className="container margin-top3">
-                <div className="row">
-                    <div className="col-md-6" data-aos-delay="300">
-                        <div className="">
-                            <img src={path + 'Healthcare-Companies-Startups.jpg'} alt="" className='img-fluid radius10' />
-                        </div>
-                        <p className='semi-head1 '>Healthcare Companies & Startups</p>
-                    </div>
-                    <div className="col-md-6" data-aos-delay="300">
-                        <div className="">
-                            <img src={path + 'Health-Checkup-Near-You2.jpg'} alt="" className='img-fluid radius10' />
-                        </div>
-                        <p className='semi-head1 '>Health Checkup Near You</p>
-                    </div>
-                </div>
-            </div> */}
-
-
-
-
-
-            {/* service by accreditations start */}
-
-
-
-
-
-            <div className='container margin-top3'>
-                <div className="row d-flex justify-content-between">
-                    <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Services By Accreditations</h2>
-                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
-
-
-                    </div>
-
-
-
-                </div>
-
-
-                <div className="">
-                    <div className="row mt-2 Services-Accreditations-container ">
-                        <div className="col-md-6 col-lg-4 ">
-                            <div className="d-flex  accreditations-inner-box">
-
-                                <div className="">
-                                    <img src={path + 'joint-commision.png'} alt="" className='' />
-                                </div>
-                                <div className="d-flex align-items-center p-2">
-                                    <div className="">
-                                        <p className='  mb-0'>  Organizations Accredited by</p>
-                                        <p className='  mb-0'>  Joint Commission International</p>
+                    {/* POPULAR HEALTHCARE GRID BRAND IMAGES */}
+                    <div className='grid grid-cols-6 gap-3 mt-3'>
+                        {popularBrands.slice(0,6).map((brand, index) =>
+                            <div
+                                key={index}
+                                className='cursor-pointer'
+                            >
+                                <a>
+                                    <div className="text-center border-2 border-black rounded-full h-39 w-39">
+                                        <img src={path + brand.image} alt="brand image" className='rounded-full h-full w-full object-contain' />
                                     </div>
 
-                                </div>
+                                </a>
                             </div>
-                        </div>
+                        )}
+                    </div>
+                </div>
 
 
-                        <div className="col-md-6 col-lg-4 ">
-                            <div className="d-flex  accreditations-inner-box">
 
-                                <div className="">
-                                    <img src={path + 'national-accreditations.png'} alt="" className='' />
-                                </div>
-                                <div className="d-flex align-items-center ps-2">
-                                    <div className="">
-                                        <p className='  mb-0'>Organizations Accredited by National Accreditation Board for Hospitals & Healthcare Providers</p>
 
+
+
+
+
+
+
+
+                {/* SERVICES BY SPECIALITIES SECTION */}
+                <div className='!mt-10'>
+                    {/*  SERVICES BY SPECIALITIES HEADING AND EXPLORE MORE BUTTON */}
+                    <div className='flex justify-between items-center'>
+                        <h3 className='!font-semibold !text-gray-700'>Healthcare Services</h3>
+                        <a
+                            style={{
+                                textDecoration: 'none',
+                            }}
+                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                        >Explore More</a>
+                    </div>
+
+                    {/* SERVICES BY SPECIALITIES SWIPER 1  */}
+                    <Swiper
+                        modules={[Navigation, Pagination, Autoplay, A11y]}
+                        spaceBetween={16}
+                        slidesPerView={4}
+                        loop={true}
+                        pagination={{ clickable: true, dynamicBullets: true }}
+                        navigation
+                        autoplay={{ delay: 10000 }}
+                        breakpoints={{
+                            0: {
+                                slidesPerView: 2,
+                            },
+                            520: {
+                                slidesPerView: 2,
+                            },
+                            768: {
+                                slidesPerView: 3,
+                            },
+                            1000: {
+                                slidesPerView: 4,
+                            },
+                        }}
+
+                    >
+                        {
+                            servicesBySpecialities.slice(0, 10).map((service, index) =>
+                                <SwiperSlide key={index} className='slide mt-3'>
+                                    <div className="group"  >
+                                        <a
+                                            style={{ textDecoration: 'none' }}
+                                            href="" className=''>
+                                            <div className="user-image text-center">
+                                                <img
+                                                    src={path + service.image}
+                                                    alt={service.title}
+                                                    className='rounded-xl object-cover aspect-[3/2]'
+                                                />
+                                            </div>
+                                            <div className="text-[17px] font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482]">{service.title} </div>
+                                        </a>
                                     </div>
+                                </SwiperSlide>
+                            )
+                        }
+                    </Swiper>
 
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-6 col-lg-4 ">
-                            <div className="d-flex  accreditations-inner-box acc-inner-box3">
+                    {/* SERVICES BY SPECIALITIES SWIPER 2  */}
+                    <Swiper
+                        modules={[Navigation, Pagination, Autoplay, A11y]}
+                        spaceBetween={16}
+                        slidesPerView={4}
+                        loop={true}
+                        pagination={{ clickable: true, dynamicBullets: true }}
+                        navigation
+                        autoplay={{ delay: 10000 }}
+                        breakpoints={{
+                            0: {
+                                slidesPerView: 2,
+                            },
+                            520: {
+                                slidesPerView: 2,
+                            },
+                            768: {
+                                slidesPerView: 3,
+                            },
+                            1000: {
+                                slidesPerView: 4,
+                            },
+                        }}
+                        className='mt-2'
 
-                                <div className="">
-                                    <img src={path + 'IGBG-GOLD.jpeg'} alt="" className='' />
-                                </div>
-                                <div className="d-flex align-items-center p-2">
-                                    <div className="">
-                                        <p className='  mb-0'>Organizations Accredited by Largest Gold Certified</p>
-                                        <p className='  mb-0'>  Green Hospital</p>
+                    >
+                        {
+                            servicesBySpecialities.slice(10).map((service, index) =>
+                                <SwiperSlide key={index} className='slide mt-3'>
+                                    <div className="group"  >
+                                        <a
+                                            style={{ textDecoration: 'none' }}
+                                            href="" className=''>
+                                            <div className="user-image text-center">
+                                                <img
+                                                    src={path + service.image}
+                                                    alt={service.title}
+                                                    className='rounded-xl object-cover aspect-[3/2]'
+                                                />
+                                            </div>
+                                            <div className="text-[17px] font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482]">{service.title} </div>
+                                        </a>
                                     </div>
+                                </SwiperSlide>
+                            )
+                        }
+                    </Swiper>
 
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                {/* DIAGNOSTIC CENTRES NEAR YOU SECTION */}
+                <div className='!mt-10'>
+                    {/* DIAGNOSTIC CENTRES NEAR YOU HEADING AND EXPLORE MORE BUTTON  */}
+                    <div className='flex justify-between items-center'>
+                        <h3 className='!font-semibold !text-gray-700'>Diagnostic Centres Near You</h3>
+                        <a
+                            style={{
+                                textDecoration: 'none',
+                            }}
+                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                        >Explore More</a>
+                    </div>
+
+                    {/* DIAGNOSTIC CENTRES NEAR YOU GRID BRAND IMAGES AND TITLES */}
+                    <div className='grid grid-cols-6 gap-3 mt-3'>
+                        {diagnosticCentres.map((center, index) =>
+                            <div
+                                key={index}
+                                className='group'
+                            >
+                                <a
+                                    style={{ textDecoration: 'none' }}
+                                    className='cursor-pointer flex flex-col items-center'
+                                >
+                                    <div className="text-center rounded-full h-39 w-39 group-hover:shadow-2xl transition-all">
+                                        <img src={path + center.image} alt="Diagnostic Centre image" className='rounded-full h-full w-full object-contain' />
+                                    </div>
+                                    <p className='mt-2 text-[17px] font-semibold text-gray-700 group-hover:text-[#9b2482]'>{center.title}</p>
+
+                                </a>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                {/* ALTERNATIVE MEDICINE SECTION */}
+                <div className='!mt-10'>
+                    {/* ALTERNATIVE MEDICINE HEADING AND EXPLORE MORE BUTTON  */}
+                    <div className='flex justify-between items-center'>
+                        <h3 className='!font-semibold !text-gray-700'>Alternative Medicine</h3>
+                        <a
+                            style={{
+                                textDecoration: 'none',
+                            }}
+                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                        >Explore More</a>
+                    </div>
+
+                    {/* ALTERNATIVE MEDICINE GRID IMAGES AND TITLE */}
+                    <div className='grid grid-cols-4 gap-x-3 gap-y-3 !mt-5'>
+                        {alternativeMedicine.map((item, index) =>
+                            <div
+                                key={index}
+                                className='group'
+                            >
+                                <a
+                                    style={{ textDecoration: 'none' }}
+                                    className='cursor-pointer'
+                                >
+                                    <img
+                                        src={path + item.image}
+                                        alt={item.title}
+                                        className='rounded-xl aspect-[3/2]'
+                                    />
+                                    <p className='text-[17px] font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482]'>{item.title}</p>
+                                </a>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                {/* ONLINE HEALTHCARE SERVICES SECTION*/}
+                <div className='!mt-10'>
+                    {/* ONLINE HEALTHCARE SERVICES HEADING AND EXPLORE MORE BUTTON  */}
+                    <div className='flex justify-between items-center'>
+                        <h3 className='!font-semibold !text-gray-700'>Online Healthcare Services</h3>
+                        <a
+                            style={{
+                                textDecoration: 'none',
+                            }}
+                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                        >Explore More</a>
+                    </div>
+
+                    {/*  ONLINE HEALTHCARE SERVICES GRID IMAGES AND TITLE */}
+                    <div className='grid grid-cols-3 gap-x-3 gap-y-3 !mt-5'>
+                        {onlineHealthcareServices.map((service, index) =>
+                            <div
+                                key={index}
+                                className='group'
+                            >
+                                <a
+                                    style={{ textDecoration: 'none' }}
+                                    className='cursor-pointer'
+                                >
+                                    <img
+                                        src={path + service.image}
+                                        alt={service.title}
+                                        className='rounded-xl aspect-auto'
+                                    />
+                                    <p className='text-[17px] font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482]'>{service.title}</p>
+                                </a>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                {/* PUBLIC SECTOR CORPORATES SECTION */}
+                <div className='!mt-10'>
+                    {/* PUBLIC SECTOR CORPORATES HEADING AND EXPLORE MORE BUTTON  */}
+                    <div className='flex justify-between items-center'>
+                        <h3 className='!font-semibold !text-gray-700'>Public Sector Corporates</h3>
+                        <a
+                            style={{
+                                textDecoration: 'none',
+                            }}
+                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                        >Explore More</a>
+                    </div>
+
+                    {/* PUBLIC SECTOR CORPORATES GRID BRAND IMAGES AND TITLES */}
+                    <div className='grid grid-cols-6 gap-2 mt-3'>
+                        {publicSectorCorporates.map((corporate, index) =>
+                            <div
+                                key={index}
+                                className='group'
+                            >
+                                <a
+                                    style={{ textDecoration: 'none' }}
+                                    className='cursor-pointer flex flex-col items-center'
+                                >
+                                    <div className={`${corporate.borderColor} text-center rounded-full h-36 w-36 transition-all`}>
+                                        <img src={path + corporate.image} alt="Diagnostic Centre image" className={` rounded-full h-full w-full object-fit`} />
+                                    </div>
+                                    <p className='mt-2 text-[17px] font-semibold text-gray-700 group-hover:text-[#9b2482]'>{corporate.title}</p>
+
+                                </a>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                {/* MORE SERVICES SECTION */}
+                <div className='!mt-10'>
+                    {/* MORE SERVICES HEADING AND EXPLORE MORE BUTTON  */}
+                    <div className='flex justify-between items-center'>
+                        <h3 className='!font-semibold !text-gray-700'>More Services</h3>
+                        <a
+                            style={{
+                                textDecoration: 'none',
+                            }}
+                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                        >Explore More</a>
+                    </div>
+
+                    {/* MORE SERVICES GRID IMAGES AND TITLE */}
+                    <div className='grid grid-cols-4 gap-x-3 gap-y-3 !mt-5'>
+                        {moreServices.map((service, index) =>
+                            <div
+                                key={index}
+                                className='group'
+                            >
+                                <a
+                                    style={{ textDecoration: 'none' }}
+                                    className='cursor-pointer'
+                                >
+                                    <img
+                                        src={path + service.image}
+                                        alt={service.title}
+                                        className='rounded-xl aspect-[3/2]'
+                                    />
+                                    <p className='text-[17px] font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482]'>{service.title}</p>
+                                </a>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                {/* HEALTH CHECKUP IMAGE */}
+                <div className="!mt-10 ">
+                    <img src={path + 'Health-Checkup.jpg'} alt="health checkup image" className='rounded-xl' />
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                {/* SERVICES BY ACCREDITATIONS SECTION */}
+                <div className='!mt-10'>
+                    {/* SERVICES BY ACCREDITATIONS HEADING  */}
+                    <div className='flex justify-start items-center'>
+                        <h3 className='!font-semibold !text-gray-700'>Services By Accreditations</h3>
+                    </div>
+
+                    {/* SERVICES BY ACCREDITATIONS GRID IMAGES AND TITLE */}
+                    <div className='grid grid-cols-3 gap-x-3 gap-y-3 !mt-5'>
+                        {servicesByAccrediations.map((service, index) =>
+                            <div
+                                key={index}
+                                className='group flex justify-center items-center !shadow-lg rounded-xl !py-1.5'
+                            >
+                                <div className='h-24 w-full'>
+                                    <img
+                                        src={path + service.image}
+                                        alt={service.title}
+                                        className='rounded-full object-contain h-full w-full'
+                                    />
+                                </div>
+                                <div className='pr-4'>
+                                    <p className='text-[15px] font-medium mt-2 text-cyan-600'>{service.title}</p>
                                 </div>
                             </div>
-
-                        </div>
-
+                        )}
                     </div>
-
-
-                </div>
-            </div>
-
-            {/* service by sccreditations end */}
-
-            {/* Sort by specialist start  */}
-
-            {/* <div className="container margin-top3">
-
-                <h2 className='homepage-section-heading'>Sort by specialist</h2>
-
-
-
-                <div className="row  g-3 mt-2">
-                    <div className="col-md-3 col-6 "  >
-                        <div className="">
-                            <img src={path + "Organ-Transplant-Centres.png"} alt="" className='img-fluid' />
-                        </div>
-
-                        <p className='semi-head1 mt-1 ps-2'>Organ Transplant Centres</p>
-                    </div>
-                    <div className="col-md-3 col-6"  >
-                        <div className="">
-                            <img src={path + "Eye-Care-Centres.png"} alt="" className='img-fluid' />
-                        </div>
-
-                        <p className='semi-head1 mt-1 ps-2'>Eye Care Centres</p>
-                    </div>
-
-                    <div className="col-md-3 col-6 "  >
-                        <div className="">
-                            <img src={path + "Pediatric-Centres.png"} alt="" className='img-fluid' />
-                        </div>
-
-                        <p className='semi-head1 mt-1 ps-2'>Pediatric Centres</p>
-                    </div>
-                    <div className="col-md-3 col-6 "  >
-                        <div className="">
-                            <img src={path + "Heart-Care-Centres.png"} alt="" className='img-fluid' />
-                        </div>
-
-                        <p className='semi-head1 mt-1 ps-2'>Heartn Care Centres</p>
-                    </div>
-                    <div className="col-md-3 col-6 "   data-aos-delay="400">
-                        <div className="">
-                            <img src={path + "Skincare-Centres.png"} alt="" className='img-fluid' />
-                        </div>
-
-                        <p className='semi-head1 mt-1 ps-2'>Skincare Centres</p>
-                    </div>
-                    <div className="col-md-3 col-6 "   data-aos-delay="400">
-                        <div className="">
-                            <img src={path + "Test-Tube-Baby-Centres.png"} alt="" className='img-fluid' />
-                        </div>
-
-                        <p className='semi-head1 mt-1 ps-2'>Test Tube Baby Centres</p>
-                    </div>
-                    <div className="col-md-3 col-6 "   data-aos-delay="500">
-                        <div className="">
-                            <img src={path + "Kidney-care-Centres.png"} alt="" className='img-fluid' />
-                        </div>
-
-                        <p className='semi-head1 mt-1 ps-2'>Kidney care Centres</p>
-                    </div>
-                    <div className="col-md-3 col-6 "   data-aos-delay="500">
-                        <div className="">
-                            <img src={path + "Cancer-Care-Centres.png"} alt="" className='img-fluid' />
-                        </div>
-
-                        <p className='semi-head1 mt-1 ps-2'>Cancer Care Centres</p>
-                    </div>
-
-
-                </div>
-            </div> */}
-
-
-
-            {/* Sort by specialist End  */}
-
-
-
-
-
-
-
-
-
-
-
-            {/* Services By Health Concern start  */}
-
-            <div className="container margin-top3">
-
-
-                <div className="row d-flex justify-content-between">
-                    <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Services By Health Concern</h2>
-                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
-
-
-                    </div>
-
-                    <div className="col-md-3 col-4 text-end d-flex  justify-content-end align-items-center">
-                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
-                    </div>
-
                 </div>
 
-                <div className="d-flex  Services-By-Health-Concern mt-4" data-aos-delay="300">
-                    <div className="">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "Depression-Anxiety1.jpg"} alt="" className='img-fluid' />
+
+
+
+
+
+
+
+
+
+
+                {/* SERVICES BY HEALTH CONCERN */}
+                <div className='!mt-10'>
+                    {/* SERVICES BY HEALTH CONCERN AND EXPLORE MORE BUTTON  */}
+                    <div className='flex justify-between items-center'>
+                        <h3 className='!font-semibold !text-gray-700'>Services By Health Concern</h3>
+                        <a
+                            style={{
+                                textDecoration: 'none',
+                            }}
+                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                        >Explore More</a>
+                    </div>
+
+                    {/* SERVICES BY HEALTH CONCERN GRID IMAGES AND TITLE */}
+                    <div className='grid grid-cols-5 gap-x-3 gap-y-3 !mt-5'>
+                        {servicesByHealthConcern.map((service, index) =>
+                            <div
+                                key={index}
+                                className='group'
+                            >
+                                <a
+                                    style={{ textDecoration: 'none' }}
+                                    className='cursor-pointer'
+                                >
+                                    <img
+                                        src={path + service.image}
+                                        alt={service.title}
+                                        className='rounded-xl aspect-square'
+                                    />
+                                    <p className='text-[17px] font-semibold mt-2 !ml-1.5 text-gray-700 group-hover:text-[#9b2482]'>{service.title}</p>
+                                </a>
                             </div>
-
-                            <p className='semi-head1 mt-2'>Depression or Anxiety ? </p>
-                        </a>
+                        )}
                     </div>
-                    <div className=" px-3">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "Pregnant.png"} alt="" className='img-fluid' />
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                {/* POPULAR HOSPITALS IN INDIA */}
+                <div className='!mt-10'>
+                    {/* POPULAR HOSPITALS IN INDIA AND EXPLORE MORE BUTTON */}
+                    <div className='flex justify-between items-center'>
+                        <h3 className='!font-semibold !text-gray-700'>Popular Hospitals In India</h3>
+                        <a
+                            style={{
+                                textDecoration: 'none',
+                            }}
+                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                        >Explore More</a>
+                    </div>
+
+                    {/* POPULAR HOSPITALS IN INDIA GRID IMAGES AND TITLE */}
+                    <div className='grid grid-cols-4 gap-x-3 gap-y-3 !mt-5'>
+                        {popularHospitals.map((hospital, index) =>
+                            <div
+                                key={index}
+                                className='group'
+                            >
+                                <a
+                                    style={{ textDecoration: 'none' }}
+                                    className='cursor-pointer'
+                                >
+                                    <img
+                                        src={path + hospital.image}
+                                        alt={hospital.title}
+                                        className='rounded-xl !aspect-[3/2] !object-fill'
+                                    />
+                                    <p className='text-[17px] font-semibold mt-2 !ml-1.5 text-gray-700 group-hover:text-[#9b2482]'>{hospital.title}</p>
+                                </a>
                             </div>
-                            <p className='semi-head1 mt-2'>Pregnant ?</p>
-                        </a>
+                        )}
                     </div>
-                    <div className="">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "Joint-Pains.png"} alt="" className='img-fluid' />
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                {/* CHOOSE YOUR HEALTH INSURANCE */}
+                <div className='!mt-10'>
+                    {/* CHOOSE YOUR HEALTH INSURANCE AND EXPLORE MORE BUTTON */}
+                    <div className='flex justify-between items-center'>
+                        <h3 className='!font-semibold !text-gray-700'>Choose Your Health Insurance</h3>
+                        <a
+                            style={{
+                                textDecoration: 'none',
+                            }}
+                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                        >Explore More</a>
+                    </div>
+
+                    {/* CHOOSE YOUR HEALTH INSURANCE GRID IMAGES AND TITLE */}
+                    <div className='grid grid-cols-6 gap-x-2 gap-y-3 !mt-5'>
+                        {chooseYourHealthInsurance.map((insurance, index) =>
+                            <div
+                                key={index}
+                                className={`${insurance.bgColor} flex justify-center items-center rounded-lg`}
+                            >
+                                <img
+                                    src={path + insurance.image}
+                                    alt='insurance images'
+                                    className='rounded-xl aspect-[3/2] object-contain'
+                                />
                             </div>
-
-                            <p className='semi-head1 mt-2 '>Joint Pains ?</p>
-                        </a>
+                        )}
                     </div>
-                    <div className=" px-3">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "Ear-Problems.png"} alt="" className='img-fluid' />
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                {/* CHOOSE YOUR TPA */}
+                <div className='!mt-10'>
+                    {/* CHOOSE YOUR TPA AND EXPLORE MORE BUTTON */}
+                    <div className='flex justify-between items-center'>
+                        <h3 className='!font-semibold !text-gray-700'>Choose Your TPA</h3>
+                        <a
+                            style={{
+                                textDecoration: 'none',
+                            }}
+                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                        >Explore More</a>
+                    </div>
+
+                    {/* CHOOSE YOUR TPA GRID IMAGES AND TITLE */}
+                    <div className='grid grid-cols-6 gap-x-2 gap-y-3 !mt-5'>
+                        {chooseYourTPA.map((tpa, index) =>
+                            <div
+                                key={index}
+                                className={`${tpa.bgColor} flex justify-center items-center rounded-lg`}
+                            >
+                                <img
+                                    src={path + tpa.image}
+                                    alt='tpa images'
+                                    className='rounded-xl aspect-[3/2] object-contain'
+                                />
                             </div>
-
-                            <p className='semi-head1 mt-2'>Ear Problems ?</p>
-                        </a>
+                        )}
                     </div>
-                    <div className=" ">
-                        <a href="" className='a-links'>
-                            <div className="text-center">
-                                <img src={path + "Digestion-Issues.png"} alt="" className='img-fluid' />
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                {/* HEALTHCARE VIDEOS */}
+                <div className='!mt-10'>
+                    {/* HEALTHCARE VIDEOS HEADING AND EXPLORE MORE BUTTON  */}
+                    <div className='flex justify-between items-center'>
+                        <h3 className='!font-semibold !text-gray-700'>Healthcare Videos</h3>
+                        <a
+                            style={{
+                                textDecoration: 'none',
+                            }}
+                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                        >Explore More</a>
+                    </div>
+
+                    {/* HEALTHCARE VIDEOS GRID VIDEOS */}
+                    <div className='grid grid-cols-3 gap-x-3 gap-y-3 !mt-5'>
+                        {healthcareVideos.map((video, index) =>
+                            <div
+                                key={index}
+                                className=''
+                            >
+                                <iframe
+                                    width="100%"
+                                    height="215"
+                                    src={video.link}
+                                    title="YouTube video player"
+                                    frameborder="0"
+                                    class="radius10"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen>
+                                </iframe>
                             </div>
-
-                            <p className='semi-head1 mt-2'>Digestion Issues ? </p>
-                        </a>
-                    </div>
-
-
-
-                </div>
-
-
-            </div>
-
-
-
-            {/* Services By Health Concern End  */}
-
-
-            {/* Top Hospitals In Mumbai start  */}
-
-
-            <div className="container margin-top3">
-
-
-
-                <div className="row d-flex justify-content-between">
-                    <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Popular Hospitals In India</h2>
-                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
-
-
-                    </div>
-
-                    <div className="col-md-3 col-4 text-end d-flex  justify-content-end align-items-center">
-                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
+                        )}
                     </div>
 
                 </div>
 
 
-                <div className="row g-3  mt-1">
 
-                    <div className="col-md-3 col-6" data-aos-delay="600">
-                        <a href="" className='a-links'>
-                            <div className="">
-                                <img src={path + "SAIFEE-HOSPITAL.png"} alt="" className='img-fluid services-img' />
+
+
+
+
+
+
+
+
+                {/* ARTICLES SECTION*/}
+                <div className='!mt-10'>
+                    {/* ARTICLES HEADING AND EXPLORE MORE BUTTON  */}
+                    <div className='flex justify-between items-center'>
+                        <h3 className='!font-semibold !text-gray-700'>Articles</h3>
+                        <a
+                            style={{
+                                textDecoration: 'none',
+                            }}
+                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                        >Explore More</a>
+                    </div>
+
+                    {/*  ARTICLES GRID IMAGES AND TITLE */}
+                    <div className='grid grid-cols-3 gap-x-3 gap-y-3 !mt-5'>
+                        {articles.map((article, index) =>
+                            <div
+                                key={index}
+                                className=''
+                            >
+                                <a
+                                    style={{ textDecoration: 'none' }}
+                                    className='cursor-pointer'
+                                >
+                                    <img
+                                        src={path + article.image}
+                                        alt='article image'
+                                        className='rounded-xl aspect-auto object-contain'
+                                    />
+                                    <div className='!flex justify-center !space-x-1.5 !mt-2'>
+                                        <i className='text-black'>in</i>
+                                        <p className='font-semibold tracking-wider text-cyan-500'>WELLNESS</p>
+                                    </div>
+                                    <p className='!flex text-[17px] font-semibold text-gray-700'>{article.title}: {article.text}</p>
+                                </a>
                             </div>
-
-                            <p className='semi-head1 '> Saifee Hospital</p>
-                        </a>
-                    </div>
-
-                    <div className="col-md-3 col-6" data-aos-delay="700">
-                        <a href="" className='a-links'>
-                            <div className="">
-                                <img src={path + "MAX-NANAVATI-HOSPITAL.png"} alt="" className='img-fluid services-img' />
-                            </div>
-
-                            <p className='semi-head1 '> Max Nanavati Hospital </p>
-                        </a>
-                    </div>
-
-                    <div className="col-md-3 col-6" data-aos-delay="800">
-                        <a href="" className='a-links'>
-                            <div className="">
-                                <img src={path + "GLOBAL-HOSPITAL.png"} alt="" className='img-fluid services-img' />
-                            </div>
-
-                            <p className='semi-head1 '> Global Hospital</p>
-                        </a>
-                    </div>
-
-                    <div className="col-md-3 col-6" data-aos-delay="900">
-                        <a href="" className='a-links'>
-                            <div className="">
-                                <img src={path + "KOKILABEN-HOSPITAL.png"} alt="" className='img-fluid services-img' />
-                            </div>
-
-                            <p className='semi-head1  '> Kokilaben Hospital</p>
-                        </a>
-                    </div>
-
-
-                </div>
-
-            </div>
-
-
-
-            {/* Top Hospitals In Mumbai End  */}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            {/* Health Insurance Empanelments start  */}
-
-            <div className="container margin-top3">
-
-                <div className="row d-flex justify-content-between">
-                    <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Choose Your Health Insurance</h2>
-                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
-
-
-                    </div>
-
-                    <div className="col-md-3 col-4 text-end d-flex  justify-content-end align-items-center">
-                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
-                    </div>
-
-                </div>
-
-                <div className="row g-2 mt-2 phone-scroll">
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center icici-logo-box">
-                            <img src={path + 'icici-logo1.png'} alt="" className='img-fluid' />
-                        </div>
-                    </div>
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center iffco-logo-box">
-                            <img src={path + 'Iffco-Tokio-Gen-Insurance-1.png'} alt="" className='img-fluid' />
-                        </div>
-                    </div>
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center hdfc-logo-box">
-                            <img src={path + 'HDFC-ERGO1.png'} alt="" className='img-fluid' />
-                        </div>
-                    </div>
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center bajaj-logo-box">
-                            <img src={path + 'bajaj-logo1.png'} alt="" className='img-fluid' />
-                        </div>
-                    </div>
-
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center care-logo-box">
-                            <img src={path + 'Care_health_insurance_logo-1.png'} alt="" className='img-fluid' />
-                        </div>
-                    </div>
-
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center kotak-logo-box">
-                            <img src={path + 'kotak-logo.png'} alt="" className='img-fluid' />
-                        </div>
-                    </div>
-
-                </div>
-
-
-            </div>
-
-            {/* Health Insurance Empanelments start  */}
-
-
-            {/* TPA Empanelments start  */}
-            <div className="container margin-top3">
-
-                <div className="row d-flex justify-content-between">
-                    <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Choose Your TPA</h2>
-                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
-
-
-                    </div>
-
-                    <div className="col-md-3 col-4 text-end d-flex justify-content-end align-items-center">
-                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
-                    </div>
-
-                </div>
-
-                <div className="row g-2 mt-2 phone-scroll">
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center health-india-logo-box">
-                            <img src={path + 'Health-India.png'} alt="" className='img-fluid ' />
-                        </div>
-                    </div>
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center vidal-health-logo-box">
-                            <img src={path + 'Vidal-Health.png'} alt="" className='img-fluid' />
-                        </div>
-                    </div>
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center raksha-logo-box">
-                            <img src={path + 'rakshaTPA-logo.png'} alt="" className='img-fluid' />
-                        </div>
-                    </div>
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center md-india-logo-box">
-                            <img src={path + 'MD-India-logo.png'} alt="" className='img-fluid tpa-logo' />
-                        </div>
-                    </div>
-
-
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center medi-assist-logo-box">
-                            <img src={path + 'medi-assist-logo.png'} alt="" className='img-fluid' />
-                        </div>
-                    </div>
-
-                    <div className="col-md-2 col-6">
-                        <div className="Health-Insurance-logo-box d-flex justify-content-center align-items-center med-save-logo-box">
-                            <img src={path + 'med-save-logo.png'} alt="" className='img-fluid' />
-                        </div>
-                    </div>
-
-                </div>
-
-
-            </div>
-
-
-            {/* TPA Empanelments End  */}
-
-
-
-
-            {/* Healthcare Videos start  */}
-
-
-            <div className="container margin-top3">
-
-
-
-                <div className="row d-flex justify-content-between">
-                    <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Healthcare Videos</h2>
-                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
-
-
-
-                    </div>
-
-                    <div className="col-md-3 col-4 text-end d-flex justify-content-end align-items-center">
-                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
-                    </div>
-
-                </div>
-
-                <div className="row mt-3 g-3">
-                    <div className="col-md-4 pe-1">
-                        <div className="">
-                            <iframe
-                                width="100%"
-                                height="215"
-                                src="https://www.youtube.com/embed/YZ84iQrbYjw?si=mgCWIRNdpW0cOvJ6"
-                                title="YouTube video player"
-                                frameborder="0"
-                                className="radius10"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen>
-                            </iframe>
-                        </div>
-                    </div>
-                    <div className="col-md-4 pe-1">
-                        <div className="">
-                            <iframe
-                                width="100%"
-                                height="215"
-                                src="https://www.youtube.com/embed/z2Bbm1Jr0mI?si=dU7ihUF2GeryH-Mt"
-                                title="YouTube video player"
-                                frameborder="0"
-                                className="radius10"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen>
-                            </iframe>
-                        </div>
-                    </div>
-                    <div className="col-md-4 pe-1">
-                        <div className="">
-                            <iframe
-                                width="100%"
-                                height="215"
-                                src="https://www.youtube.com/embed/y6N8u4OGgXk?si=CK5WiLzO8SzUoWAO"
-                                title="YouTube video player"
-                                frameborder="0"
-                                className="radius10"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen>
-                            </iframe>
-                        </div>
-                    </div>
-                    <div className="col-md-4 pe-1">
-                        <div className="">
-                            <iframe
-                                width="100%"
-                                height="215"
-                                src="https://www.youtube.com/embed/YZ84iQrbYjw?si=mgCWIRNdpW0cOvJ6"
-                                title="YouTube video player"
-                                frameborder="0"
-                                className="radius10"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen>
-                            </iframe>
-                        </div>
-                    </div>
-                    <div className="col-md-4 pe-1">
-                        <div className="">
-                            <iframe
-                                width="100%"
-                                height="215"
-                                src="https://www.youtube.com/embed/z2Bbm1Jr0mI?si=dU7ihUF2GeryH-Mt"
-                                title="YouTube video player"
-                                frameborder="0"
-                                className="radius10"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen>
-                            </iframe>
-                        </div>
-                    </div>
-                    <div className="col-md-4 pe-1">
-                        <div className="">
-                            <iframe
-                                width="100%"
-                                height="215"
-                                src="https://www.youtube.com/embed/y6N8u4OGgXk?si=CK5WiLzO8SzUoWAO"
-                                title="YouTube video player"
-                                frameborder="0"
-                                className="radius10"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen>
-                            </iframe>
-                        </div>
+                        )}
                     </div>
                 </div>
+
+
+
+
+
+
+
 
 
 
 
             </div>
-
-
-            {/* Healthcare Videos End  */}
-
-
-
-
-            {/* Articles start  */}
-
-
-            <div className="container margin-top3">
-
-
-
-                <div className="row d-flex justify-content-between">
-                    <div className="col-md-6 col-8">
-                        <h2 className='homepage-section-heading'>Articles</h2>
-                        {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
-
-
-
-                    </div>
-
-                    <div className="col-md-3 col-4 text-end d-flex justify-content-end align-items-center">
-                        <a href="" className=' btn-small'>Explore  <span className='explore-more-btn-phone'>More</span></a>
-                    </div>
-
-                </div>
-
-                <div className="row mt-3">
-                    <div className="col-md-4 pe-1">
-                        <div className="">
-                            <img src={path + 'Articles-img1.png'} alt="" className='img-fluid' />
-                        </div>
-                        <p className='mb-0  mt-3 '> <i>in</i> <span className='wellness'>WELLNESS</span></p>
-                        <p className=' mb-0  semi-head1'>The Transformative Power of Early Mornings:
-                            Embracing the Benefits of Waking Up Early
-                        </p>
-                    </div>
-                    <div className="col-md-4 pe-1">
-                        <div className="">
-                            <img src={path + 'Articles-img2.png'} alt="" className='img-fluid' />
-                        </div>
-                        <p className='mb-0  mt-3 '> <i>in</i> <span className='wellness'>WELLNESS</span></p>
-                        <p className=' mb-0  semi-head1 '>Taming the Appetite: Harnessing Natural
-                            Appetite Suppressants for Weight Control
-
-                        </p>
-                    </div>
-                    <div className="col-md-4 pe-1">
-                        <div className="">
-                            <img src={path + 'Articles-img3.png'} alt="" className='img-fluid' />
-                        </div>
-                        <p className='mb-0  mt-3 '> <i>in</i> <span className='wellness'>WELLNESS</span></p>
-                        <p className=' mb-0  semi-head1 '>Dive into Wellness: The Incredible Benefits of Swimming
-
-                        </p>
-                    </div>
-                    {/* <div className="col-md-4 ">
-                        <div className="">
-                            <img src={path + 'Articles-img3.png'} alt="" className='img-fluid' />
-                        </div>
-
-                        <p className='mb-0 mt-2 article-para'>Dive into Wellness: The Incredible
-                            Benefits of Swimming
-
-                        </p>
-                    </div> */}
-                </div>
-
-            </div>
-
-
-
-
-
-
-
-            {/* Articles End  */}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         </>
 
