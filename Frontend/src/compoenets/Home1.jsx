@@ -1,4 +1,8 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
+
+import popularBrands from '../data/brands';
+
 import { Navigation, Pagination, Autoplay, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -27,14 +31,7 @@ const healthcareServices = [
     { title: 'Orthotic & Prosthetics', image: 'Orthotics-Prosthetics.jpg', },
 ]
 
-const popularBrands = [
-    { image: 'Brands-In-India/fortis-logo.png', },
-    { image: 'Brands-In-India/wockhardt-logo.png', },
-    { image: 'Brands-In-India/hcg-logo.png', },
-    { image: 'Brands-In-India/max-logo.png', },
-    { image: 'Brands-In-India/apollo.png', },
-    { image: 'Brands-In-India/paras-logo.png', },
-]
+
 
 const servicesBySpecialities = [
     { id: 1, title: 'General Surgery', image: 'specialities/General-Surgery.jpg', },
@@ -225,17 +222,20 @@ function Home1() {
                     {/* POPULAR HEALTHCARE BRANDS IN INDIA HEADING AND EXPLORE MORE BUTTON*/}
                     <div className='flex justify-between items-center !mt-10'>
                         <h3 className='!font-semibold !text-gray-700'>Popular Healthcare Brands In India</h3>
-                        <a
+                        <Link
+                        to={'/brands-in-india'}
                             style={{
                                 textDecoration: 'none',
                             }}
                             className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
-                        >Explore More</a>
+                        >
+                            Explore More
+                        </Link>
                     </div>
 
                     {/* POPULAR HEALTHCARE GRID BRAND IMAGES */}
                     <div className='grid grid-cols-6 gap-3 mt-3'>
-                        {popularBrands.map((brand, index) =>
+                        {popularBrands.slice(0,6).map((brand, index) =>
                             <div
                                 key={index}
                                 className='cursor-pointer'
@@ -263,9 +263,9 @@ function Home1() {
 
                 {/* SERVICES BY SPECIALITIES SECTION */}
                 <div className='!mt-10'>
-                    {/*  SERVICES BY SPECIALITIES HEADING AND EXPLORE MORE BUTTON  */}
+                    {/*  SERVICES BY SPECIALITIES HEADING AND EXPLORE MORE BUTTON */}
                     <div className='flex justify-between items-center'>
-                        <h3 className='!font-semibold !text-gray-700'>Services by Specialities</h3>
+                        <h3 className='!font-semibold !text-gray-700'>Healthcare Services</h3>
                         <a
                             style={{
                                 textDecoration: 'none',
@@ -736,7 +736,7 @@ function Home1() {
                                     <img
                                         src={path + hospital.image}
                                         alt={hospital.title}
-                                        className='rounded-xl aspect-[3/2]'
+                                        className='rounded-xl !aspect-[3/2] !object-fill'
                                     />
                                     <p className='text-[17px] font-semibold mt-2 !ml-1.5 text-gray-700 group-hover:text-[#9b2482]'>{hospital.title}</p>
                                 </a>

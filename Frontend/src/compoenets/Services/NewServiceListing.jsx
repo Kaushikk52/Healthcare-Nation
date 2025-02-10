@@ -2,6 +2,7 @@ import React from 'react'
 
 // icons from react-icons library
 import { FaStar, FaPhoneAlt } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 const filters = [
     {
@@ -238,7 +239,7 @@ const NewServiceListing = () => {
 
                                                     {/* VIEW DETAILS BUTTON */}
                                                     <div>
-                                                        <button className='!py-1.5 !px-4 border border-black font-semibold rounded transition-all duration-150 hover:!bg-gray-800 hover:!text-white'>View Details</button>
+                                                        <Link to={'/hospital-details-page'} className='!py-1.5 !px-4 border border-black font-semibold rounded transition-all duration-150 hover:!bg-gray-800 hover:!text-white'>View Details</Link>
                                                     </div>
 
                                                 </div>

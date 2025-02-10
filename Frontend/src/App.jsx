@@ -9,6 +9,8 @@ import Layout from './compoenets/Layout';
 import Home from './compoenets/Home';
 import ServiceListing from './compoenets/Services/ServiceListing';
 import NewServiceListing from './compoenets/Services/NewServiceListing';
+import BrandsInIndia from './pages/BrandsInIndia';
+import HospitalDetailsPage from './pages/HospitalDetailsPage';
 
 
 
@@ -33,6 +35,8 @@ function App() {
             </Route>
             <Route path="new-service-listing" element={<NewServiceListing />} />
             <Route path="services/" element={<Services />} />
+            <Route path="brands-in-india" element={<BrandsInIndia />} />
+            <Route path="hospital-details-page" element={<HospitalDetailsPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
