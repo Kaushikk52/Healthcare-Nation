@@ -2,6 +2,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 
 import popularBrands from '../data/brands';
+import servicesBySpecialities from '../data/servicesBySpecialities'
 
 import { Navigation, Pagination, Autoplay, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -33,42 +34,7 @@ const healthcareServices = [
 
 
 
-const servicesBySpecialities = [
-    { id: 1, title: 'General Surgery', image: 'specialities/General-Surgery.jpg', },
-    { id: 2, title: 'Eye Care Centres', image: 'Eye-Care-Centres.png', },
-    { id: 3, title: 'Pediatric Centres', image: 'Pediatric-Centres1.jpg', },
-    { id: 4, title: 'Cardiology', image: 'HomeCare-services2.jpg', },
-    { id: 5, title: 'Psychiatry', image: 'specialities/Psychiatry.jpg', },
-    { id: 6, title: 'Psysiotherapy', image: 'specialities/Physiotherapy.jpg', },
-    { id: 7, title: 'Onco Surgery', image: 'specialities/Onco-Surgery.jpg', },
-    { id: 8, title: 'Spine Surgery', image: 'specialities/Spine-Surgery.jpg', },
-    { id: 9, title: 'Rheumatology', image: 'specialities/Rheumatology.jpg', },
-    { id: 10, title: 'Radiatio oncology', image: 'specialities/Radiatio-oncology.jpg', },
 
-
-    { id: 11, title: 'Dermatology', image: 'Skincare-Centres1.jpg', },
-    { id: 12, title: 'Dietetics', image: 'specialities/Dietetics.jpg', },
-    { id: 13, title: "Nephrology", image: 'Kidney-care-Centres.png' },
-    { id: 14, title: 'Oncology', image: 'Cancer-Centres.jpg', },
-    { id: 15, title: 'Plastic Surgery', image: 'specialities/Plastic-Surgery.jpg', },
-    { id: 16, title: 'Pulmonology', image: 'specialities/Pulmonology.jpg', },
-    { id: 17, title: 'Occupational therapy', image: 'specialities/Physiotherapy-Occupational-therapy.png', },
-    { id: 18, title: 'Pediatric Surgery', image: 'specialities/Pediatric-Surgery.jpg', },
-    { id: 19, title: 'Oncology', image: 'specialities/Oncology.jpg', },
-    { id: 20, title: 'Obstetrics & Gynecology', image: 'specialities/Obstetrics-Gynecology.jpg', },
-    { id: 21, title: 'Neurosurgery', image: 'specialities/Neurosurgery.jpg', },
-    { id: 22, title: 'Neurology', image: 'specialities/Neurology.jpg', },
-    { id: 23, title: 'Laboratory Services', image: 'specialities/Laboratory-Services.jpg', },
-    { id: 24, title: 'Hematology', image: 'specialities/Hematology.jpg', },
-    { id: 25, title: 'General Medicine', image: 'specialities/General-Medicine.jpg', },
-    { id: 26, title: 'Endocrinology', image: 'specialities/Endocrinology.jpg', },
-    { id: 27, title: 'Emergency Care', image: 'specialities/Emergency-Care.jpg', },
-    { id: 28, title: 'Ear Nose Throat Surgeon', image: 'specialities/Ear-Nose-Throat-Surgeon.jpg', },
-    { id: 29, title: 'Test Tube Baby Centres', image: 'Test-Tube-Baby-Centres1.jpg', },
-    { id: 30, title: 'Dentistry', image: 'specialities/Dentistry.jpg', },
-    { id: 31, title: 'Critical Care', image: 'specialities/Critical-Care.jpg', },
-
-]
 
 const diagnosticCentres = [
     { title: 'Xray', image: 'Xray2.png', },
@@ -176,12 +142,15 @@ function Home1() {
                     {/* HEALTHCARE SERVICES HEADING AND EXPLORE MORE BUTTON  */}
                     <div className='flex justify-between items-center !space-x-2'>
                         <h3 className='!text-xl min-[425px]:!text-2xl !font-semibold !text-gray-700'>Healthcare Services</h3>
-                        <a
+                        <Link
+                        to={'/'}
                             style={{
                                 textDecoration: 'none',
                             }}
                             className='!py-1.5 !px-4 !text-xs min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
-                        >Explore More</a>
+                        >
+                            Explore More
+                            </Link>
                     </div>
 
                     {/* HEALTHCARE SERVICES GRID IMAGES AND TITLE */}
@@ -198,7 +167,7 @@ function Home1() {
                                     <img
                                         src={path + service.image}
                                         alt={service.title}
-                                        className='rounded-xl h-58 min-[425px]:h-68 sm:h-56 md:h-64 lg:h-46 xl:h-50 w-full aspect-[3/2] object-fit'
+                                        className='rounded-xl h-52 min-[425px]:h-64 sm:h-52 md:h-64 lg:h-44 xl:h-52 w-full aspect-[3/2] object-fit'
                                     />
                                     <p className='text-lg min-[425px]:text-lg sm:text-lg !text-left sm:!text-left font-semibold mt-2 px-1 text-gray-700 group-hover:text-[#9b2482]'>{service.title}</p>
                                 </a>
@@ -266,12 +235,13 @@ function Home1() {
                     {/*  SERVICES BY SPECIALITIES HEADING AND EXPLORE MORE BUTTON */}
                     <div className='flex justify-between items-center'>
                         <h3 className='!font-semibold !text-gray-700'>Healthcare Services</h3>
-                        <a
+                        <Link
+                        to={'/services'}
                             style={{
                                 textDecoration: 'none',
                             }}
                             className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
-                        >Explore More</a>
+                        >Explore More</Link>
                     </div>
 
                     {/* SERVICES BY SPECIALITIES SWIPER 1  */}
@@ -386,12 +356,15 @@ function Home1() {
                     {/* DIAGNOSTIC CENTRES NEAR YOU HEADING AND EXPLORE MORE BUTTON  */}
                     <div className='flex justify-between items-center'>
                         <h3 className='!font-semibold !text-gray-700'>Diagnostic Centres Near You</h3>
-                        <a
+                        <Link
+                        to={'/'}
                             style={{
                                 textDecoration: 'none',
                             }}
                             className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
-                        >Explore More</a>
+                        >
+                            Explore More
+                            </Link>
                     </div>
 
                     {/* DIAGNOSTIC CENTRES NEAR YOU GRID BRAND IMAGES AND TITLES */}
@@ -431,12 +404,15 @@ function Home1() {
                     {/* ALTERNATIVE MEDICINE HEADING AND EXPLORE MORE BUTTON  */}
                     <div className='flex justify-between items-center'>
                         <h3 className='!font-semibold !text-gray-700'>Alternative Medicine</h3>
-                        <a
+                        <Link
+                        to={'/'}
                             style={{
                                 textDecoration: 'none',
                             }}
                             className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
-                        >Explore More</a>
+                        >
+                            Explore More
+                            </Link>
                     </div>
 
                     {/* ALTERNATIVE MEDICINE GRID IMAGES AND TITLE */}
@@ -477,12 +453,15 @@ function Home1() {
                     {/* ONLINE HEALTHCARE SERVICES HEADING AND EXPLORE MORE BUTTON  */}
                     <div className='flex justify-between items-center'>
                         <h3 className='!font-semibold !text-gray-700'>Online Healthcare Services</h3>
-                        <a
+                        <Link
+                        to={'/'}
                             style={{
                                 textDecoration: 'none',
                             }}
                             className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
-                        >Explore More</a>
+                        >
+                            Explore More
+                            </Link>
                     </div>
 
                     {/*  ONLINE HEALTHCARE SERVICES GRID IMAGES AND TITLE */}
@@ -523,12 +502,15 @@ function Home1() {
                     {/* PUBLIC SECTOR CORPORATES HEADING AND EXPLORE MORE BUTTON  */}
                     <div className='flex justify-between items-center'>
                         <h3 className='!font-semibold !text-gray-700'>Public Sector Corporates</h3>
-                        <a
+                        <Link
+                        to={'/'}
                             style={{
                                 textDecoration: 'none',
                             }}
                             className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
-                        >Explore More</a>
+                        >
+                            Explore More
+                            </Link>
                     </div>
 
                     {/* PUBLIC SECTOR CORPORATES GRID BRAND IMAGES AND TITLES */}
@@ -568,12 +550,15 @@ function Home1() {
                     {/* MORE SERVICES HEADING AND EXPLORE MORE BUTTON  */}
                     <div className='flex justify-between items-center'>
                         <h3 className='!font-semibold !text-gray-700'>More Services</h3>
-                        <a
+                        <Link
+                        to={'/'}
                             style={{
                                 textDecoration: 'none',
                             }}
                             className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
-                        >Explore More</a>
+                        >
+                        Explore More
+                        </Link>
                     </div>
 
                     {/* MORE SERVICES GRID IMAGES AND TITLE */}
@@ -668,12 +653,15 @@ function Home1() {
                     {/* SERVICES BY HEALTH CONCERN AND EXPLORE MORE BUTTON  */}
                     <div className='flex justify-between items-center'>
                         <h3 className='!font-semibold !text-gray-700'>Services By Health Concern</h3>
-                        <a
+                        <Link
+                        to={'/'}
                             style={{
                                 textDecoration: 'none',
                             }}
                             className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
-                        >Explore More</a>
+                        >
+                        Explore More
+                        </Link>
                     </div>
 
                     {/* SERVICES BY HEALTH CONCERN GRID IMAGES AND TITLE */}
@@ -714,12 +702,15 @@ function Home1() {
                     {/* POPULAR HOSPITALS IN INDIA AND EXPLORE MORE BUTTON */}
                     <div className='flex justify-between items-center'>
                         <h3 className='!font-semibold !text-gray-700'>Popular Hospitals In India</h3>
-                        <a
+                        <Link
+                        to={'/'}
                             style={{
                                 textDecoration: 'none',
                             }}
                             className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
-                        >Explore More</a>
+                        >
+                        Explore More
+                        </Link>
                     </div>
 
                     {/* POPULAR HOSPITALS IN INDIA GRID IMAGES AND TITLE */}
@@ -736,7 +727,7 @@ function Home1() {
                                     <img
                                         src={path + hospital.image}
                                         alt={hospital.title}
-                                        className='rounded-xl !aspect-[3/2] !object-fill'
+                                        className='rounded-xl !aspect-[3/2] !object-fill !w-full'
                                     />
                                     <p className='text-[17px] font-semibold mt-2 !ml-1.5 text-gray-700 group-hover:text-[#9b2482]'>{hospital.title}</p>
                                 </a>
@@ -760,12 +751,15 @@ function Home1() {
                     {/* CHOOSE YOUR HEALTH INSURANCE AND EXPLORE MORE BUTTON */}
                     <div className='flex justify-between items-center'>
                         <h3 className='!font-semibold !text-gray-700'>Choose Your Health Insurance</h3>
-                        <a
+                        <Link
+                        to={'/'}
                             style={{
                                 textDecoration: 'none',
                             }}
                             className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
-                        >Explore More</a>
+                        >
+                        Explore More
+                        </Link>
                     </div>
 
                     {/* CHOOSE YOUR HEALTH INSURANCE GRID IMAGES AND TITLE */}
@@ -800,12 +794,15 @@ function Home1() {
                     {/* CHOOSE YOUR TPA AND EXPLORE MORE BUTTON */}
                     <div className='flex justify-between items-center'>
                         <h3 className='!font-semibold !text-gray-700'>Choose Your TPA</h3>
-                        <a
+                        <Link
+                        to={'/'}
                             style={{
                                 textDecoration: 'none',
                             }}
                             className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
-                        >Explore More</a>
+                        >
+                        Explore More
+                        </Link>
                     </div>
 
                     {/* CHOOSE YOUR TPA GRID IMAGES AND TITLE */}
@@ -836,9 +833,9 @@ function Home1() {
 
 
                 {/* HEALTHCARE VIDEOS */}
-                <div className='!mt-10'>
+                {/* <div className='!mt-10'> */}
                     {/* HEALTHCARE VIDEOS HEADING AND EXPLORE MORE BUTTON  */}
-                    <div className='flex justify-between items-center'>
+                    {/* <div className='flex justify-between items-center'>
                         <h3 className='!font-semibold !text-gray-700'>Healthcare Videos</h3>
                         <a
                             style={{
@@ -846,10 +843,10 @@ function Home1() {
                             }}
                             className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
                         >Explore More</a>
-                    </div>
+                    </div> */}
 
                     {/* HEALTHCARE VIDEOS GRID VIDEOS */}
-                    <div className='grid grid-cols-3 gap-x-3 gap-y-3 !mt-5'>
+                    {/* <div className='grid grid-cols-3 gap-x-3 gap-y-3 !mt-5'>
                         {healthcareVideos.map((video, index) =>
                             <div
                                 key={index}
@@ -867,9 +864,9 @@ function Home1() {
                                 </iframe>
                             </div>
                         )}
-                    </div>
+                    </div> */}
 
-                </div>
+                {/* </div> */}
 
 
 
@@ -882,9 +879,9 @@ function Home1() {
 
 
                 {/* ARTICLES SECTION*/}
-                <div className='!mt-10'>
+                {/* <div className='!mt-10'> */}
                     {/* ARTICLES HEADING AND EXPLORE MORE BUTTON  */}
-                    <div className='flex justify-between items-center'>
+                    {/* <div className='flex justify-between items-center'>
                         <h3 className='!font-semibold !text-gray-700'>Articles</h3>
                         <a
                             style={{
@@ -892,10 +889,10 @@ function Home1() {
                             }}
                             className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
                         >Explore More</a>
-                    </div>
+                    </div> */}
 
                     {/*  ARTICLES GRID IMAGES AND TITLE */}
-                    <div className='grid grid-cols-3 gap-x-3 gap-y-3 !mt-5'>
+                    {/* <div className='grid grid-cols-3 gap-x-3 gap-y-3 !mt-5'>
                         {articles.map((article, index) =>
                             <div
                                 key={index}
@@ -918,8 +915,8 @@ function Home1() {
                                 </a>
                             </div>
                         )}
-                    </div>
-                </div>
+                    </div> */}
+                {/* </div> */}
 
 
 

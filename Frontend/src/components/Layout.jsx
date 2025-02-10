@@ -1,15 +1,15 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom';
-import Footer from './Footer'
 import Navbar from './Navbar'
+import Footer from './Footer'
 import MyNav from './MyNav'
 function Layout() {
     return (
         <div>
             <Navbar />
-            <MyNav/>
-            <Outlet/>
-            <Footer/>
+            {/* <MyNav /> */}
+            <Outlet />
+            <Footer />
         </div>
     )
 }

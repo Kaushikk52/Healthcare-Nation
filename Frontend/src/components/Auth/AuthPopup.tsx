@@ -172,7 +172,7 @@ export default function AuthPopup(props: any) {
   return (
     <div className="relative">
       {isOpen && (
-        <div className="fixed z-10 inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+        <div className="fixed z-50 inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <Card className="w-full max-w-md">
             <CardHeader>
               <div className="grid grid-cols-9 items-center">
@@ -180,6 +180,7 @@ export default function AuthPopup(props: any) {
                   Welcome
                 </CardTitle>
                 <Button
+                variant=""
                   className="col-start-9 justify-self-end"
                   onClick={() => setIsOpen(false)}
                 >
@@ -195,6 +196,7 @@ export default function AuthPopup(props: any) {
                       ? "Sign in to your account"
                       : "Sign Up to create a new account"}
                   </p>
+                  
                   <Tabs value={activeTab} onValueChange={setActiveTab}>
                     <TabsList className="grid w-full grid-cols-2">
                       <TabsTrigger value="register">Register</TabsTrigger>

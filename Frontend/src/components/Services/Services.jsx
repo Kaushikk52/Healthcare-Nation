@@ -1,101 +1,90 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
-function Services() {
+import {orderBy} from "lodash";
+
+
+import servicesBySpecialities from '../../data/servicesBySpecialities'
+
+
+export default function Services() {
+
   const path = import.meta.env.VITE_APP_IMG_URL;
-  const [servicesList, setServicesList] = useState([
-    { id: 1, name: "Skin Care Centres", img: 'Skincare-Centres1.jpg' },
-    { id: 2, name: "Test Tube Baby Centres", img: 'Test-Tube-Baby-Centres1.jpg' },
-    { id: 3, name: "Kidney Care Centres", img: 'Kidney-care-Centres.png' },
-    { id: 4, name: "Cancer Care Centres", img: 'Cancer-Centres.jpg' },
-    { id: 5, name: "Plastic Surgery", img: 'specialities/Plastic-Surgery.jpg' },
-    { id: 6, name: "Pulmonology", img: 'specialities/Pulmonology.jpg' },
-    { id: 7, name: "Occupational therapy", img: 'specialities/Physiotherapy-Occupational-therapy.png' },
-    { id: 8, name: "Pediatric Surgery", img: 'specialities/Pediatric-Surgery.jpg' },
-    { id: 9, name: "Oncology", img: 'specialities/Oncology.jpg' },
-    { id: 10, name: "Obstetrics & Gynecology", img: 'specialities/Obstetrics-Gynecology.jpg' },
-    { id: 11, name: "Neurosurgery", img: 'specialities/Neurosurgery.jpg' },
-    { id: 12, name: "Neurology", img: 'specialities/Neurology.jpg' },
-    { id: 13, name: "Laboratory Services", img: 'specialities/Laboratory-Services.jpg' },
-    { id: 14, name: "Hematology", img: 'specialities/Hematology.jpg' },
-    { id: 15, name: "General Medicine", img: 'specialities/General-Medicine.jpg' },
-    { id: 16, name: "Endocrinology", img: 'specialities/Endocrinology.jpg' },
-    { id: 17, name: "Emergency Care", img: 'specialities/Emergency-Care.jpg' },
-    { id: 18, name: "Ear Nose Throat Surgeon", img: 'specialities/Ear-Nose-Throat-Surgeon.jpg' },
-    { id: 19, name: "Dietetics", img: 'specialities/Dietetics.jpg' },
-    { id: 20, name: "Dentistry", img: 'specialities/Dentistry.jpg' },
-    { id: 21, name: "Critical Care", img: 'specialities/Critical-Care.jpg' }
 
-  ]);
+  const [list, setList] = useState([...servicesBySpecialities]);
 
-  // Function to sort services Z to A
-  const sortZToA = () => {
-    const sortedList = [...servicesList].sort((a, b) => b.name.localeCompare(a.name));
-    setServicesList(sortedList);
+  // Handle sorting
+  const handleSort = (order) => {
+   
+    let sortedList = [...list];
+
+    if (order === "a-z") {
+      sortedList = orderBy(sortedList,['title'],['asc']);
+   
+    } else if (order === "z-a") {
+      sortedList  = orderBy(sortedList,['title'],['desc']);
+    }
+    setList(sortedList);
+    // console.log("sorted list :" , sortedList)
+    
   };
-
-
-  // Function to sort services A to Z
-  const sortAToZ = () => {
-    const sortedList = [...servicesList].sort((a, b) => a.name.localeCompare(b.name));
-    setServicesList(sortedList);
-  };
-
-
 
 
   return (
     <>
 
-      <div>
-        <img src={path + 'banner-new1.jpg'} alt="" className='img-fluid' />
-      </div>
-      <div className="container margin-top3">
-        <div className="row d-flex justify-content-between">
-          <div className="col-md-6 col-8">
-            <h2 className='homepage-section-heading'>Healthcare Services</h2>
-            {/* <div className="home-page-semi-head">Private online consultations with verified doctors in all specialists</div> */}
-
-
-          </div>
-
-
-          <div className="col-md-3 col-4 text-end d-flex justify-content-end align-items-center">
-
-            <div className="dropdown ">
-              <a className=" btn-small dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                Short By
-              </a>
-
-              <ul className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <li><a className="dropdown-item" href="#" onClick={sortAToZ}>Sort by A to Z</a></li>
-                <li><a className="dropdown-item" href="#" onClick={sortZToA}>Sort by Z to A</a></li>
-              </ul>
+      <div className='!max-w-7xl !container !mx-auto !px-4'>
+        <div className='!mt-10'>
+          {/*HEADING AND SORT BUTTON  */}
+          <div className='!flex !justify-between !items-center'>
+            <span className='!text-3xl !font-semibold !text-gray-700'>More Services</span>
+            <div className=''>
+              <Select onValueChange={handleSort}>
+                <SelectTrigger className="min-w-[100px]">
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="a-z">Sort by A to Z</SelectItem>
+                  <SelectItem value="z-a">Sort by Z to A</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
-
           </div>
 
+          {/* SERVICES GRID IMAGES AND TITLE */}
+          <div className='!grid !grid-cols-4 !gap-x-3 !gap-y-3 !mt-5'>
+            {list.map((service, index) =>
+              <div
+                key={index}
+                className='!group'
+              >
+                <Link
+                  to={'/services'}
+                  style={{ textDecoration: 'none' }}
+                  className='!cursor-pointer'
+                >
+                  <img
+                    src={path + service.image}
+                    alt={service.title}
+                    className='!rounded-xl !aspect-[3/2] !w-full'
+                  />
+                  <p className='!text-[17px] !font-semibold !mt-2 !text-gray-700 group-hover:!text-[#9b2482]'>{service.title}</p>
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
-
-
-        <div className="row g-3 mt-1">
-          {servicesList.map(service => (
-            <div className="col-md-3 col-6" key={service.id}>
-              <Link to={`/ServiceListing`} className="a-links">
-                <div>
-                  <img src={`${path}${service.img}`} alt={service.name} className="img-fluid services-img" />
-                </div>
-                <p className="semi-head1 mb-0 ">{service.name}</p>
-              </Link>
-            </div>
-          ))}
-
-        </div >
-
-
       </div>
+
     </>
   );
 }
 
-export default Services;
+
