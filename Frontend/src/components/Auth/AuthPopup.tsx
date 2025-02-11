@@ -180,7 +180,7 @@ export default function AuthPopup(props: any) {
                   Welcome
                 </CardTitle>
                 <Button
-                variant=""
+                variant="default"
                   className="col-start-9 justify-self-end"
                   onClick={() => setIsOpen(false)}
                 >
