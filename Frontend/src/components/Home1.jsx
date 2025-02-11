@@ -1,8 +1,10 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 
+// Data
 import popularBrands from '../data/brands';
 import servicesBySpecialities from '../data/servicesBySpecialities'
+import clinics from '../data/clinics'
 
 import { Navigation, Pagination, Autoplay, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -31,8 +33,6 @@ const healthcareServices = [
     { title: 'Diagnostics', image: 'Diagnostics-img1.jpg', },
     { title: 'Orthotic & Prosthetics', image: 'Orthotics-Prosthetics.jpg', },
 ]
-
-
 
 
 
@@ -170,6 +170,53 @@ function Home1() {
                                         className='rounded-xl h-52 min-[425px]:h-64 sm:h-52 md:h-64 lg:h-44 xl:h-52 w-full aspect-[3/2] object-fit'
                                     />
                                     <p className='text-lg min-[425px]:text-lg sm:text-lg !text-left sm:!text-left font-semibold mt-2 px-1 text-gray-700 group-hover:text-[#9b2482]'>{service.title}</p>
+                                </a>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+                {/* CLINICS SECTION */}
+                <div className='!mt-10'>
+                    {/* CLINICS HEADING AND EXPLORE MORE BUTTON  */}
+                    <div className='flex justify-between items-center !space-x-2'>
+                        <h3 className='!text-xl min-[425px]:!text-2xl !font-semibold !text-gray-700'>Clinics</h3>
+                        <Link
+                        to={'/'}
+                            style={{
+                                textDecoration: 'none',
+                            }}
+                            className='!py-1.5 !px-4 !text-xs min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                        >
+                            Explore More
+                            </Link>
+                    </div>
+
+                    {/* CLINICS GRID IMAGES AND TITLE */}
+                    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-x-3.5 gap-y-3 !mt-5'>
+                        {clinics.map((clinic, index) =>
+                            <div
+                                key={index}
+                                className='group'
+                            >
+                                <a
+                                    style={{ textDecoration: 'none' }}
+                                    className='cursor-pointer'
+                                >
+                                    <img
+                                        src={path + clinic.image}
+                                        alt={clinic.title}
+                                        className='rounded-xl h-52 min-[425px]:h-64 sm:h-52 md:h-64 lg:h-44 xl:h-52 w-full aspect-[3/2] object-fit'
+                                    />
+                                    <p className='text-lg min-[425px]:text-lg sm:text-lg !text-left sm:!text-left font-semibold mt-2 px-1 text-gray-700 group-hover:text-[#9b2482]'>{clinic.title}</p>
                                 </a>
                             </div>
                         )}

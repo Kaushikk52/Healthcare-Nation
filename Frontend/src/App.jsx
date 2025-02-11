@@ -6,6 +6,7 @@ import Services from './components/Services';
 import ServiceListing from './pages/ServiceListing';
 import BrandsInIndia from './pages/BrandsInIndia';
 import HospitalDetailsPage from './pages/HospitalDetailsPage';
+import ClinicDetailsPage from './pages/ClinicDetailsPage';
 
 
 
@@ -23,6 +24,7 @@ function App() {
             <Route path="services/" element={<Services />} />
             <Route path="brands-in-india" element={<BrandsInIndia />} />
             <Route path="hospital-details-page" element={<HospitalDetailsPage />} />
+            <Route path="clinic-details-page" element={<ClinicDetailsPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
