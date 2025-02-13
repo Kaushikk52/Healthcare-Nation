@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 // Data
 import popularBrands from '../data/brands';
@@ -135,26 +135,26 @@ function Home1() {
     return (
         <>
 
-            <div className='max-w-7xl mx-auto px-4'>
+            <div className='!max-w-7xl !mx-auto !px-4'>
 
                 {/* HEALTHCARE SERVICES SECTION */}
                 <div className='!mt-10'>
                     {/* HEALTHCARE SERVICES HEADING AND EXPLORE MORE BUTTON  */}
-                    <div className='flex justify-between items-center !space-x-2'>
-                        <h3 className='!text-xl min-[425px]:!text-2xl !font-semibold !text-gray-700'>Healthcare Services</h3>
+                    <div className='flex justify-between items-start !space-x-2'>
+                        <h3 className='!text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1'>Healthcare Services</h3>
                         <Link
-                        to={'/'}
+                            to={'/'}
                             style={{
                                 textDecoration: 'none',
                             }}
-                            className='!py-1.5 !px-4 !text-xs min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                            className='!py-1.5 !px-2 min-[425px]:!px-4 !text-[11px] min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
                         >
                             Explore More
-                            </Link>
+                        </Link>
                     </div>
 
                     {/* HEALTHCARE SERVICES GRID IMAGES AND TITLE */}
-                    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-x-3.5 gap-y-3 !mt-5'>
+                    <div className='!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 xl:!grid-cols-4 !gap-x-3.5 !gap-y-3 !mt-4'>
                         {healthcareServices.map((service, index) =>
                             <div
                                 key={index}
@@ -162,14 +162,14 @@ function Home1() {
                             >
                                 <a
                                     style={{ textDecoration: 'none' }}
-                                    className='cursor-pointer'
+                                    className='!cursor-pointer'
                                 >
                                     <img
                                         src={path + service.image}
                                         alt={service.title}
-                                        className='rounded-xl h-52 min-[425px]:h-64 sm:h-52 md:h-64 lg:h-44 xl:h-52 w-full aspect-[3/2] object-fit'
+                                        className='!rounded-lg !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-40 xl:!h-52 !w-full !aspect-[3/2] !object-fit'
                                     />
-                                    <p className='text-lg min-[425px]:text-lg sm:text-lg !text-left sm:!text-left font-semibold mt-2 px-1 text-gray-700 group-hover:text-[#9b2482]'>{service.title}</p>
+                                    <p className='!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-base xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]'>{service.title}</p>
                                 </a>
                             </div>
                         )}
@@ -187,21 +187,21 @@ function Home1() {
                 {/* CLINICS SECTION */}
                 <div className='!mt-10'>
                     {/* CLINICS HEADING AND EXPLORE MORE BUTTON  */}
-                    <div className='flex justify-between items-center !space-x-2'>
-                        <h3 className='!text-xl min-[425px]:!text-2xl !font-semibold !text-gray-700'>Clinics</h3>
+                    <div className='flex justify-between items-start !space-x-2'>
+                        <h3 className='!text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1'>Clinics</h3>
                         <Link
-                        to={'/'}
+                            to={'/'}
                             style={{
                                 textDecoration: 'none',
                             }}
-                            className='!py-1.5 !px-4 !text-xs min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                            className='!py-1.5 !px-2 min-[425px]:!px-4 !text-[11px] min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
                         >
                             Explore More
-                            </Link>
+                        </Link>
                     </div>
 
                     {/* CLINICS GRID IMAGES AND TITLE */}
-                    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-x-3.5 gap-y-3 !mt-5'>
+                    <div className='!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 xl:!grid-cols-4 !gap-x-3.5 !gap-y-3 !mt-4'>
                         {clinics.map((clinic, index) =>
                             <div
                                 key={index}
@@ -214,9 +214,9 @@ function Home1() {
                                     <img
                                         src={path + clinic.image}
                                         alt={clinic.title}
-                                        className='rounded-xl h-52 min-[425px]:h-64 sm:h-52 md:h-64 lg:h-44 xl:h-52 w-full aspect-[3/2] object-fit'
+                                        className='!rounded-lg !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-40 xl:!h-52 !w-full !aspect-[3/2] !object-fit'
                                     />
-                                    <p className='text-lg min-[425px]:text-lg sm:text-lg !text-left sm:!text-left font-semibold mt-2 px-1 text-gray-700 group-hover:text-[#9b2482]'>{clinic.title}</p>
+                                    <p className='!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-base xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]'>{clinic.title}</p>
                                 </a>
                             </div>
                         )}
@@ -236,29 +236,29 @@ function Home1() {
                 {/* POPULAR HEALTHCARE BRANDS SECTION */}
                 <div className='!mt-10'>
                     {/* POPULAR HEALTHCARE BRANDS IN INDIA HEADING AND EXPLORE MORE BUTTON*/}
-                    <div className='flex justify-between items-center !mt-10'>
-                        <h3 className='!font-semibold !text-gray-700'>Popular Healthcare Brands In India</h3>
+                    <div className='flex justify-between items-start !mt-10'>
+                        <h3 className='!text-lg  min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1'>Popular Healthcare Brands In India</h3>
                         <Link
-                        to={'/brands-in-india'}
+                            to={'/brands-in-india'}
                             style={{
                                 textDecoration: 'none',
                             }}
-                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                            className='!py-1.5 !px-2 min-[425px]:!px-4 !text-center !text-[11px] min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
                         >
                             Explore More
                         </Link>
                     </div>
 
                     {/* POPULAR HEALTHCARE GRID BRAND IMAGES */}
-                    <div className='grid grid-cols-6 gap-3 mt-3'>
-                        {popularBrands.slice(0,6).map((brand, index) =>
+                    <div className='!grid !grid-cols-2 sm:!grid-cols-3 lg:!grid-cols-6 xl:!grid-cols-6 !gap-x-3.5 !gap-y-3.5 md:!gap-y-6 !mt-4 sm:!mt-6'>
+                        {popularBrands.slice(0, 6).map((brand, index) =>
                             <div
                                 key={index}
-                                className='cursor-pointer'
+                                className='!cursor-pointer !mx-auto'
                             >
                                 <a>
-                                    <div className="text-center border-2 border-black rounded-full h-39 w-39">
-                                        <img src={path + brand.image} alt="brand image" className='rounded-full h-full w-full object-contain' />
+                                    <div className="!text-center !border-2 !border-black !rounded-full">
+                                        <img src={path + brand.image} alt="brand image" className='rounded-full !h-32 !w-32 min-[425px]:!h-36 min-[425px]:!w-36 sm:!h-36 sm:!w-36 md:!h-40 md:!w-40 lg:!h-36 lg:!w-36 xl:!h-44 xl:!w-44 !object-contain' />
                                     </div>
 
                                 </a>
@@ -280,14 +280,14 @@ function Home1() {
                 {/* SERVICES BY SPECIALITIES SECTION */}
                 <div className='!mt-10'>
                     {/*  SERVICES BY SPECIALITIES HEADING AND EXPLORE MORE BUTTON */}
-                    <div className='flex justify-between items-center'>
-                        <h3 className='!font-semibold !text-gray-700'>Healthcare Services</h3>
+                    <div className='flex justify-between items-start !mt-14'>
+                        <h3 className='!text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1'>Healthcare Services</h3>
                         <Link
-                        to={'/services'}
+                            to={'/services'}
                             style={{
                                 textDecoration: 'none',
                             }}
-                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                            className='!py-1.5 !px-2 min-[425px]:!px-4 !text-[11px] min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
                         >Explore More</Link>
                     </div>
 
@@ -302,15 +302,15 @@ function Home1() {
                         autoplay={{ delay: 10000 }}
                         breakpoints={{
                             0: {
-                                slidesPerView: 2,
+                                slidesPerView: 1,
                             },
                             520: {
                                 slidesPerView: 2,
                             },
                             768: {
-                                slidesPerView: 3,
+                                slidesPerView: 2,
                             },
-                            1000: {
+                            1024: {
                                 slidesPerView: 4,
                             },
                         }}
@@ -318,19 +318,19 @@ function Home1() {
                     >
                         {
                             servicesBySpecialities.slice(0, 10).map((service, index) =>
-                                <SwiperSlide key={index} className='slide mt-3'>
+                                <SwiperSlide key={index} className='!mt-6'>
                                     <div className="group"  >
                                         <a
                                             style={{ textDecoration: 'none' }}
                                             href="" className=''>
-                                            <div className="user-image text-center">
+                                            <div className="!text-center">
                                                 <img
                                                     src={path + service.image}
                                                     alt={service.title}
-                                                    className='rounded-xl object-cover aspect-[3/2]'
+                                                    className='!rounded-xl !object-cover !w-full !aspect-[3/2]'
                                                 />
                                             </div>
-                                            <div className="text-[17px] font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482]">{service.title} </div>
+                                            <p className="!text-base sm:!text-lg font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482] !px-1">{service.title} </p>
                                         </a>
                                     </div>
                                 </SwiperSlide>
@@ -349,24 +349,24 @@ function Home1() {
                         autoplay={{ delay: 10000 }}
                         breakpoints={{
                             0: {
-                                slidesPerView: 2,
+                                slidesPerView: 1,
                             },
                             520: {
                                 slidesPerView: 2,
                             },
                             768: {
-                                slidesPerView: 3,
+                                slidesPerView: 2,
                             },
-                            1000: {
+                            1024: {
                                 slidesPerView: 4,
                             },
                         }}
-                        className='mt-2'
+                        className='!mt-0'
 
                     >
                         {
                             servicesBySpecialities.slice(10).map((service, index) =>
-                                <SwiperSlide key={index} className='slide mt-3'>
+                                <SwiperSlide key={index} className='!mt-4'>
                                     <div className="group"  >
                                         <a
                                             style={{ textDecoration: 'none' }}
@@ -375,10 +375,10 @@ function Home1() {
                                                 <img
                                                     src={path + service.image}
                                                     alt={service.title}
-                                                    className='rounded-xl object-cover aspect-[3/2]'
+                                                    className='!rounded-xl !object-cover !w-full !aspect-[3/2]'
                                                 />
                                             </div>
-                                            <div className="text-[17px] font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482]">{service.title} </div>
+                                            <p className="!text-base sm:!text-lg font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482] !px-1">{service.title} </p>
                                         </a>
                                     </div>
                                 </SwiperSlide>
@@ -401,21 +401,21 @@ function Home1() {
                 {/* DIAGNOSTIC CENTRES NEAR YOU SECTION */}
                 <div className='!mt-10'>
                     {/* DIAGNOSTIC CENTRES NEAR YOU HEADING AND EXPLORE MORE BUTTON  */}
-                    <div className='flex justify-between items-center'>
-                        <h3 className='!font-semibold !text-gray-700'>Diagnostic Centres Near You</h3>
+                    <div className='flex justify-between items-start !mt-10'>
+                        <h3 className='!text-lg  min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1'>Diagnostic Centres Near You</h3>
                         <Link
-                        to={'/'}
+                            to={'/'}
                             style={{
                                 textDecoration: 'none',
                             }}
-                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                            className='!py-1.5 !px-2 min-[425px]:!px-4 !text-center !text-[11px] min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
                         >
                             Explore More
-                            </Link>
+                        </Link>
                     </div>
 
                     {/* DIAGNOSTIC CENTRES NEAR YOU GRID BRAND IMAGES AND TITLES */}
-                    <div className='grid grid-cols-6 gap-3 mt-3'>
+                    <div className='!grid !grid-cols-2 sm:!grid-cols-3 lg:!grid-cols-6 xl:!grid-cols-6 !gap-x-3.5 !gap-y-3.5 md:!gap-y-6 !mt-4 sm:!mt-6'>
                         {diagnosticCentres.map((center, index) =>
                             <div
                                 key={index}
@@ -423,12 +423,12 @@ function Home1() {
                             >
                                 <a
                                     style={{ textDecoration: 'none' }}
-                                    className='cursor-pointer flex flex-col items-center'
+                                    className='!cursor-pointer !mx-auto !flex !flex-col !items-center'
                                 >
-                                    <div className="text-center rounded-full h-39 w-39 group-hover:shadow-2xl transition-all">
-                                        <img src={path + center.image} alt="Diagnostic Centre image" className='rounded-full h-full w-full object-contain' />
+                                    <div className="!text-center !rounded-full group-hover:!shadow-2xl !transition-all">
+                                        <img src={path + center.image} alt="Diagnostic Centre image" className='rounded-full !h-32 !w-32 min-[425px]:!h-36 min-[425px]:!w-36 sm:!h-36 sm:!w-36 md:!h-40 md:!w-40 lg:!h-36 lg:!w-36 xl:!h-44 xl:!w-44 !object-contain' />
                                     </div>
-                                    <p className='mt-2 text-[17px] font-semibold text-gray-700 group-hover:text-[#9b2482]'>{center.title}</p>
+                                    <p className='!text-base  min-[425px]:!text-lg sm:!text-lg lg:!text-base xl:!text-lg !text-center sm:!text-center !font-semibold !mt-2 !px-0 !text-gray-700 group-hover:!text-[#9b2482]'>{center.title}</p>
 
                                 </a>
                             </div>
@@ -449,21 +449,21 @@ function Home1() {
                 {/* ALTERNATIVE MEDICINE SECTION */}
                 <div className='!mt-10'>
                     {/* ALTERNATIVE MEDICINE HEADING AND EXPLORE MORE BUTTON  */}
-                    <div className='flex justify-between items-center'>
-                        <h3 className='!font-semibold !text-gray-700'>Alternative Medicine</h3>
+                    <div className='flex justify-between items-start !mt-10'>
+                        <h3 className='text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1'>Alternative Medicine</h3>
                         <Link
-                        to={'/'}
+                            to={'/'}
                             style={{
                                 textDecoration: 'none',
                             }}
-                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                            className='!py-1.5 !px-2 min-[425px]:!px-4 !text-center !text-[11px] min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
                         >
                             Explore More
-                            </Link>
+                        </Link>
                     </div>
 
                     {/* ALTERNATIVE MEDICINE GRID IMAGES AND TITLE */}
-                    <div className='grid grid-cols-4 gap-x-3 gap-y-3 !mt-5'>
+                    <div className='!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 xl:!grid-cols-4 !gap-x-3.5 !gap-y-3 !mt-4'>
                         {alternativeMedicine.map((item, index) =>
                             <div
                                 key={index}
@@ -471,14 +471,14 @@ function Home1() {
                             >
                                 <a
                                     style={{ textDecoration: 'none' }}
-                                    className='cursor-pointer'
+                                    className='!cursor-pointer'
                                 >
                                     <img
                                         src={path + item.image}
                                         alt={item.title}
-                                        className='rounded-xl aspect-[3/2]'
+                                        className='!rounded-lg !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-40 xl:!h-52 !w-full !aspect-[3/2] !object-fit'
                                     />
-                                    <p className='text-[17px] font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482]'>{item.title}</p>
+                                    <p className='!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-base xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]'>{item.title}</p>
                                 </a>
                             </div>
                         )}
@@ -499,20 +499,20 @@ function Home1() {
                 <div className='!mt-10'>
                     {/* ONLINE HEALTHCARE SERVICES HEADING AND EXPLORE MORE BUTTON  */}
                     <div className='flex justify-between items-center'>
-                        <h3 className='!font-semibold !text-gray-700'>Online Healthcare Services</h3>
+                        <h3 className='!text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1'>Online Healthcare Services</h3>
                         <Link
-                        to={'/'}
+                            to={'/'}
                             style={{
                                 textDecoration: 'none',
                             }}
-                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                            className='!py-1.5 !px-2 min-[425px]:!px-4 !text-[11px] min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
                         >
                             Explore More
-                            </Link>
+                        </Link>
                     </div>
 
                     {/*  ONLINE HEALTHCARE SERVICES GRID IMAGES AND TITLE */}
-                    <div className='grid grid-cols-3 gap-x-3 gap-y-3 !mt-5'>
+                    <div className='!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-3 xl:!grid-cols-3 !gap-x-3.5 !gap-y-3 !mt-4'>
                         {onlineHealthcareServices.map((service, index) =>
                             <div
                                 key={index}
@@ -520,14 +520,14 @@ function Home1() {
                             >
                                 <a
                                     style={{ textDecoration: 'none' }}
-                                    className='cursor-pointer'
+                                    className='!cursor-pointer'
                                 >
                                     <img
                                         src={path + service.image}
                                         alt={service.title}
-                                        className='rounded-xl aspect-auto'
+                                        className='!rounded-lg !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-52 xl:!h-64 !w-full !aspect-[3/2] !object-fit'
                                     />
-                                    <p className='text-[17px] font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482]'>{service.title}</p>
+                                    <p className='!text-base min-[425px]:!text-lg sm:!text-base md:!text-lg lg:!text-base xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]'>{service.title}</p>
                                 </a>
                             </div>
                         )}
@@ -547,21 +547,21 @@ function Home1() {
                 {/* PUBLIC SECTOR CORPORATES SECTION */}
                 <div className='!mt-10'>
                     {/* PUBLIC SECTOR CORPORATES HEADING AND EXPLORE MORE BUTTON  */}
-                    <div className='flex justify-between items-center'>
-                        <h3 className='!font-semibold !text-gray-700'>Public Sector Corporates</h3>
+                    <div className='flex justify-between items-start !mt-10'>
+                        <h3 className='!text-lg  min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1'>Public Sector Corporates</h3>
                         <Link
-                        to={'/'}
+                            to={'/'}
                             style={{
                                 textDecoration: 'none',
                             }}
-                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                            className='!py-1.5 !px-2 min-[425px]:!px-4 !text-center !text-[11px] min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
                         >
                             Explore More
-                            </Link>
+                        </Link>
                     </div>
 
                     {/* PUBLIC SECTOR CORPORATES GRID BRAND IMAGES AND TITLES */}
-                    <div className='grid grid-cols-6 gap-2 mt-3'>
+                    <div className='!grid !grid-cols-2 sm:!grid-cols-3 lg:!grid-cols-6 xl:!grid-cols-6 !gap-x-3.5 !gap-y-3.5 md:!gap-y-6 !mt-4 sm:!mt-6'>
                         {publicSectorCorporates.map((corporate, index) =>
                             <div
                                 key={index}
@@ -569,12 +569,12 @@ function Home1() {
                             >
                                 <a
                                     style={{ textDecoration: 'none' }}
-                                    className='cursor-pointer flex flex-col items-center'
+                                    className='!cursor-pointer !mx-auto !flex !flex-col !items-center'
                                 >
-                                    <div className={`${corporate.borderColor} text-center rounded-full h-36 w-36 transition-all`}>
-                                        <img src={path + corporate.image} alt="Diagnostic Centre image" className={` rounded-full h-full w-full object-fit`} />
+                                    <div className={`${corporate.borderColor} !text-center !rounded-full !transition-all`}>
+                                        <img src={path + corporate.image} alt="Diagnostic Centre image" className={` rounded-full !h-32 !w-32 min-[425px]:!h-36 min-[425px]:!w-36 sm:!h-36 sm:!w-36 md:!h-40 md:!w-40 lg:!h-36 lg:!w-36 xl:!h-44 xl:!w-44 !object-fit`} />
                                     </div>
-                                    <p className='mt-2 text-[17px] font-semibold text-gray-700 group-hover:text-[#9b2482]'>{corporate.title}</p>
+                                    <p className='!text-sm  min-[425px]:!text-lg sm:!text-lg lg:!text-base xl:!text-lg !text-center sm:!text-center !font-semibold !mt-2 !px-0 !text-gray-700 group-hover:!text-[#9b2482]'>{corporate.title}</p>
 
                                 </a>
                             </div>
@@ -595,21 +595,21 @@ function Home1() {
                 {/* MORE SERVICES SECTION */}
                 <div className='!mt-10'>
                     {/* MORE SERVICES HEADING AND EXPLORE MORE BUTTON  */}
-                    <div className='flex justify-between items-center'>
-                        <h3 className='!font-semibold !text-gray-700'>More Services</h3>
+                    <div className='flex justify-between items-start !mt-10'>
+                        <h3 className='text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1'>More Services</h3>
                         <Link
-                        to={'/'}
+                            to={'/'}
                             style={{
                                 textDecoration: 'none',
                             }}
-                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                            className='!py-1.5 !px-2 min-[425px]:!px-4 !text-center !text-[11px] min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
                         >
-                        Explore More
+                            Explore More
                         </Link>
                     </div>
 
                     {/* MORE SERVICES GRID IMAGES AND TITLE */}
-                    <div className='grid grid-cols-4 gap-x-3 gap-y-3 !mt-5'>
+                    <div className='!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 xl:!grid-cols-4 !gap-x-3.5 !gap-y-3 !mt-4'>
                         {moreServices.map((service, index) =>
                             <div
                                 key={index}
@@ -617,14 +617,14 @@ function Home1() {
                             >
                                 <a
                                     style={{ textDecoration: 'none' }}
-                                    className='cursor-pointer'
+                                    className='!cursor-pointer'
                                 >
                                     <img
                                         src={path + service.image}
                                         alt={service.title}
-                                        className='rounded-xl aspect-[3/2]'
+                                        className='!rounded-lg !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-40 xl:!h-52 !w-full !aspect-[3/2] !object-fit'
                                     />
-                                    <p className='text-[17px] font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482]'>{service.title}</p>
+                                    <p className='!text-sm min-[425px]:!text-lg sm:!text-base md:!text-lg lg:!text-base xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]'>{service.title}</p>
                                 </a>
                             </div>
                         )}
@@ -642,8 +642,12 @@ function Home1() {
 
 
                 {/* HEALTH CHECKUP IMAGE */}
-                <div className="!mt-10 ">
-                    <img src={path + 'Health-Checkup.jpg'} alt="health checkup image" className='rounded-xl' />
+                <div className="!mt-10 hidden sm:!block">
+                    <img
+                        src={path + 'Health-Checkup.jpg'}
+                        alt="health checkup image"
+                        className='!rounded-xl sm:!h-56 md:!h-64 lg:!h-72 xl:!h-80 !w-full !aspect-[3/2] !object-fit'
+                    />
                 </div>
 
 
@@ -659,26 +663,26 @@ function Home1() {
                 {/* SERVICES BY ACCREDITATIONS SECTION */}
                 <div className='!mt-10'>
                     {/* SERVICES BY ACCREDITATIONS HEADING  */}
-                    <div className='flex justify-start items-center'>
-                        <h3 className='!font-semibold !text-gray-700'>Services By Accreditations</h3>
+                    <div className='flex justify-between items-start !mt-10'>
+                        <h3 className='text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1'>Services By Accreditations</h3>
                     </div>
 
                     {/* SERVICES BY ACCREDITATIONS GRID IMAGES AND TITLE */}
-                    <div className='grid grid-cols-3 gap-x-3 gap-y-3 !mt-5'>
+                    <div className='!grid !grid-cols-1 sm:!grid-cols-1 md:!grid-cols-2 lg:!grid-cols-3 xl:!grid-cols-3 !gap-x-3.5 !gap-y-3 !mt-4'>
                         {servicesByAccrediations.map((service, index) =>
                             <div
                                 key={index}
-                                className='group flex justify-center items-center !shadow-lg rounded-xl !py-1.5'
+                                className='group !grid !grid-cols-12 !gap-x-2.5 !shadow-lg !items-center !rounded-xl !py-2 sm:!py-4 lg:!py-2 xl:!py-2.5 !px-2'
                             >
-                                <div className='h-24 w-full'>
+                                <div className='!col-span-4 md:!col-span-4 !p-1 !h-20 sm:!h-28 md:!h-24 lg:!h-20 xl:!h-[104px] !w-full'>
                                     <img
                                         src={path + service.image}
                                         alt={service.title}
-                                        className='rounded-full object-contain h-full w-full'
+                                        className='!rounded-full !object-contain !h-full !w-full'
                                     />
                                 </div>
-                                <div className='pr-4'>
-                                    <p className='text-[15px] font-medium mt-2 text-cyan-600'>{service.title}</p>
+                                <div className='!col-span-8 md:!col-span-8 !pr-4'>
+                                    <p className='!text-xs min-[425px]:!text-lg md:!text-base lg:!text-sm xl:!text-base !font-medium !mt-2 !text-cyan-600'>{service.title}</p>
                                 </div>
                             </div>
                         )}
@@ -698,21 +702,21 @@ function Home1() {
                 {/* SERVICES BY HEALTH CONCERN */}
                 <div className='!mt-10'>
                     {/* SERVICES BY HEALTH CONCERN AND EXPLORE MORE BUTTON  */}
-                    <div className='flex justify-between items-center'>
-                        <h3 className='!font-semibold !text-gray-700'>Services By Health Concern</h3>
+                    <div className='flex justify-between items-start !mt-10'>
+                        <h3 className='text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1'>Services By Health Concern</h3>
                         <Link
-                        to={'/'}
+                            to={'/'}
                             style={{
                                 textDecoration: 'none',
                             }}
-                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                            className='!py-1.5 !px-2 min-[425px]:!px-4 !text-center !text-[11px] min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
                         >
-                        Explore More
+                            Explore More
                         </Link>
                     </div>
 
                     {/* SERVICES BY HEALTH CONCERN GRID IMAGES AND TITLE */}
-                    <div className='grid grid-cols-5 gap-x-3 gap-y-3 !mt-5'>
+                    <div className='!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-5 xl:!grid-cols-5 !gap-x-3.5 !gap-y-3 !mt-4'>
                         {servicesByHealthConcern.map((service, index) =>
                             <div
                                 key={index}
@@ -725,9 +729,9 @@ function Home1() {
                                     <img
                                         src={path + service.image}
                                         alt={service.title}
-                                        className='rounded-xl aspect-square'
+                                        className='!rounded-lg !h-64 sm:!h-68 md:!h-[310px] lg:!h-48 xl:!h-56 !w-full !aspect-square !object-fit'
                                     />
-                                    <p className='text-[17px] font-semibold mt-2 !ml-1.5 text-gray-700 group-hover:text-[#9b2482]'>{service.title}</p>
+                                    <p className='!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]'>{service.title}</p>
                                 </a>
                             </div>
                         )}
@@ -746,38 +750,38 @@ function Home1() {
 
                 {/* POPULAR HOSPITALS IN INDIA */}
                 <div className='!mt-10'>
-                    {/* POPULAR HOSPITALS IN INDIA AND EXPLORE MORE BUTTON */}
-                    <div className='flex justify-between items-center'>
-                        <h3 className='!font-semibold !text-gray-700'>Popular Hospitals In India</h3>
+                {/* POPULAR HOSPITALS IN INDIA AND EXPLORE MORE BUTTON */}
+                <div className='flex justify-between items-start !mt-10'>
+                <h3 className='text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1'>Popular Hospitals In India</h3>
                         <Link
                         to={'/'}
                             style={{
                                 textDecoration: 'none',
                             }}
-                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                            className='!py-1.5 !px-2 min-[425px]:!px-4 !text-center !text-[11px] min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
                         >
                         Explore More
                         </Link>
                     </div>
 
-                    {/* POPULAR HOSPITALS IN INDIA GRID IMAGES AND TITLE */}
-                    <div className='grid grid-cols-4 gap-x-3 gap-y-3 !mt-5'>
-                        {popularHospitals.map((hospital, index) =>
+                {/* POPULAR HOSPITALS IN INDIA GRID IMAGES AND TITLE */}
+                <div className='!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 xl:!grid-cols-4 !gap-x-3.5 !gap-y-3 !mt-4'>
+                {popularHospitals.map((hospital, index) =>
                             <div
                                 key={index}
                                 className='group'
                             >
                                 <a
                                     style={{ textDecoration: 'none' }}
-                                    className='cursor-pointer'
+                                    className='!cursor-pointer'
                                 >
                                     <img
                                         src={path + hospital.image}
                                         alt={hospital.title}
-                                        className='rounded-xl !aspect-[3/2] !object-fill !w-full'
+                                        className='!rounded-lg !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-40 xl:!h-52 !w-full !aspect-[3/2] !object-fit'
                                     />
-                                    <p className='text-[17px] font-semibold mt-2 !ml-1.5 text-gray-700 group-hover:text-[#9b2482]'>{hospital.title}</p>
-                                </a>
+                                    <p className='!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-base xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]'>{hospital.title}</p>
+                                    </a>
                             </div>
                         )}
                     </div>
@@ -795,32 +799,32 @@ function Home1() {
 
                 {/* CHOOSE YOUR HEALTH INSURANCE */}
                 <div className='!mt-10'>
-                    {/* CHOOSE YOUR HEALTH INSURANCE AND EXPLORE MORE BUTTON */}
-                    <div className='flex justify-between items-center'>
-                        <h3 className='!font-semibold !text-gray-700'>Choose Your Health Insurance</h3>
+                {/* CHOOSE YOUR HEALTH INSURANCE AND EXPLORE MORE BUTTON */}
+                <div className='flex justify-between items-start !mt-10'>
+                        <h3 className='text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1'>Choose Your Health Insurance</h3>
                         <Link
                         to={'/'}
                             style={{
                                 textDecoration: 'none',
                             }}
-                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                            className='!py-1.5 !px-2 min-[425px]:!px-4 !text-center !text-[11px] min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
                         >
                         Explore More
                         </Link>
                     </div>
 
-                    {/* CHOOSE YOUR HEALTH INSURANCE GRID IMAGES AND TITLE */}
-                    <div className='grid grid-cols-6 gap-x-2 gap-y-3 !mt-5'>
+                {/* CHOOSE YOUR HEALTH INSURANCE GRID IMAGES AND TITLE */}
+                <div className='!grid !grid-cols-2 sm:!grid-cols-3 lg:!grid-cols-6 xl:!grid-cols-6 !gap-x-4 !gap-y-4 !mt-4'>
                         {chooseYourHealthInsurance.map((insurance, index) =>
                             <div
                                 key={index}
-                                className={`${insurance.bgColor} flex justify-center items-center rounded-lg`}
+                                className={`${insurance.bgColor} !flex !justify-center !items-center !rounded-lg`}
                             >
                                 <img
                                     src={path + insurance.image}
                                     alt='insurance images'
-                                    className='rounded-xl aspect-[3/2] object-contain'
-                                />
+                                    className='!rounded-lg !h-24 sm:!h-28 md:!h-32 lg:!h-24 xl:!h-28 !w-full !aspect-[3/2] !object-fit'
+                                    />
                             </div>
                         )}
                     </div>
@@ -838,31 +842,31 @@ function Home1() {
 
                 {/* CHOOSE YOUR TPA */}
                 <div className='!mt-10'>
-                    {/* CHOOSE YOUR TPA AND EXPLORE MORE BUTTON */}
-                    <div className='flex justify-between items-center'>
-                        <h3 className='!font-semibold !text-gray-700'>Choose Your TPA</h3>
+                {/* CHOOSE YOUR TPA AND EXPLORE MORE BUTTON */}
+                <div className='flex justify-between items-start !mt-10'>
+                        <h3 className='text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1'>Choose Your TPA</h3>
                         <Link
                         to={'/'}
                             style={{
                                 textDecoration: 'none',
                             }}
-                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
+                            className='!py-1.5 !px-2 min-[425px]:!px-4 !text-center !text-[11px] min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
                         >
                         Explore More
                         </Link>
                     </div>
 
-                    {/* CHOOSE YOUR TPA GRID IMAGES AND TITLE */}
-                    <div className='grid grid-cols-6 gap-x-2 gap-y-3 !mt-5'>
+                {/* CHOOSE YOUR TPA GRID IMAGES AND TITLE */}
+                <div className='!grid !grid-cols-2 sm:!grid-cols-3 lg:!grid-cols-6 xl:!grid-cols-6 !gap-x-4 !gap-y-4 !mt-4'>
                         {chooseYourTPA.map((tpa, index) =>
                             <div
                                 key={index}
-                                className={`${tpa.bgColor} flex justify-center items-center rounded-lg`}
+                                className={`${tpa.bgColor} !flex !justify-center !items-center !rounded-lg`}
                             >
                                 <img
                                     src={path + tpa.image}
                                     alt='tpa images'
-                                    className='rounded-xl aspect-[3/2] object-contain'
+                                    className='!rounded-lg !h-24 sm:!h-28 md:!h-32 lg:!h-24 xl:!h-28 !w-full !aspect-[3/2] !object-fit'
                                 />
                             </div>
                         )}
@@ -881,8 +885,8 @@ function Home1() {
 
                 {/* HEALTHCARE VIDEOS */}
                 {/* <div className='!mt-10'> */}
-                    {/* HEALTHCARE VIDEOS HEADING AND EXPLORE MORE BUTTON  */}
-                    {/* <div className='flex justify-between items-center'>
+                {/* HEALTHCARE VIDEOS HEADING AND EXPLORE MORE BUTTON  */}
+                {/* <div className='flex justify-between items-center'>
                         <h3 className='!font-semibold !text-gray-700'>Healthcare Videos</h3>
                         <a
                             style={{
@@ -892,8 +896,8 @@ function Home1() {
                         >Explore More</a>
                     </div> */}
 
-                    {/* HEALTHCARE VIDEOS GRID VIDEOS */}
-                    {/* <div className='grid grid-cols-3 gap-x-3 gap-y-3 !mt-5'>
+                {/* HEALTHCARE VIDEOS GRID VIDEOS */}
+                {/* <div className='grid grid-cols-3 gap-x-3 gap-y-3 !mt-5'>
                         {healthcareVideos.map((video, index) =>
                             <div
                                 key={index}
@@ -927,8 +931,8 @@ function Home1() {
 
                 {/* ARTICLES SECTION*/}
                 {/* <div className='!mt-10'> */}
-                    {/* ARTICLES HEADING AND EXPLORE MORE BUTTON  */}
-                    {/* <div className='flex justify-between items-center'>
+                {/* ARTICLES HEADING AND EXPLORE MORE BUTTON  */}
+                {/* <div className='flex justify-between items-center'>
                         <h3 className='!font-semibold !text-gray-700'>Articles</h3>
                         <a
                             style={{
@@ -938,8 +942,8 @@ function Home1() {
                         >Explore More</a>
                     </div> */}
 
-                    {/*  ARTICLES GRID IMAGES AND TITLE */}
-                    {/* <div className='grid grid-cols-3 gap-x-3 gap-y-3 !mt-5'>
+                {/*  ARTICLES GRID IMAGES AND TITLE */}
+                {/* <div className='grid grid-cols-3 gap-x-3 gap-y-3 !mt-5'>
                         {articles.map((article, index) =>
                             <div
                                 key={index}

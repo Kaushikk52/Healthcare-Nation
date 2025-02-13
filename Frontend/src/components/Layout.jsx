@@ -6,10 +6,10 @@ import MyNav from './MyNav'
 function Layout() {
     return (
         <div>
-            <Navbar />
+            {/* <Navbar /> */}
             {/* <MyNav /> */}
             <Outlet />
-            <Footer />
+            {/* <Footer /> */}
         </div>
     )
 }
