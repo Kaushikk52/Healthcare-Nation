@@ -34,6 +34,12 @@
   --radius: 0.5rem;
 }
 
+@media screen and (max-width: 600px) {
+  .phone-none {
+    display: none;
+  }
+}
+
 
 @media (min-width: 1400px) {
   .container {

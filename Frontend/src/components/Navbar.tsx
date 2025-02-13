@@ -1,60 +1,66 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-
 import { motion } from "framer-motion";
-
-// Icons from react-icons library
-import { FaCaretDown } from "react-icons/fa";
+import { FaCaretDown, FaBars, FaTimes } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { BiSearchAlt2 } from "react-icons/bi";
-
 import { User } from "lucide-react";
-
 import AuthPopup from "./Auth/AuthPopup";
 
-
-
 const dropdownVariants = {
-    open: { opacity: 1, y: 0, height: "auto", transition: { duration: 0.3 } },
-    closed: { opacity: 1, y: 0, height: 0, transition: { duration: 0.3 } }
+  open: { opacity: 1, y: 0, height: "auto", transition: { duration: 0.3 } },
+  closed: { opacity: 0, y: -10, height: 0, transition: { duration: 0.3 } },
 };
 
-const dropdowns = [
+const locations = ["Mumbai", "Bangalore", "Chennai", "Delhi"];
+
+const Navbar = () => {
+  const path = import.meta.env.VITE_APP_IMG_URL;
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [locationDropdownOpen, setLocationDropdownOpen] = useState(false);
+  const [navDropdownOpen, setNavDropdownOpen] = useState(null);
+  const [navigateTo, setNavigateTo] = useState("");
+  const [openToggle, setOpenToggle] = useState(false);
+  const navigate = useNavigate();
+
+  const dropdownVariants = {
+    open: { opacity: 1, y: 0, height: "auto", transition: { duration: 0.3 } },
+    closed: { opacity: 1, y: 0, height: 0, transition: { duration: 0.3 } },
+  };
+
+  const dropdowns = [
     {
-        id: 1,
-        title: 'Home',
-        path: '/'
+      id: 1,
+      title: "Home",
+      path: "/",
     },
     {
-        id: 2,
-        title: 'Services',
-        icon: FaCaretDown,
-        items: [
-            { title: 'Hospitals', path: '/service-listing' },
-            { title: 'Dialysis Centres', },
-            { title: 'Blood / Skin Banks', },
-            { title: 'Clinics', },
-            { title: 'Home Care Services', },
-            { title: 'Patient Transports', },
-            { title: 'Diagnostics', },
-            { title: 'Financial Help for Treatment', },
-
-        ]
+      id: 2,
+      title: "Services",
+      icon: FaCaretDown,
+      items: [
+        { title: "Hospitals", path: "/service-listing" },
+        { title: "Dialysis Centres" },
+        { title: "Blood / Skin Banks" },
+        { title: "Clinics" },
+        { title: "Home Care Services" },
+        { title: "Patient Transports" },
+        { title: "Diagnostics" },
+        { title: "Financial Help for Treatment" },
+      ],
     },
     {
-        id: 3,
-        title: 'Corporates',
-        icon: FaCaretDown,
-        items: [
-            { title: 'MPT Hospitals', },
-            { title: 'CGHS Hospitals', },
-            { title: 'MJPJAY Hospitals', },
-            { title: 'ESIC Hospitals', },
-            { title: 'PMJAY Hospitals', },
-            { title: 'Railway Hospitals', },
-
-        ]
+      id: 3,
+      title: "Corporates",
+      icon: FaCaretDown,
+      items: [
+        { title: "MPT Hospitals" },
+        { title: "CGHS Hospitals" },
+        { title: "MJPJAY Hospitals" },
+        { title: "ESIC Hospitals" },
+        { title: "PMJAY Hospitals" },
+        { title: "Railway Hospitals" },
+      ],
     },
     // {
     //     id: 4,
@@ -68,184 +74,207 @@ const dropdowns = [
     //     ]
     // },
     {
-        id: 5,
-        title: 'Diagnostics',
-        icon: FaCaretDown,
-        items: [
-            { title: 'Xray', },
-            { title: 'MRI', },
-            { title: 'Sonography', },
-            { title: 'Pathology', },
-            { title: 'CT Scan', },
-            { title: '2D Echo', },
-
-        ]
+      id: 5,
+      title: "Diagnostics",
+      icon: FaCaretDown,
+      items: [
+        { title: "Xray" },
+        { title: "MRI" },
+        { title: "Sonography" },
+        { title: "Pathology" },
+        { title: "CT Scan" },
+        { title: "2D Echo" },
+      ],
     },
     {
-        id: 6,
-        title: 'Health Concerns',
-        icon: FaCaretDown,
-        items: [
-            { title: 'Depression or Anxiety ?', },
-            { title: 'Pregnant ?', },
-            { title: 'Joint Pains ?', },
-            { title: 'Ear Problems ?', },
-            { title: 'Digestion Issues ?', },
-
-        ]
+      id: 6,
+      title: "Health Concerns",
+      icon: FaCaretDown,
+      items: [
+        { title: "Depression or Anxiety ?" },
+        { title: "Pregnant ?" },
+        { title: "Joint Pains ?" },
+        { title: "Ear Problems ?" },
+        { title: "Digestion Issues ?" },
+      ],
     },
     {
-        id: 7,
-        title: 'Insurance',
-        path: '/'
-
+      id: 7,
+      title: "Insurance",
+      path: "/",
     },
     {
-        id: 8,
-        title: 'TPA',
-        path: '/'
-
+      id: 8,
+      title: "TPA",
+      path: "/",
     },
     {
-        id: 9,
-        title: 'Articles',
-        path: '/'
-
+      id: 9,
+      title: "Articles",
+      path: "/",
     },
-]
+  ];
 
-const locations = [
-    'Mumbai',
-    'Banglore',
-    'Chennai',
-    'Delhi',
-]
+  const locations = ["Mumbai", "Banglore", "Chennai", "Delhi"];
 
-const Navbar = () => {
-    const path = import.meta.env.VITE_APP_IMG_URL;
+  const toggleNavDropdown = (id) => {
+    setNavDropdownOpen((prev) => (prev === id ? null : id));
+  };
 
-    const [locationDropdownOpen, setlocationDropdownOpen] = useState(false);
-    const [navgiationDropdownOpen, setnavgiationDropdownOpen] = useState(null);
-    const [navigateTo, setNavigateTo] = useState("");
-    const [openToggle, setOpenToggle] = useState(false);
-    const navigate = useNavigate();
+  const checkIfLogin = (route) => {
+    const token = localStorage.getItem("token");
+    setNavigateTo(route);
+    if (token) {
+      navigate(route);
+    } else {
+      setOpenToggle(true);
+    }
+  };
 
+  return (
+    <>
+      <div className="flex justify-between items-center px-4 py-3 bg-white shadow-md">
+        <div>
+          <img src={path + "HealthCare Nation 2.png"} alt="" className="h-10" />
+        </div>
+        <button
+          className="lg:hidden"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          {mobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+        </button>
+        <div className="hidden lg:flex gap-6">
+          <button onClick={() => checkIfLogin("/dashboard/add-property")}>
+            <User className="h-6 w-6" />
+          </button>
+        </div>
+      </div>
 
+      {mobileMenuOpen && (
+        <motion.div
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: "auto", opacity: 1 }}
+          className="lg:hidden bg-white shadow-md p-4"
+        >
+          <div className="flex justify-between items-center my-3">
+            <ul className="!flex !justify-center !items-center !gap-6">
+              {dropdowns.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <li key={item.id}>
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      to={item.path}
+                      onClick={() => {
+                        toggleNavDropdown(item.id),
+                          setLocationDropdownOpen(false);
+                      }}
+                      className="!flex !items-center !gap-x-1 !text-base !font-semibold !text-gray-700 !cursor-pointer"
+                    >
+                      {item.title}
+                      {Icon && (
+                        <Icon
+                          className={`!h-4 !w-4 !flex-shrink-0 !transition-transform ${
+                            navDropdownOpen === item.id
+                              ? "!rotate-180"
+                              : "!rotate-0"
+                          }`}
+                        />
+                      )}
+                    </Link>
 
-    const toggleNavigationDropdown = (id) => {
-        setnavgiationDropdownOpen((prev) => (prev === id ? null : id));
-    };
+                    {/* NAVIGATIONS LINKS DROPDOWN OPENS WHEN CLICK ON NAVIGATON DROPDOWN BUTTON */}
+                    {navDropdownOpen === item.id && item.items && (
+                      <motion.div
+                        initial="closed"
+                        animate={navDropdownOpen ? "open" : "closed"}
+                        variants={dropdownVariants}
+                        className="!absolute !bg-white !w-48 !z-40 !shadow-2xl !overflow-hidden !mt-2 !p-2 !-translate-x-4"
+                      >
+                        {item.items.map((i, index) => (
+                          <Link
+                            onClick={() => setNavDropdownOpen(false)}
+                            to={i.path}
+                            style={{ textDecoration: "none" }}
+                            key={index}
+                            className="!p-2 !text-gray-800 hover:!bg-gray-100 !w-full !cursor-pointer !block !text-sm !text-left !outline-none"
+                          >
+                            {i.title}
+                          </Link>
+                        ))}
+                      </motion.div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
 
-    useEffect(() => {
-        setOpenToggle(false);
-    });
+          <button
+            onClick={() => checkIfLogin("/dashboard/add-property")}
+            className="flex items-center gap-2"
+          >
+            <User className="h-6 w-6" />
+          </button>
+        </motion.div>
+      )}
 
-    const checkIfLogin = (route: string) => {
-        const token = localStorage.getItem("token");
-        console.log("checking...");
-        console.log("token", token);
-        setNavigateTo(route);
-        if (token !== null && openToggle === false) {
-            //user logged in and no popup
-            navigate(route);
-        } else if (token !== null && openToggle === true) {
-            //user logged in and still popup
-            setOpenToggle(false);
-        } else if (token === null) {
-            //user not logged in
-            setOpenToggle(true);
-        }
-    };
+      <div className="hidden lg:flex justify-center items-center my-3">
+        <ul className="!flex !justify-center !items-center !gap-6">
+          {dropdowns.map((item) => {
+            const Icon = item.icon;
+            return (
+              <li key={item.id}>
+                <Link
+                  style={{ textDecoration: "none" }}
+                  to={item.path}
+                  onClick={() => {
+                    toggleNavDropdown(item.id), setLocationDropdownOpen(false);
+                  }}
+                  className="!flex !items-center !gap-x-1 !text-base !font-semibold !text-gray-700 !cursor-pointer"
+                >
+                  {item.title}
+                  {Icon && (
+                    <Icon
+                      className={`!h-4 !w-4 !flex-shrink-0 !transition-transform ${
+                        navDropdownOpen === item.id
+                          ? "!rotate-180"
+                          : "!rotate-0"
+                      }`}
+                    />
+                  )}
+                </Link>
 
-    return (
-        <>
-            <div className='!grid !grid-cols-11 !items-center !px-2.5 !max-h-28 !pt-2.5'>
+                {/* NAVIGATIONS LINKS DROPDOWN OPENS WHEN CLICK ON NAVIGATON DROPDOWN BUTTON */}
+                {navDropdownOpen === item.id && item.items && (
+                  <motion.div
+                    initial="closed"
+                    animate={navDropdownOpen ? "open" : "closed"}
+                    variants={dropdownVariants}
+                    className="!absolute !bg-white !w-48 !z-40 !shadow-2xl !overflow-hidden !mt-2 !p-2 !-translate-x-4"
+                  >
+                    {item.items.map((i, index) => (
+                      <Link
+                        onClick={() => setNavDropdownOpen(false)}
+                        to={i.path}
+                        style={{ textDecoration: "none" }}
+                        key={index}
+                        className="!p-2 !text-gray-800 hover:!bg-gray-100 !w-full !cursor-pointer !block !text-sm !text-left !outline-none"
+                      >
+                        {i.title}
+                      </Link>
+                    ))}
+                  </motion.div>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
 
-                {/* LOGO */}
-                <div className='!col-span-3'>
-                    <div className="">
-                        <img src={path + 'HealthCare Nation 2.png'} alt="" className="logo-main" />
-                    </div>
-                </div>
+      <AuthPopup popup={openToggle} navigateTo={navigateTo} />
+    </>
+  );
+};
 
-                {/* LOCATION DROPDOWN AND SEARCH BAR */}
-                <div className='!col-span-5 !flex !justify-center !items-center !space-x-1'>
-                    <div className='!w-72 !bg-[#EDDBE9] relative'>
-                        {/* LOCATION DROPDOWN BUTTON */}
-                        <button onClick={() => { setlocationDropdownOpen(!locationDropdownOpen), setnavgiationDropdownOpen(false) }} className='!w-full !py-2.5 !px-2.5 !flex !justify-between !items-center'>
-                            <span className='!text-lg !flex !items-center'><FaLocationDot className='!w-5 !h-5 !mr-1 !text-[#9B2482] !flex-shrink-0' />Location</span>
-                            <FaCaretDown className={`!h-5 !w-5 !flex-shrink-0 !transition-transform  ${locationDropdownOpen ? '!rotate-180' : '!rotate-0'}`} />
-                        </button>
-
-                        {/* LOCATION DROPDOWN OPENS WHEN LOCATION DROPDOWN BUTTON TOGGLES */}
-                        {locationDropdownOpen && (
-                            <motion.div
-                                className="!absolute !z-40 !bg-white !w-full !shadow-2xl !overflow-hidden !p-2"
-                                initial="closed"
-                                animate={locationDropdownOpen ? "open" : "closed"}
-                                variants={dropdownVariants}
-                            >
-                                {locations.map((location, index) => (
-                                    <button key={index} onClick={() => setlocationDropdownOpen(false)} className='!py-2 !px-4 !block !w-full !text-left hover:!bg-gray-50 !transition-all !duration-150'>{location}</button>
-                                ))}
-                            </motion.div>
-                        )}
-                    </div>
-                    <div className='!bg-[#EDDBE9] !w-full !px-2.5 !flex !justify-start !items-center'>
-                        <BiSearchAlt2 className='!h-7 !w-7 !text-[#9B2482] !flex-shrink-0' />
-                        <input type="text" placeholder='search here' className='!w-full !text-lg !py-2.5 !px-2 !outline-none !bg-[#EDDBE9]' />
-                    </div>
-                </div>
-
-                {/* SIGN UP AND SIGN IN */}
-                <div className='!col-span-3 !flex !justify-center !items-center '>
-                    <AuthPopup popup={openToggle} navigateTo={navigateTo} />
-                    <button onClick={() => checkIfLogin("/dashboard/add-property")}>
-                        <User className='!h-6 !w-6 !flex-shrink-0' />
-                    </button>
-                </div>
-
-            </div>
-
-            <hr />
-
-            {/* NAVIGATION DROWDOWNS FOR LARGE SCREENS*/}
-            <div className='!flex !justify-center !items-center !my-3'>
-                <ul className="!flex !justify-center !items-center !gap-6">
-                    {dropdowns.map((item) => {
-                        const Icon = item.icon;
-                        return (
-                            <li
-                                key={item.id}
-                            >
-                                <Link
-                                    style={{ textDecoration: 'none' }}
-                                    to={item.path}
-                                    onClick={() => { toggleNavigationDropdown(item.id), setlocationDropdownOpen(false) }} className='!flex !items-center !gap-x-1 !text-base !font-semibold !text-gray-700 !cursor-pointer'>{item.title}{Icon && <Icon className={`!h-4 !w-4 !flex-shrink-0 !transition-transform ${navgiationDropdownOpen === item.id ? '!rotate-180' : '!rotate-0'}`} />}</Link>
-
-                                {/* NAVIGATIONS LINKS DROPDOWN OPENS WHEN CLICK ON NAVIGATON DROPDOWN BUTTON */}
-                                {navgiationDropdownOpen === item.id && item.items && (
-                                    <motion.div
-                                        initial="closed"
-                                        animate={navgiationDropdownOpen ? "open" : "closed"}
-                                        variants={dropdownVariants}
-                                        className="!absolute !bg-white !w-48 !z-40 !shadow-2xl !overflow-hidden !mt-2 !p-2 !-translate-x-4">
-                                        {item.items.map((i, index) => (
-                                            <Link
-                                                onClick={() => setnavgiationDropdownOpen(false)}
-                                                to={i.path}
-                                                style={{ textDecoration: 'none' }}
-                                                key={index} className="!p-2 !text-gray-800 hover:!bg-gray-100 !w-full !cursor-pointer !block !text-sm !text-left !outline-none">{i.title}</Link>
-                                        ))}
-                                    </motion.div>
-                                )}
-                            </li>
-                        )
-                    })}
-                </ul>
-            </div>
-        </>
-    )
-}
-
-export default Navbar
+export default Navbar;
