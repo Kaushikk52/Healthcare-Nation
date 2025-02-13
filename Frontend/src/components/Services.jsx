@@ -43,8 +43,8 @@ export default function Services() {
       <div className='!max-w-7xl !container !mx-auto !px-4'>
         <div className='!mt-10'>
           {/*HEADING AND SORT BUTTON  */}
-          <div className='!flex !justify-between !items-center'>
-            <span className='!text-3xl !font-semibold !text-gray-700'>More Services</span>
+          <div className='!flex !justify-between !items-center !mt-10'>
+            <span className='text-xl min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1'>More Services</span>
             <div className=''>
               <Select onValueChange={handleSort}>
                 <SelectTrigger className="min-w-[100px]">
@@ -59,7 +59,7 @@ export default function Services() {
           </div>
 
           {/* SERVICES GRID IMAGES AND TITLE */}
-          <div className='!grid !grid-cols-4 !gap-x-3 !gap-y-3 !mt-5'>
+          <div className='!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 xl:!grid-cols-4 !gap-x-4 !gap-y-4 !mt-6'>
             {list.map((service, index) =>
               <div
                 key={index}
@@ -73,9 +73,9 @@ export default function Services() {
                   <img
                     src={path + service.image}
                     alt={service.title}
-                    className='!rounded-xl !aspect-[3/2] !w-full'
+                    className='!rounded-lg !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-40 xl:!h-52 !w-full !aspect-[3/2] !object-fit'
                   />
-                  <p className='!text-[17px] !font-semibold !mt-2 !text-gray-700 group-hover:!text-[#9b2482]'>{service.title}</p>
+                  <p className='!text-sm min-[425px]:!text-lg sm:!text-base md:!text-lg lg:!text-base xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]'>{service.title}</p>
                 </Link>
               </div>
             )}

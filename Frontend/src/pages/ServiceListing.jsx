@@ -239,8 +239,10 @@ const ServiceListing = () => {
 
                                                     {/* VIEW DETAILS BUTTON */}
                                                     <div>
-                                                        <Link to={'/hospital-details-page'} 
-                                                        className='!py-1.5 !px-4 !border !outline-none decoration-transparent !text-gray-700  !border-black !font-semibold !rounded !transition-all !duration-150 hover:!bg-gray-800 hover:!text-white'>
+                                                        <Link
+                                                         to={'/hospital-details-page'} 
+                                                         style={{textDecoration: 'none'}}
+                                                        className='!py-1.5 !px-4 !border !text-gray-700  !border-black !font-semibold !rounded !transition-all !duration-150 hover:!bg-gray-800 hover:!text-white'>
                                                         View Details
                                                         </Link>
                                                     </div>
