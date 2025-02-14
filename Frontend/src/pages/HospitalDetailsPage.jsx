@@ -58,10 +58,10 @@ const HospitalDetailsPage = () => {
     ]
 
     const tabButtons = [
-        { id: 'description', component: <Description />, title: 'Description', marginX: 'mr-2', paddingX: 'pr-1 min-[425px]:pr-2' },
-        { id: 'photos', component: <Photos />, title: 'Photos', marginX: 'mx-2', paddingX: 'px-1 min-[425px]:px-2' },
-        { id: 'videos', component: <Videos />, title: 'Videos', marginX: 'mx-2', paddingX: 'px-1 min-[425px]:px-2' },
-        { id: 'reviews', component: <Reviews />, title: 'Reviews', marginX: 'mx-2', paddingX: 'px-1 min-[425px]:px-2' },
+        { id: 'description', component: <Description />, title: 'Description', marginX: '!mr-2', paddingX: '!pr-1 min-[425px]:!pr-2' },
+        { id: 'photos', component: <Photos />, title: 'Photos', marginX: '!mx-2', paddingX: '!px-1 min-[425px]:!px-2' },
+        { id: 'videos', component: <Videos />, title: 'Videos', marginX: '!mx-2', paddingX: '!px-1 min-[425px]:!px-2' },
+        { id: 'reviews', component: <Reviews />, title: 'Reviews', marginX: '!mx-2', paddingX: '!px-1 min-[425px]:!px-2' },
     ]
 
     return (

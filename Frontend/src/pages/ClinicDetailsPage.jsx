@@ -27,7 +27,7 @@ import Photos from '/src/components/dynamic-contents/Photos'
 import Videos from '/src/components/dynamic-contents/Videos'
 import Reviews from '/src/components/dynamic-contents/Reviews'
 
-const ClinicDetailsPage = () => {
+const HospitalDetailsPage = () => {
 
 
     const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 425);
@@ -58,10 +58,10 @@ const ClinicDetailsPage = () => {
     ]
 
     const tabButtons = [
-        { id: 'description', component: <Description />, title: 'Description', marginX: 'mr-2', paddingX: 'pr-1 min-[425px]:pr-2' },
-        { id: 'photos', component: <Photos />, title: 'Photos', marginX: 'mx-2', paddingX: 'px-1 min-[425px]:px-2' },
-        { id: 'videos', component: <Videos />, title: 'Videos', marginX: 'mx-2', paddingX: 'px-1 min-[425px]:px-2' },
-        { id: 'reviews', component: <Reviews />, title: 'Reviews', marginX: 'mx-2', paddingX: 'px-1 min-[425px]:px-2' },
+        { id: 'description', component: <Description />, title: 'Description', marginX: '!mr-2', paddingX: '!pr-1 min-[425px]:!pr-2' },
+        { id: 'photos', component: <Photos />, title: 'Photos', marginX: '!mx-2', paddingX: '!px-1 min-[425px]:!px-2' },
+        { id: 'videos', component: <Videos />, title: 'Videos', marginX: '!mx-2', paddingX: '!px-1 min-[425px]:!px-2' },
+        { id: 'reviews', component: <Reviews />, title: 'Reviews', marginX: '!mx-2', paddingX: '!px-1 min-[425px]:!px-2' },
     ]
 
     return (
@@ -75,7 +75,7 @@ const ClinicDetailsPage = () => {
                     <div>
                         <img src={Patint_Room} alt='Patient Room' className='!h-full !w-full !object-cover !object-center !rounded-sm' />
                     </div>
-                    <button
+                    <div
                         style={{
                             backgroundImage: `url(${Hallway})`,
                         }}
@@ -87,7 +87,7 @@ const ClinicDetailsPage = () => {
                                 <span>15 more</span>
                             </div>
                         </div>
-                    </button>
+                    </div>
 
                 </div>
             </div>
@@ -96,8 +96,8 @@ const ClinicDetailsPage = () => {
             <div className='!flex !flex-col !items-start sm:!flex-row sm:!justify-between sm:!items-start !py-2 sm:!py-0'>
                 {/* Left Side */}
                 <div className='!flex !flex-col !justify-center !space-y-1.5'>
-                    <span className='!text-2xl lg:!text-4xl !font-semibold !text-wrap'>Clinic Name Here</span>
-                    <span className='!text-md lg:!text-xl !font-medium'>Location, City</span>
+                    <span className='!text-2xl lg:!text-4xl !font-semibold !text-wrap'>XYZ Clinic</span>
+                    <span className='!text-md lg:!text-xl !font-medium'>Andheri, Mumbai</span>
                     <span className='!text-md lg:!text-xl !font-medium'>MultiSpeciality hospital <span className='!font-semibold'>700 Beds</span></span>
                 </div>
 
@@ -186,4 +186,4 @@ const ClinicDetailsPage = () => {
     )
 }
 
-export default ClinicDetailsPage
+export default HospitalDetailsPage
