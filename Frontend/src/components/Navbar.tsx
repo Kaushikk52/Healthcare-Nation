@@ -207,7 +207,7 @@ export default function Navbar2() {
         {/* Authentication buttons */}
         <div className="flex items-center space-x-4">
           <AuthPopup popup={toggle} navigateTo={navigateTo} />
-          <button onClick={() => checkIfLogin("/dashboard/main")}>
+          <button onClick={() => checkIfLogin("/dashboard/hospital")}>
             <User className="h-6 w-6" />
           </button>
         </div>
