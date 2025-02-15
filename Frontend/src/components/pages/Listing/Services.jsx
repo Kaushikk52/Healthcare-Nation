@@ -11,7 +11,7 @@ import {
 import { orderBy } from "lodash";
 
 
-import servicesBySpecialities from '../data/servicesBySpecialities'
+import servicesBySpecialities from '../../../data/servicesBySpecialities'
 
 
 export default function Services() {

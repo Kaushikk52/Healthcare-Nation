@@ -99,7 +99,7 @@ export default function HospitalForm() {
     },
   ];
 
-  // Datat For Multi-select Dropdown input
+  // Data For Multi-select Dropdown input
 const departments = [
   "Cardiology",
     "Neurology",
@@ -234,10 +234,9 @@ const departments = [
           "propertyVariant",
           "subVariant",
           "address.landmark",
-          "address.locality",
+          "address.city",
           "address.street",
           "address.zipCode",
-          "details.location",
         ];
       case 2:
         return [
@@ -495,19 +494,19 @@ const departments = [
 
                       <div>
                         <label
-                          htmlFor="state"
+                          htmlFor="landmark"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          State
+                          Landmark
                         </label>
                         <Field
-                          id="state"
-                          name="state"
+                          id="landmark"
+                          name="landmark"
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
                         <ErrorMessage
-                          name="state"
+                          name="landmark"
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />
@@ -542,34 +541,6 @@ const departments = [
 
                       <div>
                         <label
-                          htmlFor="country"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Country
-                        </label>
-                        <Field
-                          id="country"
-                          name="country"
-                          type="text"
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        />
-                        <ErrorMessage
-                          name="country"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
-                      </div>
-
-                    </div>
-
-
-
-
-
-                    <div className="grid grid-cols-2 gap-6">
-                    
-                    <div>
-                        <label
                           htmlFor="phone"
                           className="block text-sm font-medium text-gray-700"
                         >
@@ -588,7 +559,37 @@ const departments = [
                         />
                       </div>
 
-                      <div>
+                    
+
+                    </div>
+
+
+
+
+
+                    <div className="grid grid-cols-2 gap-6">
+                      {/* <div>
+                        <label
+                          htmlFor="country"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          Country
+                        </label>
+                        <Field
+                          id="country"
+                          name="country"
+                          type="text"
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        />
+                        <ErrorMessage
+                          name="country"
+                          component="div"
+                          className="text-red-500 text-sm mt-1"
+                        />
+                      </div> */}
+                    
+
+                      {/* <div>
                         <label
                           htmlFor="ownership"
                           className="block text-sm font-medium text-gray-700"
@@ -610,27 +611,13 @@ const departments = [
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />
-                      </div>
+                      </div> */}
 
                     </div>
 
 
                   </motion.div>
                 )}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 {step === 2 && (
                   <motion.div
@@ -693,32 +680,139 @@ const departments = [
 
                       <div>
                         <label
-                          htmlFor="details.bathrooms"
+                          htmlFor="ownership"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          Bathrooms
+                          Ownership
                         </label>
                         <Field
-                          id="details.bathrooms"
-                          name="details.bathrooms"
-                          type="number"
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        />
+                          as="select"
+                          id="ownership"
+                          name="ownership"
+                          className="mt-1 block w-full pl-3 pr-10 !py-2.5 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md"
+                        >
+                          <option value="">Select Ownership</option>
+                          <option value="private">Private</option>
+                          <option value="government">Government</option>
+                        </Field>
                         <ErrorMessage
-                          name="details.bathrooms"
+                          name="ownership"
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />
                       </div>
-
+                    
                     </div>
 
+                    <div className='!mt-10'>
+                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                      Specialities
+                      </label>
+                      <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
+                        {[
+                          "Cardiology",
+                          "Neurology",
+                          "Orthopedics",
+                        ].map((specialities) => (
+                          <div key={specialities} className="flex items-center">
+                            <Field
+                              type="checkbox"
+                              id={specialities}
+                              name="specialities"
+                              value={specialities}
+                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                            />
+                            <label
+                              htmlFor={specialities}
+                              className="ml-2 block text-base text-gray-900"
+                            >
+                              {specialities}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                      <ErrorMessage
+                        name="specialities"
+                        component="div"
+                        className="text-red-500 text-sm mt-1"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Upload Property Images
+                      </label>
+                      <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                        <div className="space-y-1 text-center">
+                          <svg
+                            className="mx-auto h-12 w-12 text-gray-400"
+                            stroke="currentColor"
+                            fill="none"
+                            viewBox="0 0 48 48"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                              strokeWidth={2}
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                          <div className="flex text-sm text-gray-600">
+                            <label
+                              htmlFor="file-upload"
+                              className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
+                            >
+                              <span>Upload a file</span>
+                              <input
+                                id="file-upload"
+                                name="file-upload"
+                                type="file"
+                                className="sr-only"
+                                accept="image/*"
+                                multiple
+                                onChange={(event) => {
+                                  const files = event.currentTarget.files;
+                                  if (files) {
+                                    // console.log(files);
+                                    setFieldValue("images", [
+                                      ...values.images,
+                                      ...Array.from(files),
+                                    ]);
+                                  }
+                                }}
+                              />
+                            </label>
+                            <p className="pl-1">or drag and drop</p>
+                          </div>
+                          <p className="text-xs text-gray-500">
+                            PNG, JPG, GIF up to 10MB
+                          </p>
+                        </div>
+                      </div>
+                      <ErrorMessage
+                        name="images"
+                        component="div"
+                        className="text-red-500 text-sm mt-1"
+                      />
+                    </div>
+                    {values.images.length > 0 && (
+                      <div>
+                        <h4 className="text-sm font-medium text-gray-700 mb-2">
+                          Uploaded Images:
+                        </h4>
+                        <ul className="list-disc pl-5 text-sm text-gray-600">
+                          {values.images.map((file: File, index: number) => (
+                            <li key={index}>{file.name}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
 
 
 
 
-
-                    <div className="grid grid-cols-2 gap-6">
+                    {/* <div className="grid grid-cols-2 gap-6">
                       <div>
                         <label
                           htmlFor="details.balconies"
@@ -1005,7 +1099,7 @@ const departments = [
                         component="div"
                         className="text-red-500 text-sm mt-1"
                       />
-                    </div>
+                    </div> */}
                   </motion.div>
                 )}
 
@@ -1137,39 +1231,7 @@ const departments = [
 
 
 
-                    <div className='!mt-10'>
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                      Specialities
-                      </label>
-                      <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
-                        {[
-                          "Cardiology",
-                          "Neurology",
-                          "Orthopedics",
-                        ].map((specialities) => (
-                          <div key={specialities} className="flex items-center">
-                            <Field
-                              type="checkbox"
-                              id={specialities}
-                              name="specialities"
-                              value={specialities}
-                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                            />
-                            <label
-                              htmlFor={specialities}
-                              className="ml-2 block text-base text-gray-900"
-                            >
-                              {specialities}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                      <ErrorMessage
-                        name="specialities"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
-                    </div>
+                   
 
 
 

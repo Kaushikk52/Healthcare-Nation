@@ -2,9 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 // Data
-import popularBrands from '../data/brands';
-import servicesBySpecialities from '../data/servicesBySpecialities'
-import clinics from '../data/clinics'
+import popularBrands from '@/data/brands.js';
+import servicesBySpecialities from '@/data/servicesBySpecialities'
+import clinics from '@/data/clinics'
 
 import { Navigation, Pagination, Autoplay, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';

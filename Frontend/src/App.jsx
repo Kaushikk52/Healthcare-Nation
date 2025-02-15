@@ -1,22 +1,22 @@
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout';
-import Home from './components/Home';
-import Services from './components/Services';
-import ServiceListing from './pages/ServiceListing';
-import BrandsInIndia from './pages/BrandsInIndia';
-import HospitalDetailsPage from './pages/HospitalDetailsPage';
-import ClinicDetailsPage from './pages/ClinicDetailsPage';
-import DashboardLayout from './pages/Dashboard/DashboardLayout';
-import HospitalForm from './pages/Dashboard/HospitalForm';
-import ClinicForm from './pages/Dashboard/ClinicForm';
+import Main from './components/pages/Home/Main';
+import Services from './components/pages/Listing/Services';
+import ServiceListing from './components/pages/Listing/ServiceListing';
+import BrandsInIndia from './components/pages/BrandsInIndia';
+import HospitalDetailsPage from './components/pages/HospitalDetails/HospitalDetailsPage';
+import ClinicDetailsPage from './components/pages/ClinicDetails/ClinicDetailsPage';
+import DashboardLayout from './components/pages/Dashboard/DashboardLayout';
+import HospitalForm from './components/pages/Dashboard/HospitalForm';
+import ClinicForm from './components/pages/Dashboard/ClinicForm';
 function App() {
 
   return (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
+            <Route index element={<Main />} />
             <Route path="/service-listing" element={<ServiceListing />} />
             <Route path="services/" element={<Services />} />
             <Route path="brands-in-india" element={<BrandsInIndia />} />

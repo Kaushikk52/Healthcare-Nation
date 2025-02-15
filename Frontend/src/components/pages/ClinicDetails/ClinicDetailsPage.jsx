@@ -22,12 +22,12 @@ import Second_Logo from '/Images/hospital-details/rounded-images/second-logo.jpg
 import Third_Logo from '/Images/hospital-details/rounded-images/third-logo.jpg'
 
 // Dynamic Content Components imports
-import Description from '/src/components/dynamic-contents/Description'
-import Photos from '/src/components/dynamic-contents/Photos'
-import Videos from '/src/components/dynamic-contents/Videos'
-import Reviews from '/src/components/dynamic-contents/Reviews'
+import Description from '../../Description'
+import Photos from '../../Photos'
+import Videos from '../../Videos'
+import Reviews from '../../Reviews'
 
-const HospitalDetailsPage = () => {
+export default function ClinicDetailsPage () {
 
 
     const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 425);
@@ -185,5 +185,3 @@ const HospitalDetailsPage = () => {
 
     )
 }
-
-export default HospitalDetailsPage

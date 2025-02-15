@@ -1,8 +1,8 @@
 import React from 'react';
 import Carousel from './Carousel';
-import Home1 from './Home1';
+import Home1 from './Home';
 
-function Home() {
+function Main() {
   const path = "src/assets/Images/";
 
   return (
@@ -14,4 +14,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Main;

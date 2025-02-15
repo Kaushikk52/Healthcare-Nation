@@ -1,4 +1,4 @@
-import Sidebar from "@/pages/Dashboard/Sidebar";
+import Sidebar from "./Sidebar";
 import React from "react";
 import { Outlet } from "react-router-dom";
 

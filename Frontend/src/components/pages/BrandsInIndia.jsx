@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-import popularBrands from '../data/brands'
+import popularBrands from './BrandsInIndia'
 
 const BrandsInIndia = () => {
 
