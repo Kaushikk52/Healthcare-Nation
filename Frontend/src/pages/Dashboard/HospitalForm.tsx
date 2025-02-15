@@ -343,10 +343,10 @@ export default function HospitalForm() {
     >
       <div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Add Property
+          Add Hospital
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          Please fill in the details of your property
+          Please fill in the details of your Hospital
         </p>
       </div>
 
