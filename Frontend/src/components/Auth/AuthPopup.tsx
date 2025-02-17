@@ -46,7 +46,7 @@ export default function AuthPopup(props: any) {
       .min(5, "First name must be at least 5 characters")
       .max(15, "First name is too long")
       .required("Required"),
-      lastName: Yup.string()
+    lastName: Yup.string()
       .min(5, "Last name must be at least 5 characters")
       .max(15, "Last name is too long")
       .required("Required"),
@@ -59,7 +59,7 @@ export default function AuthPopup(props: any) {
       .min(10, "Phone no. must be at least 10 characters")
       .max(15, "Phone no. is too long")
       .required("Required"),
-    role: Yup.mixed().oneOf(roles, "Invalid role").required("Role is required"),
+    role: Yup.mixed().oneOf(roles, "Invalid role"),
   });
 
   const loginSchema = Yup.object({
@@ -88,6 +88,7 @@ export default function AuthPopup(props: any) {
 
   async function handleRegister(values: any) {
     try {
+      console.log("Resister User : ", values);
       values.role = "ROLE_USER";
       const response = await axios.post(
         `${baseURL}/v1/api/auth/register`,
@@ -281,7 +282,11 @@ export default function AuthPopup(props: any) {
                           role: "",
                         }}
                         validationSchema={registerSchema}
-                        onSubmit={(values) => handleRegister(values)}
+                        onSubmit={(values) =>{
+                          console.log("Register User : ", values);
+                          handleRegister(values)
+                        } 
+                      }
                       >
                         {({ errors, touched, isSubmitting }) => (
                           <Form className="space-y-2">
@@ -300,7 +305,7 @@ export default function AuthPopup(props: any) {
                               />
                             </div>
                             <div className="space-y-1">
-                              <Label>Last Name</Label>
+                              <Label htmlFor="lastName">Last Name</Label>
                               <Field
                                 as={Input}
                                 id="lastName"

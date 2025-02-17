@@ -482,19 +482,19 @@ export default function ClinicForm() {
 
                       <div>
                         <label
-                          htmlFor="zip"
+                          htmlFor="zipCode"
                           className="block text-sm font-medium text-gray-700"
                         >
                           Zip Code
                         </label>
                         <Field
-                          id="zip"
-                          name="zip"
+                          id="zipCode"
+                          name="zipCode"
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
                         <ErrorMessage
-                          name="zip"
+                          name="zipCode"
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />
@@ -1241,26 +1241,26 @@ export default function ClinicForm() {
                           "Emergency Services",
                           "Patient Satisfaction",
 
-                        ].map((concern) => (
-                          <div key={concern} className="flex items-center">
+                        ].map((concerns) => (
+                          <div key={concerns} className="flex items-center">
                             <Field
                               type="checkbox"
-                              id={concern}
-                              name="healthConcern"
-                              value={concern}
+                              id={concerns}
+                              name="concerns"
+                              value={concerns}
                               className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                             />
                             <label
-                              htmlFor={concern}
+                              htmlFor="concerns"
                               className="ml-2 block text-base text-gray-900"
                             >
-                              {concern}
+                              {concerns}
                             </label>
                           </div>
                         ))}
                       </div>
                       <ErrorMessage
-                        name="healthConcern"
+                        name="concerns"
                         component="div"
                         className="text-red-500 text-sm mt-1"
                       />
