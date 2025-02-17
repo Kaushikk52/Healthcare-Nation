@@ -21,7 +21,7 @@ public class Address {
     private String id;
 
     private String street;
-    private String locality;
+    private String city;
     private String landmark;
     private String zipCode;
     private LocalDateTime createdAt;

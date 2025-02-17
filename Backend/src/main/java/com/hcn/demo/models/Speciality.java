@@ -21,9 +21,6 @@ public class Speciality {
 
     private String name;
 
-    @ManyToMany(mappedBy = "specialities")
-    private List<Hospital> hospitals;
-
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
