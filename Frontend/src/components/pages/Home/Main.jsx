@@ -1,6 +1,6 @@
 import React from 'react';
 import Carousel from './Carousel';
-import Home1 from './Home';
+import Home from './Home';
 
 function Main() {
   const path = "src/assets/Images/";
@@ -8,7 +8,7 @@ function Main() {
   return (
     <>
      <Carousel/>
-     <Home1/>
+     <Home/>
 
     </>
   );

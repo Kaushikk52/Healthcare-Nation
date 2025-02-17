@@ -1,12 +1,17 @@
 import axios from 'axios';
-import { Menu, LogOut, User, Flame, Home, LayoutDashboard, PlusSquare, Users } from 'lucide-react';
+import { Menu, LogOut, User, Flame, Home, LayoutDashboard, PlusSquare, Users, HospitalIcon  } from 'lucide-react';
+import { FaClinicMedical } from "react-icons/fa";
 import React, { useEffect, useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 
 function Sidebar() {
+
+  const location = useLocation();
+
+
   const navItems = [
-    { icon: Home, label: "Home", href: "/" },
-    { icon: LayoutDashboard, label: "Clinic", href: "/dashboard/clinic" },
+    { icon: HospitalIcon, label: "Hospital", href: "/dashboard/hospital" },
+    { icon: FaClinicMedical , label: "Clinic", href: "/dashboard/clinic" },
     { icon: PlusSquare, label: "Add Project", href: "/dashboard/add-project" },
     { icon: Users, label: "Users", href: `users` },
     {icon : Flame, label: "Blog Posting", href:`/blog`}
@@ -105,9 +110,9 @@ function Sidebar() {
           <li key={index}>
             <Link
               to={item.href}
-              className={`flex items-center text-gray-800 hover:bg-gray-100 rounded-md p-2 ${
+              className={`flex items-center  rounded-md p-2 ${
                 (!isOpen || isMobile) && "justify-center"
-              }`}
+              } ${location.pathname === item.href ? 'bg-blue-500 text-white font-medium' : 'text-gray-800 hover:bg-gray-100'} `}
             >
               <item.icon className="h-5 w-5 flex-shrink-0" />
               {isOpen && !isMobile && <span className="ml-2">{item.label}</span>}

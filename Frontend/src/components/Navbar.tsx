@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useLocation } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
 import { User, Menu, X } from "lucide-react"
 import AuthPopup from "./Auth/AuthPopup"
@@ -21,7 +21,10 @@ const DropdownLink = ({
   </Link>
 )
 
-export default function Navbar2() {
+export default function Navbar() {
+
+  const location = useLocation();
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [locationDropdownOpen, setLocationDropdownOpen] = useState(false)
   const [navDropdownOpen, setNavDropdownOpen] = useState(null)
@@ -92,17 +95,17 @@ export default function Navbar2() {
     {
       id: 7,
       title: "Insurance",
-      path: "/",
+      path: "#",
     },
     {
       id: 8,
       title: "TPA",
-      path: "/",
+      path: "#",
     },
     {
       id: 9,
       title: "Articles",
-      path: "/",
+      path: "#",
     },
   ]
   const locations = ["Mumbai", "Bangalore", "Chennai", "Delhi"]
@@ -175,7 +178,7 @@ export default function Navbar2() {
 
               {locationDropdownOpen && (
                 <motion.div
-                  className="absolute top-full left-0 bg-white shadow-lg p-2 z-30 w-full"
+                  className="absolute top-full left-0 overflow-hidden bg-white shadow-lg p-2 z-30 w-full"
                   initial="closed"
                   animate="open"
                   variants={dropdownVariants}
@@ -223,8 +226,8 @@ export default function Navbar2() {
             return (
               <li key={item.id} className="relative">
                 <button
-                  onClick={() => toggleNavDropdown(item.id)}
-                  className="flex items-center font-semibold text-gray-700 cursor-pointer"
+                  onClick={() => {toggleNavDropdown(item.id); if (item.path) navigate(item.path);  }}
+                  className={`${location.pathname === item.path ? 'text-[#9B2482]' : 'text-gray-700 '} flex items-center font-semibold cursor-pointer`}
                 >
                   {item.title}
                   {Icon && (
@@ -239,7 +242,7 @@ export default function Navbar2() {
                     initial="closed"
                     animate="open"
                     variants={dropdownVariants}
-                    className="absolute bg-white w-48 z-40 shadow-2xl mt-2 p-2 -translate-x-4"
+                    className="absolute bg-white overflow-hidden w-48 z-40 shadow-2xl mt-2 p-2 -translate-x-4"
                   >
                     {item.items.map((i, index) => (
                       <DropdownLink

@@ -128,7 +128,7 @@ const articles = [
     { title: 'Dive into Wellness', text: 'The Incredible Benefits of Swimming', image: 'Articles-img3.png', },
 ]
 
-function Home1() {
+function Home() {
 
     const path = import.meta.env.VITE_APP_IMG_URL;
 
@@ -986,4 +986,4 @@ function Home1() {
     )
 }
 
-export default Home1
+export default Home

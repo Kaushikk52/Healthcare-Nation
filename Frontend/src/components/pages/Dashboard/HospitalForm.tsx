@@ -99,13 +99,6 @@ export default function HospitalForm() {
     },
   ];
 
-  // Data For Multi-select Dropdown input
-const departments = [
-  "Cardiology",
-    "Neurology",
-    "Orthopedics",
-]
-
 
   useEffect(() => {
     const token: any = localStorage.getItem("token");
