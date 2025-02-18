@@ -73,8 +73,8 @@ public class HospitalService {
 
     public List<Hospital> getFilteredHospitals(Map<String,Object> filters){
         Specification<Hospital> spec = HospitalSpecification.findByCriteria(filters);
-        List<Hospital> filteredHosptals = hospitalRepo.findAll(spec);
-        return filteredHosptals;
+        List<Hospital> filteredHospitals = hospitalRepo.findAll(spec);
+        return filteredHospitals;
     }
 
     public Hospital updateHospital(String id ,Hospital hospital){
