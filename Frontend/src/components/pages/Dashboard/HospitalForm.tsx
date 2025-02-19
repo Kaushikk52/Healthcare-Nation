@@ -16,6 +16,9 @@ import {
   Loader2,
   Check,
   AlertCircle,
+  ChevronDown,
+  ChevronUp,
+  Trash2,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
@@ -125,17 +128,20 @@ export default function HospitalForm() {
     }
   }, []);
 
-  async function uploadSingleImage(
-    image: File,
-    type: string
-  ): Promise<string | null> {
+  async function uploadSingleImage(image: File,type: string): Promise<string | null> {
     try {
+
+      toast.loading("Uploading Specialities Images ...", {
+        position: "bottom-right",
+        duration: 2000,
+      });
+
       const formData = new FormData();
       formData.append("file", image);
-      formData.append("type", type); // Pass the type (e.g., "PROJECT", "PROPERTY")
+      formData.append("type", type);
 
-      const res = await axios.post("/api/images/upload/single", formData);
-      return res.data ?? null; // Return the file URL
+      const res = await axios.post(`${baseURL}/v1/api/images/upload/single`, formData);
+      return res.data ?? null;
     } catch (err) {
       console.error("Image upload failed:", err);
       return null;
@@ -159,7 +165,7 @@ export default function HospitalForm() {
 
     try {
       const res = await axios.post(
-        `${baseURL}/v1/api/images/upload/multiple`,
+        `${baseURL}/v1/api/images/upload/multiple/${type}`,
         formData
       );
       return res.data ?? [];
@@ -173,18 +179,6 @@ export default function HospitalForm() {
     toast[type](message, { position: "bottom-right", duration: 3000 });
   }
 
-  function prepareFormData(values: typeof initialValues): typeof initialValues {
-    const updatedValues = { ...values };
-    // if (updatedValues.type === "RENT") {
-    //   updatedValues.details.price = 0;
-    // } else if (updatedValues.type === "BUY") {
-    //   updatedValues.details.rent = 0;
-    // }
-
-    // updatedValues.details.isApproved = false;
-    return updatedValues;
-  }
-
   async function handleSubmit(
     values: typeof initialValues,
     { setSubmitting, resetForm }: FormikHelpers<typeof initialValues>
@@ -196,10 +190,18 @@ export default function HospitalForm() {
 
     try {
       setSubmitting(true);
-      const imageUrls: any = await uploadImages(values.images, "Properties");
+      const imageUrls: any = await uploadImages(values.images, "Hospitals");
+      const specialitiesImgs: any = await Promise.all(
+        values.specialities.map((speciality) =>
+          uploadSingleImage(speciality.image, "Specialities")
+        )
+      );
       if (imageUrls.length > 0) {
         values.images = imageUrls || [""];
-        // values.specialities[].image= imageUrls || [""];
+      }
+
+      if(specialitiesImgs.length > 0){
+        values.specialities["image"]= specialitiesImgs || [""];
       }
 
       const token = localStorage.getItem("token");
@@ -642,7 +644,7 @@ export default function HospitalForm() {
                       <div>
                         <label
                           htmlFor="ownership"
-                          className="block text-sm font-medium text-gray-700"
+                          className="block p-3 text-sm font-medium text-gray-700"
                         >
                           Ownership
                         </label>
@@ -650,7 +652,7 @@ export default function HospitalForm() {
                           as="select"
                           id="ownership"
                           name="ownership"
-                          className="mt-1 block w-full pl-3 pr-10 !py-2.5 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md"
+                          className="mt-1  block w-full pl-3 pr-10  !py-2.5 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md"
                         >
                           <option value="">Select Ownership</option>
                           <option value="Private">Private</option>
@@ -693,31 +695,9 @@ export default function HospitalForm() {
                                     className="text-gray-500 hover:text-gray-700"
                                   >
                                     {speciality.isMinimized ? (
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-5 w-5"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                      >
-                                        <path
-                                          fillRule="evenodd"
-                                          d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-                                          clipRule="evenodd"
-                                        />
-                                      </svg>
+                                      <ChevronUp/>
                                     ) : (
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-5 w-5"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                      >
-                                        <path
-                                          fillRule="evenodd"
-                                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                          clipRule="evenodd"
-                                        />
-                                      </svg>
+                                      <ChevronDown/>
                                     )}
                                   </button>
                                   <button
@@ -725,18 +705,7 @@ export default function HospitalForm() {
                                     onClick={() => remove(index)}
                                     className="text-red-500 hover:text-red-700"
                                   >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      className="h-5 w-5"
-                                      viewBox="0 0 20 20"
-                                      fill="currentColor"
-                                    >
-                                      <path
-                                        fillRule="evenodd"
-                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                        clipRule="evenodd"
-                                      />
-                                    </svg>
+                                    <Trash2 color="red" />
                                   </button>
                                 </div>
                               </div>
@@ -744,19 +713,19 @@ export default function HospitalForm() {
                                 <div className="space-y-4">
                                   <div>
                                     <label
-                                      htmlFor={`specialities.[${index}].name`}
+                                      htmlFor={`specialities[${index}].name`}
                                       className="block text-sm font-medium text-gray-700"
                                     >
                                       Speciality Name
                                     </label>
                                     <Field
-                                      id={`specialities.[${index}].name`}
-                                      name={`specialities.[${index}].name`}
+                                      id={`specialities[${index}].name`}
+                                      name={`specialities[${index}].name`}
                                       type="text"
                                       className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                     />
                                     <ErrorMessage
-                                      name={`specialities.[${index}].name`}
+                                      name={`specialities[${index}].name`}
                                       component="div"
                                       className="text-red-500 text-sm mt-1"
                                     />
@@ -784,13 +753,13 @@ export default function HospitalForm() {
                                         </svg>
                                         <div className="flex text-sm text-gray-600">
                                           <label
-                                            htmlFor={`specialities.${index}.image`}
+                                            htmlFor={`specialities[${index}].image`}
                                             className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
                                           >
                                             <span>Upload a file</span>
                                             <input
                                               id={`specialities[${index}].image`}
-                                              name={`specialities.[${index}].image`}
+                                              name={`specialities[${index}].image`}
                                               type="file"
                                               className="sr-only"
                                               onChange={(event) => {
@@ -799,7 +768,7 @@ export default function HospitalForm() {
                                                     .files?.[0];
                                                 if (file) {
                                                   setFieldValue(
-                                                    `specialities.[${index}].image`,
+                                                    `specialities[${index}].image`,
                                                     file
                                                   );
                                                 }
@@ -816,7 +785,7 @@ export default function HospitalForm() {
                                       </div>
                                     </div>
                                     <ErrorMessage
-                                      name={`specialities.[${index}].image`}
+                                      name={`specialities[${index}].image`}
                                       component="div"
                                       className="text-red-500 text-sm mt-1"
                                     />
