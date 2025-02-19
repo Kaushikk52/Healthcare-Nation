@@ -49,9 +49,8 @@ public class Hospital {
 
     private String[] departments;
 
-    private String[] specialities;
-
-    private String[] specialitiesImgs;
+    @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Speciality> specialities;
 
     private String[] altMed;
 

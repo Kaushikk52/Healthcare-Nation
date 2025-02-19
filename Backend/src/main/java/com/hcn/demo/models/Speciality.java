@@ -21,6 +21,13 @@ public class Speciality {
 
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "hospital_id", nullable = true)
+    private Hospital hospital;
+
+    @Column(name = "images", length = 500)
+    private String image;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
