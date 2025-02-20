@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { FaPhone, FaLocationDot, FaClock } from "react-icons/fa6";
-import { FaGlobeAmericas } from "react-icons/fa";
+import { FaGlobeAmericas, FaCheck } from "react-icons/fa";
 import { TbArrowBadgeRightFilled } from "react-icons/tb";
 import { IoSquare } from "react-icons/io5";
 
@@ -127,7 +127,7 @@ const Description = () => {
                                     <img
                                         src={item.image}
                                         alt={item.title}
-                                        className="!rounded-full !h-24 !w-24 sm:!h-28 sm:!w-28 md:!h-32 md:!w-32 lg:!h-24 lg:!w-24 !object-cover"
+                                        className="!rounded-full !h-24 !w-24 sm:!h-28 sm:!w-28 md:!h-32 md:!w-32 lg:!h-20 lg:!w-20 xl:!h-24 xl:!w-24 !object-cover"
                                     />
                                     <h1 className="!py-2 !text-gray-700 !font-medium !text-sm sm:!text-base">
                                         {item.title}
@@ -151,14 +151,14 @@ const Description = () => {
                         <h1 className='!text-2xl !font-semibold'>Facts</h1>
                         <div className='!grid !grid-cols-1 sm:!grid-cols-2 !gap-y-8 !py-4 sm:!py-8'>
                             <div className='!flex !flex-col !justify-center !items-start !space-y-4 sm:!space-y-8'>
-                                <span className='!flex !items-center !text-base sm:!text-xl !font-medium'><TbArrowBadgeRightFilled className='!h-8 !w-8 !mr-5 sm:!mr-8' />3 Tesla MRI Machine</span>
-                                <span className='!flex !items-center !text-base sm:!text-xl !font-medium'><TbArrowBadgeRightFilled className='!h-8 !w-8 !mr-5 sm:!mr-8' />24/7 Pharmacy</span>
-                                <span className='!flex !items-center !text-base sm:!text-xl !font-medium'><TbArrowBadgeRightFilled className='!h-8 !w-8 !mr-5 sm:!mr-8' />24/7 Casualty</span>
+                                <span className='!flex !items-center !text-base sm:!text-xl !font-medium'><FaCheck className='!h-5 !w-5 !ml-1.5 !mr-5 sm:!mr-8 !flex-shrink-0' />3 Tesla MRI Machine</span>
+                                <span className='!flex !items-center !text-base sm:!text-xl !font-medium'><FaCheck className='!h-5 !w-5 !ml-1.5 !mr-5 sm:!mr-8 !flex-shrink-0' />24/7 Pharmacy</span>
+                                <span className='!flex !items-center !text-base sm:!text-xl !font-medium'><FaCheck className='!h-5 !w-5 !ml-1.5 !mr-5 sm:!mr-8 !flex-shrink-0' />24/7 Casualty</span>
                             </div>
                             <div className='!flex !flex-col !justify-center !items-start !space-y-4 sm:!space-y-8'>
-                                <span className='!flex !items-center !text-base sm:!text-xl !font-medium'><IoSquare className='!h-5 !w-5 !ml-1.5 !mr-6 sm:!mr-10' />CT Scan - 64 Slice</span>
-                                <span className='!flex !items-center !text-base sm:!text-xl !font-medium'><IoSquare className='!h-5 !w-5 !ml-1.5 !mr-6 sm:!mr-10' />8 Operation Theatres</span>
-                                <span className='!flex !items-center !text-base sm:!text-xl !font-medium'><IoSquare className='!h-5 !w-5 !ml-1.5 !mr-6 sm:!mr-10' />24/7 Cathlab</span>
+                                <span className='!flex !items-center !text-base sm:!text-xl !font-medium'><FaCheck className='!h-5 !w-5 !ml-1.5 !mr-6 sm:!mr-10 !flex-shrink-0' />CT Scan - 64 Slice</span>
+                                <span className='!flex !items-center !text-base sm:!text-xl !font-medium'><FaCheck className='!h-5 !w-5 !ml-1.5 !mr-6 sm:!mr-10 !flex-shrink-0' />8 Operation Theatres</span>
+                                <span className='!flex !items-center !text-base sm:!text-xl !font-medium'><FaCheck className='!h-5 !w-5 !ml-1.5 !mr-6 sm:!mr-10 !flex-shrink-0' />24/7 Cathlab</span>
 
                             </div>
                         </div>
@@ -207,6 +207,10 @@ const Description = () => {
 
                 </div>
 
+
+
+
+
                 {/* Right Side */}
                 <div className='lg:!col-span-4  xl:!col-span-3 !py-5'>
                     <div className='!flex !flex-col !justify-center !space-y-10 !p-2'>
@@ -216,26 +220,26 @@ const Description = () => {
 
                             {/* Phone  */}
                             <div className='!grid !grid-cols-12 !items-start'>
-                                <FaPhone className='!col-span-2 !h-6 !w-6 !mt-0.5' />
-                                <span className='!col-span-10 !text-2xl'>(800) 570-3142</span>
+                                <FaPhone className='!col-span-2 sm:!col-span-1 lg:!col-span-2 !h-6 !w-6 !mt-1' />
+                                <span className='!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-2xl lg:!text-xl'>(800) 570-3142</span>
                             </div>
 
                             {/* Location  */}
                             <div className='!grid !grid-cols-12 !items-start'>
-                                <FaLocationDot className='!col-span-2 !h-6 !w-6 !mt-0.5 !text-red-600' />
-                                <span className='!col-span-10'>Rao Saheb, Achutrao Patwardhan Marg, Four Bungalows, Andheri West, Mumbai, Maharashtra 400053</span>
+                                <FaLocationDot className='!col-span-2 sm:!col-span-1 lg:!col-span-2 !h-6 !w-6 !mt-0.5 !text-red-600' />
+                                <span className='!col-span-10 sm:!col-span-11 lg:!col-span-10'>Rao Saheb, Achutrao Patwardhan Marg, Four Bungalows, Andheri West, Mumbai, Maharashtra 400053</span>
                             </div>
 
                             {/* Website  */}
                             <div className='!grid !grid-cols-12 !items-center'>
-                                <FaGlobeAmericas className='!col-span-2 !h-6 !w-6 !mt-0.5 !text-blue-500' />
-                                <span className='!col-span-10 !text-md'>kokilabenhospital.com</span>
+                                <FaGlobeAmericas className='!col-span-2 sm:!col-span-1 lg:!col-span-2 !h-6 !w-6 !mt-0.5 !text-blue-500' />
+                                <span className='!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-md'>kokilabenhospital.com</span>
                             </div>
 
                             {/* Woring hours */}
                             <div className='!grid !grid-cols-12 !items-center'>
-                                <FaClock className='!col-span-2 !h-6 !w-6 !mt-0.5 !text-blue-500' />
-                                <span className='!col-span-10 !text-md !text-[#74c365]'>Open 24 hours</span>
+                                <FaClock className='!col-span-2 sm:!col-span-1 lg:!col-span-2 !h-6 !w-6 !mt-0.5 !text-blue-500' />
+                                <span className='!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-md !text-[#74c365]'>Open 24 hours</span>
                             </div>
 
                         </div>
