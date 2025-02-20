@@ -595,21 +595,21 @@ export default function ServiceListing() {
                         <div className="flex justify-between items-end">
                           {/* BEDS COUNT AND TYPE */}
                           <div className="flex flex-col">
-                            <span className="text-sm min-[425px]:text-base sm:text-lg lg:text-base xl:text-lg font-semibold text-gray-700">
+                            {/* <span className="text-sm min-[425px]:text-base sm:text-lg lg:text-base xl:text-lg font-semibold text-gray-700">
                               {detail.beds} Beds
-                            </span>
+                            </span> */}
                             <span className="text-sm min-[425px]:text-base sm:text-lg lg:text-base xl:text-lg font-semibold text-gray-700">
                               {detail.type}
                             </span>
                           </div>
 
                           {/* CONTACT NO */}
-                          <div className="flex items-center">
+                          {/* <div className="flex items-center">
                             <FaPhoneAlt className="min-[425px]:h-4 min-[425px]:w-4 mr-1 min-[425px]:mr-2 flex-shrink-0" />
                             <span className="text-sm min-[425px]:text-base sm:text-lg lg:text-base xl:text-lg font-semibold text-gray-700">
                               {detail.contactNo}
                             </span>
-                          </div>
+                          </div> */}
                         </div>
 
                         {/* HOSPITAL ACCREDITATIONS IMAGES & VIEW DETAILS BUTTON */}
