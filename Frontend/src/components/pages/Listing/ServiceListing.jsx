@@ -183,7 +183,7 @@ export default function ServiceListing() {
       {/* Banner */}
       <div className="relative h-48 md:h-64 lg:h-96 overflow-hidden">
         <img
-          src="public/Images/demo/pediatric-banner2.jpg"
+          src={path+"demo/pediatric-banner2.jpg"}
           alt="Pediatric Hospital Banner"
           className="w-full h-full object-cover"
         />
