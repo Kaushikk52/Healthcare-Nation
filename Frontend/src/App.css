@@ -426,23 +426,6 @@ background-color: #53535715;
 }
 
 
-
-
-
-/* .swiper-button-next-custom {
-  background-image: url('./assets/Images/Subtract.png'); 
-  position: absolute;
-  right: 10px; 
-  top: 50%;
-  transform: translateY(-50%);
-  background-size: contain;
-  background-repeat: no-repeat;
-  width: 40px; 
-  height: 40px; 
-  cursor: pointer;
-} */
-
-
 .m-top {
   margin-top: 3rem;
 }
@@ -492,10 +475,20 @@ background-color: #53535715;
   font-size: 24px;
 }
 
+/* Custom Swiper pagination dot styles */
 .swiper-pagination-bullet {
-  background-color: #333;
-  display: none !important;
+  background-color: #eeeaea; /* Default dot color */
+  opacity: 0.7 !important;
+  width: 10px !important;
+  height: 10px !important;
 }
+
+/* Active dot */
+.swiper-pagination-bullet-active {
+  background-color: white !important; /* Active dot color */
+  opacity: 1 !important;
+}
+
 
 .swiper-slide {}
 
