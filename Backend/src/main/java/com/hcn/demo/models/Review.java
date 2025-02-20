@@ -29,8 +29,12 @@ public class Review {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "hospital_id", nullable = false)
+    @JoinColumn(name = "hospital_id", nullable = true)
     private Hospital hospital;
+
+    @ManyToOne
+    @JoinColumn(name = "clinic_id", nullable = true)
+    private Clinic clinic;
 
     @PastOrPresent(message = "Creation date must be in the past or present")
     @Temporal(TemporalType.TIMESTAMP)

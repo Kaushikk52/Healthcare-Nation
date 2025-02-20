@@ -1,11 +1,12 @@
-import { Swiper, SwiperSlide } from "swiper/react"
-import { Navigation, Pagination, Autoplay, A11y } from "swiper/modules"
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay, A11y } from "swiper/modules";
 
 // Import Swiper styles
-import "swiper/css"
-import "swiper/css/navigation"
-import "swiper/css/pagination"
-import "swiper/css/autoplay"
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/autoplay";
+import "@/App.css"
 
 const banners = [
   "HCN Banner 1.jpg",
@@ -20,10 +21,10 @@ const banners = [
   "HCN Banner 10.jpg",
   "HCN Banner 11.jpg",
   "HCN Banner 12.jpg",
-]
+];
 
 function CarouselComponent() {
-  const path = import.meta.env.VITE_APP_IMG_URL + "/Banner"
+  const path = import.meta.env.VITE_APP_IMG_URL + "/Banner";
 
   return (
     <div className="w-full">
@@ -43,14 +44,18 @@ function CarouselComponent() {
         {banners.map((banner, index) => (
           <SwiperSlide key={index}>
             <div className="w-full h-full">
-              <img src={`${path}/${banner}`} alt={`Slide ${index + 1}`} className="w-full h-auto object-cover" />
+              <img
+                src={`${path}/${banner}`}
+                alt={`Slide ${index + 1}`}
+                className="w-full h-auto object-cover"
+              />
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
+      ;
     </div>
-  )
+  );
 }
 
-export default CarouselComponent
-
+export default CarouselComponent;

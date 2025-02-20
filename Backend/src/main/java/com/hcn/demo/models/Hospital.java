@@ -22,8 +22,8 @@ public class Hospital {
     @Column(name = "id", nullable = false, updatable = false, length = 36)
     private String id;
 
-    @NotNull(message = "Project name cannot be null")
-    @Size(min = 3, max = 100, message = "Project name must be between 3 and 100 characters")
+    @NotNull(message = "Hospital name cannot be null")
+    @Size(min = 3, max = 100, message = "Hospital name must be between 3 and 100 characters")
     @Column(nullable = false, length = 100)
     private String name;
 
@@ -49,12 +49,7 @@ public class Hospital {
 
     private String[] departments;
 
-    @ManyToMany
-    @JoinTable(
-            name = "hospital_specialities",
-            joinColumns = @JoinColumn(name = "hospital_id"),
-            inverseJoinColumns = @JoinColumn(name = "speciality_id")
-    )
+    @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Speciality> specialities;
 
     private String[] altMed;

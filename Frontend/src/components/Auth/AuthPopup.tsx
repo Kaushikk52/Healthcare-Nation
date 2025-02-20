@@ -11,7 +11,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   InputOTP,
   InputOTPGroup,
@@ -43,9 +42,13 @@ export default function AuthPopup(props: any) {
   }, [props.popup]);
 
   const registerSchema = Yup.object({
-    fullName: Yup.string()
-      .min(5, "Full name must be at least 5 characters")
-      .max(30, "Full name is too long")
+    firstName: Yup.string()
+      .min(5, "First name must be at least 5 characters")
+      .max(15, "First name is too long")
+      .required("Required"),
+    lastName: Yup.string()
+      .min(5, "Last name must be at least 5 characters")
+      .max(15, "Last name is too long")
       .required("Required"),
     password: Yup.string()
       .min(6, "Password must be at least 6 characters")
@@ -56,7 +59,7 @@ export default function AuthPopup(props: any) {
       .min(10, "Phone no. must be at least 10 characters")
       .max(15, "Phone no. is too long")
       .required("Required"),
-    role: Yup.mixed().oneOf(roles, "Invalid role").required("Role is required"),
+    role: Yup.mixed().oneOf(roles, "Invalid role"),
   });
 
   const loginSchema = Yup.object({
@@ -85,6 +88,8 @@ export default function AuthPopup(props: any) {
 
   async function handleRegister(values: any) {
     try {
+      console.log("Resister User : ", values);
+      values.role = "ROLE_USER";
       const response = await axios.post(
         `${baseURL}/v1/api/auth/register`,
         values
@@ -108,7 +113,7 @@ export default function AuthPopup(props: any) {
           localStorage.setItem("token", response.data.jwtToken);
         }
         setIsOpen(false);
-        navigate("/dashboard/add-property");
+        navigate("/dashboard/hospital");
         // console.log("User Logged in Successfully");
       }
     } catch (err) {
@@ -269,59 +274,46 @@ export default function AuthPopup(props: any) {
                     <TabsContent value="register">
                       <Formik
                         initialValues={{
-                          fullName: "",
+                          firstName: "",
+                          lastName:"",
                           email: "",
                           password: "",
                           phone: "",
                           role: "",
                         }}
                         validationSchema={registerSchema}
-                        onSubmit={(values) => handleRegister(values)}
+                        onSubmit={(values) =>{
+                          console.log("Register User : ", values);
+                          handleRegister(values)
+                        } 
+                      }
                       >
                         {({ errors, touched, isSubmitting }) => (
                           <Form className="space-y-2">
                             <div className="space-y-2">
-                              <Label htmlFor="fullName">Name</Label>
+                              <Label htmlFor="firstName">First Name</Label>
                               <Field
                                 as={Input}
-                                id="fullName"
-                                name="fullName"
-                                placeholder="Enter your full name"
+                                id="firstName"
+                                name="firstName"
+                                placeholder="Enter your first name"
                               />
                               <ErrorMessage
-                                name="fullName"
+                                name="firstName"
                                 component="div"
                                 className="text-sm text-red-500"
                               />
                             </div>
                             <div className="space-y-1">
-                              <Label>Select Role</Label>
-                              <Field name="role">
-                                {({ field,form }: any) => (
-                                  <RadioGroup
-                                    onValueChange={(value)=> {form.setFieldValue(field.name,value)}}
-                                    defaultValue={roles[0]}
-                                    className="flex justify-around"
-                                  >
-                                    {roles.map((role) => (
-                                      <div
-                                        key={role}
-                                        className="flex items-center space-x-2"
-                                      >
-                                        <RadioGroupItem
-                                          value={role}
-                                          id={role}
-                                        />
-                                        <Label htmlFor={role}>
-                                          {role.replace("ROLE_", "")}
-                                        </Label>
-                                      </div>
-                                    ))}
-                                  </RadioGroup>
-                                )}
-                              </Field>
+                              <Label htmlFor="lastName">Last Name</Label>
+                              <Field
+                                as={Input}
+                                id="lastName"
+                                name="lastName"
+                                placeholder="Enter your last name"
+                              />
                               <ErrorMessage
-                                name="role"
+                                name="lastName"
                                 component="div"
                                 className="text-sm text-red-500"
                               />

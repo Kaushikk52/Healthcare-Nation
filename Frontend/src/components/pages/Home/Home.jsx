@@ -2,9 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 // Data
-import popularBrands from '../data/brands';
-import servicesBySpecialities from '../data/servicesBySpecialities'
-import clinics from '../data/clinics'
+import popularBrands from '@/data/brands.js';
+import servicesBySpecialities from '@/data/servicesBySpecialities'
+import clinics from '@/data/clinics'
 
 import { Navigation, Pagination, Autoplay, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -128,7 +128,7 @@ const articles = [
     { title: 'Dive into Wellness', text: 'The Incredible Benefits of Swimming', image: 'Articles-img3.png', },
 ]
 
-function Home1() {
+function Home() {
 
     const path = import.meta.env.VITE_APP_IMG_URL;
 
@@ -175,62 +175,6 @@ function Home1() {
                         )}
                     </div>
                 </div>
-
-
-
-
-
-
-
-
-
-                {/* CLINICS SECTION */}
-                <div className='!mt-10'>
-                    {/* CLINICS HEADING AND EXPLORE MORE BUTTON  */}
-                    <div className='flex justify-between items-start !space-x-2'>
-                        <h3 className='!text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1'>Clinics</h3>
-                        <Link
-                            to={'/'}
-                            style={{
-                                textDecoration: 'none',
-                            }}
-                            className='!py-1.5 !px-2 min-[425px]:!px-4 !text-[11px] min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
-                        >
-                            Explore More
-                        </Link>
-                    </div>
-
-                    {/* CLINICS GRID IMAGES AND TITLE */}
-                    <div className='!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 xl:!grid-cols-4 !gap-x-3.5 !gap-y-3 !mt-4'>
-                        {clinics.map((clinic, index) =>
-                            <div
-                                key={index}
-                                className='group'
-                            >
-                                <a
-                                    style={{ textDecoration: 'none' }}
-                                    className='cursor-pointer'
-                                >
-                                    <img
-                                        src={path + clinic.image}
-                                        alt={clinic.title}
-                                        className='!rounded-lg !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-40 xl:!h-52 !w-full !aspect-[3/2] !object-fit'
-                                    />
-                                    <p className='!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-base xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]'>{clinic.title}</p>
-                                </a>
-                            </div>
-                        )}
-                    </div>
-                </div>
-
-
-
-
-
-
-
-
-
 
 
                 {/* POPULAR HEALTHCARE BRANDS SECTION */}
@@ -297,7 +241,7 @@ function Home1() {
                         spaceBetween={16}
                         slidesPerView={4}
                         loop={true}
-                        pagination={{ clickable: true, dynamicBullets: true }}
+                        // pagination={{ clickable: true, dynamicBullets: true }}
                         navigation
                         autoplay={{ delay: 10000 }}
                         breakpoints={{
@@ -344,7 +288,7 @@ function Home1() {
                         spaceBetween={16}
                         slidesPerView={4}
                         loop={true}
-                        pagination={{ clickable: true, dynamicBullets: true }}
+                        // pagination={{ clickable: true, dynamicBullets: true }}
                         navigation
                         autoplay={{ delay: 10000 }}
                         breakpoints={{
@@ -857,7 +801,7 @@ function Home1() {
                     </div>
 
                 {/* CHOOSE YOUR TPA GRID IMAGES AND TITLE */}
-                <div className='!grid !grid-cols-2 sm:!grid-cols-3 lg:!grid-cols-6 xl:!grid-cols-6 !gap-x-4 !gap-y-4 !mt-4'>
+                <div className='mb-10 !grid !grid-cols-2 sm:!grid-cols-3 lg:!grid-cols-6 xl:!grid-cols-6 !gap-x-4 !gap-y-4 !mt-4'>
                         {chooseYourTPA.map((tpa, index) =>
                             <div
                                 key={index}
@@ -873,112 +817,6 @@ function Home1() {
                     </div>
                 </div>
 
-
-
-
-
-
-
-
-
-
-
-                {/* HEALTHCARE VIDEOS */}
-                {/* <div className='!mt-10'> */}
-                {/* HEALTHCARE VIDEOS HEADING AND EXPLORE MORE BUTTON  */}
-                {/* <div className='flex justify-between items-center'>
-                        <h3 className='!font-semibold !text-gray-700'>Healthcare Videos</h3>
-                        <a
-                            style={{
-                                textDecoration: 'none',
-                            }}
-                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
-                        >Explore More</a>
-                    </div> */}
-
-                {/* HEALTHCARE VIDEOS GRID VIDEOS */}
-                {/* <div className='grid grid-cols-3 gap-x-3 gap-y-3 !mt-5'>
-                        {healthcareVideos.map((video, index) =>
-                            <div
-                                key={index}
-                                className=''
-                            >
-                                <iframe
-                                    width="100%"
-                                    height="215"
-                                    src={video.link}
-                                    title="YouTube video player"
-                                    frameborder="0"
-                                    class="radius10"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen>
-                                </iframe>
-                            </div>
-                        )}
-                    </div> */}
-
-                {/* </div> */}
-
-
-
-
-
-
-
-
-
-
-
-                {/* ARTICLES SECTION*/}
-                {/* <div className='!mt-10'> */}
-                {/* ARTICLES HEADING AND EXPLORE MORE BUTTON  */}
-                {/* <div className='flex justify-between items-center'>
-                        <h3 className='!font-semibold !text-gray-700'>Articles</h3>
-                        <a
-                            style={{
-                                textDecoration: 'none',
-                            }}
-                            className='!py-1.5 !px-4 !text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]'
-                        >Explore More</a>
-                    </div> */}
-
-                {/*  ARTICLES GRID IMAGES AND TITLE */}
-                {/* <div className='grid grid-cols-3 gap-x-3 gap-y-3 !mt-5'>
-                        {articles.map((article, index) =>
-                            <div
-                                key={index}
-                                className=''
-                            >
-                                <a
-                                    style={{ textDecoration: 'none' }}
-                                    className='cursor-pointer'
-                                >
-                                    <img
-                                        src={path + article.image}
-                                        alt='article image'
-                                        className='rounded-xl aspect-auto object-contain'
-                                    />
-                                    <div className='!flex justify-center !space-x-1.5 !mt-2'>
-                                        <i className='text-black'>in</i>
-                                        <p className='font-semibold tracking-wider text-cyan-500'>WELLNESS</p>
-                                    </div>
-                                    <p className='!flex text-[17px] font-semibold text-gray-700'>{article.title}: {article.text}</p>
-                                </a>
-                            </div>
-                        )}
-                    </div> */}
-                {/* </div> */}
-
-
-
-
-
-
-
-
-
-
-
             </div>
 
         </>
@@ -986,4 +824,4 @@ function Home1() {
     )
 }
 
-export default Home1
+export default Home

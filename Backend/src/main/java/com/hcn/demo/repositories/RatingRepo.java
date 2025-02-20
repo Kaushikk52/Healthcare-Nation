@@ -11,4 +11,7 @@ public interface RatingRepo  extends JpaRepository<Rating,String> {
 
     @Query("SELECT AVG(r.rating) FROM Rating r WHERE r.hospital.id = :hospitalId")
     Double findAverageRatingByHospitalId(@Param("hospitalId") String hospitalId);
+
+    @Query("SELECT AVG(r.rating) FROM Rating r WHERE r.clinic.id = :clinicId")
+    Double findAverageRatingByClinicId(@Param("clinicId") String clinicId);
 }

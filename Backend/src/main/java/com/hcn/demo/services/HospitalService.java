@@ -1,10 +1,7 @@
 package com.hcn.demo.services;
 
 import com.hcn.demo.models.*;
-import com.hcn.demo.repositories.AddressRepo;
-import com.hcn.demo.repositories.HospitalRepo;
-import com.hcn.demo.repositories.RatingRepo;
-import com.hcn.demo.repositories.ReviewRepo;
+import com.hcn.demo.repositories.*;
 import com.hcn.demo.specifications.HospitalSpecification;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +13,7 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class HospitalService {
@@ -24,11 +22,14 @@ public class HospitalService {
     private final AddressRepo addressRepo;
     private final RatingRepo ratingRepo;
     private final ReviewRepo reviewRepo;
+    private final SpecialityRepo specialityRepo;
     private final UserDetailsService userDetailsService;
 
     @Autowired
-    public HospitalService(HospitalRepo hospitalRepo,AddressRepo addressRepo,RatingRepo ratingRepo, ReviewRepo reviewRepo,UserDetailsService userDetailsService){
+    public HospitalService(HospitalRepo hospitalRepo,AddressRepo addressRepo,RatingRepo ratingRepo, ReviewRepo reviewRepo,
+                           SpecialityRepo specialityRepo,UserDetailsService userDetailsService){
         this.hospitalRepo = hospitalRepo;
+        this.specialityRepo = specialityRepo;
         this.addressRepo = addressRepo;
         this.ratingRepo = ratingRepo;
         this.reviewRepo = reviewRepo;
@@ -38,6 +39,11 @@ public class HospitalService {
     @Transactional
     public Hospital addHospital(Hospital hospital){
         Address savedAddress = addressRepo.save(hospital.getAddress());
+        List<Speciality> savedSpecialities = hospital.getSpecialities().stream()
+                .map(specialityRepo::save)
+                .collect(Collectors.toList());
+
+        hospital.setSpecialities(savedSpecialities);
         hospital.setAddress(savedAddress);
         return hospitalRepo.save(hospital);
     }
@@ -73,8 +79,8 @@ public class HospitalService {
 
     public List<Hospital> getFilteredHospitals(Map<String,Object> filters){
         Specification<Hospital> spec = HospitalSpecification.findByCriteria(filters);
-        List<Hospital> filteredHosptals = hospitalRepo.findAll(spec);
-        return filteredHosptals;
+        List<Hospital> filteredHospitals = hospitalRepo.findAll(spec);
+        return filteredHospitals;
     }
 
     public Hospital updateHospital(String id ,Hospital hospital){

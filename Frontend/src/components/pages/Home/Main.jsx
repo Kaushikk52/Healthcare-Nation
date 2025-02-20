@@ -1,17 +1,17 @@
 import React from 'react';
 import Carousel from './Carousel';
-import Home1 from './Home1';
+import Home from './Home';
 
-function Home() {
+function Main() {
   const path = "src/assets/Images/";
 
   return (
     <>
      <Carousel/>
-     <Home1/>
+     <Home/>
 
     </>
   );
 }
 
-export default Home;
+export default Main;
