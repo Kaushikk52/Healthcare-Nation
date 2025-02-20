@@ -34,19 +34,18 @@ const HospitalDetailsPage = () => {
 
     const [activeTabButton, setActiveTabButton] = useState('description')
 
-    const starIcon = Array(5).fill(null);
 
     useEffect(() => {
         const handleResize = () => setIsWideScreen(window.innerWidth >= 425);
         window.addEventListener('resize', handleResize);
-    
+
         return () => window.removeEventListener('resize', handleResize);
-      }, []);
+    }, []);
 
     const buttons = [
         { title: 'Add Review', icon: <MdEdit className='!text-yellow-400 !h-5 !w-5' />, Color: '!border-yellow-400 !text-yellow-500' },
         { title: 'Direction', icon: <MdOutlineDirections className='!text-pink-400 !h-5 !w-5' />, },
-        { title: 'Save', icon: <BsBookmarkCheck className='!text-pink-400 !h-5 !w-5' />, Bold: '!font-semibold' },
+        { title: 'Save', icon: <BsBookmarkCheck className='!text-pink-400 !h-5 !w-5' />, Bold: '' },
         { title: 'Share', icon: <FaRegShareFromSquare className='!text-pink-400 !h-5 !w-5' />, },
     ]
 
@@ -65,7 +64,7 @@ const HospitalDetailsPage = () => {
     ]
 
     return (
-        <div className='!max-w-7xl !container !mx-auto !px-4'>
+        <div className='lg:max-w-4xl xl:max-w-7xl !mx-auto !px-4'>
             {/*Main Image Gird */}
             <div className='!grid !grid-cols-12 !gap-2 sm:!gap-4 lg:!gap-4 !py-4'>
                 <div className='!col-span-12 lg:!col-span-8'>
@@ -96,19 +95,17 @@ const HospitalDetailsPage = () => {
             <div className='!flex !flex-col !items-start sm:!flex-row sm:!justify-between sm:!items-start !py-2 sm:!py-0'>
                 {/* Left Side */}
                 <div className='!flex !flex-col !justify-center !space-y-1.5'>
-                    <span className='!text-2xl lg:!text-4xl !font-semibold !text-wrap'>Kokilaben Dhirubhai Ambani Hospital</span>
-                    <span className='!text-md lg:!text-xl !font-medium'>Andheri, Mumbai</span>
-                    <span className='!text-md lg:!text-xl !font-medium'>MultiSpeciality hospital <span className='!font-semibold'>700 Beds</span></span>
+                    <span className='!text-2xl lg:!text-4xl !font-medium !text-wrap'>Kokilaben Dhirubhai Ambani Hospital</span>
+                    <span className='!text-md lg:!text-xl !font-medium text-gray-600'>Andheri, Mumbai</span>
+                    <span className='!text-md lg:!text-xl !font-medium text-gray-600'>MultiSpeciality hospital</span>
+                    <span className='!text-md lg:!text-xl !font-medium text-gray-600'>700 Beds</span>
                 </div>
 
                 {/* Right Side  */}
-                <div className='!flex !flex-col !justify-center !text-[#74c365] !my-2 sm:!my-0 !space-y-0.5 sm:!space-y-1.5 !text-left sm:!text-right'>
-                    <div className='!flex !justify-center !items-center'>
-                        <span className='!text-lg !font-medium !mr-3'>4.8</span>
-                        {starIcon.map((_, index) => (
-                            <IoIosStar key={index} className='!h-5 !w-5 !mr-0.5' />
-                        ))
-                        }
+                <div className='!flex !flex-col !justify-center !text-white !my-2 sm:!my-0 !space-y-0.5 sm:!space-y-1.5 !text-left sm:!text-right'>
+                    <div className='!flex !justify-center !items-center !bg-[#267e3e] !rounded-lg !py-0.5 !px-0'>
+                        <span className='!text-xl !font-semibold !mr-1 !px-0'>4.8</span>
+                        <IoIosStar className='!h-5 !w-5 !mb-0.5 !px-0 !mx-0' />
                     </div>
                     <div className='!text-gray-600'>
                         <span>59 Reviews</span>
@@ -117,7 +114,7 @@ const HospitalDetailsPage = () => {
 
             </div>
 
-        
+
 
             {/* Buttons & Rounded Images*/}
             <div className='!flex !flex-col sm:!flex-row !items-start sm:!items-center sm:!space-y-0 !space-y-5 !justify-between !pb-4 sm:!py-4'>
@@ -125,13 +122,13 @@ const HospitalDetailsPage = () => {
                 {/* Left Side for Buttons */}
                 <div className='!flex !items-center !space-x-2 min-[425px]:!space-x-1 md:!space-x-2'>
                     {buttons.map((btn, index) => (
-                          <Tippy key={index} content={btn.title}>
-                        <button
-                            key={index}
-                            className={`!flex !justify-center !items-center !gap-x-[5px] !text-xs sm:!text-sm md:!text-base !border-2 !border-gray-300 !py-2 !px-5 min-[425px]:!px-2 md:!px-4 !rounded ${btn.Color} ${btn.Bold} `}
-                        >
-                            {btn.icon} {isWideScreen && btn.title}
-                        </button>
+                        <Tippy key={index} content={btn.title}>
+                            <button
+                                key={index}
+                                className={`!flex !justify-center !items-center !gap-x-[5px] !text-xs sm:!text-sm md:!text-base !border-2 !border-gray-300 !py-2 !px-5 min-[425px]:!px-2 md:!px-4 !rounded ${btn.Color} ${btn.Bold} `}
+                            >
+                                {btn.icon} {isWideScreen && btn.title}
+                            </button>
                         </Tippy>
                     ))}
                 </div>
