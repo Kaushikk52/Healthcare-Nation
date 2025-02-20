@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap';
 import toast, { Toaster } from 'react-hot-toast';
 import DatePicker from "react-datepicker";
-import { hospitalValidationSchema } from '@/Validations/Hospital';
+import { clinicValidationSchema } from '@/Validations/Clinic';
 
 const DatePickerField = ({ field, form }: any) => {
   return (
@@ -32,38 +32,23 @@ export default function ClinicForm() {
 
     const initialValues = {
       name: "",
-      mahareraNo: "",
-      type: "",
-      propertyVariant: "",
-      subVariant: "",
       address: {
-        landmark: "",
-        locality: "",
         street: "",
+        city: "",
+        landmark: "",
         zipCode: "",
       },
-      details: {
-        bedrooms: "",
-        bathrooms: "",
-        balconies: "",
-        floorNo: "",
-        location: "",
-        facing: "",
-        carpetArea: "",
-        areaUnit: "",
-        builtIn: "",
-        possesion: "",
-        underConstruction: "",
-        rent: 0,
-        price: 0,
-        amtUnit: "",
-        isNegotiable: "",
-        isApproved: false,
-        furnishedStatus: "",
-        ammenities: [] as string[],
-        description: "",
-      },
+      phone: "",
+      description:"",
+      beds: 0,
+      ownership: "",
+      specialities: [] as string[],
+      specialitiesImgs: [] as File[],
       images: [] as File[],
+      departments: [] as string[],
+      altMeds: [] as string[],
+      concerns: [] as string[],
+      services: [] as string[],
     };
 
     useEffect(() => {
@@ -134,13 +119,13 @@ export default function ClinicForm() {
   
     function prepareFormData(values: typeof initialValues): typeof initialValues {
       const updatedValues = { ...values };
-      if (updatedValues.type === "RENT") {
-        updatedValues.details.price = 0;
-      } else if (updatedValues.type === "BUY") {
-        updatedValues.details.rent = 0;
-      }
+      // if (updatedValues.type === "RENT") {
+      //   updatedValues.details.price = 0;
+      // } else if (updatedValues.type === "BUY") {
+      //   updatedValues.details.rent = 0;
+      // }
   
-      updatedValues.details.isApproved = false;
+      // updatedValues.details.isApproved = false;
       return updatedValues;
     }
   
@@ -148,7 +133,7 @@ export default function ClinicForm() {
       values: typeof initialValues,
       { setSubmitting, resetForm }: FormikHelpers<typeof initialValues>
     ) {
-      if (step !== 4 || values.details.ammenities.length < 1) {
+      if (step !== 4) {
         setSubmitting(false);
         return;
       }
@@ -162,7 +147,7 @@ export default function ClinicForm() {
         }
         const token = localStorage.getItem("token");
         const response = await axios.post(
-          `${baseURL}/v1/api/properties/post`,
+          `${baseURL}/v1/api/clinic/save`,
           preparedValues,
           { headers: { Authorization: `Bearer ${token}`, timeout: 20000 } }
         );
@@ -190,36 +175,29 @@ export default function ClinicForm() {
         case 1:
           return [
             "name",
-            "type",
-            "mahareraNo",
-            "propertyVariant",
-            "subVariant",
-            "address.landmark",
-            "address.city",
+            "phone",
             "address.street",
+            "address.city",
+            "address.landmark",
             "address.zipCode",
           ];
         case 2:
           return [
-            "details.bedrooms",
-            "details.bathrooms",
-            "details.balconies",
-            "details.floorNo",
-            "details.facing",
-            "details.carpetArea",
-            "details.builtIn",
-            "details.possesion",
-            "details.underConstruction",
-            "details.rent",
-            "details.price",
-            "details.amtUnit",
-            "details.furnishedStatus",
-            "details.description",
+           "description",
+           "beds",
+            "ownership",
+            "specialities",
+            "specialitiesImgs",
           ];
         case 3:
           return ["images"];
         case 4:
-          return ["details.ammenities"];
+          return [
+            "departments",
+            "altMeds",
+            "concern",
+            "services",          
+          ];
         default:
           return [];
       }
@@ -367,7 +345,7 @@ export default function ClinicForm() {
 
         <Formik
           initialValues={initialValues}
-          validationSchema={hospitalValidationSchema}
+          validationSchema={clinicValidationSchema}
           onSubmit={handleSubmit}
         >
           {({ values, errors, touched, setFieldValue, isSubmitting }) => (
@@ -407,19 +385,19 @@ export default function ClinicForm() {
 
                       <div>
                         <label
-                          htmlFor="street"
+                          htmlFor="address.street"
                           className="block text-sm font-medium text-gray-700"
                         >
                           Street
                         </label>
                         <Field
-                          id="street"
-                          name="street"
+                          id="address.street"
+                          name="address.street"
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
                         <ErrorMessage
-                          name="street"
+                          name="address.street"
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />
@@ -435,19 +413,19 @@ export default function ClinicForm() {
 
                       <div>
                         <label
-                          htmlFor="city"
+                          htmlFor="address.city"
                           className="block text-sm font-medium text-gray-700"
                         >
                           City
                         </label>
                         <Field
-                          id="city"
-                          name="city"
+                          id="address.city"
+                          name="address.city"
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
                         <ErrorMessage
-                          name="city"
+                          name="address.city"
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />
@@ -455,19 +433,19 @@ export default function ClinicForm() {
 
                       <div>
                         <label
-                          htmlFor="landmark"
+                          htmlFor="address.landmark"
                           className="block text-sm font-medium text-gray-700"
                         >
                           Landmark
                         </label>
                         <Field
-                          id="landmark"
-                          name="landmark"
+                          id="address.landmark"
+                          name="address.landmark"
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
                         <ErrorMessage
-                          name="landmark"
+                          name="address.landmark"
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />
@@ -482,19 +460,19 @@ export default function ClinicForm() {
 
                       <div>
                         <label
-                          htmlFor="zip"
+                          htmlFor="address.zipCode"
                           className="block text-sm font-medium text-gray-700"
                         >
                           Zip Code
                         </label>
                         <Field
-                          id="zip"
-                          name="zip"
+                          id="address.zipCode"
+                          name="address.zipCode"
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
                         <ErrorMessage
-                          name="zip"
+                          name="address.zipCode"
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />
@@ -653,8 +631,8 @@ export default function ClinicForm() {
                           className="mt-1 block w-full pl-3 pr-10 !py-2.5 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md"
                         >
                           <option value="">Select Ownership</option>
-                          <option value="private">Private</option>
-                          <option value="government">Government</option>
+                          <option value="Private">Private</option>
+                          <option value="Government">Government</option>
                         </Field>
                         <ErrorMessage
                           name="ownership"
@@ -1146,166 +1124,156 @@ export default function ClinicForm() {
                   </motion.div>
                 )}
 
-                {step === 4 && (
-                  <motion.div
-                    key="step4"
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.5 }}
-                    className="space-y-6"
-                  >
-
-                    <div>
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                        Departments
-                      </label>
-                      <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
-                        {[
-                          "Cardiology",
-                          "Neurology",
-                          "Orthopedics",
-                        ].map((department) => (
-                          <div key={department} className="flex items-center">
-                            <Field
-                              type="checkbox"
-                              id={department}
-                              name="departments"
-                              value={department}
-                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                            />
-                            <label
-                              htmlFor={department}
-                              className="ml-2 block text-base text-gray-900"
-                            >
-                              {department}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                      <ErrorMessage
-                        name="departments"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
-                    </div>
-
-
-
-
-
-
-
-                    <div className='!mt-10'>
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                        Alternative Medicine
-                      </label>
-                      <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
-                        {[
-                          "Ayurveda",
-                          "Homeopathy",
-
-                        ].map((altMed) => (
-                          <div key={altMed} className="flex items-center">
-                            <Field
-                              type="checkbox"
-                              id={altMed}
-                              name="alternativeMedicine"
-                              value={altMed}
-                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                            />
-                            <label
-                              htmlFor={altMed}
-                              className="ml-2 block text-base text-gray-900"
-                            >
-                              {altMed}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                      <ErrorMessage
-                        name="alternativeMedicine"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
-                    </div>
-
-
-
-                    <div className='!mt-10'>
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                        Health Concerns
-                      </label>
-                      <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
-                        {[
-                          "Emergency Services",
-                          "Patient Satisfaction",
-
-                        ].map((concern) => (
-                          <div key={concern} className="flex items-center">
-                            <Field
-                              type="checkbox"
-                              id={concern}
-                              name="healthConcern"
-                              value={concern}
-                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                            />
-                            <label
-                              htmlFor={concern}
-                              className="ml-2 block text-base text-gray-900"
-                            >
-                              {concern}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                      <ErrorMessage
-                        name="healthConcern"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
-                    </div>
-
-
-
-                    <div className='!mt-10'>
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                        Services
-                      </label>
-                      <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
-                        {[
-                          "24/7 Emergency",
-                          "Pharmacy",
-                          "Diagnostic Imaging",
-
-                        ].map((services) => (
-                          <div key={services} className="flex items-center">
-                            <Field
-                              type="checkbox"
-                              id={services}
-                              name="services"
-                              value={services}
-                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                            />
-                            <label
-                              htmlFor={services}
-                              className="ml-2 block text-base text-gray-900"
-                            >
-                              {services}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                      <ErrorMessage
-                        name="healthConcern"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
-                    </div>
-
-
-                  </motion.div>
-                )}
+                 {step === 4 && (
+                                  <motion.div
+                                    key="step4"
+                                    initial={{ opacity: 0, x: 50 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: -50 }}
+                                    transition={{ duration: 0.5 }}
+                                    className="space-y-6"
+                                  >
+                
+                                    <div>
+                                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                                        Departments
+                                      </label>
+                                      <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
+                                        {[
+                                          "Cardiology",
+                                          "Neurology",
+                                          "Orthopedics",
+                                        ].map((department) => (
+                                          <div key={department} className="flex items-center">
+                                            <Field
+                                              type="checkbox"
+                                              id={department}
+                                              name="departments"
+                                              value={department}
+                                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                                            />
+                                            <label
+                                              htmlFor="departments"
+                                              className="ml-2 block text-base text-gray-900"
+                                            >
+                                              {department}
+                                            </label>
+                                          </div>
+                                        ))}
+                                      </div>
+                                      <ErrorMessage
+                                        name="departments"
+                                        component="div"
+                                        className="text-red-500 text-sm mt-1"
+                                      />
+                                    </div>
+                
+                                    <div className='!mt-10'>
+                                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                                        Alternative Medicine
+                                      </label>
+                                      <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
+                                        {[
+                                          "Ayurveda",
+                                          "Homeopathy",
+                                          
+                                        ].map((altMed) => (
+                                          <div key={altMed} className="flex items-center">
+                                            <Field
+                                              type="checkbox"
+                                              id={altMed}
+                                              name="altMeds"
+                                              value={altMed}
+                                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                                            />
+                                            <label
+                                              htmlFor="altMeds"
+                                              className="ml-2 block text-base text-gray-900"
+                                            >
+                                              {altMed}
+                                            </label>
+                                          </div>
+                                        ))}
+                                      </div>
+                                      <ErrorMessage
+                                        name="altMeds"
+                                        component="div"
+                                        className="text-red-500 text-sm mt-1"
+                                      />
+                                    </div>
+                
+                                    <div className='!mt-10'>
+                                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                                       Health Concerns
+                                      </label>
+                                      <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
+                                        {[
+                                          "Emergency Services",
+                                          "Patient Satisfaction",
+                                          
+                                        ].map((concern) => (
+                                          <div key={concern} className="flex items-center">
+                                            <Field
+                                              type="checkbox"
+                                              id={concern}
+                                              name="concerns"
+                                              value={concern}
+                                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                                            />
+                                            <label
+                                              htmlFor="concerns"
+                                              className="ml-2 block text-base text-gray-900"
+                                            >
+                                              {concern}
+                                            </label>
+                                          </div>
+                                        ))}
+                                      </div>
+                                      <ErrorMessage
+                                        name="concerns"
+                                        component="div"
+                                        className="text-red-500 text-sm mt-1"
+                                      />
+                                    </div>
+                
+                                    <div className='!mt-10'>
+                                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                                       Services
+                                      </label>
+                                      <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
+                                        {[
+                                          "24/7 Emergency",
+                                          "Pharmacy",
+                                          "Diagnostic Imaging",
+                                          
+                                        ].map((services) => (
+                                          <div key={services} className="flex items-center">
+                                            <Field
+                                              type="checkbox"
+                                              id={services}
+                                              name="services"
+                                              value={services}
+                                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                                            />
+                                            <label
+                                              htmlFor="services"
+                                              className="ml-2 block text-base text-gray-900"
+                                            >
+                                              {services}
+                                            </label>
+                                          </div>
+                                        ))}
+                                      </div>
+                                      <ErrorMessage
+                                        name="healthConcern"
+                                        component="div"
+                                        className="text-red-500 text-sm mt-1"
+                                      />
+                                    </div>
+                
+                            
+                                  </motion.div>
+                                )}
               </AnimatePresence>
 
 

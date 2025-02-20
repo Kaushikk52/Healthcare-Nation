@@ -49,12 +49,7 @@ public class Hospital {
 
     private String[] departments;
 
-    @ManyToMany
-    @JoinTable(
-            name = "hospital_specialities",
-            joinColumns = @JoinColumn(name = "hospital_id"),
-            inverseJoinColumns = @JoinColumn(name = "speciality_id")
-    )
+    @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Speciality> specialities;
 
     private String[] altMed;

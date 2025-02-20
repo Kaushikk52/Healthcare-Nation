@@ -102,11 +102,6 @@ export default function Navbar() {
       title: "TPA",
       path: "#",
     },
-    {
-      id: 9,
-      title: "Articles",
-      path: "#",
-    },
   ]
   const locations = ["Mumbai", "Bangalore", "Chennai", "Delhi"]
 
@@ -114,7 +109,7 @@ export default function Navbar() {
 
   useEffect(() => {
     setToggle(false)
-  }, [])
+  })
 
   const toggleNavDropdown = (id) => {
     if (window.innerWidth <= 768) {
@@ -132,12 +127,16 @@ export default function Navbar() {
   const checkIfLogin = (route: string) => {
     const token = localStorage.getItem("token")
     setNavigateTo(route)
+    console.log(route,toggle,token)
     if (token !== null && !toggle) {
-      navigate(route)
-    } else if (token !== null && toggle) {
-      setToggle(false)
+       //user logged in and no popup
+      navigate(route) // 
+    } else if (token !== null && toggle === true) {
+      //user logged in and still popup
+      setToggle(false) // toggle not visible
     } else if (token === null) {
-      setToggle(true)
+      //user not logged in
+      setToggle(true) // toggle visible
     }
   }
 
@@ -219,7 +218,7 @@ export default function Navbar() {
       <hr className="my-3" />
 
       {/* Desktop navigation */}
-      <div className="hidden md:flex justify-center items-center my-3">
+      <div className="hidden md:flex justify-center items-center my-3 mb-0">
         <ul className="flex justify-center items-start space-x-4">
           {navigation.map((item) => {
             const Icon = item.icon

@@ -21,8 +21,12 @@ public class Speciality {
 
     private String name;
 
-    @ManyToMany(mappedBy = "specialities")
-    private List<Hospital> hospitals;
+    @ManyToOne
+    @JoinColumn(name = "hospital_id", nullable = true)
+    private Hospital hospital;
+
+    @Column(name = "images", length = 500)
+    private String image;
 
     private LocalDateTime createdAt;
 

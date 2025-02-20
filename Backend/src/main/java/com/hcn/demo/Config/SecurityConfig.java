@@ -57,6 +57,13 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT,"/v1/api/hospital/edit/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE,"/v1/api/hospital/**").hasRole("ADMIN")
 
+                        // CLinic endpoints
+                        .requestMatchers(HttpMethod.POST, "/v1/api/clinic/save").authenticated()
+
+                        // Images endpoints
+                        .requestMatchers(HttpMethod.POST, "/v1/api/images/upload/single").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/api/images/upload/multiple/**").permitAll()
+
                 )
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(point))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -1,14 +1,32 @@
-import axios from 'axios';
-import { FormikHelpers, FormikErrors, Formik, Field, ErrorMessage, Form } from 'formik';
-import { motion, AnimatePresence } from 'framer-motion';
-import { jwtDecode } from 'jwt-decode';
-import { ChevronLeft, ChevronRight, Loader2, Check, AlertCircle } from 'lucide-react';
-import React, { useEffect, useState } from 'react'
-import { Button } from 'react-bootstrap';
-import toast, { Toaster } from 'react-hot-toast';
+import axios from "axios";
+import {
+  FormikHelpers,
+  FormikErrors,
+  Formik,
+  Field,
+  ErrorMessage,
+  Form,
+  FieldArray,
+} from "formik";
+import { motion, AnimatePresence } from "framer-motion";
+import { jwtDecode } from "jwt-decode";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Loader2,
+  Check,
+  AlertCircle,
+  ChevronDown,
+  ChevronUp,
+  Trash2,
+} from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
+import toast, { Toaster } from "react-hot-toast";
 import DatePicker from "react-datepicker";
-import { hospitalValidationSchema } from '@/Validations/Hospital';
-
+import { hospitalValidationSchema } from "@/Validations/Hospital";
+import { useNavigate } from "react-router-dom";
+import { spec } from "node:test/reporters";
 
 const DatePickerField = ({ field, form }: any) => {
   return (
@@ -23,49 +41,36 @@ const DatePickerField = ({ field, form }: any) => {
 };
 
 export default function HospitalForm() {
-
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
   const cloudName = import.meta.env.VITE_APP_CLOUD_NAME;
   const uploadPreset = import.meta.env.VITE_APP_UPLOAD_PRESET;
   const environment = import.meta.env.VITE_APP_ENV || "LOCAL";
   const propertiesPath = `${uploadPreset}/${environment}/Properties`;
   const [step, setStep] = useState(1);
-
+  const navigate = useNavigate();
 
   const initialValues = {
     name: "",
-    mahareraNo: "",
-    type: "",
-    propertyVariant: "",
-    subVariant: "",
     address: {
-      landmark: "",
-      locality: "",
       street: "",
+      city: "",
+      landmark: "",
       zipCode: "",
     },
-    details: {
-      bedrooms: "",
-      bathrooms: "",
-      balconies: "",
-      floorNo: "",
-      location: "",
-      facing: "",
-      carpetArea: "",
-      areaUnit: "",
-      builtIn: "",
-      possesion: "",
-      underConstruction: "",
-      rent: 0,
-      price: 0,
-      amtUnit: "",
-      isNegotiable: "",
-      isApproved: false,
-      furnishedStatus: "",
-      ammenities: [] as string[],
-      description: "",
-    },
+    phone: "",
+    description: "",
+    beds: 0,
+    ownership: "",
+    specialities: [{
+        name: "",
+        image: null as File | null,
+        isMinimized: false,
+      }],
     images: [] as File[],
+    departments: [] as string[],
+    altMeds: [] as string[],
+    concerns: [] as string[],
+    services: [] as string[],
   };
 
   const LOCATION_OPTIONS = [
@@ -99,7 +104,6 @@ export default function HospitalForm() {
     },
   ];
 
-
   useEffect(() => {
     const token: any = localStorage.getItem("token");
     if (!token) {
@@ -116,20 +120,28 @@ export default function HospitalForm() {
           position: "bottom-right",
           duration: 3000,
         });
+        localStorage.removeItem("token");
+        navigate("/");
       }
     } catch (err) {
       console.log(err);
     }
   }, []);
 
-  async function uploadSingleImage(image: File, type: string): Promise<string | null> {
+  async function uploadSingleImage(image: File,type: string): Promise<string | null> {
     try {
+
+      toast.loading("Uploading Specialities Images ...", {
+        position: "bottom-right",
+        duration: 2000,
+      });
+
       const formData = new FormData();
       formData.append("file", image);
-      formData.append("type", type); // Pass the type (e.g., "PROJECT", "PROPERTY")
+      formData.append("type", type);
 
-      const res = await axios.post("/api/images/upload/single", formData);
-      return res.data ?? null; // Return the file URL
+      const res = await axios.post(`${baseURL}/v1/api/images/upload/single`, formData);
+      return res.data ?? null;
     } catch (err) {
       console.error("Image upload failed:", err);
       return null;
@@ -152,7 +164,10 @@ export default function HospitalForm() {
     formData.append("type", type); // Pass the type (e.g., "PROJECT", "PROPERTY")
 
     try {
-      const res = await axios.post(`${baseURL}/v1/api/images/upload/multiple`, formData);
+      const res = await axios.post(
+        `${baseURL}/v1/api/images/upload/multiple/${type}`,
+        formData
+      );
       return res.data ?? [];
     } catch (err) {
       console.error("Batch upload failed:", err);
@@ -164,38 +179,35 @@ export default function HospitalForm() {
     toast[type](message, { position: "bottom-right", duration: 3000 });
   }
 
-  function prepareFormData(values: typeof initialValues): typeof initialValues {
-    const updatedValues = { ...values };
-    if (updatedValues.type === "RENT") {
-      updatedValues.details.price = 0;
-    } else if (updatedValues.type === "BUY") {
-      updatedValues.details.rent = 0;
-    }
-
-    updatedValues.details.isApproved = false;
-    return updatedValues;
-  }
-
   async function handleSubmit(
     values: typeof initialValues,
     { setSubmitting, resetForm }: FormikHelpers<typeof initialValues>
   ) {
-    if (step !== 4 || values.details.ammenities.length < 1) {
+    if (step !== 4) {
       setSubmitting(false);
       return;
     }
 
     try {
       setSubmitting(true);
-      const imageUrls: any = await uploadImages(values.images, "Properties");
-      const preparedValues = prepareFormData(values);
+      const imageUrls: any = await uploadImages(values.images, "Hospitals");
+      const specialitiesImgs: any = await Promise.all(
+        values.specialities.map((speciality) =>
+          uploadSingleImage(speciality.image, "Specialities")
+        )
+      );
       if (imageUrls.length > 0) {
-        preparedValues.images = imageUrls;
+        values.images = imageUrls || [""];
       }
+
+      if(specialitiesImgs.length > 0){
+        values.specialities["image"]= specialitiesImgs || [""];
+      }
+
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        `${baseURL}/v1/api/properties/post`,
-        preparedValues,
+        `${baseURL}/v1/api/hospital/save`,
+        { ...values, avgRating: 0.0 },
         { headers: { Authorization: `Bearer ${token}`, timeout: 20000 } }
       );
 
@@ -222,45 +234,36 @@ export default function HospitalForm() {
       case 1:
         return [
           "name",
-          "type",
-          "mahareraNo",
-          "propertyVariant",
-          "subVariant",
-          "address.landmark",
-          "address.city",
+          "phone",
           "address.street",
+          "address.city",
+          "address.landmark",
           "address.zipCode",
         ];
       case 2:
         return [
-          "details.bedrooms",
-          "details.bathrooms",
-          "details.balconies",
-          "details.floorNo",
-          "details.facing",
-          "details.carpetArea",
-          "details.builtIn",
-          "details.possesion",
-          "details.underConstruction",
-          "details.rent",
-          "details.price",
-          "details.amtUnit",
-          "details.furnishedStatus",
-          "details.description",
+          "description",
+          "beds",
+          "ownership",
+          "specialities.name",
+          "specialities.image",
         ];
       case 3:
         return ["images"];
       case 4:
-        return ["details.ammenities"];
+        return ["departments", "altMeds", "concern", "services"];
       default:
         return [];
     }
   };
 
-  const showErrorsToast = (errors: FormikErrors<typeof initialValues>, stepNumber: number) => {
+  const showErrorsToast = (
+    errors: FormikErrors<typeof initialValues>,
+    stepNumber: number
+  ) => {
     const stepFields = getStepFields(stepNumber);
     const errorMessages = stepFields.reduce((acc: string[], field) => {
-      const fieldParts = field.split('.');
+      const fieldParts = field.split(".");
       let fieldError: any = errors;
       for (const part of fieldParts) {
         fieldError = fieldError && fieldError[part];
@@ -286,10 +289,14 @@ export default function HospitalForm() {
     }
   };
 
-  const hasStepErrors = (errors: FormikErrors<typeof initialValues>, touched: any, stepNumber: number) => {
+  const hasStepErrors = (
+    errors: FormikErrors<typeof initialValues>,
+    touched: any,
+    stepNumber: number
+  ) => {
     const stepFields = getStepFields(stepNumber);
     return stepFields.some((field) => {
-      const fieldParts = field.split('.');
+      const fieldParts = field.split(".");
       let fieldError: any = errors;
       let fieldTouched: any = touched;
       for (const part of fieldParts) {
@@ -305,7 +312,7 @@ export default function HospitalForm() {
       const stepNumber = index + 1;
       const stepFields = getStepFields(stepNumber);
       return stepFields.reduce((acc: string[], field) => {
-        const fieldParts = field.split('.');
+        const fieldParts = field.split(".");
         let fieldError: any = errors;
         for (const part of fieldParts) {
           fieldError = fieldError && fieldError[part];
@@ -319,19 +326,13 @@ export default function HospitalForm() {
 
     if (allErrorMessages.length > 0) {
       allErrorMessages.forEach((message) => {
-        toast.error(
-          `${message}`,
-          { duration: 10000, position: "bottom-right" }
-        );
-      })
+        toast.error(`${message}`, {
+          duration: 10000,
+          position: "bottom-right",
+        });
+      });
     }
   };
-
-
-
-
-
-
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center py-1 px-2 sm:px-3 lg:px-8">
@@ -355,10 +356,11 @@ export default function HospitalForm() {
             <React.Fragment key={s}>
               <div className="flex flex-col items-center">
                 <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center ${index + 1 <= step
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200 text-gray-600"
-                    } font-bold text-lg transition-colors duration-300`}
+                  className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                    index + 1 <= step
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-200 text-gray-600"
+                  } font-bold text-lg transition-colors duration-300`}
                 >
                   {index + 1}
                 </div>
@@ -414,9 +416,7 @@ export default function HospitalForm() {
                     transition={{ duration: 0.5 }}
                     className="space-y-6"
                   >
-
                     <div className="grid grid-cols-1 gap-6">
-
                       <div>
                         <label
                           htmlFor="name"
@@ -439,47 +439,41 @@ export default function HospitalForm() {
 
                       <div>
                         <label
-                          htmlFor="street"
+                          htmlFor="address.street"
                           className="block text-sm font-medium text-gray-700"
                         >
                           Street
                         </label>
                         <Field
-                          id="street"
-                          name="street"
+                          id="address.street"
+                          name="address.street"
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
                         <ErrorMessage
-                          name="street"
+                          name="address.street"
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />
                       </div>
-
                     </div>
 
-
-
-
-
                     <div className="grid grid-cols-2 gap-5">
-
                       <div>
                         <label
-                          htmlFor="city"
+                          htmlFor="address.city"
                           className="block text-sm font-medium text-gray-700"
                         >
                           City
                         </label>
                         <Field
-                          id="city"
-                          name="city"
+                          id="address.city"
+                          name="address.city"
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
                         <ErrorMessage
-                          name="city"
+                          name="address.city"
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />
@@ -487,46 +481,41 @@ export default function HospitalForm() {
 
                       <div>
                         <label
-                          htmlFor="landmark"
+                          htmlFor="address.landmark"
                           className="block text-sm font-medium text-gray-700"
                         >
                           Landmark
                         </label>
                         <Field
-                          id="landmark"
-                          name="landmark"
+                          id="address.landmark"
+                          name="address.landmark"
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
                         <ErrorMessage
-                          name="landmark"
+                          name="address.landmark"
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />
                       </div>
-
                     </div>
 
-
-
-
                     <div className="grid grid-cols-2 gap-6">
-
                       <div>
                         <label
-                          htmlFor="zip"
+                          htmlFor="address.zipCode"
                           className="block text-sm font-medium text-gray-700"
                         >
                           Zip Code
                         </label>
                         <Field
-                          id="zip"
-                          name="zip"
+                          id="address.zipCode"
+                          name="address.zipCode"
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
                         <ErrorMessage
-                          name="zip"
+                          name="address.zipCode"
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />
@@ -551,14 +540,7 @@ export default function HospitalForm() {
                           className="text-red-500 text-sm mt-1"
                         />
                       </div>
-
-                    
-
                     </div>
-
-
-
-
 
                     <div className="grid grid-cols-2 gap-6">
                       {/* <div>
@@ -580,7 +562,6 @@ export default function HospitalForm() {
                           className="text-red-500 text-sm mt-1"
                         />
                       </div> */}
-                    
 
                       {/* <div>
                         <label
@@ -605,10 +586,7 @@ export default function HospitalForm() {
                           className="text-red-500 text-sm mt-1"
                         />
                       </div> */}
-
                     </div>
-
-
                   </motion.div>
                 )}
 
@@ -621,8 +599,6 @@ export default function HospitalForm() {
                     transition={{ duration: 0.5 }}
                     className="space-y-6"
                   >
-                   
-                   
                     <div>
                       <label
                         htmlFor="description"
@@ -644,13 +620,7 @@ export default function HospitalForm() {
                       />
                     </div>
 
-
-
-
-
-
                     <div className="grid grid-cols-2 gap-6">
-
                       <div>
                         <label
                           htmlFor="beds"
@@ -674,7 +644,7 @@ export default function HospitalForm() {
                       <div>
                         <label
                           htmlFor="ownership"
-                          className="block text-sm font-medium text-gray-700"
+                          className="block p-3 text-sm font-medium text-gray-700"
                         >
                           Ownership
                         </label>
@@ -682,11 +652,11 @@ export default function HospitalForm() {
                           as="select"
                           id="ownership"
                           name="ownership"
-                          className="mt-1 block w-full pl-3 pr-10 !py-2.5 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md"
+                          className="mt-1  block w-full pl-3 pr-10  !py-2.5 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md"
                         >
                           <option value="">Select Ownership</option>
-                          <option value="private">Private</option>
-                          <option value="government">Government</option>
+                          <option value="Private">Private</option>
+                          <option value="Government">Government</option>
                         </Field>
                         <ErrorMessage
                           name="ownership"
@@ -694,405 +664,172 @@ export default function HospitalForm() {
                           className="text-red-500 text-sm mt-1"
                         />
                       </div>
-                    
                     </div>
 
-                    <div className='!mt-10'>
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                      Specialities
-                      </label>
-                      <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
-                        {[
-                          "Cardiology",
-                          "Neurology",
-                          "Orthopedics",
-                        ].map((specialities) => (
-                          <div key={specialities} className="flex items-center">
-                            <Field
-                              type="checkbox"
-                              id={specialities}
-                              name="specialities"
-                              value={specialities}
-                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                            />
-                            <label
-                              htmlFor={specialities}
-                              className="ml-2 block text-base text-gray-900"
+                    <FieldArray name="specialities">
+                      {({ push, remove }) => (
+                        <div>
+                          {values.specialities.map((speciality, index) => (
+                            <div
+                              key={index}
+                              className="mb-8 p-4 border rounded-lg"
                             >
-                              {specialities}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                      <ErrorMessage
-                        name="specialities"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
-                    </div>
+                              <div className="flex justify-between items-center mb-4">
+                                <h3 className="text-lg font-semibold">
+                                  {speciality["name"] || `Speciality ${index + 1}`}
+                                </h3>
+                                <div className="flex space-x-2">
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const newSpecialities = [
+                                        ...values.specialities,
+                                      ];
+                                      newSpecialities[index].isMinimized =
+                                        !newSpecialities[index].isMinimized;
+                                      setFieldValue(
+                                        "specialities",
+                                        newSpecialities
+                                      );
+                                    }}
+                                    className="text-gray-500 hover:text-gray-700"
+                                  >
+                                    {speciality.isMinimized ? (
+                                      <ChevronUp/>
+                                    ) : (
+                                      <ChevronDown/>
+                                    )}
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => remove(index)}
+                                    className="text-red-500 hover:text-red-700"
+                                  >
+                                    <Trash2 color="red" />
+                                  </button>
+                                </div>
+                              </div>
+                              {!speciality.isMinimized && (
+                                <div className="space-y-4">
+                                  <div>
+                                    <label
+                                      htmlFor={`specialities[${index}].name`}
+                                      className="block text-sm font-medium text-gray-700"
+                                    >
+                                      Speciality Name
+                                    </label>
+                                    <Field
+                                      id={`specialities[${index}].name`}
+                                      name={`specialities[${index}].name`}
+                                      type="text"
+                                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                    />
+                                    <ErrorMessage
+                                      name={`specialities[${index}].name`}
+                                      component="div"
+                                      className="text-red-500 text-sm mt-1"
+                                    />
+                                  </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700">
-                        Upload Property Images
-                      </label>
-                      <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                        <div className="space-y-1 text-center">
-                          <svg
-                            className="mx-auto h-12 w-12 text-gray-400"
-                            stroke="currentColor"
-                            fill="none"
-                            viewBox="0 0 48 48"
-                            aria-hidden="true"
-                          >
-                            <path
-                              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                              strokeWidth={2}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                          <div className="flex text-sm text-gray-600">
-                            <label
-                              htmlFor="file-upload"
-                              className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
-                            >
-                              <span>Upload a file</span>
-                              <input
-                                id="file-upload"
-                                name="file-upload"
-                                type="file"
-                                className="sr-only"
-                                accept="image/*"
-                                multiple
-                                onChange={(event) => {
-                                  const files = event.currentTarget.files;
-                                  if (files) {
-                                    // console.log(files);
-                                    setFieldValue("images", [
-                                      ...values.images,
-                                      ...Array.from(files),
-                                    ]);
-                                  }
-                                }}
-                              />
-                            </label>
-                            <p className="pl-1">or drag and drop</p>
-                          </div>
-                          <p className="text-xs text-gray-500">
-                            PNG, JPG, GIF up to 10MB
-                          </p>
-                        </div>
-                      </div>
-                      <ErrorMessage
-                        name="images"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
-                    </div>
-                    {values.images.length > 0 && (
-                      <div>
-                        <h4 className="text-sm font-medium text-gray-700 mb-2">
-                          Uploaded Images:
-                        </h4>
-                        <ul className="list-disc pl-5 text-sm text-gray-600">
-                          {values.images.map((file: File, index: number) => (
-                            <li key={index}>{file.name}</li>
+                                  <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                      Speciality Image
+                                    </label>
+                                    <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                                      <div className="space-y-1 text-center">
+                                        <svg
+                                          className="mx-auto h-12 w-12 text-gray-400"
+                                          stroke="currentColor"
+                                          fill="none"
+                                          viewBox="0 0 48 48"
+                                          aria-hidden="true"
+                                        >
+                                          <path
+                                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                            strokeWidth={2}
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                          />
+                                        </svg>
+                                        <div className="flex text-sm text-gray-600">
+                                          <label
+                                            htmlFor={`specialities[${index}].image`}
+                                            className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
+                                          >
+                                            <span>Upload a file</span>
+                                            <input
+                                              id={`specialities[${index}].image`}
+                                              name={`specialities[${index}].image`}
+                                              type="file"
+                                              className="sr-only"
+                                              onChange={(event) => {
+                                                const file =
+                                                  event.currentTarget
+                                                    .files?.[0];
+                                                if (file) {
+                                                  setFieldValue(
+                                                    `specialities[${index}].image`,
+                                                    file
+                                                  );
+                                                }
+                                              }}
+                                            />
+                                          </label>
+                                          <p className="pl-1">
+                                            or drag and drop
+                                          </p>
+                                        </div>
+                                        <p className="text-xs text-gray-500">
+                                          PNG, JPG, GIF up to 10MB
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <ErrorMessage
+                                      name={`specialities[${index}].image`}
+                                      component="div"
+                                      className="text-red-500 text-sm mt-1"
+                                    />
+                                  </div>
+                                  {values.specialities[index].image && (
+                                    <p className="mt-2 text-sm text-gray-500">
+                                      <span className="font-semibold">
+                                        Uploaded file:
+                                      </span>{" "}
+                                      {values.specialities[index].image.name}
+                                    </p>
+                                  )}
+                                </div>
+                              )}
+                            </div>
                           ))}
-                        </ul>
-                      </div>
-                    )}
-
-
-
-
-                    {/* <div className="grid grid-cols-2 gap-6">
-                      <div>
-                        <label
-                          htmlFor="details.balconies"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Balconies
-                        </label>
-                        <Field
-                          id="details.balconies"
-                          name="details.balconies"
-                          type="number"
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        />
-                        <ErrorMessage
-                          name="details.balconies"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="details.floorNo"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Floor No.
-                        </label>
-                        <Field
-                          id="details.floorNo"
-                          name="details.floorNo"
-                          type="number"
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        />
-                        <ErrorMessage
-                          name="details.floorNo"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="details.facing"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Facing
-                      </label>
-                      <Field
-                        as="select"
-                        id="details.facing"
-                        name="details.facing"
-                        className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md"
-                      >
-                        <option value="">Select facing</option>
-                        <option value="north">North</option>
-                        <option value="south">South</option>
-                        <option value="east">East</option>
-                        <option value="west">West</option>
-                      </Field>
-                      <ErrorMessage
-                        name="details.facing"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label
-                          htmlFor={`details.carpetArea`}
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Carpet Area
-                        </label>
-                        <Field
-                          id={`details.carpetArea`}
-                          name={`details.carpetArea`}
-                          type="number"
-                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                        />
-                        <ErrorMessage
-                          name={`details.carpetArea`}
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor={`details.areaUnit`}
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Area Unit
-                        </label>
-                        <Field
-                          as="select"
-                          id={`details.areaUnit`}
-                          name={`details.areaUnit`}
-                          className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md"
-                        >
-                          <option value="">Select Unit</option>
-                          <option value="sqft">sq ft</option>
-                          <option value="sqm">sq m</option>
-                          <option value="sqyd">sq yd</option>
-                          <option value="acre">acre</option>
-                        </Field>
-                        <ErrorMessage
-                          name={`details.areaUnit`}
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                          Under Construction
-                        </label>
-                        <div className="mt-2 space-x-4">
-                          <label className="inline-flex items-center">
-                            <Field
-                              type="radio"
-                              name="details.underConstruction"
-                              value="Yes"
-                              className="form-radio h-4 w-4 text-blue-600"
-                            />
-                            <span className="ml-2">Yes</span>
-                          </label>
-                          <label className="inline-flex items-center">
-                            <Field
-                              type="radio"
-                              name="details.underConstruction"
-                              value="No"
-                              className="form-radio h-4 w-4 text-blue-600"
-                            />
-                            <span className="ml-2">No</span>
-                          </label>
-                        </div>
-                        <ErrorMessage
-                          name="details.underConstruction"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
-                      </div>
-                      {values.details.underConstruction === "Yes" ? (
-                        <div>
-                          <label
-                            htmlFor="details.possesion"
-                            className="block text-sm font-medium text-gray-700"
+                          <button
+                            type="button"
+                            onClick={() =>
+                              push({
+                                name: "",
+                                image: null,
+                                isMinimized: false,
+                              })
+                            }
+                            className="mt-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                           >
-                            Possession Date
-                          </label>
-                          <Field
-                            id="details.possesion"
-                            name="details.possesion"
-                            type="date"
-                            component={DatePickerField}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                          />
-                          <ErrorMessage
-                            name="details.possesion"
-                            component="div"
-                            className="text-red-500 text-sm mt-1"
-                          />
-                        </div>
-                      ) : (
-                        <div>
-                          <label
-                            htmlFor="details.builtIn"
-                            className="block text-sm font-medium text-gray-700"
-                          >
-                            Built-in Date
-                          </label>
-                          <Field
-                            id="details.builtIn"
-                            name="details.builtIn"
-                            component={DatePickerField}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                          />
-                          <ErrorMessage
-                            name="details.builtIn"
-                            component="div"
-                            className="text-red-500 text-sm mt-1"
-                          />
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-5 w-5 mr-2"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                            Add Speciality
+                          </button>
                         </div>
                       )}
-                    </div>
-
-                    {values.type === "RENT" && (
-                      <div>
-                        <label
-                          htmlFor="details.rent"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Rent (per month)
-                        </label>
-                        <div className="mt-1 flex rounded-md shadow-sm">
-                          <Field
-                            id="details.rent"
-                            name="details.rent"
-                            type="number"
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Enter rent per month"
-                          />
-                          <Field
-                            as="select"
-                            name="details.amtUnit"
-                            className="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 text-sm focus:ring-blue-500 focus:border-blue-500"
-                          >
-                            <option value="">Select Rent Unit</option>
-                            <option value="K">Thousand</option>
-                            <option value="L">Lakh</option>
-                            <option value="Cr">Cr</option>
-                          </Field>
-                        </div>
-                        <ErrorMessage
-                          name="details.rent"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
-                        <ErrorMessage
-                          name="details.amtUnit"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
-                      </div>
-                    )}
-                    {values.type === "BUY" && (
-                      <div>
-                        <label
-                          htmlFor="details.price"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Price
-                        </label>
-                        <div className="mt-1 flex rounded-md shadow-sm">
-                          <Field
-                            id="details.price"
-                            name="details.price"
-                            type="number"
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Enter property price"
-                          />
-                          <Field
-                            as="select"
-                            name="details.amtUnit"
-                            className="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 text-sm focus:ring-blue-500 focus:border-blue-500"
-                          >
-                            <option value="">Select Price Unit</option>
-                            <option value="K">Thousand</option>
-                            <option value="L">Lakh</option>
-                            <option value="Cr">Cr</option>
-                          </Field>
-                        </div>
-                        <ErrorMessage
-                          name="details.price"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
-                        <ErrorMessage
-                          name="details.amtUnit"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
-                      </div>
-                    )}
-                    <div>
-                      <label
-                        htmlFor="details.furnishedStatus"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Furnished Status
-                      </label>
-                      <Field
-                        as="select"
-                        id="details.furnishedStatus"
-                        name="details.furnishedStatus"
-                        className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md"
-                      >
-                        <option value="">Select status</option>
-                        <option value="UNFURNISHED">Unfurnished</option>
-                        <option value="SEMIFURNISHED">Semi-furnished</option>
-                        <option value="FURNISHED">Fully-furnished</option>
-                      </Field>
-                      <ErrorMessage
-                        name="details.furnishedStatus"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
-                    </div> */}
+                    </FieldArray>
                   </motion.div>
                 )}
 
@@ -1107,7 +844,7 @@ export default function HospitalForm() {
                   >
                     <div>
                       <label className="block text-sm font-medium text-gray-700">
-                        Upload Property Images
+                        Upload Hospital Images
                       </label>
                       <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                         <div className="space-y-1 text-center">
@@ -1187,33 +924,30 @@ export default function HospitalForm() {
                     transition={{ duration: 0.5 }}
                     className="space-y-6"
                   >
-
                     <div>
                       <label className="block text-xl font-medium text-gray-900 mb-4">
                         Departments
                       </label>
                       <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
-                        {[
-                          "Cardiology",
-                          "Neurology",
-                          "Orthopedics",
-                        ].map((department) => (
-                          <div key={department} className="flex items-center">
-                            <Field
-                              type="checkbox"
-                              id={department}
-                              name="departments"
-                              value={department}
-                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                            />
-                            <label
-                              htmlFor={department}
-                              className="ml-2 block text-base text-gray-900"
-                            >
-                              {department}
-                            </label>
-                          </div>
-                        ))}
+                        {["Cardiology", "Neurology", "Orthopedics"].map(
+                          (department) => (
+                            <div key={department} className="flex items-center">
+                              <Field
+                                type="checkbox"
+                                id={department}
+                                name="departments"
+                                value={department}
+                                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                              />
+                              <label
+                                htmlFor="departments"
+                                className="ml-2 block text-base text-gray-900"
+                              >
+                                {department}
+                              </label>
+                            </div>
+                          )
+                        )}
                       </div>
                       <ErrorMessage
                         name="departments"
@@ -1222,32 +956,22 @@ export default function HospitalForm() {
                       />
                     </div>
 
-
-
-                   
-
-
-
-                    <div className='!mt-10'>
+                    <div className="!mt-10">
                       <label className="block text-xl font-medium text-gray-900 mb-4">
                         Alternative Medicine
                       </label>
                       <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
-                        {[
-                          "Ayurveda",
-                          "Homeopathy",
-                          
-                        ].map((altMed) => (
+                        {["Ayurveda", "Homeopathy"].map((altMed) => (
                           <div key={altMed} className="flex items-center">
                             <Field
                               type="checkbox"
                               id={altMed}
-                              name="alternativeMedicine"
+                              name="altMeds"
                               value={altMed}
                               className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                             />
                             <label
-                              htmlFor={altMed}
+                              htmlFor="altMeds"
                               className="ml-2 block text-base text-gray-900"
                             >
                               {altMed}
@@ -1256,60 +980,53 @@ export default function HospitalForm() {
                         ))}
                       </div>
                       <ErrorMessage
-                        name="alternativeMedicine"
+                        name="altMeds"
                         component="div"
                         className="text-red-500 text-sm mt-1"
                       />
                     </div>
 
-
-
-                    <div className='!mt-10'>
+                    <div className="!mt-10">
                       <label className="block text-xl font-medium text-gray-900 mb-4">
-                       Health Concerns
+                        Health Concerns
                       </label>
                       <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
-                        {[
-                          "Emergency Services",
-                          "Patient Satisfaction",
-                          
-                        ].map((concern) => (
-                          <div key={concern} className="flex items-center">
-                            <Field
-                              type="checkbox"
-                              id={concern}
-                              name="healthConcern"
-                              value={concern}
-                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                            />
-                            <label
-                              htmlFor={concern}
-                              className="ml-2 block text-base text-gray-900"
-                            >
-                              {concern}
-                            </label>
-                          </div>
-                        ))}
+                        {["Emergency Services", "Patient Satisfaction"].map(
+                          (concern) => (
+                            <div key={concern} className="flex items-center">
+                              <Field
+                                type="checkbox"
+                                id={concern}
+                                name="concerns"
+                                value={concern}
+                                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                              />
+                              <label
+                                htmlFor="concerns"
+                                className="ml-2 block text-base text-gray-900"
+                              >
+                                {concern}
+                              </label>
+                            </div>
+                          )
+                        )}
                       </div>
                       <ErrorMessage
-                        name="healthConcern"
+                        name="concerns"
                         component="div"
                         className="text-red-500 text-sm mt-1"
                       />
                     </div>
 
-
-
-                    <div className='!mt-10'>
+                    <div className="!mt-10">
                       <label className="block text-xl font-medium text-gray-900 mb-4">
-                       Services
+                        Services
                       </label>
                       <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
                         {[
                           "24/7 Emergency",
                           "Pharmacy",
                           "Diagnostic Imaging",
-                          
                         ].map((services) => (
                           <div key={services} className="flex items-center">
                             <Field
@@ -1334,14 +1051,9 @@ export default function HospitalForm() {
                         className="text-red-500 text-sm mt-1"
                       />
                     </div>
-
-            
                   </motion.div>
                 )}
               </AnimatePresence>
-
-
-
 
               <div className="flex justify-between pt-5">
                 {step > 1 && (
@@ -1400,7 +1112,8 @@ export default function HospitalForm() {
                   <div className="flex items-center">
                     <AlertCircle className="h-5 w-5 text-yellow-400 mr-2" />
                     <p className="text-sm text-yellow-700">
-                      There are errors in your form. Please review all steps before submitting.
+                      There are errors in your form. Please review all steps
+                      before submitting.
                     </p>
                   </div>
                   <button
@@ -1418,5 +1131,5 @@ export default function HospitalForm() {
       </motion.div>
       <Toaster />
     </div>
-  )
+  );
 }

@@ -6,6 +6,7 @@ import com.hcn.demo.models.User;
 import com.hcn.demo.security.JwtHelper;
 import com.hcn.demo.services.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,11 +23,13 @@ import java.util.Map;
 @RequestMapping(value = "/v1/api/auth")
 public class AuthController {
 
+   @Autowired
     private final UserService userServ;
     private final UserDetailsService userDetailsService;
     private final AuthenticationManager manager;
     private final JwtHelper helper;
 
+    @Autowired
     public AuthController(UserService userServ, UserDetailsService userDetailsService, AuthenticationManager manager, JwtHelper helper){
         this.helper = helper;
         this.manager = manager;

@@ -4,6 +4,7 @@ import com.hcn.demo.models.Hospital;
 import com.hcn.demo.models.Rating;
 import com.hcn.demo.models.Review;
 import com.hcn.demo.services.HospitalService;
+import com.hcn.demo.services.ImageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
