@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useState } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
@@ -22,8 +24,7 @@ const DropdownLink = ({
 )
 
 export default function Navbar() {
-
-  const location = useLocation();
+  const location = useLocation()
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [locationDropdownOpen, setLocationDropdownOpen] = useState(false)
@@ -106,6 +107,7 @@ export default function Navbar() {
   const locations = ["Mumbai", "Bangalore", "Chennai", "Delhi"]
 
   const [mobileDropdowns, setMobileDropdowns] = useState({})
+  const [hoveredItem, setHoveredItem] = useState(null)
 
   useEffect(() => {
     setToggle(false)
@@ -127,10 +129,10 @@ export default function Navbar() {
   const checkIfLogin = (route: string) => {
     const token = localStorage.getItem("token")
     setNavigateTo(route)
-    console.log(route,toggle,token)
+    console.log(route, toggle, token)
     if (token !== null && !toggle) {
-       //user logged in and no popup
-      navigate(route) // 
+      //user logged in and no popup
+      navigate(route) //
     } else if (token !== null && toggle === true) {
       //user logged in and still popup
       setToggle(false) // toggle not visible
@@ -223,32 +225,50 @@ export default function Navbar() {
           {navigation.map((item) => {
             const Icon = item.icon
             return (
-              <li key={item.id} className="relative">
+              <li key={item.id} className="relative group">
                 <button
-                  onClick={() => {toggleNavDropdown(item.id); if (item.path) navigate(item.path);  }}
-                  className={`${location.pathname === item.path ? 'text-[#9B2482]' : 'text-gray-700 '} flex items-center font-semibold cursor-pointer`}
+                  onMouseEnter={() => setHoveredItem(item.id)}
+                  onMouseLeave={() => setHoveredItem(null)}
+                  onClick={() => {
+                    if (item.path) navigate(item.path)
+                  }}
+                  className={`${
+                    location.pathname === item.path ? "text-[#9B2482]" : "text-gray-700"
+                  } flex items-center font-semibold cursor-pointer relative`}
                 >
                   {item.title}
                   {Icon && (
                     <Icon
-                      className={`ml-1 h-4 w-4 flex-shrink-0 transition-transform ${navDropdownOpen === item.id ? "rotate-180" : "rotate-0"}`}
+                      className={`ml-1 h-4 w-4 flex-shrink-0 transition-transform ${
+                        hoveredItem === item.id ? "rotate-180" : "rotate-0"
+                      }`}
+                    />
+                  )}
+                  {hoveredItem === item.id && (
+                    <motion.div
+                      className="absolute bottom-0 left-0 w-full h-0.5 bg-[#9B2482]"
+                      initial={{ width: "0%" }}
+                      animate={{ width: "100%" }}
+                      transition={{ duration: 0.3 }}
                     />
                   )}
                 </button>
 
-                {navDropdownOpen === item.id && item.items && (
+                {item.items && (
                   <motion.div
                     initial="closed"
-                    animate="open"
+                    animate={hoveredItem === item.id ? "open" : "closed"}
                     variants={dropdownVariants}
                     className="absolute bg-white overflow-hidden w-48 z-40 shadow-2xl mt-2 p-2 -translate-x-4"
+                    onMouseEnter={() => setHoveredItem(item.id)}
+                    onMouseLeave={() => setHoveredItem(null)}
                   >
                     {item.items.map((i, index) => (
                       <DropdownLink
                         key={index}
                         href={i.path || "#"}
                         title={i.title}
-                        onClick={() => setNavDropdownOpen(null)}
+                        onClick={() => setHoveredItem(null)}
                       />
                     ))}
                   </motion.div>
