@@ -275,7 +275,7 @@ function Home() {
           {/*  SERVICES BY SPECIALITIES HEADING AND EXPLORE MORE BUTTON */}
           <div className="flex justify-between items-start !mt-14">
             <h3 className="!text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1">
-              Healthcare Services
+              Specialities
             </h3>
             <Link
               to={"/services"}
