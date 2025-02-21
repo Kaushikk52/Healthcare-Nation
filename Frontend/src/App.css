@@ -477,8 +477,8 @@ background-color: #53535715;
 
 /* Custom Swiper pagination dot styles */
 .swiper-pagination-bullet {
-  background-color: #eeeaea; /* Default dot color */
-  opacity: 0.7 !important;
+  background-color: #ff1111; /* Default dot color */
+  opacity: 1 !important;
   width: 10px !important;
   height: 10px !important;
 }

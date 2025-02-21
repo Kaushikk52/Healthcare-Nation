@@ -174,7 +174,7 @@ function Home() {
 
   return (
     <>
-      <div className="!max-w-4xl xl:!max-w-7xl !mx-auto !px-4">
+      <div className="!max-w-4xl xl:!max-w-6xl !mx-auto !px-4">
 
         {/* HEALTHCARE SERVICES SECTION */}
         <div className="!mt-10">
