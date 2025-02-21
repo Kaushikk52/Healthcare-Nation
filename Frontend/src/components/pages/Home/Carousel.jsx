@@ -27,7 +27,7 @@ function CarouselComponent() {
   const path = import.meta.env.VITE_APP_IMG_URL + "/Banner";
 
   return (
-    <div className="w-full">
+    <div className="w-full h-full">
       <Swiper
         modules={[Navigation, Pagination, Autoplay, A11y]}
         spaceBetween={0}

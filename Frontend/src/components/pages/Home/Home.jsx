@@ -71,16 +71,16 @@ const onlineHealthcareServices = [
 ];
 
 const publicSectorCorporates = [
-  { title: "MPT Hospitals", image: "mpt-logo.png" },
+  { title: "MPT Hospitals", image: "mpt-logo.png", borderColor: "border-2 border-transparent", },
   {
     title: "CGHS Hospitals",
     image: "cghs-logo.jpg",
     borderColor: "border-2 border-green-700",
   },
-  { title: "MJPJAY Hospitals", image: "mjpjay-logo.png" },
-  { title: "ESIC Hospitals", image: "esic-logo.png" },
-  { title: "PMJAY Hospitals", image: "pmjay-logo2.png" },
-  { title: "Railway Hospitals", image: "indian_railway_logo.jpg" },
+  { title: "MJPJAY Hospitals", image: "mjpjay-logo.png", borderColor: "border-2 border-transparent", },
+  { title: "ESIC Hospitals", image: "esic-logo.png", borderColor: "border-2 border-transparent", },
+  { title: "PMJAY Hospitals", image: "pmjay-logo2.png", borderColor: "border-2 border-transparent", },
+  { title: "Railway Hospitals", image: "indian_railway_logo.jpg", borderColor: "border-2 border-transparent", },
 ];
 
 const moreServices = [
@@ -174,12 +174,14 @@ function Home() {
 
   return (
     <>
-      <div className="!max-w-7xl !mx-auto !px-4">
+      <div className="!max-w-4xl xl:!max-w-7xl !mx-auto !px-4">
+
         {/* HEALTHCARE SERVICES SECTION */}
         <div className="!mt-10">
+
           {/* HEALTHCARE SERVICES HEADING AND EXPLORE MORE BUTTON  */}
-          <div className="flex justify-between items-start !space-x-2">
-            <h3 className="!text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1">
+          <div className="flex justify-between items-start lg:items-center !space-x-2">
+            <h3 className="!text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-2xl !font-semibold !text-gray-700 !px-1">
               {" "}
               Healthcare Services
             </h3>
@@ -221,9 +223,9 @@ function Home() {
                       <img
                         src={path + service.image}
                         alt={service.title}
-                        className="!rounded-lg !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-40 xl:!h-52 !w-full object-cover"
+                        className="!rounded-xl !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-36 xl:!h-52 !w-full object-cover"
                       />
-                      <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-base xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
+                      <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                         {service.title}
                       </p>
                     </a>
@@ -237,8 +239,8 @@ function Home() {
         {/* POPULAR HEALTHCARE BRANDS SECTION */}
         <div className="!mt-10">
           {/* POPULAR HEALTHCARE BRANDS IN INDIA HEADING AND EXPLORE MORE BUTTON*/}
-          <div className="flex justify-between items-start !mt-10">
-            <h3 className="!text-lg  min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1">
+          <div className="flex justify-between items-start lg:items-center !mt-10">
+            <h3 className="!text-lg  min-[425px]:!text-2xl lg:!text-xl xl:!text-2xl !font-semibold !text-gray-700 !px-1">
               Popular Healthcare Brands In India
             </h3>
             <Link
@@ -261,7 +263,7 @@ function Home() {
                     <img
                       src={path + brand.image}
                       alt={brand.name}
-                      className="rounded-full !h-32 !w-32 min-[425px]:!h-36 min-[425px]:!w-36 sm:!h-36 sm:!w-36 md:!h-40 md:!w-40 lg:!h-36 lg:!w-36 xl:!h-44 xl:!w-44 object-contain"
+                      className="rounded-full !h-32 !w-32 min-[425px]:!h-36 min-[425px]:!w-36 sm:!h-36 sm:!w-36 md:!h-40 md:!w-40 lg:!h-32 lg:!w-32 xl:!h-44 xl:!w-44 object-contain"
                     />
                   </div>
                 </a>
@@ -273,8 +275,8 @@ function Home() {
         {/* SERVICES BY SPECIALITIES SECTION */}
         <div className="!mt-10">
           {/*  SERVICES BY SPECIALITIES HEADING AND EXPLORE MORE BUTTON */}
-          <div className="flex justify-between items-start !mt-14">
-            <h3 className="!text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1">
+          <div className="flex justify-between items-start lg:items-center !mt-14">
+            <h3 className="!text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-2xl !font-semibold !text-gray-700 !px-1">
               Healthcare Services
             </h3>
             <Link
@@ -323,7 +325,7 @@ function Home() {
                         className="!rounded-xl !object-cover !w-full !aspect-[3/2]"
                       />
                     </div>
-                    <p className="!text-base sm:!text-lg font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482] !px-1">
+                    <p className="!text-base sm:!text-lg lg:!text-sm xl:text-lg font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482] !px-1">
                       {service.title}{" "}
                     </p>
                   </a>
@@ -368,7 +370,7 @@ function Home() {
                         className="!rounded-xl !object-cover !w-full !aspect-[3/2]"
                       />
                     </div>
-                    <p className="!text-base sm:!text-lg font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482] !px-1">
+                    <p className="!text-base sm:!text-lg lg:!text-sm xl:!text-lg font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482] !px-1">
                       {service.title}{" "}
                     </p>
                   </a>
@@ -381,8 +383,8 @@ function Home() {
         {/* DIAGNOSTIC CENTRES NEAR YOU SECTION */}
         <div className="!mt-10">
           {/* DIAGNOSTIC CENTRES NEAR YOU HEADING AND EXPLORE MORE BUTTON  */}
-          <div className="flex justify-between items-start !mt-10">
-            <h3 className="!text-lg  min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1">
+          <div className="flex justify-between items-start lg:items-center !mt-10">
+            <h3 className="!text-lg  min-[425px]:!text-2xl lg:!text-xl xl:!text-2xl !font-semibold !text-gray-700 !px-1">
               Diagnostic Centres Near You
             </h3>
             <Link
@@ -404,14 +406,14 @@ function Home() {
                   style={{ textDecoration: "none" }}
                   className="!cursor-pointer !mx-auto !flex !flex-col !items-center"
                 >
-                  <div className="!text-center !rounded-full group-hover:!shadow-2xl !transition-all">
+                  <div className="!text-center !rounded-full group-hover:!shadow-xl !transition-all">
                     <img
                       src={path + center.image}
                       alt="Diagnostic Centre image"
-                      className="rounded-full !h-32 !w-32 min-[425px]:!h-36 min-[425px]:!w-36 sm:!h-36 sm:!w-36 md:!h-40 md:!w-40 lg:!h-36 lg:!w-36 xl:!h-44 xl:!w-44 !object-contain"
+                      className="rounded-full !h-32 !w-32 min-[425px]:!h-36 min-[425px]:!w-36 sm:!h-36 sm:!w-36 md:!h-40 md:!w-40 lg:!h-32 lg:!w-32 xl:!h-44 xl:!w-44 !object-contain"
                     />
                   </div>
-                  <p className="!text-base  min-[425px]:!text-lg sm:!text-lg lg:!text-base xl:!text-lg !text-center sm:!text-center !font-semibold !mt-2 !px-0 !text-gray-700 group-hover:!text-[#9b2482]">
+                  <p className="!text-base  min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-lg !text-center sm:!text-center !font-semibold !mt-2 !px-0 !text-gray-700 group-hover:!text-[#9b2482]">
                     {center.title}
                   </p>
                 </a>
@@ -423,8 +425,8 @@ function Home() {
         {/* ALTERNATIVE MEDICINE SECTION */}
         <div className="!mt-10">
           {/* ALTERNATIVE MEDICINE HEADING AND EXPLORE MORE BUTTON  */}
-          <div className="flex justify-between items-start !mt-10">
-            <h3 className="text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1">
+          <div className="flex justify-between items-start lg:items-center !mt-10">
+            <h3 className="text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-2xl !font-semibold !text-gray-700 !px-1">
               Alternative Medicine
             </h3>
             <Link
@@ -451,7 +453,7 @@ function Home() {
                     alt={item.title}
                     className="!rounded-lg !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-40 xl:!h-52 !w-full !aspect-[3/2] !object-fit"
                   />
-                  <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-base xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
+                  <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {item.title}
                   </p>
                 </a>
@@ -463,8 +465,8 @@ function Home() {
         {/* ONLINE HEALTHCARE SERVICES SECTION*/}
         <div className="!mt-10">
           {/* ONLINE HEALTHCARE SERVICES HEADING AND EXPLORE MORE BUTTON  */}
-          <div className="flex justify-between items-center">
-            <h3 className="!text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1">
+          <div className="flex justify-between items-center lg:items-center">
+            <h3 className="!text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-2xl !font-semibold !text-gray-700 !px-1">
               Online Healthcare Services
             </h3>
             <Link
@@ -489,9 +491,9 @@ function Home() {
                   <img
                     src={path + service.image}
                     alt={service.title}
-                    className="!rounded-lg !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-52 xl:!h-64 !w-full !aspect-[3/2] !object-fit"
+                    className="!rounded-lg !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-44 xl:!h-64 !w-full !aspect-[3/2] !object-fit"
                   />
-                  <p className="!text-base min-[425px]:!text-lg sm:!text-base md:!text-lg lg:!text-base xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
+                  <p className="!text-base min-[425px]:!text-lg sm:!text-base md:!text-lg lg:!text-sm xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {service.title}
                   </p>
                 </a>
@@ -503,8 +505,8 @@ function Home() {
         {/* PUBLIC SECTOR CORPORATES SECTION */}
         <div className="!mt-10">
           {/* PUBLIC SECTOR CORPORATES HEADING AND EXPLORE MORE BUTTON  */}
-          <div className="flex justify-between items-start !mt-10">
-            <h3 className="!text-lg  min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1">
+          <div className="flex justify-between items-start lg:items-center !mt-10">
+            <h3 className="!text-lg  min-[425px]:!text-2xl lg:!text-xl xl:!text-2xl !font-semibold !text-gray-700 !px-1">
               Public Sector Corporates
             </h3>
             <Link
@@ -524,18 +526,18 @@ function Home() {
               <div key={index} className="group">
                 <a
                   style={{ textDecoration: "none" }}
-                  className="!cursor-pointer !mx-auto !flex !flex-col !items-center"
+                  className="!cursor-pointer !mx-auto "
                 >
                   <div
-                    className={`${corporate.borderColor} !text-center !rounded-full !transition-all`}
+                    className={`${corporate.borderColor} !text-center !rounded-full !transition-all !flex !flex-col !items-center`}
                   >
                     <img
                       src={path + corporate.image}
                       alt="Diagnostic Centre image"
-                      className={` rounded-full !h-32 !w-32 min-[425px]:!h-36 min-[425px]:!w-36 sm:!h-36 sm:!w-36 md:!h-40 md:!w-40 lg:!h-36 lg:!w-36 xl:!h-44 xl:!w-44 !object-fit`}
+                      className={` rounded-full !h-32 !w-32 min-[425px]:!h-36 min-[425px]:!w-36 sm:!h-36 sm:!w-36 md:!h-40 md:!w-40 lg:!h-32 lg:!w-32 xl:!h-[186px] xl:!w-[186px] !object-fit`}
                     />
                   </div>
-                  <p className="!text-sm  min-[425px]:!text-lg sm:!text-lg lg:!text-base xl:!text-lg !text-center sm:!text-center !font-semibold !mt-2 !px-0 !text-gray-700 group-hover:!text-[#9b2482]">
+                  <p className="!text-sm  min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-lg !text-center sm:!text-center !font-semibold !mt-2 !px-0 !text-gray-700 group-hover:!text-[#9b2482]">
                     {corporate.title}
                   </p>
                 </a>
@@ -547,8 +549,8 @@ function Home() {
         {/* MORE SERVICES SECTION */}
         <div className="!mt-10">
           {/* MORE SERVICES HEADING AND EXPLORE MORE BUTTON  */}
-          <div className="flex justify-between items-start !mt-10">
-            <h3 className="text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1">
+          <div className="flex justify-between items-start lg:items-center !mt-10">
+            <h3 className="text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-2xl !font-semibold !text-gray-700 !px-1">
               More Services
             </h3>
             <Link
@@ -573,9 +575,9 @@ function Home() {
                   <img
                     src={path + service.image}
                     alt={service.title}
-                    className="!rounded-lg !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-40 xl:!h-52 !w-full !aspect-[3/2] !object-fit"
+                    className="!rounded-lg !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-36 xl:!h-52 !w-full !aspect-[3/2] !object-fit"
                   />
-                  <p className="!text-sm min-[425px]:!text-lg sm:!text-base md:!text-lg lg:!text-base xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
+                  <p className="!text-sm min-[425px]:!text-lg sm:!text-base md:!text-lg lg:!text-sm xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {service.title}
                   </p>
                 </a>
@@ -589,15 +591,15 @@ function Home() {
           <img
             src={path + "Health-Checkup.jpg"}
             alt="health checkup image"
-            className="!rounded-xl sm:!h-56 md:!h-64 lg:!h-72 xl:!h-80 !w-full !aspect-[3/2] !object-fit"
+            className="!rounded-xl sm:!h-56 md:!h-64 lg:!h-64 xl:!h-80 !w-full !aspect-[3/2] !object-fit"
           />
         </div>
 
         {/* SERVICES BY ACCREDITATIONS SECTION */}
         <div className="!mt-10">
           {/* SERVICES BY ACCREDITATIONS HEADING  */}
-          <div className="flex justify-between items-start !mt-10">
-            <h3 className="text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1">
+          <div className="flex justify-between items-start lg:items-center !mt-10">
+            <h3 className="text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-2xl !font-semibold !text-gray-700 !px-1">
               Services By Accreditations
             </h3>
           </div>
@@ -617,7 +619,7 @@ function Home() {
                   />
                 </div>
                 <div className="!col-span-8 md:!col-span-8 !pr-4">
-                  <p className="!text-xs min-[425px]:!text-lg md:!text-base lg:!text-sm xl:!text-base !font-medium !mt-2 !text-cyan-600">
+                  <p className="!text-xs min-[425px]:!text-lg md:!text-base lg:!text-sm xl:!text-lg !font-medium !mt-2 !text-cyan-600">
                     {service.title}
                   </p>
                 </div>
@@ -629,8 +631,8 @@ function Home() {
         {/* SERVICES BY HEALTH CONCERN */}
         <div className="!mt-10">
           {/* SERVICES BY HEALTH CONCERN AND EXPLORE MORE BUTTON  */}
-          <div className="flex justify-between items-start !mt-10">
-            <h3 className="text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1">
+          <div className="flex justify-between items-start lg:items-center !mt-10">
+            <h3 className="text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-2xl !font-semibold !text-gray-700 !px-1">
               Services By Health Concern
             </h3>
             <Link
@@ -655,7 +657,7 @@ function Home() {
                   <img
                     src={path + service.image}
                     alt={service.title}
-                    className="!rounded-lg !h-64 sm:!h-68 md:!h-[310px] lg:!h-48 xl:!h-56 !w-full !aspect-square !object-fit"
+                    className="!rounded-lg !h-64 sm:!h-68 md:!h-[310px] lg:!h-44 xl:!h-56 !w-full !aspect-square !object-fit"
                   />
                   <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {service.title}
@@ -669,8 +671,8 @@ function Home() {
         {/* POPULAR HOSPITALS IN INDIA */}
         <div className="!mt-10">
           {/* POPULAR HOSPITALS IN INDIA AND EXPLORE MORE BUTTON */}
-          <div className="flex justify-between items-start !mt-10">
-            <h3 className="text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1">
+          <div className="flex justify-between items-start lg:items-center !mt-10">
+            <h3 className="text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-2xl !font-semibold !text-gray-700 !px-1">
               Popular Hospitals In India
             </h3>
             <Link
@@ -695,9 +697,9 @@ function Home() {
                   <img
                     src={path + hospital.image}
                     alt={hospital.title}
-                    className="!rounded-lg !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-40 xl:!h-52 !w-full !aspect-[3/2] !object-fit"
+                    className="!rounded-lg !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-36 xl:!h-52 !w-full !aspect-[3/2] !object-fit"
                   />
-                  <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-base xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
+                  <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {hospital.title}
                   </p>
                 </a>
@@ -710,7 +712,7 @@ function Home() {
         <div className="!mt-10">
           {/* CHOOSE YOUR HEALTH INSURANCE AND EXPLORE MORE BUTTON */}
           <div className="flex justify-between items-start !mt-10">
-            <h3 className="text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1">
+            <h3 className="text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-2xl !font-semibold !text-gray-700 !px-1">
               Choose Your Health Insurance
             </h3>
             <Link
@@ -734,7 +736,7 @@ function Home() {
                 <img
                   src={path + insurance.image}
                   alt="insurance images"
-                  className="!rounded-lg !h-24 sm:!h-28 md:!h-32 lg:!h-24 xl:!h-28 !w-full !aspect-[3/2] !object-fit"
+                  className="!rounded-lg !h-24 sm:!h-28 md:!h-32 lg:!h-20 xl:!h-28 !w-full !aspect-[3/2] !object-fit"
                 />
               </div>
             ))}
@@ -745,7 +747,7 @@ function Home() {
         <div className="!mt-10">
           {/* CHOOSE YOUR TPA AND EXPLORE MORE BUTTON */}
           <div className="flex justify-between items-start !mt-10">
-            <h3 className="text-lg min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1">
+            <h3 className="text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-2xl !font-semibold !text-gray-700 !px-1">
               Choose Your TPA
             </h3>
             <Link
@@ -769,7 +771,7 @@ function Home() {
                 <img
                   src={path + tpa.image}
                   alt="tpa images"
-                  className="!rounded-lg !h-24 sm:!h-28 md:!h-32 lg:!h-24 xl:!h-28 !w-full !aspect-[3/2] !object-fit"
+                  className="!rounded-lg !h-24 sm:!h-28 md:!h-32 lg:!h-20 xl:!h-28 !w-full !aspect-[3/2] !object-fit"
                 />
               </div>
             ))}
