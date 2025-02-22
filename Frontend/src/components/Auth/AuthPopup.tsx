@@ -54,11 +54,6 @@ export default function AuthPopup(props: any) {
       .min(6, "Password must be at least 6 characters")
       .required("Required"),
     email: Yup.string().email("Invalid email address").required("Required"),
-    phone: Yup.string()
-      .matches(/^[0-9]+$/, "Phone number must contain only digits")
-      .min(10, "Phone no. must be at least 10 characters")
-      .max(15, "Phone no. is too long")
-      .required("Required"),
     role: Yup.mixed().oneOf(roles, "Invalid role"),
   });
 
@@ -216,7 +211,7 @@ export default function AuthPopup(props: any) {
                         {({ errors, touched, isSubmitting }) => (
                           <Form className="space-y-2">
                             <div className="space-y-1">
-                              <Label htmlFor="email">Email</Label>
+                              <Label htmlFor="email">Email <span className="text-red-400 text-xl">*</span></Label>
                               <Field
                                 as={Input}
                                 id="email"
@@ -231,7 +226,7 @@ export default function AuthPopup(props: any) {
                               />
                             </div>
                             <div className="space-y-0">
-                              <Label htmlFor="password">Password</Label>
+                              <Label htmlFor="password">Password <span className="text-red-400 text-xl">*</span></Label>
                               <Field
                                 as={Input}
                                 id="password"
@@ -278,7 +273,6 @@ export default function AuthPopup(props: any) {
                           lastName:"",
                           email: "",
                           password: "",
-                          phone: "",
                           role: "",
                         }}
                         validationSchema={registerSchema}
@@ -291,7 +285,7 @@ export default function AuthPopup(props: any) {
                         {({ errors, touched, isSubmitting }) => (
                           <Form className="space-y-2">
                             <div className="space-y-2">
-                              <Label htmlFor="firstName">First Name</Label>
+                              <Label htmlFor="firstName">First Name <span className="text-red-400 text-xl">*</span></Label>
                               <Field
                                 as={Input}
                                 id="firstName"
@@ -305,7 +299,7 @@ export default function AuthPopup(props: any) {
                               />
                             </div>
                             <div className="space-y-1">
-                              <Label htmlFor="lastName">Last Name</Label>
+                              <Label htmlFor="lastName">Last Name <span className="text-red-400 text-xl">*</span></Label>
                               <Field
                                 as={Input}
                                 id="lastName"
@@ -318,9 +312,8 @@ export default function AuthPopup(props: any) {
                                 className="text-sm text-red-500"
                               />
                             </div>
-                            <div className="grid grid-cols-2 gap-4">
-                              <div className="space-y-2">
-                                <Label htmlFor="email">Email</Label>
+                            <div className="space-y-1">
+                                <Label htmlFor="email">Email <span className="text-red-400 text-xl">*</span></Label>
                                 <Field
                                   as={Input}
                                   id="email"
@@ -334,23 +327,9 @@ export default function AuthPopup(props: any) {
                                   className="text-sm text-red-500"
                                 />
                               </div>
-                              <div className="space-y-2">
-                                <Label htmlFor="phone">Phone</Label>
-                                <Field
-                                  as={Input}
-                                  id="phone"
-                                  name="phone"
-                                  placeholder="Enter your phone number"
-                                />
-                                <ErrorMessage
-                                  name="phone"
-                                  component="div"
-                                  className="text-sm text-red-500"
-                                />
-                              </div>
-                            </div>
+                            
                             <div className="space-y-0">
-                              <Label htmlFor="password">Password</Label>
+                              <Label htmlFor="password">Password <span className="text-red-400 text-xl">*</span></Label>
                               <Field
                                 as={Input}
                                 id="password"
