@@ -18,7 +18,7 @@ const DropdownLink = ({
   title: string
   onClick?: () => void
 }) => (
-  <Link to={href} className="block py-2 px-4 text-gray-800 hover:bg-gray-100 w-full text-left" onClick={onClick}>
+  <Link to={href} className={`${location.pathname === href ? 'text-white bg-[#9B2482]' : 'text-gray-800 hover:bg-gray-100'} block py-2 px-4 rounded w-full text-left`} onClick={onClick}>
     {title}
   </Link>
 )

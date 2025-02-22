@@ -174,22 +174,20 @@ function Footer() {
 
           </div>
 
-          <div className="flex justify-between items-center ">
-            <nav className="justify-start">
-              <ul className="flex flex-wrap justify-start gap-x-2 gap-y-0">
+          <div className="flex flex-col w-full items-center justify-center space-y-4 text-center md:flex-row md:justify-between md:items-center md:space-y-0">
+              <ul className="flex flex-wrap justify-center gap-x-2 gap-y-0">
                 {footerLinks.map((link, index) => (
                   <li key={link.name}>
                     {index > 0 && <span className="mr-4">|</span>}
                     <Link
                       href={link.href}
-                      className="hover:text-white/80 transition-colors"
+                      className="hover:text-white/80 transition-colors text-sm"
                     >
                       {link.name}
                     </Link>
                   </li>
                 ))}
               </ul>
-            </nav>
 
 
             <div className="flex justify-end gap-4 mb-4">
