@@ -7,6 +7,10 @@ const healthcareServices = [
     { title: "Patient Transport", image: "Patient-Transport-1.png" },
     { title: "Diagnostics", image: "Diagnostics-img1.jpg" },
     { title: "Orthotic & Prosthetics", image: "Orthotics-Prosthetics.jpg" },
+
+    {title : "Medical equipment on rent ", image: "/categories/equip-rent-1.jpg"},
+    {title : "NGOs", image: "/categories/ngo.jpg"},
+    {title : "Startup & Companies", image: "categories/companies-startups.jpg"},
   ];
 
   export default healthcareServices;
