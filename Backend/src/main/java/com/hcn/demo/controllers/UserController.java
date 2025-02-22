@@ -45,7 +45,6 @@ public class UserController {
                         .firstName(user.getFirstName())
                         .lastName(user.getLastName())
                         .email(user.getEmail())
-                        .phone(user.getPhone())
                         .role(user.getRole())
                         .build())
                 .collect(Collectors.toList());
@@ -76,7 +75,6 @@ public class UserController {
                     .firstName(currentUser.getFirstName())
                     .lastName(currentUser.getLastName())
                     .email(currentUser.getEmail())
-                    .phone(currentUser.getPhone())
                     .role(currentUser.getRole())
                     .build();
 
