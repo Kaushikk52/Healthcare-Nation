@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Facebook, Instagram, ArrowUp } from "lucide-react";
+import { Facebook, Instagram, Twitter, ArrowUp, Youtube } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 function Footer() {
@@ -92,8 +92,9 @@ function Footer() {
   ];
 
   return (
-    <footer className="bg-[#0580c4] text-white">
-      {/* <div className="container mx-auto px-4 py-12">
+    <footer className="w-full bg-[#0580c4] text-white">
+      <div className="!max-w-7xl !mx-auto !px-4">
+        {/* <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
           {footerSections.map((section, index) => (
             <div key={index} className="mb-8">
@@ -140,9 +141,9 @@ function Footer() {
         </div>
       </div> */}
 
-      <div className="container mx-auto px-4 text-center py-5">
+        <div className="mx-auto px-4 text-center py-5">
 
-        <div className="mb-4">
+          <div className="mb-4">
             <img
               src={path + "HCN-white-logo.png" || "/placeholder.svg"}
               alt="Healthcare Nation Logo"
@@ -150,75 +151,91 @@ function Footer() {
             />
           </div>
 
-        <div className="space-y-4 mb-6">
-          <div className="flex flex-col items-center gap-2">
-            <Link
-              href="mailto:contact@sunsetcinemaclub.in"
-              className="hover:text-white/80 transition-colors"
-            >
-              For Customer Queries: contact@sunsetcinemaclub.in
-            </Link>
-            <Link
-              href="tel:022-48930438"
-              className="hover:text-white/80 transition-colors"
-            >
-              022-48930438
-            </Link>
+          <div className="space-y-4 mb-6">
+            <div className="flex flex-col items-center gap-2">
+              <Link
+                href="mailto:contact@sunsetcinemaclub.in"
+                className="hover:text-white/80 transition-colors"
+              >
+                For Customer Queries: contact@sunsetcinemaclub.in
+              </Link>
+              <Link
+                href="tel:022-48930438"
+                className="hover:text-white/80 transition-colors"
+              >
+                022-48930438
+              </Link>
+              <div className="flex justify-center items-center text-center max-w-3xl">
+                <span>
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fuga commodi ea excepturi necessitatibus quos. Omnis distinctio in maiores ducimus nihil.
+                </span>
+              </div>
+            </div>
+
           </div>
 
-          <div>
-            <p className="mb-2">Catch Our Screenings in</p>
-            <p className="flex flex-wrap justify-center gap-2">
-              {cities.map((city, index) => (
-                <span key={city}>
-                  {city}
-                  {index < cities.length - 1 && " |"}
-                </span>
-              ))}
-            </p>
+          <div className="flex justify-between items-center ">
+            <nav className="justify-start">
+              <ul className="flex flex-wrap justify-start gap-x-2 gap-y-0">
+                {footerLinks.map((link, index) => (
+                  <li key={link.name}>
+                    {index > 0 && <span className="mr-4">|</span>}
+                    <Link
+                      href={link.href}
+                      className="hover:text-white/80 transition-colors"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+
+            <div className="flex justify-end gap-4 mb-4">
+              <Link
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Facebook className="h-5 w-5 hover:text-white/80 transition-colors" />
+              </Link>
+              <Link
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Instagram className="h-5 w-5 hover:text-white/80 transition-colors" />
+              </Link>
+              <Link
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Twitter className="h-5 w-5 hover:text-white/80 transition-colors" />
+              </Link>
+              <Link
+                href="https://youtube.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Youtube className="h-5 w-5 hover:text-white/80 transition-colors" />
+              </Link>
+            </div>
           </div>
         </div>
+      <hr />
+      </div>
 
-        <div className="grid grid-cols-3 gap-4">
-          <nav className="mb-6 justify-start">
-            <ul className="flex flex-wrap justify-start gap-x-2 gap-y-0">
-              {footerLinks.map((link, index) => (
-                <li key={link.name}>
-                  {index > 0 && <span className="mr-4">|</span>}
-                  <Link
-                    href={link.href}
-                    className="hover:text-white/80 transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
 
-          <p className="text-sm justify-center">
-            Copyright © {new Date().getFullYear()}, Healthcare Nation. All
-            rights reserved.
-          </p>
-
-          <div className="flex justify-end gap-4 mb-4">
-            <Link
-              href="https://facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Facebook className="h-5 w-5 hover:text-white/80 transition-colors" />
-            </Link>
-            <Link
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Instagram className="h-5 w-5 hover:text-white/80 transition-colors" />
-            </Link>
-          </div>
+      <div className="w-full bg-gray-200 mt-4">
+        <div className="!max-w-7xl mx-auto !py-4 flex justify-center items-center">
+          <span className="text-gray-600 text-center">
+            By Continuing past this page, you agree to out Terms of Service, Cookie Policy, Privacy Policy and Content Policies. All trademarks are properties of their respective owners Copyright © 2025, Healthcare Nation. All rights reserved.
+          </span>
         </div>
       </div>
+
     </footer>
   );
 }

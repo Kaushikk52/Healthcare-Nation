@@ -103,7 +103,7 @@ const HospitalDetailsPage = () => {
 
                 {/* Right Side  */}
                 <div className='!flex !flex-col !justify-center !text-white !my-2 sm:!my-0 !space-y-0.5 sm:!space-y-1.5 !text-left sm:!text-right'>
-                    <div className='!flex !justify-center !items-center !bg-[#267e3e] !rounded-lg !py-0.5 !px-0'>
+                    <div className='!flex !justify-center !items-center !bg-[#267e3e] !rounded !py-0.5 !px-0'>
                         <span className='!text-xl !font-semibold !mr-1 !px-0'>4.8</span>
                         <IoIosStar className='!h-5 !w-5 !mb-0.5 !px-0 !mx-0' />
                     </div>

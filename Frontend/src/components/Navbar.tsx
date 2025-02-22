@@ -144,7 +144,7 @@ export default function Navbar() {
 
   return (
     <nav className="w-full bg-white p-3">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <div className="max-w-7xl mx-auto flex items-center justify-between space-x-4">
         {/* Logo and mobile menu button */}
         <div className="flex items-center space-x-4">
           <button
@@ -163,7 +163,7 @@ export default function Navbar() {
         {/* Location dropdown and search bar (desktop) */}
         <div className="hidden md:flex items-center space-x-4 flex-grow justify-center">
           <div className="relative p-1 rounded-md flex items-center space-x-1 h-12 w-full max-w-2xl">
-            <div className="relative bg-[#EDDBE9] w-1/3 flex items-center h-full rounded-l-md">
+            <div className="relative bg-[#EDDBE9] md:w-1/3 lg:w-1/4 xl:w-1/4 flex items-center h-full rounded-l-md">
               <button
                 onClick={() => setLocationDropdownOpen(!locationDropdownOpen)}
                 className="w-full flex justify-between items-center py-2 px-3 h-full"
@@ -197,7 +197,7 @@ export default function Navbar() {
               )}
             </div>
 
-            <div className="bg-[#EDDBE9] w-2/3 flex items-center px-3 h-full rounded-r-md">
+            <div className="bg-[#EDDBE9] md:w-8/12 lg:w-7/12 xl:w-7/12 flex items-center px-3 h-full rounded-r-md">
               <BiSearchAlt2 className="h-6 w-6 text-[#9B2482] flex-shrink-0" />
               <input
                 type="text"
@@ -209,7 +209,7 @@ export default function Navbar() {
         </div>
 
         {/* Authentication buttons */}
-        <div className="flex items-center space-x-4">
+        <div className="!flex !items-center">
           <AuthPopup popup={toggle} navigateTo={navigateTo} />
           <button onClick={() => checkIfLogin("/dashboard/hospital")}>
             <User className="h-6 w-6" />
