@@ -19,6 +19,7 @@ import HealthConcern from './components/pages/HealthConcern';
 import PopularHospitals from './components/pages/PopularHospitals';
 import HealthInurance from './components/pages/HealthInsurance';
 import TPA from './components/pages/TPA';
+import HealthcareServices from './components/pages/HealthcareServices';
 function App() {
 
   return (
@@ -37,6 +38,7 @@ function App() {
             <Route path='/dashboard/clinic' element={<ClinicForm />} />
           </Route>
 
+          <Route path='/healthcare-services' element={< HealthcareServices />} />
           <Route path='/diagnostic-centers' element={< DiagnosticCenters />} />
           <Route path='/alternative-medicines' element={< AlternativeMedicine />} />
           <Route path='/online-healthcare-services' element={< OnlineServices />} />

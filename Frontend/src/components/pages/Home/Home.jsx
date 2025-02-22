@@ -51,7 +51,7 @@ function Home() {
               Healthcare Services
             </h3>
             <Link
-              to={"/"}
+              to={"/healthcare-services"}
               style={{
                 textDecoration: "none",
               }}
@@ -80,8 +80,8 @@ function Home() {
               {healthcareServices.map((service, index) => (
                 <SwiperSlide key={index}>
                   <div className="group">
-                    <a
-                      href="#"
+                    <Link
+                      to={`${service.path}`}
                       aria-label={service.title}
                       className="!cursor-pointer"
                     >
@@ -93,7 +93,7 @@ function Home() {
                       <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                         {service.title}
                       </p>
-                    </a>
+                    </Link>
                   </div>
                 </SwiperSlide>
               ))}
