@@ -174,7 +174,7 @@ function Home() {
 
   return (
     <>
-      <div className="!max-w-4xl xl:!max-w-6xl !mx-auto !px-4">
+      <div className="!max-w-4xl xl:!max-w-7xl !mx-auto !px-4">
 
         {/* HEALTHCARE SERVICES SECTION */}
         <div className="!mt-10">
@@ -317,7 +317,7 @@ function Home() {
             {servicesBySpecialities.slice(0, 10).map((service, index) => (
               <SwiperSlide key={index} className="!mt-6">
                 <div className="group">
-                  <a style={{ textDecoration: "none" }} href="" className="">
+                  <Link style={{ textDecoration: "none" }} to={"/"} className="">
                     <div className="!text-center">
                       <img
                         src={path + service.image}
@@ -328,7 +328,7 @@ function Home() {
                     <p className="!text-base sm:!text-lg lg:!text-sm xl:text-lg font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482] !px-1">
                       {service.title}{" "}
                     </p>
-                  </a>
+                  </Link>
                 </div>
               </SwiperSlide>
             ))}
@@ -362,7 +362,7 @@ function Home() {
             {servicesBySpecialities.slice(10).map((service, index) => (
               <SwiperSlide key={index} className="!mt-4">
                 <div className="group">
-                  <a style={{ textDecoration: "none" }} href="" className="">
+                  <Link style={{ textDecoration: "none" }} to={"/"} className="">
                     <div className="user-image text-center">
                       <img
                         src={path + service.image}
@@ -373,7 +373,7 @@ function Home() {
                     <p className="!text-base sm:!text-lg lg:!text-sm xl:!text-lg font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482] !px-1">
                       {service.title}{" "}
                     </p>
-                  </a>
+                  </Link>
                 </div>
               </SwiperSlide>
             ))}
@@ -388,7 +388,7 @@ function Home() {
               Diagnostic Centres Near You
             </h3>
             <Link
-              to={"/"}
+              to={"/diagnostic-centers"}
               style={{
                 textDecoration: "none",
               }}
@@ -402,7 +402,8 @@ function Home() {
           <div className="!grid !grid-cols-2 sm:!grid-cols-3 lg:!grid-cols-6 xl:!grid-cols-6 !gap-x-3.5 !gap-y-3.5 md:!gap-y-6 !mt-4 sm:!mt-6">
             {diagnosticCentres.map((center, index) => (
               <div key={index} className="group">
-                <a
+                <Link
+                  to={"/"}
                   style={{ textDecoration: "none" }}
                   className="!cursor-pointer !mx-auto !flex !flex-col !items-center"
                 >
@@ -416,7 +417,7 @@ function Home() {
                   <p className="!text-base  min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-lg !text-center sm:!text-center !font-semibold !mt-2 !px-0 !text-gray-700 group-hover:!text-[#9b2482]">
                     {center.title}
                   </p>
-                </a>
+                </Link>
               </div>
             ))}
           </div>
@@ -430,7 +431,7 @@ function Home() {
               Alternative Medicine
             </h3>
             <Link
-              to={"/"}
+              to={"/alternative-medicines"}
               style={{
                 textDecoration: "none",
               }}
@@ -444,7 +445,7 @@ function Home() {
           <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 xl:!grid-cols-4 !gap-x-3.5 !gap-y-3 !mt-4">
             {alternativeMedicine.map((item, index) => (
               <div key={index} className="group">
-                <a
+                <Link to={"/"}
                   style={{ textDecoration: "none" }}
                   className="!cursor-pointer"
                 >
@@ -456,7 +457,7 @@ function Home() {
                   <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {item.title}
                   </p>
-                </a>
+                </Link>
               </div>
             ))}
           </div>
@@ -470,7 +471,7 @@ function Home() {
               Online Healthcare Services
             </h3>
             <Link
-              to={"/"}
+              to={"/online-healthcare-services"}
               style={{
                 textDecoration: "none",
               }}
@@ -484,7 +485,7 @@ function Home() {
           <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-3 xl:!grid-cols-3 !gap-x-3.5 !gap-y-3 !mt-4">
             {onlineHealthcareServices.map((service, index) => (
               <div key={index} className="group">
-                <a
+                <Link to={"/"}
                   style={{ textDecoration: "none" }}
                   className="!cursor-pointer"
                 >
@@ -496,7 +497,7 @@ function Home() {
                   <p className="!text-base min-[425px]:!text-lg sm:!text-base md:!text-lg lg:!text-sm xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {service.title}
                   </p>
-                </a>
+                </Link>
               </div>
             ))}
           </div>
@@ -510,7 +511,7 @@ function Home() {
               Public Sector Corporates
             </h3>
             <Link
-              to={"/"}
+              to={"/public-sector-corporates"}
               style={{
                 textDecoration: "none",
               }}
@@ -524,7 +525,7 @@ function Home() {
           <div className="!grid !grid-cols-2 sm:!grid-cols-3 lg:!grid-cols-6 xl:!grid-cols-6 !gap-x-3.5 !gap-y-3.5 md:!gap-y-6 !mt-4 sm:!mt-6">
             {publicSectorCorporates.map((corporate, index) => (
               <div key={index} className="group">
-                <a
+                <Link to={"/"}
                   style={{ textDecoration: "none" }}
                   className="!cursor-pointer !mx-auto "
                 >
@@ -540,7 +541,7 @@ function Home() {
                   <p className="!text-sm  min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-lg !text-center sm:!text-center !font-semibold !mt-2 !px-0 !text-gray-700 group-hover:!text-[#9b2482]">
                     {corporate.title}
                   </p>
-                </a>
+                </Link>
               </div>
             ))}
           </div>
@@ -554,7 +555,7 @@ function Home() {
               More Services
             </h3>
             <Link
-              to={"/"}
+              to={"/more-services"}
               style={{
                 textDecoration: "none",
               }}
@@ -568,7 +569,7 @@ function Home() {
           <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 xl:!grid-cols-4 !gap-x-3.5 !gap-y-3 !mt-4">
             {moreServices.map((service, index) => (
               <div key={index} className="group">
-                <a
+                <Link to={"/"}
                   style={{ textDecoration: "none" }}
                   className="!cursor-pointer"
                 >
@@ -580,7 +581,7 @@ function Home() {
                   <p className="!text-sm min-[425px]:!text-lg sm:!text-base md:!text-lg lg:!text-sm xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {service.title}
                   </p>
-                </a>
+                </Link>
               </div>
             ))}
           </div>
@@ -650,7 +651,7 @@ function Home() {
           <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-5 xl:!grid-cols-5 !gap-x-3.5 !gap-y-3 !mt-4">
             {servicesByHealthConcern.map((service, index) => (
               <div key={index} className="group">
-                <a
+                <Link to={"/"}
                   style={{ textDecoration: "none" }}
                   className="cursor-pointer"
                 >
@@ -662,7 +663,7 @@ function Home() {
                   <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {service.title}
                   </p>
-                </a>
+                </Link>
               </div>
             ))}
           </div>
@@ -690,7 +691,7 @@ function Home() {
           <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 xl:!grid-cols-4 !gap-x-3.5 !gap-y-3 !mt-4">
             {popularHospitals.map((hospital, index) => (
               <div key={index} className="group">
-                <a
+                <Link to={"/"}
                   style={{ textDecoration: "none" }}
                   className="!cursor-pointer"
                 >
@@ -702,7 +703,7 @@ function Home() {
                   <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {hospital.title}
                   </p>
-                </a>
+                </Link>
               </div>
             ))}
           </div>
@@ -731,13 +732,15 @@ function Home() {
             {chooseYourHealthInsurance.map((insurance, index) => (
               <div
                 key={index}
-                className={`${insurance.bgColor} !flex !justify-center !items-center !rounded-lg`}
+
               >
-                <img
-                  src={path + insurance.image}
-                  alt="insurance images"
-                  className="!rounded-lg !h-24 sm:!h-28 md:!h-32 lg:!h-20 xl:!h-28 !w-full !aspect-[3/2] !object-fit"
-                />
+                <Link to={"/"} className={`${insurance.bgColor} !flex !justify-center !items-center !rounded-lg`}>
+                  <img
+                    src={path + insurance.image}
+                    alt="insurance images"
+                    className="!rounded-lg !h-24 sm:!h-28 md:!h-32 lg:!h-20 xl:!h-28 !w-full !aspect-[3/2] !object-fit"
+                  />
+                </Link>
               </div>
             ))}
           </div>
@@ -766,13 +769,15 @@ function Home() {
             {chooseYourTPA.map((tpa, index) => (
               <div
                 key={index}
-                className={`${tpa.bgColor} !flex !justify-center !items-center !rounded-lg`}
+
               >
-                <img
-                  src={path + tpa.image}
-                  alt="tpa images"
-                  className="!rounded-lg !h-24 sm:!h-28 md:!h-32 lg:!h-20 xl:!h-28 !w-full !aspect-[3/2] !object-fit"
-                />
+                <Link to={"/"} className={`${tpa.bgColor} !flex !justify-center !items-center !rounded-lg`}>
+                  <img
+                    src={path + tpa.image}
+                    alt="tpa images"
+                    className="!rounded-lg !h-24 sm:!h-28 md:!h-32 lg:!h-20 xl:!h-28 !w-full !aspect-[3/2] !object-fit"
+                  />
+                </Link>
               </div>
             ))}
           </div>

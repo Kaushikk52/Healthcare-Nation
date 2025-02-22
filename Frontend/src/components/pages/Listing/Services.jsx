@@ -41,7 +41,7 @@ export default function Services() {
     <>
 
       <div className='!max-w-7xl !container !mx-auto !px-4'>
-        <div className='!mt-10'>
+        <div className='!mt-10 mb-16'>
           {/*HEADING AND SORT BUTTON  */}
           <div className='!flex !justify-between !items-center !mt-10'>
             <span className='text-xl min-[425px]:!text-2xl !font-semibold !text-gray-700 !px-1'>More Services</span>
@@ -63,7 +63,7 @@ export default function Services() {
             {list.map((service, index) =>
               <div
                 key={index}
-                className='!group'
+                className='group'
               >
                 <Link
                   to={'/services'}
