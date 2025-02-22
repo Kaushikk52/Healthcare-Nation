@@ -2,8 +2,19 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 // Data
+import healthcareServices from "@/data/healthcareServices.js";
 import popularBrands from "@/data/brands.js";
 import servicesBySpecialities from "@/data/servicesBySpecialities";
+import diagnosticCentres from "@/data/diagnostic.js";
+import alternativeMedicine from "@/data/alternativeMedicine.js";
+import onlineHealthcareServices from "@/data/onlineServices.js";
+import moreServices from "@/data/moreServices.js";
+import publicSectorCorporates from "@/data/publicSector.js";
+import servicesByHealthConcern from "@/data/healthConcern.js";
+import popularHospitals from "@/data/popularHospitals.js";
+import servicesByAccrediations from "@/data/accrediations.js";
+import chooseYourHealthInsurance from "@/data/healthInsurance.js";
+import chooseYourTPA from "@/data/tpa.js";
 import clinics from "@/data/clinics";
 
 import { Navigation, Pagination, Autoplay, A11y } from "swiper/modules";
@@ -22,159 +33,13 @@ AOS.init({
   duration: 1200,
 });
 
-const healthcareServices = [
-  { title: "Hospitals", image: "hospitals1.jpg" },
-  { title: "Dialysis Centers", image: "Dialysis-Centres.jpg" },
-  { title: "Blood/Skin Banks", image: "Blood-Bank-1.jpg" },
-  { title: "Clinics", image: "Clinics-1.png" },
-  { title: "Home Care Services", image: "HomeCare-services1.jpg" },
-  { title: "Patient Transport", image: "Patient-Transport-1.png" },
-  { title: "Diagnostics", image: "Diagnostics-img1.jpg" },
-  { title: "Orthotic & Prosthetics", image: "Orthotics-Prosthetics.jpg" },
-];
-
-const diagnosticCentres = [
-  { title: "Xray", image: "Xray2.png" },
-  { title: "MRI", image: "CTSCAN2.png" },
-  { title: "Sonography", image: "Sonography1.png" },
-  { title: "Lab/Pathology", image: "PATHOLOGY1.png" },
-  { title: "CT Scan", image: "CTSCAN3.png" },
-  { title: "2D Echo", image: "2DECHO.png" },
-];
-
-const alternativeMedicine = [
-  {
-    title: "Ayurveda Centres",
-    image: "Alternative-Medicine/Ayurveda-Centres.jpg",
-  },
-  {
-    title: "Homeopathy Centres",
-    image: "Alternative-Medicine/Homeopathy-Centres.jpg",
-  },
-  { title: "Yoga Centres", image: "Alternative-Medicine/yoga-center.jpg" },
-  {
-    title: "Naturopathy Centres",
-    image: "Alternative-Medicine/Naturopathy-Centres.jpg",
-  },
-];
-
-const onlineHealthcareServices = [
-  { title: "Online Consultation", image: "online/Online-Consultation.jpg" },
-  {
-    title: "Remote Patient Monitoring Services",
-    image: "online/Monitoring-Services.jpg",
-  },
-  {
-    title: "Online Pharmacy & Medical Store",
-    image: "online/Online-Pharmacy.jpg",
-  },
-];
-
-const publicSectorCorporates = [
-  { title: "MPT Hospitals", image: "mpt-logo.png", borderColor: "border-2 border-transparent", },
-  {
-    title: "CGHS Hospitals",
-    image: "cghs-logo.jpg",
-    borderColor: "border-2 border-green-700",
-  },
-  { title: "MJPJAY Hospitals", image: "mjpjay-logo.png", borderColor: "border-2 border-transparent", },
-  { title: "ESIC Hospitals", image: "esic-logo.png", borderColor: "border-2 border-transparent", },
-  { title: "PMJAY Hospitals", image: "pmjay-logo2.png", borderColor: "border-2 border-transparent", },
-  { title: "Railway Hospitals", image: "indian_railway_logo.jpg", borderColor: "border-2 border-transparent", },
-];
-
-const moreServices = [
-  {
-    title: "Test Tube Baby / IVF Centres",
-    image: "Test-Tube-Baby-Centres1.jpg",
-  },
-  { title: "Rehabilitation / De Addiction Centres", image: "De-Addiction.jpg" },
-  { title: "Burns Centres", image: "Burns-Centres.jpg" },
-  { title: "Hair Transplant Centres", image: "Hair-Transplant.jpg" },
-];
-
-const servicesByAccrediations = [
-  {
-    title: "Organizations Accredited by Joint Commission International",
-    image: "joint-commision.png",
-  },
-  {
-    title:
-      "Organizations Accredited by National Accreditation Board for Hospitals & Healthcare Providers",
-    image: "national-accreditations.png",
-  },
-  {
-    title: "Organizations Accredited by Largest Gold Certified Green Hospital",
-    image: "IGBG-GOLD.jpeg",
-  },
-];
-
-const servicesByHealthConcern = [
-  { title: "Depression or Anxiety ?", image: "Depression-Anxiety1.jpg" },
-  { title: "Pregnant ?", image: "Pregnant.png" },
-  { title: "Joint Pains ?", image: "Joint-Pains.png" },
-  { title: "Ear Problems ?", image: "Ear-Problems.png" },
-  { title: "Digestion Issues ?", image: "Digestion-Issues.png" },
-];
-
-const popularHospitals = [
-  { title: "Saifee Hospital", image: "SAIFEE-HOSPITAL.png" },
-  { title: "Max Nanavati Hospital", image: "MAX-NANAVATI-HOSPITAL.png" },
-  { title: "Global Hospital", image: "GLOBAL-HOSPITAL.png" },
-  { title: "Kokilaben Hospital", image: "KOKILABEN-HOSPITAL.png" },
-];
-
-const chooseYourHealthInsurance = [
-  { image: "icici-logo1.png", bgColor: "bg-[#f07b2238]" },
-  { image: "Iffco-Tokio-Gen-Insurance-1.png", bgColor: "bg-[#02a44e42]" },
-  { image: "HDFC-ERGO1.png", bgColor: "bg-[#e21f253f]" },
-  { image: "bajaj-logo1.png", bgColor: "bg-[#006db53f]" },
-  { image: "Care_health_insurance_logo-1.png", bgColor: "bg-[#f8e00844]" },
-  { image: "kotak-logo.png", bgColor: "bg-[#e21f253f]" },
-];
-
-const chooseYourTPA = [
-  { image: "Health-India.png", bgColor: "bg-[#82c45341]" },
-  { image: "Vidal-Health.png", bgColor: "bg-[#21989248]" },
-  { image: "rakshaTPA-logo.png", bgColor: "bg-[#d123233f]" },
-  { image: "MD-India-logo.png", bgColor: "bg-[#3a4a8c44]" },
-  { image: "medi-assist-logo.png", bgColor: "bg-[#efd31e3f]" },
-  { image: "med-save-logo.png", bgColor: "bg-[#ed164f34]" },
-];
-
-const healthcareVideos = [
-  { link: "https://www.youtube.com/embed/YZ84iQrbYjw?si=mgCWIRNdpW0cOvJ6" },
-  { link: "https://www.youtube.com/embed/z2Bbm1Jr0mI?si=dU7ihUF2GeryH-Mt" },
-  { link: "https://www.youtube.com/embed/y6N8u4OGgXk?si=CK5WiLzO8SzUoWAO" },
-  { link: "https://www.youtube.com/embed/YZ84iQrbYjw?si=mgCWIRNdpW0cOvJ6" },
-  { link: "https://www.youtube.com/embed/z2Bbm1Jr0mI?si=dU7ihUF2GeryH-Mt" },
-  { link: "https://www.youtube.com/embed/y6N8u4OGgXk?si=CK5WiLzO8SzUoWAO" },
-];
-
-const articles = [
-  {
-    title: "The Transformative Power of Early Mornings",
-    text: "Embracing the Benefits of Waking Up Early",
-    image: "Articles-img1.png",
-  },
-  {
-    title: "Taming the Appetite",
-    text: "Harnessing Natural Appetite Suppressants for Weight Control",
-    image: "Articles-img2.png",
-  },
-  {
-    title: "Dive into Wellness",
-    text: "The Incredible Benefits of Swimming",
-    image: "Articles-img3.png",
-  },
-];
 
 function Home() {
   const path = import.meta.env.VITE_APP_IMG_URL;
 
   return (
     <>
-      <div className="!max-w-4xl xl:!max-w-6xl !mx-auto !px-4">
+      <div className="!max-w-4xl xl:!max-w-7xl !mx-auto !px-4">
 
         {/* HEALTHCARE SERVICES SECTION */}
         <div className="!mt-10">
@@ -317,7 +182,7 @@ function Home() {
             {servicesBySpecialities.slice(0, 10).map((service, index) => (
               <SwiperSlide key={index} className="!mt-6">
                 <div className="group">
-                  <a style={{ textDecoration: "none" }} href="" className="">
+                  <Link style={{ textDecoration: "none" }} to={"/"} className="">
                     <div className="!text-center">
                       <img
                         src={path + service.image}
@@ -328,7 +193,7 @@ function Home() {
                     <p className="!text-base sm:!text-lg lg:!text-sm xl:text-lg font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482] !px-1">
                       {service.title}{" "}
                     </p>
-                  </a>
+                  </Link>
                 </div>
               </SwiperSlide>
             ))}
@@ -362,7 +227,7 @@ function Home() {
             {servicesBySpecialities.slice(10).map((service, index) => (
               <SwiperSlide key={index} className="!mt-4">
                 <div className="group">
-                  <a style={{ textDecoration: "none" }} href="" className="">
+                  <Link style={{ textDecoration: "none" }} to={"/"} className="">
                     <div className="user-image text-center">
                       <img
                         src={path + service.image}
@@ -373,7 +238,7 @@ function Home() {
                     <p className="!text-base sm:!text-lg lg:!text-sm xl:!text-lg font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482] !px-1">
                       {service.title}{" "}
                     </p>
-                  </a>
+                  </Link>
                 </div>
               </SwiperSlide>
             ))}
@@ -388,7 +253,7 @@ function Home() {
               Diagnostic Centres Near You
             </h3>
             <Link
-              to={"/"}
+              to={"/diagnostic-centers"}
               style={{
                 textDecoration: "none",
               }}
@@ -402,7 +267,8 @@ function Home() {
           <div className="!grid !grid-cols-2 sm:!grid-cols-3 lg:!grid-cols-6 xl:!grid-cols-6 !gap-x-3.5 !gap-y-3.5 md:!gap-y-6 !mt-4 sm:!mt-6">
             {diagnosticCentres.map((center, index) => (
               <div key={index} className="group">
-                <a
+                <Link
+                  to={"/"}
                   style={{ textDecoration: "none" }}
                   className="!cursor-pointer !mx-auto !flex !flex-col !items-center"
                 >
@@ -416,7 +282,7 @@ function Home() {
                   <p className="!text-base  min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-lg !text-center sm:!text-center !font-semibold !mt-2 !px-0 !text-gray-700 group-hover:!text-[#9b2482]">
                     {center.title}
                   </p>
-                </a>
+                </Link>
               </div>
             ))}
           </div>
@@ -430,7 +296,7 @@ function Home() {
               Alternative Medicine
             </h3>
             <Link
-              to={"/"}
+              to={"/alternative-medicines"}
               style={{
                 textDecoration: "none",
               }}
@@ -444,7 +310,7 @@ function Home() {
           <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 xl:!grid-cols-4 !gap-x-3.5 !gap-y-3 !mt-4">
             {alternativeMedicine.map((item, index) => (
               <div key={index} className="group">
-                <a
+                <Link to={"/"}
                   style={{ textDecoration: "none" }}
                   className="!cursor-pointer"
                 >
@@ -456,7 +322,7 @@ function Home() {
                   <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {item.title}
                   </p>
-                </a>
+                </Link>
               </div>
             ))}
           </div>
@@ -470,7 +336,7 @@ function Home() {
               Online Healthcare Services
             </h3>
             <Link
-              to={"/"}
+              to={"/online-healthcare-services"}
               style={{
                 textDecoration: "none",
               }}
@@ -484,7 +350,7 @@ function Home() {
           <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-3 xl:!grid-cols-3 !gap-x-3.5 !gap-y-3 !mt-4">
             {onlineHealthcareServices.map((service, index) => (
               <div key={index} className="group">
-                <a
+                <Link to={"/"}
                   style={{ textDecoration: "none" }}
                   className="!cursor-pointer"
                 >
@@ -496,7 +362,7 @@ function Home() {
                   <p className="!text-base min-[425px]:!text-lg sm:!text-base md:!text-lg lg:!text-sm xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {service.title}
                   </p>
-                </a>
+                </Link>
               </div>
             ))}
           </div>
@@ -510,7 +376,7 @@ function Home() {
               Public Sector Corporates
             </h3>
             <Link
-              to={"/"}
+              to={"/public-sector-corporates"}
               style={{
                 textDecoration: "none",
               }}
@@ -524,7 +390,7 @@ function Home() {
           <div className="!grid !grid-cols-2 sm:!grid-cols-3 lg:!grid-cols-6 xl:!grid-cols-6 !gap-x-3.5 !gap-y-3.5 md:!gap-y-6 !mt-4 sm:!mt-6">
             {publicSectorCorporates.map((corporate, index) => (
               <div key={index} className="group">
-                <a
+                <Link to={"/"}
                   style={{ textDecoration: "none" }}
                   className="!cursor-pointer !mx-auto "
                 >
@@ -540,7 +406,7 @@ function Home() {
                   <p className="!text-sm  min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-lg !text-center sm:!text-center !font-semibold !mt-2 !px-0 !text-gray-700 group-hover:!text-[#9b2482]">
                     {corporate.title}
                   </p>
-                </a>
+                </Link>
               </div>
             ))}
           </div>
@@ -554,7 +420,7 @@ function Home() {
               More Services
             </h3>
             <Link
-              to={"/"}
+              to={"/more-services"}
               style={{
                 textDecoration: "none",
               }}
@@ -568,7 +434,7 @@ function Home() {
           <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 xl:!grid-cols-4 !gap-x-3.5 !gap-y-3 !mt-4">
             {moreServices.map((service, index) => (
               <div key={index} className="group">
-                <a
+                <Link to={"/"}
                   style={{ textDecoration: "none" }}
                   className="!cursor-pointer"
                 >
@@ -580,7 +446,7 @@ function Home() {
                   <p className="!text-sm min-[425px]:!text-lg sm:!text-base md:!text-lg lg:!text-sm xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {service.title}
                   </p>
-                </a>
+                </Link>
               </div>
             ))}
           </div>
@@ -636,7 +502,7 @@ function Home() {
               Services By Health Concern
             </h3>
             <Link
-              to={"/"}
+              to={"/health-concern"}
               style={{
                 textDecoration: "none",
               }}
@@ -650,7 +516,7 @@ function Home() {
           <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-5 xl:!grid-cols-5 !gap-x-3.5 !gap-y-3 !mt-4">
             {servicesByHealthConcern.map((service, index) => (
               <div key={index} className="group">
-                <a
+                <Link to={"/"}
                   style={{ textDecoration: "none" }}
                   className="cursor-pointer"
                 >
@@ -662,7 +528,7 @@ function Home() {
                   <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {service.title}
                   </p>
-                </a>
+                </Link>
               </div>
             ))}
           </div>
@@ -676,7 +542,7 @@ function Home() {
               Popular Hospitals In India
             </h3>
             <Link
-              to={"/"}
+              to={"/popular-hospitals"}
               style={{
                 textDecoration: "none",
               }}
@@ -690,7 +556,7 @@ function Home() {
           <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 xl:!grid-cols-4 !gap-x-3.5 !gap-y-3 !mt-4">
             {popularHospitals.map((hospital, index) => (
               <div key={index} className="group">
-                <a
+                <Link to={"/"}
                   style={{ textDecoration: "none" }}
                   className="!cursor-pointer"
                 >
@@ -702,7 +568,7 @@ function Home() {
                   <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {hospital.title}
                   </p>
-                </a>
+                </Link>
               </div>
             ))}
           </div>
@@ -716,7 +582,7 @@ function Home() {
               Choose Your Health Insurance
             </h3>
             <Link
-              to={"/"}
+              to={"/health-insurance"}
               style={{
                 textDecoration: "none",
               }}
@@ -731,13 +597,15 @@ function Home() {
             {chooseYourHealthInsurance.map((insurance, index) => (
               <div
                 key={index}
-                className={`${insurance.bgColor} !flex !justify-center !items-center !rounded-lg`}
+
               >
-                <img
-                  src={path + insurance.image}
-                  alt="insurance images"
-                  className="!rounded-lg !h-24 sm:!h-28 md:!h-32 lg:!h-20 xl:!h-28 !w-full !aspect-[3/2] !object-fit"
-                />
+                <Link to={"/"} className={`${insurance.bgColor} !flex !justify-center !items-center !rounded-lg`}>
+                  <img
+                    src={path + insurance.image}
+                    alt="insurance images"
+                    className="!rounded-lg !h-24 sm:!h-28 md:!h-32 lg:!h-20 xl:!h-28 !w-full !aspect-[3/2] !object-fit"
+                  />
+                </Link>
               </div>
             ))}
           </div>
@@ -751,7 +619,7 @@ function Home() {
               Choose Your TPA
             </h3>
             <Link
-              to={"/"}
+              to={"/tpa"}
               style={{
                 textDecoration: "none",
               }}
@@ -766,13 +634,15 @@ function Home() {
             {chooseYourTPA.map((tpa, index) => (
               <div
                 key={index}
-                className={`${tpa.bgColor} !flex !justify-center !items-center !rounded-lg`}
+
               >
-                <img
-                  src={path + tpa.image}
-                  alt="tpa images"
-                  className="!rounded-lg !h-24 sm:!h-28 md:!h-32 lg:!h-20 xl:!h-28 !w-full !aspect-[3/2] !object-fit"
-                />
+                <Link to={"/"} className={`${tpa.bgColor} !flex !justify-center !items-center !rounded-lg`}>
+                  <img
+                    src={path + tpa.image}
+                    alt="tpa images"
+                    className="!rounded-lg !h-24 sm:!h-28 md:!h-32 lg:!h-20 xl:!h-28 !w-full !aspect-[3/2] !object-fit"
+                  />
+                </Link>
               </div>
             ))}
           </div>

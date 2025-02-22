@@ -477,7 +477,7 @@ background-color: #53535715;
 
 /* Custom Swiper pagination dot styles */
 .swiper-pagination-bullet {
-  background-color: #ff1111; /* Default dot color */
+  background-color: #dfc5d9 !important; /* Default dot color */
   opacity: 1 !important;
   width: 10px !important;
   height: 10px !important;
@@ -485,7 +485,7 @@ background-color: #53535715;
 
 /* Active dot */
 .swiper-pagination-bullet-active {
-  background-color: white !important; /* Active dot color */
+  background-color: #9B2482 !important; /* Active dot color */
   opacity: 1 !important;
 }
 
