@@ -5,6 +5,9 @@ const diagnosticCentres = [
     { title: "Lab/Pathology", image: "PATHOLOGY1.png" },
     { title: "CT Scan", image: "CTSCAN3.png" },
     { title: "2D Echo", image: "2DECHO.png" },
+    { title: "EEG WEMG", image: "/diagnostics/EEG EMG.jpg" },
+    { title: "Holter Monitor", image: "/diagnostics/Holter Monitor.jpg" },
+    { title: "Sleep Study", image: "/diagnostics/Sleep Study.jpg" },
   ];
 
 export default diagnosticCentres;
