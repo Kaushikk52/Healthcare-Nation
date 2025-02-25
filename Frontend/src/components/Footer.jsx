@@ -86,9 +86,11 @@ function Footer() {
 
   const footerLinks = [
     { name: "About Us", href: "/about" },
-    { name: "FAQs", href: "/faqs" },
-    { name: "Contact Us", href: "/contact" },
+    { name: "Content Policy", href: "/content-policy" },
     { name: "Privacy Policy", href: "/privacy" },
+    { name: "Terms & Conditions", href: "/terms" },
+    { name: "Contact Us", href: "/contact" },
+    
   ];
 
   return (
@@ -142,7 +144,6 @@ function Footer() {
       </div> */}
 
         <div className="mx-auto px-4 text-center py-5">
-
           <div className="mb-4">
             <img
               src={path + "HCN-white-logo.png" || "/placeholder.svg"}
@@ -151,89 +152,42 @@ function Footer() {
             />
           </div>
 
-          <div className="space-y-4 mb-6">
-            <div className="flex flex-col items-center gap-2">
-              <Link
-                href="mailto:contact@sunsetcinemaclub.in"
-                className="hover:text-white/80 transition-colors"
-              >
-                For Customer Queries: contact@sunsetcinemaclub.in
-              </Link>
-              <Link
-                href="tel:022-48930438"
-                className="hover:text-white/80 transition-colors"
-              >
-                022-48930438
-              </Link>
+          <div className="space-y-4 mb-5">
+            <div className="flex flex-col items-center gap-8">
+              <p className="font-sans font-medium">Empowering you with better healthcare choices</p>
               <div className="flex justify-center items-center text-center max-w-3xl">
-                <span>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fuga commodi ea excepturi necessitatibus quos. Omnis distinctio in maiores ducimus nihil.
-                </span>
+                <div className="flex flex-col w-full items-center justify-center space-y-4 text-center md:flex-row md:justify-between md:items-center md:space-y-0">
+                  <ul className="flex flex-wrap justify-center gap-x-2 gap-y-0">
+                    {footerLinks.map((link, index) => (
+                      <li key={link.name}>
+                        {index > 0 && <span className="mr-4">|</span>}
+                        <Link
+                          href={link.href}
+                          className="hover:text-white/80 transition-colors text-sm font-sans font-medium"
+                        >
+                          {link.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
-
-          </div>
-
-          <div className="flex flex-col w-full items-center justify-center space-y-4 text-center md:flex-row md:justify-between md:items-center md:space-y-0">
-              <ul className="flex flex-wrap justify-center gap-x-2 gap-y-0">
-                {footerLinks.map((link, index) => (
-                  <li key={link.name}>
-                    {index > 0 && <span className="mr-4">|</span>}
-                    <Link
-                      href={link.href}
-                      className="hover:text-white/80 transition-colors text-sm"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-
-
-            <div className="flex justify-end gap-4 mb-4">
-              <Link
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Facebook className="h-5 w-5 hover:text-white/80 transition-colors" />
-              </Link>
-              <Link
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Instagram className="h-5 w-5 hover:text-white/80 transition-colors" />
-              </Link>
-              <Link
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Twitter className="h-5 w-5 hover:text-white/80 transition-colors" />
-              </Link>
-              <Link
-                href="https://youtube.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Youtube className="h-5 w-5 hover:text-white/80 transition-colors" />
-              </Link>
             </div>
           </div>
         </div>
-      <hr />
+        <hr />
       </div>
 
-
-      <div className="w-full bg-gray-200 mt-4">
+      <div className="w-full bg-[#0580c4] mt-4">
         <div className="!max-w-7xl mx-auto !py-4 flex justify-center items-center">
-          <span className="text-gray-600 text-center">
-            By Continuing past this page, you agree to out Terms of Service, Cookie Policy, Privacy Policy and Content Policies. All trademarks are properties of their respective owners Copyright © 2025, Healthcare Nation. All rights reserved.
+          <span className="text-white-600 text-center">
+            By Continuing past this page, you agree to out Terms of Service,
+            Cookie Policy, Privacy Policy and Content Policies. All trademarks
+            are properties of their respective owners Copyright © 2025,
+            Healthcare Nation. All rights reserved.
           </span>
         </div>
       </div>
-
     </footer>
   );
 }

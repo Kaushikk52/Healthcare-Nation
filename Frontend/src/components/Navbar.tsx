@@ -1,38 +1,47 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { Link, useNavigate, useLocation } from "react-router-dom"
-import { motion, AnimatePresence } from "framer-motion"
-import { User, Menu, X } from "lucide-react"
-import AuthPopup from "./Auth/AuthPopup"
-import { BiSearchAlt2 } from "react-icons/bi"
-import { FaCaretDown } from "react-icons/fa"
-import { FaLocationDot } from "react-icons/fa6"
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { User, Menu, X } from "lucide-react";
+import AuthPopup from "./Auth/AuthPopup";
+import { BiSearchAlt2 } from "react-icons/bi";
+import { FaCaretDown } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
+import { title } from "process";
 
 const DropdownLink = ({
   href,
   title,
   onClick,
 }: {
-  href: string
-  title: string
-  onClick?: () => void
+  href: string;
+  title: string;
+  onClick?: () => void;
 }) => (
-  <Link to={href} className={`${location.pathname === href ? 'text-white bg-[#9B2482]' : 'text-gray-800 hover:bg-gray-100'} block py-2 px-4 rounded w-full text-left`} onClick={onClick}>
+  <Link
+    to={href}
+    className={`${
+      location.pathname === href
+        ? "text-white bg-[#9B2482]"
+        : "text-gray-800 hover:bg-gray-100"
+    } block py-2 px-4 rounded w-full text-left`}
+    onClick={onClick}
+  >
     {title}
   </Link>
-)
+);
 
 export default function Navbar() {
-  const location = useLocation()
+  const location = useLocation();
 
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [locationDropdownOpen, setLocationDropdownOpen] = useState(false)
-  const [navDropdownOpen, setNavDropdownOpen] = useState(null)
-  const [toggle, setToggle] = useState(false)
-  const navigate = useNavigate()
-  const path = import.meta.env.VITE_APP_IMG_URL
-  const [navigateTo, setNavigateTo] = useState("")
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [locationDropdownOpen, setLocationDropdownOpen] = useState(false);
+  const [navDropdownOpen, setNavDropdownOpen] = useState(null);
+  const [toggle, setToggle] = useState(false);
+  const navigate = useNavigate();
+  const path = import.meta.env.VITE_APP_IMG_URL;
+  const [navigateTo, setNavigateTo] = useState("");
 
   const navigation = [
     {
@@ -57,15 +66,29 @@ export default function Navbar() {
     },
     {
       id: 3,
-      title: "Corporates",
+      title: "Brands",
       icon: FaCaretDown,
       items: [
-        { title: "MPT Hospitals" },
-        { title: "CGHS Hospitals" },
-        { title: "MJPJAY Hospitals" },
-        { title: "ESIC Hospitals" },
-        { title: "PMJAY Hospitals" },
-        { title: "Railway Hospitals" },
+        { title: "Fortis" },
+        { title: "Wockhardt" },
+        { title: "HCG Hospitals" },
+        { title: "Max Hospitals" },
+        { title: "Apollo Hospitals" },
+        { title: "Paras Healthcare" },
+        { title: "Narayana Health" },
+      ],
+    },
+    {
+      id: 4,
+      title: "Specialities",
+      icon: FaCaretDown,
+      items: [
+        { title: "General Surgery" },
+        { title: "Eyecare Centres" },
+        { title: "Pediatric Centres" },
+        { title: "Cardiology" },
+        { title: "Psychiatry" },
+        { title: "Psysiotherapy" },
       ],
     },
     {
@@ -83,6 +106,35 @@ export default function Navbar() {
     },
     {
       id: 6,
+      title:"Alternative Medicine",
+      icon: FaCaretDown,
+      items: [
+        {"title":"Ayurveda Centres"},
+        {"title":"Homeopathy Centres"},
+        {"title":"Yoga Centres"},
+        {"title":"Naturopathy Centres"},
+      ]
+    },
+    {
+      id : 7,
+      title: "Digital Health",
+    },
+    {
+      id: 8,
+      title: "Govt Schemes",
+    },
+    {
+      id: 9,
+      title: "More Services",
+    },
+    {
+      id: 10,
+      title: "Accrediations",
+    },
+
+
+    {
+      id: 11,
       title: "Health Concerns",
       icon: FaCaretDown,
       items: [
@@ -94,53 +146,53 @@ export default function Navbar() {
       ],
     },
     {
-      id: 7,
+      id: 12,
       title: "Insurance",
       path: "#",
     },
     {
-      id: 8,
+      id: 13,
       title: "TPA",
       path: "#",
     },
-  ]
-  const locations = ["Mumbai", "Bangalore", "Chennai", "Delhi"]
+  ];
+  const locations = ["Mumbai", "Bangalore", "Chennai", "Delhi"];
 
-  const [mobileDropdowns, setMobileDropdowns] = useState({})
-  const [hoveredItem, setHoveredItem] = useState(null)
+  const [mobileDropdowns, setMobileDropdowns] = useState({});
+  const [hoveredItem, setHoveredItem] = useState(null);
 
   useEffect(() => {
-    setToggle(false)
-  })
+    setToggle(false);
+  });
 
   const toggleNavDropdown = (id) => {
     if (window.innerWidth <= 768) {
-      setMobileDropdowns((prev) => ({ ...prev, [id]: !prev[id] }))
+      setMobileDropdowns((prev) => ({ ...prev, [id]: !prev[id] }));
     } else {
-      setNavDropdownOpen((prev) => (prev === id ? null : id))
+      setNavDropdownOpen((prev) => (prev === id ? null : id));
     }
-  }
+  };
 
   const dropdownVariants = {
     open: { opacity: 1, y: 0, height: "auto", transition: { duration: 0.3 } },
     closed: { opacity: 0, y: -10, height: 0, transition: { duration: 0.3 } },
-  }
+  };
 
   const checkIfLogin = (route: string) => {
-    const token = localStorage.getItem("token")
-    setNavigateTo(route)
-    console.log(route, toggle, token)
+    const token = localStorage.getItem("token");
+    setNavigateTo(route);
+    console.log(route, toggle, token);
     if (token !== null && !toggle) {
       //user logged in and no popup
-      navigate(route) //
+      navigate(route); //
     } else if (token !== null && toggle === true) {
       //user logged in and still popup
-      setToggle(false) // toggle not visible
+      setToggle(false); // toggle not visible
     } else if (token === null) {
       //user not logged in
-      setToggle(true) // toggle visible
+      setToggle(true); // toggle visible
     }
-  }
+  };
 
   return (
     <nav className="w-full bg-white p-3">
@@ -156,7 +208,11 @@ export default function Navbar() {
           </button>
 
           <Link to="/" className="flex items-center">
-            <img src={path + "HealthCare Nation 2.png" || "/placeholder.svg"} alt="Logo" className="h-12 w-auto" />
+            <img
+              src={path + "HealthCare Nation 2.png" || "/placeholder.svg"}
+              alt="Logo"
+              className="h-12 w-auto"
+            />
           </Link>
         </div>
 
@@ -173,7 +229,9 @@ export default function Navbar() {
                   <span className="hidden sm:inline">Location</span>
                 </div>
                 <FaCaretDown
-                  className={`h-5 w-5 flex-shrink-0 transition-transform ${locationDropdownOpen ? "rotate-180" : "rotate-0"}`}
+                  className={`h-5 w-5 flex-shrink-0 transition-transform ${
+                    locationDropdownOpen ? "rotate-180" : "rotate-0"
+                  }`}
                 />
               </button>
 
@@ -223,17 +281,19 @@ export default function Navbar() {
       <div className="hidden md:flex justify-center items-center my-3 mb-0">
         <ul className="flex justify-center items-start space-x-4">
           {navigation.map((item) => {
-            const Icon = item.icon
+            const Icon = item.icon;
             return (
               <li key={item.id} className="relative group">
                 <button
                   onMouseEnter={() => setHoveredItem(item.id)}
                   onMouseLeave={() => setHoveredItem(null)}
                   onClick={() => {
-                    if (item.path) navigate(item.path)
+                    if (item.path) navigate(item.path);
                   }}
                   className={`${
-                    location.pathname === item.path ? "text-[#9B2482]" : "text-gray-700"
+                    location.pathname === item.path
+                      ? "text-[#9B2482]"
+                      : "text-gray-700"
                   } flex items-center font-semibold cursor-pointer relative`}
                 >
                   {item.title}
@@ -274,7 +334,7 @@ export default function Navbar() {
                   </motion.div>
                 )}
               </li>
-            )
+            );
           })}
         </ul>
       </div>
@@ -291,16 +351,23 @@ export default function Navbar() {
           >
             <div className="flex justify-between items-center p-4 border-b">
               <Link to="/" className="flex items-center">
-                <img src={path + "HealthCare Nation 2.png" || "/placeholder.svg"} alt="Logo" className="h-10 w-auto" />
+                <img
+                  src={path + "HealthCare Nation 2.png" || "/placeholder.svg"}
+                  alt="Logo"
+                  className="h-10 w-auto"
+                />
               </Link>
-              <button onClick={() => setIsMobileMenuOpen(false)} className="text-gray-600 hover:text-gray-800">
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-gray-600 hover:text-gray-800"
+              >
                 <X size={24} />
               </button>
             </div>
 
             <div className="p-4">
               {navigation.map((item) => {
-                const Icon = item.icon
+                const Icon = item.icon;
                 return (
                   <div key={item.id} className="mb-4">
                     <button
@@ -310,7 +377,9 @@ export default function Navbar() {
                       <span>{item.title}</span>
                       {Icon && (
                         <Icon
-                          className={`h-4 w-4 flex-shrink-0 transition-transform ${mobileDropdowns[item.id] ? "rotate-180" : ""}`}
+                          className={`h-4 w-4 flex-shrink-0 transition-transform ${
+                            mobileDropdowns[item.id] ? "rotate-180" : ""
+                          }`}
                         />
                       )}
                     </button>
@@ -332,13 +401,12 @@ export default function Navbar() {
                       </motion.div>
                     )}
                   </div>
-                )
+                );
               })}
             </div>
           </motion.div>
         )}
       </AnimatePresence>
     </nav>
-  )
+  );
 }
-

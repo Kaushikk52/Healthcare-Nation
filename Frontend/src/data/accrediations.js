@@ -10,7 +10,7 @@ const servicesByAccrediations = [
     },
     {
       title: "Organizations Accredited by Largest Gold Certified Green Hospital",
-      image: "IGBG-GOLD.jpeg",
+      image: "accrediations/nabl-accreditation-service.jpg",
     },
   ];
 
