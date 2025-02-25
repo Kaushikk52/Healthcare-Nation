@@ -106,7 +106,7 @@ function Home() {
           {/* POPULAR HEALTHCARE BRANDS IN INDIA HEADING AND EXPLORE MORE BUTTON*/}
           <div className="flex justify-between items-start lg:items-center !mt-10">
             <h3 className="!text-lg  min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
-              Popular Healthcare Brands In India
+              Hospitals/Services by Healthcare Brands in India
             </h3>
             <Link
               to={"/brands-in-india"}
@@ -142,7 +142,7 @@ function Home() {
           {/*  SERVICES BY SPECIALITIES HEADING AND EXPLORE MORE BUTTON */}
           <div className="flex justify-between items-start !mt-14">
             <h3 className="!text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
-              Specialities
+            Hospitals/Services by Specialities
             </h3>
             <Link
               to={"/services"}
@@ -179,7 +179,7 @@ function Home() {
               },
             }}
           >
-            {servicesBySpecialities.slice(0, 10).map((service, index) => (
+            {servicesBySpecialities.slice(0, 18).map((service, index) => (
               <SwiperSlide key={index} className="!mt-6">
                 <div className="group">
                   <Link style={{ textDecoration: "none" }} to={"/"} className="">
@@ -224,7 +224,7 @@ function Home() {
             }}
             className="!mt-0"
           >
-            {servicesBySpecialities.slice(10).map((service, index) => (
+            {servicesBySpecialities.slice(19).map((service, index) => (
               <SwiperSlide key={index} className="!mt-4">
                 <div className="group">
                   <Link style={{ textDecoration: "none" }} to={"/"} className="">
@@ -250,7 +250,7 @@ function Home() {
           {/* DIAGNOSTIC CENTRES NEAR YOU HEADING AND EXPLORE MORE BUTTON  */}
           <div className="flex justify-between items-start lg:items-center !mt-10">
             <h3 className="!text-lg  min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
-              Diagnostic Centres Near You
+              Diagnostic & Laboratory Services
             </h3>
             <Link
               to={"/diagnostic-centers"}
@@ -293,7 +293,7 @@ function Home() {
           {/* ALTERNATIVE MEDICINE HEADING AND EXPLORE MORE BUTTON  */}
           <div className="flex justify-between items-start lg:items-center !mt-10">
             <h3 className="text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
-              Alternative Medicine
+              Alternative & Complementary Medicine Services
             </h3>
             <Link
               to={"/alternative-medicines"}
@@ -333,7 +333,7 @@ function Home() {
           {/* ONLINE HEALTHCARE SERVICES HEADING AND EXPLORE MORE BUTTON  */}
           <div className="flex justify-between items-center lg:items-center">
             <h3 className="!text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
-              Online Healthcare Services
+              Online Consultation & Digital Health Services
             </h3>
             <Link
               to={"/online-healthcare-services"}
@@ -373,7 +373,7 @@ function Home() {
           {/* PUBLIC SECTOR CORPORATES HEADING AND EXPLORE MORE BUTTON  */}
           <div className="flex justify-between items-start lg:items-center !mt-10">
             <h3 className="!text-lg  min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
-              Public Sector Corporates
+              Hospitals/Services covered by Public Sector health schemes
             </h3>
             <Link
               to={"/public-sector-corporates"}
@@ -466,7 +466,7 @@ function Home() {
           {/* SERVICES BY ACCREDITATIONS HEADING  */}
           <div className="flex justify-between items-start lg:items-center !mt-10">
             <h3 className="text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
-              Services By Accreditations
+              Hospitals/Services By Accreditations
             </h3>
           </div>
 
@@ -499,7 +499,7 @@ function Home() {
           {/* SERVICES BY HEALTH CONCERN AND EXPLORE MORE BUTTON  */}
           <div className="flex justify-between items-start lg:items-center !mt-10">
             <h3 className="text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
-              Services By Health Concern
+              Hospitals/Services By Health Concern
             </h3>
             <Link
               to={"/health-concern"}
@@ -579,7 +579,7 @@ function Home() {
           {/* CHOOSE YOUR HEALTH INSURANCE AND EXPLORE MORE BUTTON */}
           <div className="flex justify-between items-start !mt-10">
             <h3 className="text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
-              Choose Your Health Insurance
+              Hospitals/Services covered by Health Insurance
             </h3>
             <Link
               to={"/health-insurance"}
@@ -616,7 +616,7 @@ function Home() {
           {/* CHOOSE YOUR TPA AND EXPLORE MORE BUTTON */}
           <div className="flex justify-between items-start !mt-10">
             <h3 className="text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
-              Choose Your TPA
+              Hospitals/Services covered by TPA
             </h3>
             <Link
               to={"/tpa"}

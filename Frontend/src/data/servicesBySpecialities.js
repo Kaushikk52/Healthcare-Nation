@@ -11,6 +11,7 @@ const servicesBySpecialities = [
     { id: 10, title: 'Radiatio oncology', image: 'specialities/Radiatio-oncology.jpg', },
 
 
+
     { id: 11, title: 'Dermatology', image: 'Skincare-Centres1.jpg', },
     { id: 12, title: 'Dietetics', image: 'specialities/Dietetics.jpg', },
     { id: 13, title: "Nephrology", image: 'Kidney-care-Centres.png' },
@@ -32,7 +33,11 @@ const servicesBySpecialities = [
     { id: 29, title: 'Test Tube Baby Centres', image: 'Test-Tube-Baby-Centres1.jpg', },
     { id: 30, title: 'Dentistry', image: 'specialities/Dentistry.jpg', },
     { id: 31, title: 'Critical Care', image: 'specialities/Critical-Care.jpg', },
-
+    { id: 32, title: 'Hepatology', image: 'specialities/Hepatology.jpg', },
+    { id: 33, title: 'Medical Gastroenterology', image: 'specialities/Medical Gastroenterology.jpg', },
+    { id: 34, title: 'Mental Health', image: 'specialities/Mental Health.jpg', },
+    { id: 35, title: 'Neonatology', image: 'specialities/Neonatology.jpg', },
+    { id: 36, title: 'Oncosurgery', image: 'specialities/Oncosurgery.jpg', },
 ]
 
 export default servicesBySpecialities;
