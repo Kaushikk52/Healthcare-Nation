@@ -43,10 +43,10 @@ function Home() {
         <div className="!mt-10">
           {/* HEALTHCARE SERVICES HEADING AND EXPLORE MORE BUTTON  */}
           <div className="flex justify-between items-start lg:items-center !space-x-2">
-            <h3 className="!text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
+            <h2 className="!text-gray-700 !px-1">
               {" "}
               Healthcare Services
-            </h3>
+            </h2>
             <Link
               to={"/healthcare-services"}
               style={{
