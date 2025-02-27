@@ -224,8 +224,8 @@ export default function Navbar() {
           <AuthPopup popup={toggle} navigateTo={navigateTo} />
           <button className="!flex !items-center space-x-2"
           onClick={() => checkIfLogin("/dashboard/hospital")}>
-            {/* <User className="h-6 w-6" /> */}
-            <span >Sign in / Sign up </span> 
+            <User className="h-6 w-6" />
+            <span >Sign in </span> 
           </button>
         </div>
       </div>

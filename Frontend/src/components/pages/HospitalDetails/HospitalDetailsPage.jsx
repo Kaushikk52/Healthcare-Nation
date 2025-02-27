@@ -65,31 +65,6 @@ const HospitalDetailsPage = () => {
 
     return (
         <div className='lg:max-w-5xl xl:max-w-6xl !mx-auto !px-4'>
-            {/*Main Image Gird */}
-            {/* <div className='!grid !grid-cols-12 !gap-2 sm:!gap-4 lg:!gap-4 !py-4'>
-                <div className='!col-span-12 lg:!col-span-8'>
-                    <img src={Main_Hospital_Image} alt='main hospital' className='!h-[240px] min-[425px]:!h-[280px] sm:!h-[380px] lg:!h-[510px] !w-full !rounded-sm !object-cover' />
-                </div>
-                <div className='!grid !grid-cols-2 !gap-2 sm:!gap-3 md:!gap-4 lg:!gap-0 !col-span-12 lg:!col-span-4 lg:!flex lg:!flex-col lg:!justify-between lg:!space-y-4'>
-                    <div>
-                        <img src={Patint_Room} alt='Patient Room' className='!h-full !w-full !object-cover !object-center !rounded-sm' />
-                    </div>
-                    <div
-                        style={{
-                            backgroundImage: `url(${Hallway})`,
-                        }}
-                        className="!relative !h-full !w-full !bg-cover !bg-center !rounded-sm"
-                    >
-                        <div className="!absolute !inset-0 !bg-[rgba(0,0,0,0.5)] !flex !justify-center !items-center">
-                            <div className="!flex !flex-col !justify-center !items-center !text-white !text-2xl">
-                                <span>+</span>
-                                <span>15 more</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div> */}
 
             <div className='!grid !grid-cols-12 !gap-2 sm:!gap-4 lg:!gap-3 !py-4 '>
                 <div className='!col-span-12 lg:!col-span-8'>
@@ -124,7 +99,7 @@ const HospitalDetailsPage = () => {
                 {/* Left Side */}
                 <div className='!flex !flex-col !justify-center !space-y-1.5'>
                     <span className='!text-2xl lg:!text-4xl !font-medium !text-wrap'>Kokilaben Dhirubhai Ambani Hospital</span>
-                    <span className='!text-md lg:!text-xl !font-medium text-gray-600'>Andheri, Mumbai</span>
+                    {/* <span className='!text-md lg:!text-xl !font-medium text-gray-600'>Andheri, Mumbai</span> */}
                     <span className='!text-md lg:!text-xl !font-medium text-gray-600'>MultiSpeciality hospital</span>
                     <span className='!text-md lg:!text-xl !font-medium text-gray-600'>700 Beds</span>
                 </div>
