@@ -38,15 +38,15 @@ function Home() {
 
   return (
     <>
-      <div className="!max-w-4xl xl:!max-w-7xl !mx-auto !px-4">
+      <div className="!max-w-4xl lg:!max-w-5xl xl:!max-w-6xl !mx-auto !px-4 lg:!px-10 xl:!px-10">
         {/* HEALTHCARE SERVICES SECTION */}
         <div className="!mt-10">
           {/* HEALTHCARE SERVICES HEADING AND EXPLORE MORE BUTTON  */}
           <div className="flex justify-between items-start lg:items-center !space-x-2">
-            <h3 className="!text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
+            <h2 className="text-gray-700 px-1 homepage-section-heading">
               {" "}
               Healthcare Services
-            </h3>
+            </h2>
             <Link
               to={"/healthcare-services"}
               style={{
@@ -85,7 +85,7 @@ function Home() {
                       <img
                         src={path + service.image}
                         alt={service.title}
-                        className="!rounded-xl !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-36 xl:!h-52 !w-full object-cover"
+                        className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
                       />
                       <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                         {service.title}
@@ -102,9 +102,9 @@ function Home() {
         <div className="!mt-10">
           {/* POPULAR HEALTHCARE BRANDS IN INDIA HEADING AND EXPLORE MORE BUTTON*/}
           <div className="flex justify-between items-start lg:items-center !mt-10">
-            <h3 className="!text-lg  min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
+            <h2 className="text-gray-700 px-1 homepage-section-heading">
               Hospitals/Services by Healthcare Brands in India
-            </h3>
+            </h2>
             <Link
               to={"/brands-in-india"}
               style={{
@@ -125,7 +125,7 @@ function Home() {
                     <img
                       src={path + brand.image}
                       alt={brand.name}
-                      className="rounded-full !h-32 !w-32 min-[425px]:!h-36 min-[425px]:!w-36 sm:!h-36 sm:!w-36 md:!h-40 md:!w-40 lg:!h-32 lg:!w-32 xl:!h-44 xl:!w-44 object-contain"
+                      className="rounded-full shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
                     />
                   </div>
                 </a>
@@ -138,9 +138,9 @@ function Home() {
         <div className="!mt-10">
           {/*  SERVICES BY SPECIALITIES HEADING AND EXPLORE MORE BUTTON */}
           <div className="flex justify-between items-start !mt-14">
-            <h3 className="!text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
+            <h2 className="text-gray-700 px-1 homepage-section-heading">
               Hospitals/Services by Specialities
-            </h3>
+            </h2>
             <Link
               to={"/services"}
               style={{
@@ -188,8 +188,8 @@ function Home() {
                       <img
                         src={path + service.image}
                         alt={service.title}
-                        className="!rounded-xl !object-cover !w-full !aspect-[3/2]"
-                      />
+                        className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
+                                              />
                     </div>
                     <p className="!text-base sm:!text-lg lg:!text-sm xl:text-base font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482] !px-1">
                       {service.title}{" "}
@@ -237,8 +237,8 @@ function Home() {
                       <img
                         src={path + service.image}
                         alt={service.title}
-                        className="!rounded-xl !object-cover !w-full !aspect-[3/2]"
-                      />
+                        className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
+                                              />
                     </div>
                     <p className="!text-base sm:!text-lg lg:!text-sm xl:!text-base font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482] !px-1">
                       {service.title}{" "}
@@ -254,9 +254,9 @@ function Home() {
         <div className="!mt-10">
           {/* DIAGNOSTIC CENTRES NEAR YOU HEADING AND EXPLORE MORE BUTTON  */}
           <div className="flex justify-between items-start lg:items-center !mt-10">
-            <h3 className="!text-lg  min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
+            <h2 className="text-gray-700 px-1 homepage-section-heading">
               Diagnostic & Laboratory Services
-            </h3>
+            </h2>
             <Link
               to={"/diagnostic-centers"}
               style={{
@@ -299,8 +299,7 @@ function Home() {
                               : "/default-image.jpg"
                           }
                           alt={center.title || "Diagnostic Centre"}
-                          className="rounded-full object-cover h-32 w-32 sm:h-36 sm:w-36 md:h-40 md:w-40 lg:h-32 lg:w-32 xl:h-44 xl:w-44"
-                        />
+                          className="rounded-full aspect-square object-cover shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"                        />
                       </div>
                       <p className="text-base sm:text-lg lg:text-sm xl:text-base font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482]">
                         {center.title}
@@ -317,9 +316,9 @@ function Home() {
         <div className="!mt-10">
           {/* ALTERNATIVE MEDICINE HEADING AND EXPLORE MORE BUTTON  */}
           <div className="flex justify-between items-start lg:items-center !mt-10">
-            <h3 className="text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
+            <h2 className="text-gray-700 px-1 homepage-section-heading">
               Alternative & Complementary Medicine Services
-            </h3>
+            </h2>
             <Link
               to={"/alternative-medicines"}
               style={{
@@ -343,8 +342,8 @@ function Home() {
                   <img
                     src={path + item.image}
                     alt={item.title}
-                    className="!rounded-lg !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-40 xl:!h-52 !w-full !aspect-[3/2] !object-fit"
-                  />
+                    className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
+                    />
                   <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {item.title}
                   </p>
@@ -358,9 +357,9 @@ function Home() {
         <div className="!mt-10">
           {/* ONLINE HEALTHCARE SERVICES HEADING AND EXPLORE MORE BUTTON  */}
           <div className="flex justify-between items-center lg:items-center">
-            <h3 className="!text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
+            <h2 className="text-gray-700 px-1 homepage-section-heading">
               Online Consultation & Digital Health Services
-            </h3>
+            </h2>
             <Link
               to={"/online-healthcare-services"}
               style={{
@@ -384,8 +383,8 @@ function Home() {
                   <img
                     src={path + service.image}
                     alt={service.title}
-                    className="!rounded-lg !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-44 xl:!h-64 !w-full !aspect-[3/2] !object-fit"
-                  />
+                    className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
+                    />
                   <p className="!text-base min-[425px]:!text-lg sm:!text-base md:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {service.title}
                   </p>
@@ -398,10 +397,10 @@ function Home() {
         {/* PUBLIC SECTOR CORPORATES SECTION */}
         <div className="!mt-10">
           {/* PUBLIC SECTOR CORPORATES HEADING AND EXPLORE MORE BUTTON  */}
-          <div className="flex justify-between items-start lg:items-center !mt-10">
-            <h3 className="!text-lg  min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
+          <div className="flex justify-between items-start lg:items-start xl:items-center !mt-10">
+            <h2 className="text-gray-700 px-1 homepage-section-heading lg:max-w-2xl xl:max-w-full">
               Hospitals/Services covered by Public Sector health schemes
-            </h3>
+            </h2>
             <Link
               to={"/public-sector-corporates"}
               style={{
@@ -428,8 +427,8 @@ function Home() {
                     <img
                       src={path + corporate.image}
                       alt="Diagnostic Centre image"
-                      className={` rounded-full !h-32 !w-32 min-[425px]:!h-36 min-[425px]:!w-36 sm:!h-36 sm:!w-36 md:!h-40 md:!w-40 lg:!h-32 lg:!w-32 xl:!h-[186px] xl:!w-[186px] !object-fit`}
-                    />
+                      className="rounded-full aspect-square shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
+                      />
                   </div>
                   <p className="!text-sm  min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-center sm:!text-center !font-semibold !mt-2 !px-0 !text-gray-700 group-hover:!text-[#9b2482]">
                     {corporate.title}
@@ -444,9 +443,9 @@ function Home() {
         <div className="!mt-10">
           {/* MORE SERVICES HEADING AND EXPLORE MORE BUTTON  */}
           <div className="flex justify-between items-start lg:items-center !mt-10">
-            <h3 className="text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
+            <h2 className="text-gray-700 px-1 homepage-section-heading">
               More Services
-            </h3>
+            </h2>
             <Link
               to={"/more-services"}
               style={{
@@ -470,8 +469,8 @@ function Home() {
                   <img
                     src={path + service.image}
                     alt={service.title}
-                    className="!rounded-lg !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-36 xl:!h-52 !w-full !aspect-[3/2] !object-fit"
-                  />
+                    className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
+                    />
                   <p className="!text-sm min-[425px]:!text-lg sm:!text-base md:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {service.title}
                   </p>
@@ -482,11 +481,11 @@ function Home() {
         </div>
 
         {/* HEALTH CHECKUP IMAGE */}
-        <div className="!mt-10 hidden sm:!block">
+        <div className="!mt-10 ">
           <img
             src={path + "Health-Checkup.jpg"}
             alt="health checkup image"
-            className="!rounded-xl sm:!h-56 md:!h-64 lg:!h-64 xl:!h-80 !w-full !aspect-[3/2] !object-fit"
+            className="!rounded-xl !h-36 sm:!h-52 md:!h-56 lg:!h-60 xl:!h-72 !w-full !aspect-[3/2] !object-fit"
           />
         </div>
 
@@ -494,9 +493,9 @@ function Home() {
         <div className="!mt-10">
           {/* SERVICES BY ACCREDITATIONS HEADING  */}
           <div className="flex justify-between items-start lg:items-center !mt-10">
-            <h3 className="text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
+            <h2 className="text-gray-700 px-1 homepage-section-heading">
               Hospitals/Services By Accreditations
-            </h3>
+            </h2>
           </div>
 
           {/* SERVICES BY ACCREDITATIONS GRID IMAGES AND TITLE */}
@@ -527,9 +526,9 @@ function Home() {
         <div className="!mt-10">
           {/* SERVICES BY HEALTH CONCERN AND EXPLORE MORE BUTTON  */}
           <div className="flex justify-between items-start lg:items-center !mt-10">
-            <h3 className="text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
+            <h2 className="text-gray-700 px-1 homepage-section-heading">
               Hospitals/Services By Health Concern
-            </h3>
+            </h2>
             <Link
               to={"/health-concern"}
               style={{
@@ -543,56 +542,56 @@ function Home() {
 
           {/* SERVICES BY HEALTH CONCERN GRID IMAGES AND TITLE */}
           <div className=" !mt-4">
-          <Swiper
-            modules={[Navigation, Pagination, Autoplay, A11y]}
-            spaceBetween={16}
-            slidesPerView={5}
-            loop={true}
-            // pagination={{ clickable: true, dynamicBullets: true }}
-            navigation
-            autoplay={{ delay: 10000 }}
-            breakpoints={{
-              0: {
-                slidesPerView: 1,
-              },
-              520: {
-                slidesPerView: 2,
-              },
-              768: {
-                slidesPerView: 2,
-              },
-              1024: {
-                slidesPerView: 4,
-              },
-            }}
-            className="!mt-0"
-          >
-            {servicesByHealthConcern.map((service, index) => (
-              <SwiperSlide key={index} className="!mt-4">
-              <div key={index} className="group">
-                <Link
-                  to={"/"}
-                  style={{ textDecoration: "none" }}
-                  className="cursor-pointer"
-                >
-                  <img
-                    src={path + service.image}
-                    alt={service.title}
-                    className="!rounded-lg !h-64 sm:!h-68 md:!h-[310px] lg:!h-44 xl:!h-56 !w-full !aspect-square !object-fit"
-                  />
-                  <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
-                    {service.title}
-                  </p>
-                </Link>
-              </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+            <Swiper
+              modules={[Navigation, Pagination, Autoplay, A11y]}
+              spaceBetween={16}
+              slidesPerView={5}
+              loop={true}
+              // pagination={{ clickable: true, dynamicBullets: true }}
+              navigation
+              autoplay={{ delay: 10000 }}
+              breakpoints={{
+                0: {
+                  slidesPerView: 1,
+                },
+                520: {
+                  slidesPerView: 2,
+                },
+                768: {
+                  slidesPerView: 2,
+                },
+                1024: {
+                  slidesPerView: 4,
+                },
+              }}
+              className="!mt-0"
+            >
+              {servicesByHealthConcern.map((service, index) => (
+                <SwiperSlide key={index} className="!mt-4">
+                  <div key={index} className="group">
+                    <Link
+                      to={"/"}
+                      style={{ textDecoration: "none" }}
+                      className="cursor-pointer"
+                    >
+                      <img
+                        src={path + service.image}
+                        alt={service.title}
+                        className="rounded-[10px] aspect-square shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl object-cover"
+                      />
+                      <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
+                        {service.title}
+                      </p>
+                    </Link>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
 
 
 
 
-            
+
           </div>
         </div>
 
@@ -600,9 +599,9 @@ function Home() {
         <div className="!mt-10">
           {/* POPULAR HOSPITALS IN INDIA AND EXPLORE MORE BUTTON */}
           <div className="flex justify-between items-start lg:items-center !mt-10">
-            <h3 className="text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
+            <h2 className="text-gray-700 px-1 homepage-section-heading">
               Popular Hospitals In India
-            </h3>
+            </h2>
             <Link
               to={"/popular-hospitals"}
               style={{
@@ -626,8 +625,8 @@ function Home() {
                   <img
                     src={path + hospital.image}
                     alt={hospital.title}
-                    className="!rounded-lg !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-36 xl:!h-52 !w-full !aspect-[3/2] !object-fit"
-                  />
+                    className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
+                    />
                   <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {hospital.title}
                   </p>
@@ -641,9 +640,9 @@ function Home() {
         <div className="!mt-10">
           {/* CHOOSE YOUR HEALTH INSURANCE AND EXPLORE MORE BUTTON */}
           <div className="flex justify-between items-start !mt-10">
-            <h3 className="text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
+            <h2 className="text-gray-700 px-1 homepage-section-heading">
               Hospitals/Services covered by Health Insurance
-            </h3>
+            </h2>
             <Link
               to={"/health-insurance"}
               style={{
@@ -666,8 +665,8 @@ function Home() {
                   <img
                     src={path + insurance.image}
                     alt="insurance images"
-                    className="!rounded-lg !h-24 sm:!h-28 md:!h-32 lg:!h-20 xl:!h-28 !w-full !aspect-[3/2] !object-fit"
-                  />
+                    className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
+                    />
                 </Link>
               </div>
             ))}
@@ -678,9 +677,9 @@ function Home() {
         <div className="!mt-10">
           {/* CHOOSE YOUR TPA AND EXPLORE MORE BUTTON */}
           <div className="flex justify-between items-start !mt-10">
-            <h3 className="text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
+            <h2 className="text-gray-700 px-1 homepage-section-heading">
               Hospitals/Services covered by TPA
-            </h3>
+            </h2>
             <Link
               to={"/tpa"}
               style={{
@@ -703,8 +702,8 @@ function Home() {
                   <img
                     src={path + tpa.image}
                     alt="tpa images"
-                    className="!rounded-lg !h-24 sm:!h-28 md:!h-32 lg:!h-20 xl:!h-28 !w-full !aspect-[3/2] !object-fit"
-                  />
+                    className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
+                    />
                 </Link>
               </div>
             ))}
