@@ -40,7 +40,7 @@ export default function Services() {
   return (
     <>
 
-      <div className='!max-w-7xl !container !mx-auto !px-4'>
+      <div className="!max-w-4xl lg:!max-w-5xl xl:!max-w-6xl !mx-auto !px-4 lg:!px-10 xl:!px-10">
         <div className='!mt-10 mb-16'>
           {/*HEADING AND SORT BUTTON  */}
           <div className='!flex !justify-between !items-center !mt-10'>
@@ -73,9 +73,11 @@ export default function Services() {
                   <img
                     src={path + service.image}
                     alt={service.title}
-                    className='!rounded-lg !h-48 min-[375px]:!h-52 min-[425px]:!h-64 sm:!h-52 md:!h-60 lg:!h-40 xl:!h-52 !w-full !aspect-[3/2] !object-fit'
+                    className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
                   />
-                  <p className='!text-sm min-[425px]:!text-lg sm:!text-base md:!text-lg lg:!text-base xl:!text-lg !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]'>{service.title}</p>
+                  <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
+                  {service.title}
+                  </p>
                 </Link>
               </div>
             )}
