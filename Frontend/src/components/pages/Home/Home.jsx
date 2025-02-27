@@ -189,7 +189,7 @@ function Home() {
                         src={path + service.image}
                         alt={service.title}
                         className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
-                                              />
+                      />
                     </div>
                     <p className="!text-base sm:!text-lg lg:!text-sm xl:text-base font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482] !px-1">
                       {service.title}{" "}
@@ -238,7 +238,7 @@ function Home() {
                         src={path + service.image}
                         alt={service.title}
                         className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
-                                              />
+                      />
                     </div>
                     <p className="!text-base sm:!text-lg lg:!text-sm xl:!text-base font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482] !px-1">
                       {service.title}{" "}
@@ -299,7 +299,7 @@ function Home() {
                               : "/default-image.jpg"
                           }
                           alt={center.title || "Diagnostic Centre"}
-                          className="rounded-full aspect-square object-cover shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"                        />
+                          className="rounded-full aspect-square object-cover shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl" />
                       </div>
                       <p className="text-base sm:text-lg lg:text-sm xl:text-base font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482]">
                         {center.title}
@@ -343,7 +343,7 @@ function Home() {
                     src={path + item.image}
                     alt={item.title}
                     className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
-                    />
+                  />
                   <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {item.title}
                   </p>
@@ -384,7 +384,7 @@ function Home() {
                     src={path + service.image}
                     alt={service.title}
                     className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
-                    />
+                  />
                   <p className="!text-base min-[425px]:!text-lg sm:!text-base md:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {service.title}
                   </p>
@@ -428,7 +428,7 @@ function Home() {
                       src={path + corporate.image}
                       alt="Diagnostic Centre image"
                       className="rounded-full aspect-square shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
-                      />
+                    />
                   </div>
                   <p className="!text-sm  min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-center sm:!text-center !font-semibold !mt-2 !px-0 !text-gray-700 group-hover:!text-[#9b2482]">
                     {corporate.title}
@@ -470,7 +470,7 @@ function Home() {
                     src={path + service.image}
                     alt={service.title}
                     className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
-                    />
+                  />
                   <p className="!text-sm min-[425px]:!text-lg sm:!text-base md:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {service.title}
                   </p>
@@ -626,7 +626,7 @@ function Home() {
                     src={path + hospital.image}
                     alt={hospital.title}
                     className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
-                    />
+                  />
                   <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
                     {hospital.title}
                   </p>
@@ -666,7 +666,7 @@ function Home() {
                     src={path + insurance.image}
                     alt="insurance images"
                     className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
-                    />
+                  />
                 </Link>
               </div>
             ))}
@@ -703,7 +703,7 @@ function Home() {
                     src={path + tpa.image}
                     alt="tpa images"
                     className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
-                    />
+                  />
                 </Link>
               </div>
             ))}
