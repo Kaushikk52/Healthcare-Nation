@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaStar, FaFilter, FaChevronDown } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { Slider } from "@/components/ui/slider";
+import { DualRangeSlider } from "@/components/ui/DualRangeSlider";
 import { X, ChevronDown } from "lucide-react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -456,7 +456,7 @@ export default function ServiceListing() {
                             />
                           </div>
                         </div>
-                        <Slider
+                        <DualRangeSlider
                           value={bedRange}
                           max={500}
                           min={0}
