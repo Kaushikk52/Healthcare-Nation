@@ -395,7 +395,7 @@ export default function ServiceListing() {
             </div>
         <div className="flex gap-6">
           {/* Desktop Filters */}
-          <div className="hidden md:block w-64 flex-shrink-0">
+          <div className="hidden md:block w-72 flex-shrink-0">
             <div className="bg-white rounded-lg shadow-sm border p-6">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-semibold">Filters</h2>
