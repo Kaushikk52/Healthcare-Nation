@@ -10,9 +10,9 @@ const HealthInsurance = () => {
         <div className="!max-w-4xl lg:!max-w-5xl xl:!max-w-6xl !mx-auto !px-4 lg:!px-10 xl:!px-10 !mb-10">
             {/* CHOOSE YOUR HEALTH INSURANCE AND EXPLORE MORE BUTTON */}
             <div className="flex justify-center items-start !mb-10">
-                <h3 className="text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-2xl !font-semibold !text-gray-700 !px-1">
-                    Choose Your Health Insurance
-                </h3>
+                <h2 className="text-gray-700 px-1 homepage-section-heading">
+                Hospitals/Services covered by Health Insurance
+                </h2>
                 {/* <Link
                 to={"/"}
                 style={{
@@ -36,7 +36,7 @@ const HealthInsurance = () => {
                                 src={path + insurance.image}
                                 alt="insurance images"
                                 className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
-                                />
+                            />
                         </Link>
                     </div>
                 ))}

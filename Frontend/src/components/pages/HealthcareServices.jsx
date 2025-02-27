@@ -9,10 +9,10 @@ const HealthcareServices = () => {
         <div className="!max-w-4xl lg:!max-w-5xl xl:!max-w-6xl !mx-auto !px-4 lg:!px-10 xl:!px-10">
 
             {/* HEALTHCARE SERVICES HEADING AND EXPLORE MORE BUTTON  */}
-            <div className="flex justify-center items-start lg:items-center !space-x-2 !mb-10">
-                <h3 className="!text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
+            <div className="flex justify-center items-start lg:items-center !space-x-2 !mb-6">
+                <h2 className="text-gray-700 px-1 homepage-section-heading">
                     Healthcare Services
-                </h3>
+                </h2>
                 {/* <Link
                     to={"/"}
                     style={{
@@ -24,7 +24,7 @@ const HealthcareServices = () => {
                 </Link> */}
             </div>
 
-            <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 xl:!grid-cols-4 !gap-x-3.5 !gap-y-3 !mt-4 !mb-10">
+            <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 xl:!grid-cols-4 !gap-x-3.5 !gap-y-3 !mb-10">
                 {healthcareServices.map((service, index) => (
                     <div key={index} className="group">
                         <Link to={`${service.path}`}

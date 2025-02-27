@@ -9,9 +9,9 @@ const DiagnosticCenters = () => {
     <div className="!max-w-4xl lg:!max-w-5xl xl:!max-w-6xl !mx-auto !px-4 lg:!px-10 xl:!px-10">
       {/* DIAGNOSTIC CENTRES NEAR YOU HEADING AND EXPLORE MORE BUTTON  */}
       <div className="flex justify-center items-start lg:items-center !mb-10">
-        <h3 className="!text-lg  min-[425px]:!text-2xl lg:!text-xl xl:!text-2xl !font-semibold !text-gray-700 !px-1">
-          Diagnostic Centres Near You
-        </h3>
+        <h2 className="text-gray-700 px-1 homepage-section-heading">
+          Diagnostic & Laboratory Services
+        </h2>
         {/* <Link
           to={"/diagnostic-centers"}
           style={{
