@@ -58,10 +58,7 @@ const hospitalDetails = [
   {
     id: 1,
     hName: "Kokilaben Hospital",
-    images: [
-      "demo/Kokliaben-hospital.jpeg",
-      "demo/Kokliaben-hospital.jpeg"
-    ],
+    images: ["demo/Kokliaben-hospital.jpeg", "demo/Kokliaben-hospital.jpeg"],
     location: "Andheri",
     city: "Mumbai",
     beds: "323",
@@ -76,8 +73,7 @@ const hospitalDetails = [
     hName: "Hiranandani Hospital",
     images: [
       "demo/hiranandani-hospital.jpeg",
-      "demo/hiranandani-hospital.jpeg"
-
+      "demo/hiranandani-hospital.jpeg",
     ],
     location: "Powai",
     city: "Mumbai",
@@ -102,7 +98,9 @@ export default function ServiceListing() {
   const [sortBy, setSortBy] = useState("relevance");
   const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
   const [bedRange, setBedRange] = useState([0, 500]);
-  const [expandedSections, setExpandedSections] = useState(filters.map((filter) => filter.title));
+  const [expandedSections, setExpandedSections] = useState(
+    filters.map((filter) => filter.title)
+  );
   const [bedRangeInput, setBedRangeInput] = useState({ min: "0", max: "500" });
   const path = import.meta.env.VITE_APP_IMG_URL;
 
@@ -154,7 +152,7 @@ export default function ServiceListing() {
               <li className="inline-flex items-center">
                 <a
                   href="#"
-                  className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-green-600"
+                  className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600"
                 >
                   Home
                 </a>
@@ -178,7 +176,7 @@ export default function ServiceListing() {
                   </svg>
                   <a
                     href="#"
-                    className="ml-1 text-sm font-medium text-gray-700 hover:text-green-600 md:ml-2"
+                    className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2"
                   >
                     Mumbai
                   </a>
@@ -212,7 +210,7 @@ export default function ServiceListing() {
       </div>
 
       {/* Banner */}
-      <div className="relative h-48 md:h-64 lg:h-96 overflow-hidden">
+      {/* <div className="relative h-48 md:h-64 lg:h-96 overflow-hidden">
         <img
           src={path + "demo/pediatric-banner2.jpg"}
           alt="Pediatric Hospital Banner"
@@ -223,7 +221,7 @@ export default function ServiceListing() {
             Pediatric Hospitals in Mumbai
           </h1>
         </div>
-      </div>
+      </div> */}
 
       {/* Mobile Filter Overlay */}
       <AnimatePresence>
@@ -247,7 +245,7 @@ export default function ServiceListing() {
                 <div className="flex items-center gap-4">
                   <button
                     onClick={clearAllFilters}
-                    className="text-green-500 text-sm hover:text-green-600"
+                    className="text-blue-500 text-sm hover:text-blue-600"
                   >
                     Clear all
                   </button>
@@ -340,8 +338,8 @@ export default function ServiceListing() {
                                                         selectedFilters.includes(
                                                           option.id
                                                         )
-                                                          ? "border-green-500 bg-green-500"
-                                                          : "border-gray-300 group-hover:border-green-500"
+                                                          ? "border-blue-500 bg-blue-500"
+                                                          : "border-gray-300 group-hover:border-blue-500"
                                                       }`}
                           >
                             {selectedFilters.includes(option.id) && (
@@ -385,6 +383,16 @@ export default function ServiceListing() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 py-6">
+        <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold">Hospitals in Mumbai</h2>
+              <button
+                onClick={() => setFilterOpen(true)}
+                className="md:hidden flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50"
+              >
+                <FaFilter className="w-4 h-4" />
+                <span>Filters</span>
+              </button>
+            </div>
         <div className="flex gap-6">
           {/* Desktop Filters */}
           <div className="hidden md:block w-64 flex-shrink-0">
@@ -393,7 +401,7 @@ export default function ServiceListing() {
                 <h2 className="text-xl font-semibold">Filters</h2>
                 <button
                   onClick={clearAllFilters}
-                  className="text-green-500 text-sm hover:text-green-600"
+                  className="text-blue-500 text-sm hover:text-blue-600"
                 >
                   Clear all
                 </button>
@@ -478,8 +486,8 @@ export default function ServiceListing() {
                                                         selectedFilters.includes(
                                                           option.id
                                                         )
-                                                          ? "border-green-500 bg-green-500"
-                                                          : "border-gray-300 group-hover:border-green-500"
+                                                          ? "border-blue-500 bg-blue-500"
+                                                          : "border-gray-300 group-hover:border-blue-500"
                                                       }`}
                           >
                             {selectedFilters.includes(option.id) && (
@@ -519,19 +527,9 @@ export default function ServiceListing() {
             </div>
           </div>
 
+
           {/* Hospital Listings */}
           <div className="flex-1">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold">Hospitals in Mumbai</h2>
-              <button
-                onClick={() => setFilterOpen(true)}
-                className="md:hidden flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50"
-              >
-                <FaFilter className="w-4 h-4" />
-                <span>Filters</span>
-              </button>
-            </div>
-
             {/* Applied Filters and Sort */}
             <div className="flex justify-between items-center mb-6 sm:px-2">
               {/* Applied Filters */}
@@ -541,7 +539,7 @@ export default function ServiceListing() {
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0.8, opacity: 0 }}
-                    className="inline-flex items-center gap-1 px-3 py-1 bg-green-50 border border-green-200 rounded-full text-sm text-green-700"
+                    className="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 border border-blue-200 rounded-full text-sm text-blue-700"
                   >
                     <span>{`${bedRange[0]} - ${bedRange[1]} beds`}</span>
                     <button
@@ -549,7 +547,7 @@ export default function ServiceListing() {
                         setBedRange([0, 500]);
                         setBedRangeInput({ min: "0", max: "500" });
                       }}
-                      className="w-4 h-4 flex items-center justify-center rounded-full hover:bg-green-100"
+                      className="w-4 h-4 flex items-center justify-center rounded-full hover:bg-blue-100"
                     >
                       ×
                     </button>
@@ -568,12 +566,12 @@ export default function ServiceListing() {
                       initial={{ scale: 0.8, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       exit={{ scale: 0.8, opacity: 0 }}
-                      className="inline-flex items-center gap-1 px-3 py-1 bg-green-50 border border-green-200 rounded-full text-sm text-green-700"
+                      className="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 border border-blue-200 rounded-full text-sm text-blue-700"
                     >
                       <span>{filterOption.text}</span>
                       <button
                         onClick={() => handleFilterToggle(filterId)}
-                        className="w-4 h-4 flex items-center justify-center rounded-full hover:bg-green-100"
+                        className="w-4 h-4 flex items-center justify-center rounded-full hover:bg-blue-100"
                       >
                         ×
                       </button>
@@ -589,7 +587,7 @@ export default function ServiceListing() {
                       setBedRange([0, 500]);
                       setBedRangeInput({ min: "0", max: "500" });
                     }}
-                    className="text-sm text-green-600 hover:text-green-700 hover:underline"
+                    className="text-sm text-blue-600 hover:text-blue-700 hover:underline"
                   >
                     Clear all
                   </button>
@@ -600,7 +598,7 @@ export default function ServiceListing() {
               <div className="relative ml-auto">
                 <button
                   onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
-                  className="flex items-center justify-between w-32 md:w-48 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                  className="flex items-center justify-between w-32 md:w-48 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                   <span>
                     <span className="phone-none">Sort by:</span>{" "}
@@ -655,7 +653,6 @@ export default function ServiceListing() {
                         navigation
                         pagination={{ clickable: true }}
                         scrollbar={{ draggable: true }}
-                        onSwiper={(swiper) => console.log(swiper)}
                         onSlideChange={() => console.log("slide change")}
                       >
                         {detail.images.map((image, index) => (
@@ -676,32 +673,28 @@ export default function ServiceListing() {
                       <div className="flex justify-between items-start space-x-2">
                         {/* NAME AND LOCATION */}
                         <div className="flex flex-col">
-                          <span className="line-clamp-1 text-lg min-[425px]:text-2xl sm:text-3xl lg:text-2xl xl:text-3xl font-bold text-gray-700">
+                          <span className="line-clamp-1 text-lg min-[425px]:text-2xl sm:text-2xl lg:text-2xl xl:text-2xl font-bold text-gray-700">
                             {detail.hName}
                           </span>
                           <span className="text-sm min-[425px]:text-base sm:text-lg lg:text-base xl:text-lg font-semibold text-gray-700">
                             {detail.location}, {detail.city}
                           </span>
+                          <span className="text-sm  text-green-700">
+                            Open 24 hours
+                          </span>
                         </div>
 
                         {/* RATING AND REVIEW COUNT */}
-                        <div className="flex flex-col items-end">
-                          <div className="flex items-center">
-                            <span className="text-base min-[425px]:text-lg mt-1 sm:text-lg mr-1 text-[#28A745]">
-                              {detail.rating}
+                        <div className="!flex !flex-col !justify-center !text-white !my-1 sm:!my-0 !space-y-0.5 sm:!space-y-1.5 !text-left sm:!text-right">
+                          <div className="!flex !justify-center !items-center !bg-[#267e3e] !rounded !py-0.5 !px-0">
+                            <span className="!text-base !font-semibold !mr-1 !px-0">
+                              4.8
                             </span>
-                            {Array(5)
-                              .fill()
-                              .map((_, index) => (
-                                <FaStar
-                                  key={index}
-                                  className="text-[#28A745] min-[425px]:h-4 min-[425px]:w-4 sm:w-5 sm:h-5 lg:h-4 lg:w-4 xl:h-5 xl:w-5 flex-shrink-0"
-                                />
-                              ))}
+                            <FaStar className="!h-4 !w-4 !mb-0.5 !px-0 !mx-0" />
                           </div>
-                          <span className="text-sm min-[425px]:text-base sm:text-base lg:text-sm xl:text-base text-gray-500">
-                            {detail.reviews} Reviews
-                          </span>
+                          <div className="!text-gray-600">
+                            <span className="text-sm">59 Reviews</span>
+                          </div>
                         </div>
                       </div>
 
@@ -745,11 +738,18 @@ export default function ServiceListing() {
                           {/* VIEW DETAILS BUTTON */}
                           <div>
                             <Link
-                              to={"/hospital-details-page"}
-                              className="py-2 px-4 sm:py-2 sm:px-8 lg:py-2 lg:px-4 xl:py-2 xl:px-8 border text-gray-700 border-black font-semibold rounded transition-all duration-150 hover:bg-gray-800 hover:text-white"
-                            >
-                              View Details
-                            </Link>
+                                          to={"/hospital-details-page"}
+                                          style={{
+                                            textDecoration: "none",
+                                          }}
+                                          className="!py-1.5 !px-2 min-[425px]:!px-4 !text-center !text-[11px] min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]"
+                                        >
+                                         View Details
+                                        </Link>
+
+
+
+                         
                           </div>
                         </div>
                       </div>

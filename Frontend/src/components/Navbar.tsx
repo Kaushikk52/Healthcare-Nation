@@ -21,11 +21,7 @@ const DropdownLink = ({
 }) => (
   <Link
     to={href}
-    className={`${
-      location.pathname === href
-        ? "text-white bg-[#9B2482]"
-        : "text-gray-800 hover:bg-gray-100"
-    } block py-2 px-4 rounded w-full text-left`}
+    className={`text-gray-800 block py-2 px-4 rounded w-full text-left`}
     onClick={onClick}
   >
     {title}
@@ -66,29 +62,15 @@ export default function Navbar() {
     },
     {
       id: 3,
-      title: "Brands",
+      title: "Corporates",
       icon: FaCaretDown,
       items: [
-        { title: "Fortis" },
-        { title: "Wockhardt" },
-        { title: "HCG Hospitals" },
-        { title: "Max Hospitals" },
-        { title: "Apollo Hospitals" },
-        { title: "Paras Healthcare" },
-        { title: "Narayana Health" },
-      ],
-    },
-    {
-      id: 4,
-      title: "Specialities",
-      icon: FaCaretDown,
-      items: [
-        { title: "General Surgery" },
-        { title: "Eyecare Centres" },
-        { title: "Pediatric Centres" },
-        { title: "Cardiology" },
-        { title: "Psychiatry" },
-        { title: "Psysiotherapy" },
+        { title: "MPT Hospitals" },
+        { title: "CGHS Hospitals" },
+        { title: "MJPJAY Hospitals" },
+        { title: "ESIC Hospitals" },
+        { title: "PMJAY Hospitals" },
+        { title: "Railway Hospitals" },
       ],
     },
     {
@@ -106,35 +88,6 @@ export default function Navbar() {
     },
     {
       id: 6,
-      title:"Alternative Medicine",
-      icon: FaCaretDown,
-      items: [
-        {"title":"Ayurveda Centres"},
-        {"title":"Homeopathy Centres"},
-        {"title":"Yoga Centres"},
-        {"title":"Naturopathy Centres"},
-      ]
-    },
-    {
-      id : 7,
-      title: "Digital Health",
-    },
-    {
-      id: 8,
-      title: "Govt Schemes",
-    },
-    {
-      id: 9,
-      title: "More Services",
-    },
-    {
-      id: 10,
-      title: "Accrediations",
-    },
-
-
-    {
-      id: 11,
       title: "Health Concerns",
       icon: FaCaretDown,
       items: [
@@ -146,12 +99,12 @@ export default function Navbar() {
       ],
     },
     {
-      id: 12,
+      id: 7,
       title: "Insurance",
       path: "#",
     },
     {
-      id: 13,
+      id: 8,
       title: "TPA",
       path: "#",
     },
@@ -267,10 +220,12 @@ export default function Navbar() {
         </div>
 
         {/* Authentication buttons */}
-        <div className="!flex !items-center">
+        <div className="">
           <AuthPopup popup={toggle} navigateTo={navigateTo} />
-          <button onClick={() => checkIfLogin("/dashboard/hospital")}>
+          <button className="!flex !items-center space-x-2"
+          onClick={() => checkIfLogin("/dashboard/hospital")}>
             <User className="h-6 w-6" />
+            <span >Sign in / Sign up </span> 
           </button>
         </div>
       </div>

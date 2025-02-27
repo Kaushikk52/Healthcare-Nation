@@ -33,17 +33,14 @@ AOS.init({
   duration: 1200,
 });
 
-
 function Home() {
   const path = import.meta.env.VITE_APP_IMG_URL;
 
   return (
     <>
       <div className="!max-w-4xl xl:!max-w-7xl !mx-auto !px-4">
-
         {/* HEALTHCARE SERVICES SECTION */}
         <div className="!mt-10">
-
           {/* HEALTHCARE SERVICES HEADING AND EXPLORE MORE BUTTON  */}
           <div className="flex justify-between items-start lg:items-center !space-x-2">
             <h3 className="!text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
@@ -142,7 +139,7 @@ function Home() {
           {/*  SERVICES BY SPECIALITIES HEADING AND EXPLORE MORE BUTTON */}
           <div className="flex justify-between items-start !mt-14">
             <h3 className="!text-lg min-[425px]:!text-2xl lg:!text-xl xl:!text-xl !font-semibold !text-gray-700 !px-1">
-            Hospitals/Services by Specialities
+              Hospitals/Services by Specialities
             </h3>
             <Link
               to={"/services"}
@@ -182,7 +179,11 @@ function Home() {
             {servicesBySpecialities.slice(0, 18).map((service, index) => (
               <SwiperSlide key={index} className="!mt-6">
                 <div className="group">
-                  <Link style={{ textDecoration: "none" }} to={"/"} className="">
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to={"/"}
+                    className=""
+                  >
                     <div className="!text-center">
                       <img
                         src={path + service.image}
@@ -227,7 +228,11 @@ function Home() {
             {servicesBySpecialities.slice(19).map((service, index) => (
               <SwiperSlide key={index} className="!mt-4">
                 <div className="group">
-                  <Link style={{ textDecoration: "none" }} to={"/"} className="">
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to={"/"}
+                    className=""
+                  >
                     <div className="user-image text-center">
                       <img
                         src={path + service.image}
@@ -264,27 +269,47 @@ function Home() {
           </div>
 
           {/* DIAGNOSTIC CENTRES NEAR YOU GRID BRAND IMAGES AND TITLES */}
-          <div className="!grid !grid-cols-2 sm:!grid-cols-3 lg:!grid-cols-6 xl:!grid-cols-6 !gap-x-3.5 !gap-y-3.5 md:!gap-y-6 !mt-4 sm:!mt-6">
-            {diagnosticCentres.map((center, index) => (
-              <div key={index} className="group">
-                <Link
-                  to={"/"}
-                  style={{ textDecoration: "none" }}
-                  className="!cursor-pointer !mx-auto !flex !flex-col !items-center"
-                >
-                  <div className="!text-center !rounded-full group-hover:!shadow-xl !transition-all">
-                    <img
-                      src={path + center.image}
-                      alt="Diagnostic Centre image"
-                      className="rounded-full !h-32 !w-32 min-[425px]:!h-36 min-[425px]:!w-36 sm:!h-36 sm:!w-36 md:!h-40 md:!w-40 lg:!h-32 lg:!w-32 xl:!h-44 xl:!w-44 !object-cover"
-                    />
+          <div className=" !mt-4 sm:!mt-6">
+            <Swiper
+              modules={[Navigation, Pagination, Autoplay, A11y]}
+              spaceBetween={16}
+              slidesPerView={6}
+              loop={true}
+              navigation
+              autoplay={{ delay: 10000 }}
+              breakpoints={{
+                0: { slidesPerView: 1 },
+                520: { slidesPerView: 2 },
+                768: { slidesPerView: 4 },
+                1024: { slidesPerView: 6 },
+              }}
+            >
+              {diagnosticCentres.map((center, index) => (
+                <SwiperSlide key={index}>
+                  <div className="group text-center">
+                    <Link
+                      to="/"
+                      className="cursor-pointer flex flex-col items-center"
+                    >
+                      <div className="rounded-full transition-all group-hover:shadow-xl">
+                        <img
+                          src={
+                            center.image
+                              ? path + center.image
+                              : "/default-image.jpg"
+                          }
+                          alt={center.title || "Diagnostic Centre"}
+                          className="rounded-full object-cover h-32 w-32 sm:h-36 sm:w-36 md:h-40 md:w-40 lg:h-32 lg:w-32 xl:h-44 xl:w-44"
+                        />
+                      </div>
+                      <p className="text-base sm:text-lg lg:text-sm xl:text-base font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482]">
+                        {center.title}
+                      </p>
+                    </Link>
                   </div>
-                  <p className="!text-base  min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-center sm:!text-center !font-semibold !mt-2 !px-0 !text-gray-700 group-hover:!text-[#9b2482]">
-                    {center.title}
-                  </p>
-                </Link>
-              </div>
-            ))}
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
         </div>
 
@@ -310,7 +335,8 @@ function Home() {
           <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 xl:!grid-cols-4 !gap-x-3.5 !gap-y-3 !mt-4">
             {alternativeMedicine.map((item, index) => (
               <div key={index} className="group">
-                <Link to={"/"}
+                <Link
+                  to={"/"}
                   style={{ textDecoration: "none" }}
                   className="!cursor-pointer"
                 >
@@ -350,7 +376,8 @@ function Home() {
           <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-3 xl:!grid-cols-3 !gap-x-3.5 !gap-y-3 !mt-4">
             {onlineHealthcareServices.map((service, index) => (
               <div key={index} className="group">
-                <Link to={"/"}
+                <Link
+                  to={"/"}
                   style={{ textDecoration: "none" }}
                   className="!cursor-pointer"
                 >
@@ -390,7 +417,8 @@ function Home() {
           <div className="!grid !grid-cols-2 sm:!grid-cols-3 lg:!grid-cols-6 xl:!grid-cols-6 !gap-x-3.5 !gap-y-3.5 md:!gap-y-6 !mt-4 sm:!mt-6">
             {publicSectorCorporates.map((corporate, index) => (
               <div key={index} className="group">
-                <Link to={"/"}
+                <Link
+                  to={"/"}
                   style={{ textDecoration: "none" }}
                   className="!cursor-pointer !mx-auto "
                 >
@@ -434,7 +462,8 @@ function Home() {
           <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 xl:!grid-cols-4 !gap-x-3.5 !gap-y-3 !mt-4">
             {moreServices.map((service, index) => (
               <div key={index} className="group">
-                <Link to={"/"}
+                <Link
+                  to={"/"}
                   style={{ textDecoration: "none" }}
                   className="!cursor-pointer"
                 >
@@ -513,10 +542,36 @@ function Home() {
           </div>
 
           {/* SERVICES BY HEALTH CONCERN GRID IMAGES AND TITLE */}
-          <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-5 xl:!grid-cols-5 !gap-x-3.5 !gap-y-3 !mt-4">
+          <div className=" !mt-4">
+          <Swiper
+            modules={[Navigation, Pagination, Autoplay, A11y]}
+            spaceBetween={16}
+            slidesPerView={5}
+            loop={true}
+            // pagination={{ clickable: true, dynamicBullets: true }}
+            navigation
+            autoplay={{ delay: 10000 }}
+            breakpoints={{
+              0: {
+                slidesPerView: 1,
+              },
+              520: {
+                slidesPerView: 2,
+              },
+              768: {
+                slidesPerView: 2,
+              },
+              1024: {
+                slidesPerView: 4,
+              },
+            }}
+            className="!mt-0"
+          >
             {servicesByHealthConcern.map((service, index) => (
+              <SwiperSlide key={index} className="!mt-4">
               <div key={index} className="group">
-                <Link to={"/"}
+                <Link
+                  to={"/"}
                   style={{ textDecoration: "none" }}
                   className="cursor-pointer"
                 >
@@ -530,7 +585,14 @@ function Home() {
                   </p>
                 </Link>
               </div>
+              </SwiperSlide>
             ))}
+          </Swiper>
+
+
+
+
+            
           </div>
         </div>
 
@@ -556,7 +618,8 @@ function Home() {
           <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 xl:!grid-cols-4 !gap-x-3.5 !gap-y-3 !mt-4">
             {popularHospitals.map((hospital, index) => (
               <div key={index} className="group">
-                <Link to={"/"}
+                <Link
+                  to={"/"}
                   style={{ textDecoration: "none" }}
                   className="!cursor-pointer"
                 >
@@ -595,11 +658,11 @@ function Home() {
           {/* CHOOSE YOUR HEALTH INSURANCE GRID IMAGES AND TITLE */}
           <div className="!grid !grid-cols-2 sm:!grid-cols-3 lg:!grid-cols-6 xl:!grid-cols-6 !gap-x-4 !gap-y-4 !mt-4">
             {chooseYourHealthInsurance.map((insurance, index) => (
-              <div
-                key={index}
-
-              >
-                <Link to={"/"} className={`${insurance.bgColor} !flex !justify-center !items-center !rounded-lg`}>
+              <div key={index}>
+                <Link
+                  to={"/"}
+                  className={`${insurance.bgColor} !flex !justify-center !items-center !rounded-lg`}
+                >
                   <img
                     src={path + insurance.image}
                     alt="insurance images"
@@ -632,11 +695,11 @@ function Home() {
           {/* CHOOSE YOUR TPA GRID IMAGES AND TITLE */}
           <div className="mb-10 !grid !grid-cols-2 sm:!grid-cols-3 lg:!grid-cols-6 xl:!grid-cols-6 !gap-x-4 !gap-y-4 !mt-4">
             {chooseYourTPA.map((tpa, index) => (
-              <div
-                key={index}
-
-              >
-                <Link to={"/"} className={`${tpa.bgColor} !flex !justify-center !items-center !rounded-lg`}>
+              <div key={index}>
+                <Link
+                  to={"/"}
+                  className={`${tpa.bgColor} !flex !justify-center !items-center !rounded-lg`}
+                >
                   <img
                     src={path + tpa.image}
                     alt="tpa images"

@@ -9,9 +9,6 @@ const servicesBySpecialities = [
     { id: 8, title: 'Spine Surgery', image: 'specialities/Spine-Surgery.jpg', },
     { id: 9, title: 'Rheumatology', image: 'specialities/Rheumatology.jpg', },
     { id: 10, title: 'Radiatio oncology', image: 'specialities/Radiatio-oncology.jpg', },
-
-
-
     { id: 11, title: 'Dermatology', image: 'Skincare-Centres1.jpg', },
     { id: 12, title: 'Dietetics', image: 'specialities/Dietetics.jpg', },
     { id: 13, title: "Nephrology", image: 'Kidney-care-Centres.png' },
@@ -20,6 +17,7 @@ const servicesBySpecialities = [
     { id: 16, title: 'Pulmonology', image: 'specialities/Pulmonology.jpg', },
     { id: 17, title: 'Occupational therapy', image: 'specialities/Physiotherapy-Occupational-therapy.png', },
     { id: 18, title: 'Pediatric Surgery', image: 'specialities/Pediatric-Surgery.jpg', },
+    
     { id: 19, title: 'Oncology', image: 'specialities/Oncology.jpg', },
     { id: 20, title: 'Obstetrics & Gynecology', image: 'specialities/Obstetrics-Gynecology.jpg', },
     { id: 21, title: 'Neurosurgery', image: 'specialities/Neurosurgery.jpg', },
