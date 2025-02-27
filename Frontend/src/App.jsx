@@ -20,10 +20,13 @@ import PopularHospitals from './components/pages/PopularHospitals';
 import HealthInurance from './components/pages/HealthInsurance';
 import TPA from './components/pages/TPA';
 import HealthcareServices from './components/pages/HealthcareServices';
+import ScrollToTop from './components/ScrollToTop';
 function App() {
+
 
   return (
     <BrowserRouter>
+    <ScrollToTop />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Main />} />

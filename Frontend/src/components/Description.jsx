@@ -52,10 +52,7 @@ const Description = () => {
         { image: PMJAY_Logo, title: 'PMJAY', },
     ]
 
-    const accreditations = [
-        { image: Ex_Logo, heading: 'NABH', subHeading: 'India Standard for Hospital Accreditation' },
-        { image: PMJAY_Logo, heading: 'JCI', subHeading: 'International Standard for Hospital Accreditation' },
-    ]
+ 
 
 
     const achievements = [
@@ -84,7 +81,7 @@ const Description = () => {
 
                     {/* Departments Section */}
                     <div className="!py-4">
-                        <h1 className="!text-2xl !font-semibold">Departments</h1>
+                        <h1 className="!text-2xl !font-semibold">Specialities</h1>
                         <div className="!flex !flex-wrap !gap-3 !py-5">
                             {visibleDepartments.map((item, index) => (
                                 <button
@@ -104,7 +101,7 @@ const Description = () => {
                             )}
                             {showAll && (
                                 <button
-                                    className="!bg-red-600 !px-4 !py-2 !rounded-full !text-white !text-sm !font-medium hover:!bg-red-700 !transition"
+                                    className="!bg-cyan-600 !px-4 !py-2 !rounded-full !text-white !text-sm !font-medium hover:!bg-cyan-700 !transition"
                                     onClick={() => setShowAll(false)}
                                 >
                                     Show Less
@@ -164,26 +161,6 @@ const Description = () => {
                         </div>
                     </div>
 
-                    {/* Accreditations */}
-                    <div className='!pt-6'>
-                        <h1 className='!text-2xl !font-semibold'>Accreditations</h1>
-                        <div className='!py-6 sm:!py-10'>
-                            {accreditations.map((item, index) => (
-                                <div
-                                    key={index}
-                                    className='!flex !flex-col !justify-center !items-center !text-center sm:!text-left !space-y-1.5 !mb-8 sm:!flex-row sm:!justify-start sm:!items-center sm:!space-x-10 sm:!mb-6'
-                                >
-                                    <img
-                                        src={item.image}
-                                        alt={item.heading}
-                                        className='!rounded-full !h-24 !w-24 sm:!h-16 sm:!w-16'
-                                    />
-                                    <h1 className='!text-xl !font-semibold'>{item.heading}</h1>
-                                    <h1 className='!text-xl !font-semibold'>{item.subHeading}</h1>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
 
                     {/* Achievements */}
                     <div className=''>

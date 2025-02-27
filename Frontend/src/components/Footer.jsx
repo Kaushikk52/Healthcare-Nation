@@ -94,55 +94,12 @@ function Footer() {
   ];
 
   return (
+    <>
+    <div>
+      <img src="Footer Banner 1231.jpg" alt="" />
+    </div>
     <footer className="w-full bg-[#0580c4] text-white">
       <div className="!max-w-7xl !mx-auto !px-4">
-        {/* <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-          {footerSections.map((section, index) => (
-            <div key={index} className="mb-8">
-              <h3 className="font-bold text-lg mb-4">{section.title}</h3>
-              <ul className="space-y-2">
-                {section.links.map((link, linkIndex) => (
-                  <li key={linkIndex}>
-                    <Link to={link.href} className="hover:text-gray-300 transition-colors">
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-          <div className="mb-8">
-            <h3 className="font-bold text-lg mb-4">Social</h3>
-            <ul className="space-y-2">
-              {socialLinks.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center hover:text-gray-300 transition-colors"
-                  >
-                    <link.icon className="mr-2" /> {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <div className="mt-12 text-center">
-          <div className="mb-4">
-            <img
-              src={path + "HCN-white-logo.png" || "/placeholder.svg"}
-              alt="Healthcare Nation Logo"
-              className="mx-auto h-16 w-auto"
-            />
-          </div>
-          <p className="text-sm">Copyright © {new Date().getFullYear()}, Healthcare Nation. All rights reserved.</p>
-        </div>
-      </div> */}
-
         <div className="mx-auto px-4 text-center py-5">
           <div className="mb-4">
             <img
@@ -152,7 +109,7 @@ function Footer() {
             />
           </div>
 
-          <div className="space-y-4 mb-5">
+          <div className="space-y-2 mb-2">
             <div className="flex flex-col items-center gap-8">
               <p className="font-sans font-medium">Empowering you with better healthcare choices</p>
               <div className="flex justify-center items-center text-center max-w-3xl">
@@ -178,7 +135,7 @@ function Footer() {
         <hr />
       </div>
 
-      <div className="w-full bg-[#0580c4] mt-4">
+      <div className="w-full bg-[#0580c4] mt-2">
         <div className="!max-w-7xl mx-auto !py-4 flex justify-center items-center">
           <span className="text-white-600 text-center">
             By Continuing past this page, you agree to out Terms of Service,
@@ -189,6 +146,7 @@ function Footer() {
         </div>
       </div>
     </footer>
+    </>
   );
 }
 
