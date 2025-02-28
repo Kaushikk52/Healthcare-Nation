@@ -182,9 +182,8 @@ export default function Navbar() {
                   <span className="hidden sm:inline">Location</span>
                 </div>
                 <FaCaretDown
-                  className={`h-5 w-5 flex-shrink-0 transition-transform ${
-                    locationDropdownOpen ? "rotate-180" : "rotate-0"
-                  }`}
+                  className={`h-5 w-5 flex-shrink-0 transition-transform ${locationDropdownOpen ? "rotate-180" : "rotate-0"
+                    }`}
                 />
               </button>
 
@@ -223,9 +222,9 @@ export default function Navbar() {
         <div className="">
           <AuthPopup popup={toggle} navigateTo={navigateTo} />
           <button className="!flex !items-center space-x-2"
-          onClick={() => checkIfLogin("/dashboard/hospital")}>
+            onClick={() => checkIfLogin("/dashboard/hospital")}>
             {/* <User className="h-6 w-6" /> */}
-            <span >Sign in / Sign up </span> 
+            <span >Sign in / Sign up </span>
           </button>
         </div>
       </div>
@@ -245,18 +244,16 @@ export default function Navbar() {
                   onClick={() => {
                     if (item.path) navigate(item.path);
                   }}
-                  className={`${
-                    location.pathname === item.path
-                      ? "text-[#9B2482]"
-                      : "text-gray-700"
-                  } flex items-center font-semibold cursor-pointer relative`}
+                  className={`${location.pathname === item.path
+                    ? "text-[#9B2482]"
+                    : "text-gray-700"
+                    } flex items-center font-semibold cursor-pointer relative`}
                 >
                   {item.title}
                   {Icon && (
                     <Icon
-                      className={`ml-1 h-4 w-4 flex-shrink-0 transition-transform ${
-                        hoveredItem === item.id ? "rotate-180" : "rotate-0"
-                      }`}
+                      className={`ml-1 h-4 w-4 flex-shrink-0 transition-transform ${hoveredItem === item.id ? "rotate-180" : "rotate-0"
+                        }`}
                     />
                   )}
                   {hoveredItem === item.id && (
@@ -294,7 +291,6 @@ export default function Navbar() {
         </ul>
       </div>
 
-      <hr className="my-2" />
 
       {/* Mobile menu */}
       <AnimatePresence>
@@ -334,9 +330,8 @@ export default function Navbar() {
                       <span>{item.title}</span>
                       {Icon && (
                         <Icon
-                          className={`h-4 w-4 flex-shrink-0 transition-transform ${
-                            mobileDropdowns[item.id] ? "rotate-180" : ""
-                          }`}
+                          className={`h-4 w-4 flex-shrink-0 transition-transform ${mobileDropdowns[item.id] ? "rotate-180" : ""
+                            }`}
                         />
                       )}
                     </button>

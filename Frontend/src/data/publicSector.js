@@ -1,14 +1,14 @@
 const publicSectorCorporates = [
-    { title: "MPT Hospitals", image: "mpt-logo.png", borderColor: "border-2 border-transparent", },
+    { title: "MPT", image: "mpt-logo.png", borderColor: "border-2 border-transparent", },
     {
-      title: "CGHS Hospitals",
+      title: "CGHS",
       image: "cghs-logo.jpg",
       borderColor: "border-2 border-green-700",
     },
-    { title: "MJPJAY Hospitals", image: "mjpjay-logo.png", borderColor: "border-2 border-transparent", },
-    { title: "ESIC Hospitals", image: "esic-logo.png", borderColor: "border-2 border-transparent", },
-    { title: "PMJAY Hospitals", image: "pmjay-logo2.png", borderColor: "border-2 border-transparent", },
-    { title: "Railway Hospitals", image: "indian_railway_logo.jpg", borderColor: "border-2 border-transparent", },
+    { title: "MJPJAY", image: "mjpjay-logo.png", borderColor: "border-2 border-transparent", },
+    { title: "ESIC", image: "esic-logo.png", borderColor: "border-2 border-transparent", },
+    { title: "PMJAY", image: "pmjay-logo2.png", borderColor: "border-2 border-transparent", },
+    { title: "Railway", image: "indian_railway_logo.jpg", borderColor: "border-2 border-transparent", },
   ];
 
 
