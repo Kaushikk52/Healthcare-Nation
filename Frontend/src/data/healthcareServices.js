@@ -1,5 +1,5 @@
 const healthcareServices = [
-    { path: '/service-listing', title: "Hospitals", image: "hospitals1.jpg" },
+    { path: '/listing', title: "Hospitals", image: "hospitals1.jpg" },
     { path: '/', title: "Dialysis Centers", image: "Dialysis-Centres.jpg" },
     { path: '/', title: "Blood/Skin Banks", image: "Blood-Bank-1.jpg" },
     { path: '/', title: "Clinics", image: "Clinics-1.png" },

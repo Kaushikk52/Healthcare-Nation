@@ -95,9 +95,6 @@ function Footer() {
 
   return (
     <>
-    <div>
-      <img src="Footer Banner 1231.jpg" alt="" />
-    </div>
     <footer className="w-full bg-[#0580c4] text-white">
       <div className="!max-w-7xl !mx-auto !px-4">
         <div className="mx-auto px-4 text-center py-5">

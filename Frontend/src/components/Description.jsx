@@ -97,10 +97,30 @@ const Description = () => {
             </span>
           </div>
 
+           {/* Achievements */}
+           <div className="mb-3">
+            <h1 className="!text-2xl !font-semibold">Achievements</h1>
+            <div className="!py-4 sm:!py-2 border border-gray-200 !p-4 rounded-md bg-slate-50">
+              {achievements.map((item, index) => (
+                <div
+                  key={index}
+                  className="!flex !flex-col !justify-center !items-center !text-center !mb-6 !space-y-2 sm:!text-left sm:!space-y-0 sm:!flex-row sm:!justify-start sm:!items-center sm:!space-x-10 sm:!mb-4"
+                >
+                  <img
+                    src={item.image}
+                    alt={item.heading}
+                    className="!rounded-full !h-24 !w-24 sm:!h-20 sm:!w-20"
+                  />
+                  <h1 className="!text-xl !font-semibold">{item.heading}</h1>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Facts */}
           <div className="">
             <h1 className="!text-2xl !font-semibold">Facts</h1>
-            <div className="!grid !grid-cols-1 sm:!grid-cols-2 !gap-y-8 !py-4 sm:!py-8 border border-gray-200 !p-4 !py-6 !space-y-4 rounded-md">
+            <div className="!grid !grid-cols-1 sm:!grid-cols-2 !gap-y-8 !py-4 sm:!py-8 bg-slate-50 border border-gray-200 !p-4  !space-y-4 rounded-md">
               <div className="!flex !flex-col !justify-center !items-start !space-y-2 sm:!space-y-3">
                 <span className="!flex !items-center !text-base sm:!text-lg !font-medium uppercase">
                   <CircleCheckBig className="!h-8 !w-8 !mr-3 sm:!mr-5 !flex-shrink-0" />
@@ -211,26 +231,6 @@ const Description = () => {
               ))}
             </Swiper>
     
-          </div>
-
-          {/* Achievements */}
-          <div className="">
-            <h1 className="!text-2xl !font-semibold">Achievements</h1>
-            <div className="!py-6 sm:!py-10">
-              {achievements.map((item, index) => (
-                <div
-                  key={index}
-                  className="!flex !flex-col !justify-center !items-center !text-center !mb-6 !space-y-2 sm:!text-left sm:!space-y-0 sm:!flex-row sm:!justify-start sm:!items-center sm:!space-x-10 sm:!mb-4"
-                >
-                  <img
-                    src={item.image}
-                    alt={item.heading}
-                    className="!rounded-full !h-24 !w-24 sm:!h-20 sm:!w-20"
-                  />
-                  <h1 className="!text-xl !font-semibold">{item.heading}</h1>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
 

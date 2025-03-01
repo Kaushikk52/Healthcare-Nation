@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaStar, FaFilter, FaChevronDown } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { DualRangeSlider } from "@/components/ui/DualRangeSlider";
 import { X, ChevronDown } from "lucide-react";
 
@@ -93,6 +93,9 @@ const sortOptions = [
 ];
 
 export default function ServiceListing() {
+  const [searchParams] = useSearchParams();
+  const location = searchParams.get("location");
+ 
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [sortBy, setSortBy] = useState("relevance");
@@ -176,9 +179,9 @@ export default function ServiceListing() {
                   </svg>
                   <a
                     href="#"
-                    className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2"
+                    className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 capitalize"
                   >
-                    Mumbai
+                    {location || "Mumbai"}
                   </a>
                 </div>
               </li>
@@ -384,7 +387,7 @@ export default function ServiceListing() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold">Hospitals in Mumbai</h2>
+              <h2 className="text-2xl font-bold capitalize">Hospitals in {location || "Mumbai"}</h2>
               <button
                 onClick={() => setFilterOpen(true)}
                 className="md:hidden flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50"

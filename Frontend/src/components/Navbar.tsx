@@ -8,7 +8,6 @@ import AuthPopup from "./Auth/AuthPopup";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { FaCaretDown } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
-import { title } from "process";
 
 const DropdownLink = ({
   href,
@@ -50,7 +49,7 @@ export default function Navbar() {
       title: "Services",
       icon: FaCaretDown,
       items: [
-        { title: "Hospitals", path: "/service-listing" },
+        { title: "Hospitals", path: "/listing" },
         { title: "Dialysis Centres" },
         { title: "Blood / Skin Banks" },
         { title: "Clinics" },
@@ -197,8 +196,11 @@ export default function Navbar() {
                   {locations.map((location, index) => (
                     <button
                       key={index}
-                      onClick={() => setLocationDropdownOpen(false)}
-                      className="block px-4 py-2 w-full text-left hover:bg-gray-100"
+                      onClick={() => {
+                        setLocationDropdownOpen(false);
+                        navigate(`/listing?location=${location.toLowerCase()}`);
+                      }}
+                      className="block px-4 py-2 w-full text-left hover:bg-gray-100 capitalize"
                     >
                       {location}
                     </button>
