@@ -40,7 +40,7 @@ const PublicSectorCorporates = () => {
                   className="rounded-full aspect-square shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
                   />
               </div>
-              <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
+              <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-center !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
               {corporate.title}
               </p>
             </Link>

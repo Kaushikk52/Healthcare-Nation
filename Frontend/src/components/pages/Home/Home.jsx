@@ -371,7 +371,7 @@ function Home() {
                 0: { slidesPerView: 1 },
                 520: { slidesPerView: 2 },
                 768: { slidesPerView: 2 },
-                1024: { slidesPerView: 4 },
+                1024: { slidesPerView: 4,navigation },
               }}
             >
               {alternativeMedicine.map((service, index) => (
@@ -429,7 +429,7 @@ function Home() {
                 0: { slidesPerView: 1 },
                 520: { slidesPerView: 2 },
                 768: { slidesPerView: 2 },
-                1024: { slidesPerView: 3 },
+                1024: { slidesPerView: 3,navigation },
               }}
             >
               {onlineHealthcareServices.map((service, index) => (
@@ -487,7 +487,7 @@ function Home() {
                 0: { slidesPerView: 1 },
                 520: { slidesPerView: 2 },
                 768: { slidesPerView: 4 },
-                1024: { slidesPerView: 6 },
+                1024: { slidesPerView: 6,navigation },
               }}
             >
               {publicSectorCorporates.map((center, index) => (
@@ -552,7 +552,7 @@ function Home() {
                 0: { slidesPerView: 1 },
                 520: { slidesPerView: 2 },
                 768: { slidesPerView: 2 },
-                1024: { slidesPerView: 4 },
+                1024: { slidesPerView: 4,navigation },
               }}
             >
               {moreServices.map((service, index) => (
@@ -720,7 +720,7 @@ function Home() {
                 0: { slidesPerView: 1 },
                 520: { slidesPerView: 2 },
                 768: { slidesPerView: 2 },
-                1024: { slidesPerView: 4 },
+                1024: { slidesPerView: 4,navigation },
               }}
             >
               {popularHospitals.map((service, index) => (
@@ -778,7 +778,7 @@ function Home() {
                 0: { slidesPerView: 1 },
                 520: { slidesPerView: 2 },
                 768: { slidesPerView: 2 },
-                1024: { slidesPerView: 6 },
+                1024: { slidesPerView: 6,navigation },
               }}
             >
               {chooseYourHealthInsurance.map((service, index) => (
@@ -836,7 +836,7 @@ function Home() {
                 0: { slidesPerView: 1 },
                 520: { slidesPerView: 2 },
                 768: { slidesPerView: 2 },
-                1024: { slidesPerView: 6 },
+                1024: { slidesPerView: 6,navigation },
               }}
             >
               {chooseYourTPA.map((service, index) => (
