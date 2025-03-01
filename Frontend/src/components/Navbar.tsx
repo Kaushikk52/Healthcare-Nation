@@ -184,11 +184,11 @@ export default function Navbar() {
             <div className="px-3 bg-[#EDDBE9] md:w-1/3 lg:w-3/12 xl:w-4/12 flex items-center h-full rounded-l-md">
               <FaLocationDot className="w-5 h-5 text-[#9B2482] flex-shrink-0 absolute left-3 top-1/2 transform -translate-y-1/2" />
               <select
-                className="w-full bg-transparent py-2 pl-10 h-full text-base font-semibold text-black cursor-pointer outline-none"
+                className={`w-full bg-transparent py-2 pl-10 h-full text-base font-semibold ${selectedLocation ? 'text-black' : 'text-gray-400'} cursor-pointer outline-none`}
                 value={selectedLocation}
                 onChange={handleLocationChange}
               >
-                <option value="" disabled className="text-gray-400 font-normal">
+                <option value="" disabled>
                   Select Location
                 </option>
                 {locations.map((location, index) => (
