@@ -99,7 +99,7 @@ const Description = () => {
 
           {/* Facts */}
           <div className="">
-            <h1 className="!text-2xl !font-semibold ml-2">Facts</h1>
+            <h1 className="!text-2xl !font-semibold">Facts</h1>
             <div className="!grid !grid-cols-1 sm:!grid-cols-2 !gap-y-8 !py-4 sm:!py-8 border border-gray-200 !p-4 !py-6 !space-y-4 rounded-md">
               <div className="!flex !flex-col !justify-center !items-start !space-y-2 sm:!space-y-3">
                 <span className="!flex !items-center !text-base sm:!text-lg !font-medium uppercase">
@@ -188,7 +188,7 @@ const Description = () => {
                   slidesPerView: 5,
                 },
               }}
-              className="!mt-0 border border-gray-200"
+              className="!mt-0 border border-gray-200 rounded-md"
             >
               {corporates.slice(0, 12).map((item, index) => (
                 <SwiperSlide key={index} className="!mt-4">

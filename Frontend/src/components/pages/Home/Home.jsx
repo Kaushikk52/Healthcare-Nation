@@ -117,20 +117,46 @@ function Home() {
           </div>
 
           {/* POPULAR HEALTHCARE GRID BRAND IMAGES */}
-          <div className="!grid !grid-cols-2 sm:!grid-cols-3 lg:!grid-cols-6 xl:!grid-cols-6 !gap-x-3.5 !gap-y-3.5 md:!gap-y-6 !mt-4 sm:!mt-6">
-            {popularBrands.slice(0, 6).map((brand, index) => (
-              <div key={index} className="!cursor-pointer mx-auto">
-                <a href="#" aria-label={brand.name}>
-                  <div className="!text-center !border-2 border-black !rounded-full">
-                    <img
-                      src={path + brand.image}
-                      alt={brand.name}
-                      className="rounded-full shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
-                    />
+          <div className=" !mt-4 sm:!mt-6">
+            <Swiper
+              modules={[Navigation, Pagination, Autoplay, A11y]}
+              spaceBetween={16}
+              slidesPerView={6}
+              loop={true}
+              navigation
+              autoplay={{ delay: 10000 }}
+              breakpoints={{
+                0: { slidesPerView: 1 },
+                520: { slidesPerView: 2 },
+                768: { slidesPerView: 4 },
+                1024: { slidesPerView: 6 },
+              }}
+            >
+              {popularBrands.map((brand, index) => (
+                <SwiperSlide key={index}>
+                  <div className="group text-center">
+                    <Link
+                      to="/"
+                      className="cursor-pointer flex flex-col items-center"
+                    >
+                      <div className="!text-center !border-2 border-black !rounded-full">
+                        <img
+                          src={
+                            brand.image
+                              ? path + brand.image
+                              : "/default-image.jpg"
+                          }
+                          alt={brand.title || "Diagnostic Centre"}
+                          className={`rounded-full aspect-square ${brand.objectProperty} shadow-md shadow-[rgba(45,45,51,0.08)]  w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl`} />
+                      </div>
+                      <p className="text-base sm:text-lg lg:text-sm xl:text-base font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482]">
+                        {brand.title}
+                      </p>
+                    </Link>
                   </div>
-                </a>
-              </div>
-            ))}
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
         </div>
 
@@ -331,25 +357,42 @@ function Home() {
           </div>
 
           {/* ALTERNATIVE MEDICINE GRID IMAGES AND TITLE */}
-          <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 xl:!grid-cols-4 !gap-x-3.5 !gap-y-3 !mt-4">
-            {alternativeMedicine.map((item, index) => (
-              <div key={index} className="group">
-                <Link
-                  to={"/"}
-                  style={{ textDecoration: "none" }}
-                  className="!cursor-pointer"
-                >
-                  <img
-                    src={path + item.image}
-                    alt={item.title}
-                    className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
-                  />
-                  <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
-                    {item.title}
-                  </p>
-                </Link>
-              </div>
-            ))}
+          <div className="!gap-x-3.5 !gap-y-3 !mt-4">
+            <Swiper
+              modules={[Navigation, Pagination, Autoplay, A11y]}
+              spaceBetween={16}
+              slidesPerView={4}
+              loop={true}
+              navigation
+              autoplay={{ delay: 10000 }}
+              breakpoints={{
+                0: { slidesPerView: 1 },
+                520: { slidesPerView: 2 },
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 4 },
+              }}
+            >
+              {alternativeMedicine.map((service, index) => (
+                <SwiperSlide key={index}>
+                  <div className="group">
+                    <Link
+                      to={`${service.path}`}
+                      aria-label={service.title}
+                      className="!cursor-pointer"
+                    >
+                      <img
+                        src={path + service.image}
+                        alt={service.title}
+                        className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
+                      />
+                      <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
+                        {service.title}
+                      </p>
+                    </Link>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
         </div>
 
@@ -372,25 +415,42 @@ function Home() {
           </div>
 
           {/*  ONLINE HEALTHCARE SERVICES GRID IMAGES AND TITLE */}
-          <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-3 xl:!grid-cols-3 !gap-x-3.5 !gap-y-3 !mt-4">
-            {onlineHealthcareServices.map((service, index) => (
-              <div key={index} className="group">
-                <Link
-                  to={"/"}
-                  style={{ textDecoration: "none" }}
-                  className="!cursor-pointer"
-                >
-                  <img
-                    src={path + service.image}
-                    alt={service.title}
-                    className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
-                  />
-                  <p className="!text-base min-[425px]:!text-lg sm:!text-base md:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
-                    {service.title}
-                  </p>
-                </Link>
-              </div>
-            ))}
+          <div className="!gap-x-3.5 !gap-y-3 !mt-4">
+            <Swiper
+              modules={[Navigation, Pagination, Autoplay, A11y]}
+              spaceBetween={16}
+              slidesPerView={4}
+              loop={true}
+              navigation
+              autoplay={{ delay: 10000 }}
+              breakpoints={{
+                0: { slidesPerView: 1 },
+                520: { slidesPerView: 2 },
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 },
+              }}
+            >
+              {onlineHealthcareServices.map((service, index) => (
+                <SwiperSlide key={index}>
+                  <div className="group">
+                    <Link
+                      to={`${service.path}`}
+                      aria-label={service.title}
+                      className="!cursor-pointer"
+                    >
+                      <img
+                        src={path + service.image}
+                        alt={service.title}
+                        className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
+                      />
+                      <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
+                        {service.title}
+                      </p>
+                    </Link>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
         </div>
 
@@ -413,29 +473,48 @@ function Home() {
           </div>
 
           {/* PUBLIC SECTOR CORPORATES GRID BRAND IMAGES AND TITLES */}
-          <div className="!grid !grid-cols-2 sm:!grid-cols-3 lg:!grid-cols-6 xl:!grid-cols-6 !gap-x-3.5 !gap-y-3.5 md:!gap-y-6 !mt-4 sm:!mt-6">
-            {publicSectorCorporates.map((corporate, index) => (
-              <div key={index} className="group">
-                <Link
-                  to={"/"}
-                  style={{ textDecoration: "none" }}
-                  className="!cursor-pointer !mx-auto "
-                >
-                  <div
-                    className={`${corporate.borderColor} !text-center !rounded-full !transition-all !flex !flex-col !items-center`}
-                  >
-                    <img
-                      src={path + corporate.image}
-                      alt="Diagnostic Centre image"
-                      className="rounded-full aspect-square shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
-                    />
+          <div className=" !mt-4 sm:!mt-6">
+            <Swiper
+              modules={[Navigation, Pagination, Autoplay, A11y]}
+              spaceBetween={16}
+              slidesPerView={6}
+              loop={true}
+              navigation
+              autoplay={{ delay: 10000 }}
+              breakpoints={{
+                0: { slidesPerView: 1 },
+                520: { slidesPerView: 2 },
+                768: { slidesPerView: 4 },
+                1024: { slidesPerView: 6 },
+              }}
+            >
+              {publicSectorCorporates.map((center, index) => (
+                <SwiperSlide key={index}>
+                  <div className="group text-center">
+                    <Link
+                      to="/"
+                      className="cursor-pointer flex flex-col items-center"
+                    >
+                      <div
+                        className={`${center.borderColor} !text-center !rounded-full !transition-all !flex !flex-col !items-center`}
+                      >
+                        <img
+                          src={
+                            center.image
+                              ? path + center.image
+                              : "/default-image.jpg"
+                          }
+                          alt={center.title || "Diagnostic Centre"}
+                          className="rounded-full aspect-square shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl" />
+                      </div>
+                      <p className="text-base sm:text-lg lg:text-sm xl:text-base font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482]">
+                        {center.title}
+                      </p>
+                    </Link>
                   </div>
-                  <p className="!text-sm  min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-center sm:!text-center !font-semibold !mt-2 !px-0 !text-gray-700 group-hover:!text-[#9b2482]">
-                    {corporate.title}
-                  </p>
-                </Link>
-              </div>
-            ))}
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
         </div>
 
@@ -458,25 +537,42 @@ function Home() {
           </div>
 
           {/* MORE SERVICES GRID IMAGES AND TITLE */}
-          <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 xl:!grid-cols-4 !gap-x-3.5 !gap-y-3 !mt-4">
-            {moreServices.map((service, index) => (
-              <div key={index} className="group">
-                <Link
-                  to={"/"}
-                  style={{ textDecoration: "none" }}
-                  className="!cursor-pointer"
-                >
-                  <img
-                    src={path + service.image}
-                    alt={service.title}
-                    className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
-                  />
-                  <p className="!text-sm min-[425px]:!text-lg sm:!text-base md:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
-                    {service.title}
-                  </p>
-                </Link>
-              </div>
-            ))}
+          <div className="!gap-x-3.5 !gap-y-3 !mt-4">
+            <Swiper
+              modules={[Navigation, Pagination, Autoplay, A11y]}
+              spaceBetween={16}
+              slidesPerView={4}
+              loop={true}
+              navigation
+              autoplay={{ delay: 10000 }}
+              breakpoints={{
+                0: { slidesPerView: 1 },
+                520: { slidesPerView: 2 },
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 4 },
+              }}
+            >
+              {moreServices.map((service, index) => (
+                <SwiperSlide key={index}>
+                  <div className="group">
+                    <Link
+                      to={`${service.path}`}
+                      aria-label={service.title}
+                      className="!cursor-pointer"
+                    >
+                      <img
+                        src={path + service.image}
+                        alt={service.title}
+                        className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
+                      />
+                      <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
+                        {service.title}
+                      </p>
+                    </Link>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
         </div>
 
@@ -614,25 +710,42 @@ function Home() {
           </div>
 
           {/* POPULAR HOSPITALS IN INDIA GRID IMAGES AND TITLE */}
-          <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 xl:!grid-cols-4 !gap-x-3.5 !gap-y-3 !mt-4">
-            {popularHospitals.map((hospital, index) => (
-              <div key={index} className="group">
-                <Link
-                  to={"/"}
-                  style={{ textDecoration: "none" }}
-                  className="!cursor-pointer"
-                >
-                  <img
-                    src={path + hospital.image}
-                    alt={hospital.title}
-                    className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
-                  />
-                  <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
-                    {hospital.title}
-                  </p>
-                </Link>
-              </div>
-            ))}
+          <div className="!gap-x-3.5 !gap-y-3 !mt-4">
+            <Swiper
+              modules={[Navigation, Pagination, Autoplay, A11y]}
+              spaceBetween={16}
+              slidesPerView={4}
+              loop={true}
+              navigation
+              autoplay={{ delay: 10000 }}
+              breakpoints={{
+                0: { slidesPerView: 1 },
+                520: { slidesPerView: 2 },
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 4 },
+              }}
+            >
+              {popularHospitals.map((service, index) => (
+                <SwiperSlide key={index}>
+                  <div className="group">
+                    <Link
+                      to={`${service.path}`}
+                      aria-label={service.title}
+                      className="!cursor-pointer"
+                    >
+                      <img
+                        src={path + service.image}
+                        alt={service.title}
+                        className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
+                      />
+                      <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
+                        {service.title}
+                      </p>
+                    </Link>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
         </div>
 
@@ -655,21 +768,43 @@ function Home() {
           </div>
 
           {/* CHOOSE YOUR HEALTH INSURANCE GRID IMAGES AND TITLE */}
-          <div className="!grid !grid-cols-2 sm:!grid-cols-3 lg:!grid-cols-6 xl:!grid-cols-6 !gap-x-4 !gap-y-4 !mt-4">
-            {chooseYourHealthInsurance.map((insurance, index) => (
-              <div key={index}>
-                <Link
-                  to={"/"}
-                  className={`${insurance.bgColor} !flex !justify-center !items-center !rounded-lg`}
-                >
-                  <img
-                    src={path + insurance.image}
-                    alt="insurance images"
-                    className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
-                  />
-                </Link>
-              </div>
-            ))}
+          <div className="!gap-x-3.5 !gap-y-3 !mt-4">
+            <Swiper
+              modules={[Navigation, Pagination, Autoplay, A11y]}
+              spaceBetween={16}
+              slidesPerView={4}
+              loop={true}
+              navigation
+              autoplay={{ delay: 10000 }}
+              breakpoints={{
+                0: { slidesPerView: 1 },
+                520: { slidesPerView: 2 },
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 6 },
+              }}
+            >
+              {chooseYourHealthInsurance.map((service, index) => (
+                <SwiperSlide key={index}>
+                  <div className="group">
+                    <Link
+                      to={`${service.path}`}
+                      aria-label={service.title}
+                      className={`${service.bgColor} !rounded-lg`}
+                      >
+                      <img
+                        src={path + service.image}
+                        alt={service.title}
+                        className={`rounded-[10px] ${service.bgColor} aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl`}
+                        />
+                      <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
+                        {service.title}
+                      </p>
+                    </Link>
+                  </div>
+                </SwiperSlide>
+              ))}
+
+            </Swiper>
           </div>
         </div>
 
@@ -692,24 +827,46 @@ function Home() {
           </div>
 
           {/* CHOOSE YOUR TPA GRID IMAGES AND TITLE */}
-          <div className="mb-10 !grid !grid-cols-2 sm:!grid-cols-3 lg:!grid-cols-6 xl:!grid-cols-6 !gap-x-4 !gap-y-4 !mt-4">
-            {chooseYourTPA.map((tpa, index) => (
-              <div key={index}>
-                <Link
-                  to={"/"}
-                  className={`${tpa.bgColor} !flex !justify-center !items-center !rounded-lg`}
-                >
-                  <img
-                    src={path + tpa.image}
-                    alt="tpa images"
-                    className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
-                  />
-                </Link>
-              </div>
-            ))}
+          <div className="!gap-x-3.5 !gap-y-3 !mt-4 !mb-10">
+            <Swiper
+              modules={[Navigation, Pagination, Autoplay, A11y]}
+              spaceBetween={16}
+              slidesPerView={4}
+              loop={true}
+              navigation
+              autoplay={{ delay: 10000 }}
+              breakpoints={{
+                0: { slidesPerView: 1 },
+                520: { slidesPerView: 2 },
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 6 },
+              }}
+            >
+              {chooseYourTPA.map((service, index) => (
+                <SwiperSlide key={index}>
+                  <div className="group">
+                    <Link
+                      to={`${service.path}`}
+                      aria-label={service.title}
+                      className={`${service.bgColor} !rounded-lg`}
+                      >
+                      <img
+                        src={path + service.image}
+                        alt={service.title}
+                        className={`rounded-[10px] ${service.bgColor} aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl`}
+                        />
+                      <p className="!text-base min-[425px]:!text-lg sm:!text-lg lg:!text-sm xl:!text-base !text-left sm:!text-left !font-semibold !mt-2 !px-1 !text-gray-700 group-hover:!text-[#9b2482]">
+                        {service.title}
+                      </p>
+                    </Link>
+                  </div>
+                </SwiperSlide>
+              ))}
+
+            </Swiper>
           </div>
         </div>
-      </div>
+      </div >
     </>
   );
 }
