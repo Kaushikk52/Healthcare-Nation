@@ -644,7 +644,7 @@ export default function HospitalForm() {
                       <div>
                         <label
                           htmlFor="ownership"
-                          className="block p-3 text-sm font-medium text-gray-700"
+                          className="block text-sm font-medium text-gray-700"
                         >
                           Ownership
                         </label>
@@ -652,7 +652,7 @@ export default function HospitalForm() {
                           as="select"
                           id="ownership"
                           name="ownership"
-                          className="mt-1  block w-full pl-3 pr-10  !py-2.5 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md"
+                          className="block w-full pl-3 pr-10  !py-2.5 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md"
                         >
                           <option value="">Select Ownership</option>
                           <option value="Private">Private</option>

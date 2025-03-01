@@ -31,7 +31,7 @@ export default function Navbar() {
   const location = useLocation();
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [locationDropdownOpen, setLocationDropdownOpen] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState("");
   const [navDropdownOpen, setNavDropdownOpen] = useState(null);
   const [toggle, setToggle] = useState(false);
   const navigate = useNavigate();
@@ -108,6 +108,16 @@ export default function Navbar() {
       path: "#",
     },
   ];
+
+  // Handle location change
+  const handleLocationChange = (event) => {
+    const location = event.target.value;
+    setSelectedLocation(location);
+    if (location) {
+      navigate(`/listing?location=${location.toLowerCase()}`);
+    }
+  };
+
   const locations = ["Mumbai", "Bangalore", "Chennai", "Delhi"];
 
   const [mobileDropdowns, setMobileDropdowns] = useState({});
@@ -171,42 +181,22 @@ export default function Navbar() {
         {/* Location dropdown and search bar (desktop) */}
         <div className="hidden md:flex items-center space-x-4 flex-grow justify-center">
           <div className="relative p-1 rounded-md flex items-center space-x-1 h-12 w-full max-w-2xl">
-            <div className="relative bg-[#EDDBE9] md:w-1/3 lg:w-1/4 xl:w-1/4 flex items-center h-full rounded-l-md">
-              <button
-                onClick={() => setLocationDropdownOpen(!locationDropdownOpen)}
-                className="w-full flex justify-between items-center py-2 px-3 h-full"
+            <div className="px-3 bg-[#EDDBE9] md:w-1/3 lg:w-3/12 xl:w-4/12 flex items-center h-full rounded-l-md">
+              <FaLocationDot className="w-5 h-5 text-[#9B2482] flex-shrink-0 absolute left-3 top-1/2 transform -translate-y-1/2" />
+              <select
+                className="w-full bg-transparent py-2 pl-10 h-full text-base font-semibold text-black cursor-pointer outline-none"
+                value={selectedLocation}
+                onChange={handleLocationChange}
               >
-                <div className="text-base font-semibold text-zinc-400 flex items-center gap-2">
-                  <FaLocationDot className="w-5 h-5 text-[#9B2482] flex-shrink-0" />
-                  <span className="hidden sm:inline">Location</span>
-                </div>
-                <FaCaretDown
-                  className={`h-5 w-5 flex-shrink-0 transition-transform ${locationDropdownOpen ? "rotate-180" : "rotate-0"
-                    }`}
-                />
-              </button>
-
-              {locationDropdownOpen && (
-                <motion.div
-                  className="absolute top-full left-0 overflow-hidden bg-white shadow-lg p-2 z-30 w-full"
-                  initial="closed"
-                  animate="open"
-                  variants={dropdownVariants}
-                >
-                  {locations.map((location, index) => (
-                    <button
-                      key={index}
-                      onClick={() => {
-                        setLocationDropdownOpen(false);
-                        navigate(`/listing?location=${location.toLowerCase()}`);
-                      }}
-                      className="block px-4 py-2 w-full text-left hover:bg-gray-100 capitalize"
-                    >
-                      {location}
-                    </button>
-                  ))}
-                </motion.div>
-              )}
+                <option value="" disabled className="text-gray-400 font-normal">
+                  Select Location
+                </option>
+                {locations.map((location, index) => (
+                  <option key={index} value={location}>
+                    {location}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="bg-[#EDDBE9] md:w-8/12 lg:w-7/12 xl:w-7/12 flex items-center px-3 h-full rounded-r-md">
@@ -223,10 +213,12 @@ export default function Navbar() {
         {/* Authentication buttons */}
         <div className="">
           <AuthPopup popup={toggle} navigateTo={navigateTo} />
-          <button className="!flex !items-center space-x-2"
-          onClick={() => checkIfLogin("/dashboard/hospital")}>
+          <button
+            className="!flex !items-center space-x-2"
+            onClick={() => checkIfLogin("/dashboard/hospital")}
+          >
             <User className="h-6 w-6" />
-            <span >Sign in </span> 
+            <span>Sign in </span>
           </button>
         </div>
       </div>
@@ -246,16 +238,18 @@ export default function Navbar() {
                   onClick={() => {
                     if (item.path) navigate(item.path);
                   }}
-                  className={`${location.pathname === item.path
-                    ? "text-[#9B2482]"
-                    : "text-gray-700"
-                    } flex items-center font-semibold cursor-pointer relative`}
+                  className={`${
+                    location.pathname === item.path
+                      ? "text-[#9B2482]"
+                      : "text-gray-700"
+                  } flex items-center font-semibold cursor-pointer relative`}
                 >
                   {item.title}
                   {Icon && (
                     <Icon
-                      className={`ml-1 h-4 w-4 flex-shrink-0 transition-transform ${hoveredItem === item.id ? "rotate-180" : "rotate-0"
-                        }`}
+                      className={`ml-1 h-4 w-4 flex-shrink-0 transition-transform ${
+                        hoveredItem === item.id ? "rotate-180" : "rotate-0"
+                      }`}
                     />
                   )}
                   {hoveredItem === item.id && (
@@ -292,7 +286,6 @@ export default function Navbar() {
           })}
         </ul>
       </div>
-
 
       {/* Mobile menu */}
       <AnimatePresence>
@@ -332,8 +325,9 @@ export default function Navbar() {
                       <span>{item.title}</span>
                       {Icon && (
                         <Icon
-                          className={`h-4 w-4 flex-shrink-0 transition-transform ${mobileDropdowns[item.id] ? "rotate-180" : ""
-                            }`}
+                          className={`h-4 w-4 flex-shrink-0 transition-transform ${
+                            mobileDropdowns[item.id] ? "rotate-180" : ""
+                          }`}
                         />
                       )}
                     </button>
