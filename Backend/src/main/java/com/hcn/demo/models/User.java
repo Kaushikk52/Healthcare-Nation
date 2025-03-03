@@ -42,6 +42,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private List<Review> reviews;
 
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    private List<Rating> ratings;
+
     public enum UserRole {
         ROLE_USER,ROLE_ADMIN;
     }

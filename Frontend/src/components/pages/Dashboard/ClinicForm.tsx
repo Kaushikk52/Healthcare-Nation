@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap';
 import toast, { Toaster } from 'react-hot-toast';
 import DatePicker from "react-datepicker";
-import { clinicValidationSchema } from '@/Validations/Clinic';
+import { MedicalFacilitySchema } from '@/Validations/MedicalFacility';
 
 const DatePickerField = ({ field, form }: any) => {
   return (
@@ -345,7 +345,7 @@ export default function ClinicForm() {
 
         <Formik
           initialValues={initialValues}
-          validationSchema={clinicValidationSchema}
+          validationSchema={MedicalFacilitySchema}
           onSubmit={handleSubmit}
         >
           {({ values, errors, touched, setFieldValue, isSubmitting }) => (

@@ -22,8 +22,8 @@ public class Speciality {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "hospital_id", nullable = true)
-    private Hospital hospital;
+    @JoinColumn(name = "medical_id", nullable = true)
+    private MedicalFacility medicalFacility;
 
     @Column(name = "images", length = 500)
     private String image;

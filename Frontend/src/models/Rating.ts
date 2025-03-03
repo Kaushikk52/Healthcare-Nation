@@ -1,12 +1,7 @@
-import { Clinic } from "./Clinic";
-import { Hospital } from "./Hospital";
-import { User } from "./User";
-
-export interface Rating{
-    id: string;
-    user:User;
-    // hospital:Hospital | null;
-    // clinic: Clinic | null;
-    rating: number;
-
-}
+export interface Rating {
+    id: number;
+    userId: number;
+    medicalFacilityId: number;
+    rating: number; // Ex: 4.5
+    comment: string;
+  }

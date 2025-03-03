@@ -24,7 +24,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
 import DatePicker from "react-datepicker";
-import { hospitalValidationSchema } from "@/Validations/Hospital";
+import { MedicalFacilitySchema } from "@/Validations/MedicalFacility";
 import { useNavigate } from "react-router-dom";
 import { spec } from "node:test/reporters";
 
@@ -51,28 +51,38 @@ export default function HospitalForm() {
 
   const initialValues = {
     name: "",
+    phone: [""],
+    images: [] as File[],
     address: {
       street: "",
       city: "",
-      landmark: "",
+      state: "",
       zipCode: "",
+      country: "",
     },
-    phone: "",
+    website: "",
+    bed: 0,
+    ownership: "PRIVATE",
     description: "",
-    beds: 0,
-    ownership: "",
-    specialities: [{
-        name: "",
-        image: null as File | null,
-        isMinimized: false,
-      }],
-    images: [] as File[],
-    departments: [] as string[],
-    altMeds: [] as string[],
-    concerns: [] as string[],
-    services: [] as string[],
+    brands: [""],
+    openDay: "",
+    closeDay: "",
+    hours: "",
+    facilityType: "HOSPITAL",
+    specialities: [""],
+    diagnosticServices: [""],
+    alternativeMedicines: [""],
+    publicSectorSchemes: [""],
+    accreditations: [""],
+    concerns: [""],
+    acceptedInsurances: [""],
+    thirdPartyAdministrators: [""],
+    ratings: [],
+    reviews: [],
+    avgRating: 0,
   };
 
+  
   const LOCATION_OPTIONS = [
     {
       label: "Bhayandar",
@@ -191,17 +201,8 @@ export default function HospitalForm() {
     try {
       setSubmitting(true);
       const imageUrls: any = await uploadImages(values.images, "Hospitals");
-      const specialitiesImgs: any = await Promise.all(
-        values.specialities.map((speciality) =>
-          uploadSingleImage(speciality.image, "Specialities")
-        )
-      );
       if (imageUrls.length > 0) {
         values.images = imageUrls || [""];
-      }
-
-      if(specialitiesImgs.length > 0){
-        values.specialities["image"]= specialitiesImgs || [""];
       }
 
       const token = localStorage.getItem("token");
@@ -401,7 +402,7 @@ export default function HospitalForm() {
 
         <Formik
           initialValues={initialValues}
-          validationSchema={hospitalValidationSchema}
+          validationSchema={MedicalFacilitySchema}
           onSubmit={handleSubmit}
         >
           {({ values, errors, touched, setFieldValue, isSubmitting }) => (
@@ -666,170 +667,7 @@ export default function HospitalForm() {
                       </div>
                     </div>
 
-                    <FieldArray name="specialities">
-                      {({ push, remove }) => (
-                        <div>
-                          {values.specialities.map((speciality, index) => (
-                            <div
-                              key={index}
-                              className="mb-8 p-4 border rounded-lg"
-                            >
-                              <div className="flex justify-between items-center mb-4">
-                                <h3 className="text-lg font-semibold">
-                                  {speciality["name"] || `Speciality ${index + 1}`}
-                                </h3>
-                                <div className="flex space-x-2">
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      const newSpecialities = [
-                                        ...values.specialities,
-                                      ];
-                                      newSpecialities[index].isMinimized =
-                                        !newSpecialities[index].isMinimized;
-                                      setFieldValue(
-                                        "specialities",
-                                        newSpecialities
-                                      );
-                                    }}
-                                    className="text-gray-500 hover:text-gray-700"
-                                  >
-                                    {speciality.isMinimized ? (
-                                      <ChevronUp/>
-                                    ) : (
-                                      <ChevronDown/>
-                                    )}
-                                  </button>
-                                  <button
-                                    type="button"
-                                    onClick={() => remove(index)}
-                                    className="text-red-500 hover:text-red-700"
-                                  >
-                                    <Trash2 color="red" />
-                                  </button>
-                                </div>
-                              </div>
-                              {!speciality.isMinimized && (
-                                <div className="space-y-4">
-                                  <div>
-                                    <label
-                                      htmlFor={`specialities[${index}].name`}
-                                      className="block text-sm font-medium text-gray-700"
-                                    >
-                                      Speciality Name
-                                    </label>
-                                    <Field
-                                      id={`specialities[${index}].name`}
-                                      name={`specialities[${index}].name`}
-                                      type="text"
-                                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                                    />
-                                    <ErrorMessage
-                                      name={`specialities[${index}].name`}
-                                      component="div"
-                                      className="text-red-500 text-sm mt-1"
-                                    />
-                                  </div>
-
-                                  <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                                      Speciality Image
-                                    </label>
-                                    <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                                      <div className="space-y-1 text-center">
-                                        <svg
-                                          className="mx-auto h-12 w-12 text-gray-400"
-                                          stroke="currentColor"
-                                          fill="none"
-                                          viewBox="0 0 48 48"
-                                          aria-hidden="true"
-                                        >
-                                          <path
-                                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                                            strokeWidth={2}
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                          />
-                                        </svg>
-                                        <div className="flex text-sm text-gray-600">
-                                          <label
-                                            htmlFor={`specialities[${index}].image`}
-                                            className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
-                                          >
-                                            <span>Upload a file</span>
-                                            <input
-                                              id={`specialities[${index}].image`}
-                                              name={`specialities[${index}].image`}
-                                              type="file"
-                                              className="sr-only"
-                                              onChange={(event) => {
-                                                const file =
-                                                  event.currentTarget
-                                                    .files?.[0];
-                                                if (file) {
-                                                  setFieldValue(
-                                                    `specialities[${index}].image`,
-                                                    file
-                                                  );
-                                                }
-                                              }}
-                                            />
-                                          </label>
-                                          <p className="pl-1">
-                                            or drag and drop
-                                          </p>
-                                        </div>
-                                        <p className="text-xs text-gray-500">
-                                          PNG, JPG, GIF up to 10MB
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <ErrorMessage
-                                      name={`specialities[${index}].image`}
-                                      component="div"
-                                      className="text-red-500 text-sm mt-1"
-                                    />
-                                  </div>
-                                  {values.specialities[index].image && (
-                                    <p className="mt-2 text-sm text-gray-500">
-                                      <span className="font-semibold">
-                                        Uploaded file:
-                                      </span>{" "}
-                                      {values.specialities[index].image.name}
-                                    </p>
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                          <button
-                            type="button"
-                            onClick={() =>
-                              push({
-                                name: "",
-                                image: null,
-                                isMinimized: false,
-                              })
-                            }
-                            className="mt-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-5 w-5 mr-2"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                            Add Speciality
-                          </button>
-                        </div>
-                      )}
-                    </FieldArray>
+                    
                   </motion.div>
                 )}
 

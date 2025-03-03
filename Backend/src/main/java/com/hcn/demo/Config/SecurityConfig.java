@@ -51,14 +51,15 @@ public class SecurityConfig {
                         // Users endpoints
                         .requestMatchers(HttpMethod.GET, "/v1/api/user/**").permitAll()
 
-                        // Hospital endpoints
-                        .requestMatchers(HttpMethod.GET,"/v1/api/hospital/**").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/v1/api/hospital/**").permitAll()
-                        .requestMatchers(HttpMethod.PUT,"/v1/api/hospital/edit/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE,"/v1/api/hospital/**").hasRole("ADMIN")
+                        // Facilities endpoints
+                        .requestMatchers(HttpMethod.GET, "/v1/api/facility/type/**",
+                        "/v1/api/facility/id/**",
+                        "/v1/api/facility/filter").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/api/facility/**").authenticated()
+                        .requestMatchers(HttpMethod.PUT ,"/v1/api/facility/edit/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE , "/v1/api/facility/delete/**").authenticated()
 
-                        // CLinic endpoints
-                        .requestMatchers(HttpMethod.POST, "/v1/api/clinic/save").authenticated()
+
 
                         // Images endpoints
                         .requestMatchers(HttpMethod.POST, "/v1/api/images/upload/single").permitAll()

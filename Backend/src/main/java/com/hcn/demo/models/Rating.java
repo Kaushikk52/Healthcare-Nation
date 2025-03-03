@@ -1,6 +1,5 @@
 package com.hcn.demo.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,12 +23,8 @@ public class Rating {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "hospital_id", nullable = true)
-    private Hospital hospital;
-
-    @ManyToOne
-    @JoinColumn(name = "clinic_id", nullable = true)
-    private Clinic clinic;
+    @JoinColumn(name = "medical_Id", nullable = true)
+    private MedicalFacility medicalFacility;
 
     private int rating;
 
