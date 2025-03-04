@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import toast from "react-hot-toast";
 
 // Icons 
 import { IoIosStar } from "react-icons/io";
@@ -6,6 +7,7 @@ import { MdEdit } from "react-icons/md";
 import { MdOutlineDirections } from "react-icons/md";
 import { FaRegShareFromSquare } from "react-icons/fa6";
 import { BsBookmarkCheck } from "react-icons/bs";
+
 
 // Tippy React
 import Tippy from '@tippyjs/react';
@@ -34,6 +36,23 @@ const HospitalDetailsPage = () => {
 
     const [activeTabButton, setActiveTabButton] = useState('description')
 
+    const handleCopyUrl = () => {
+        navigator.clipboard
+          .writeText(window.location.href)
+          .then(() => {
+            toast.success(`URL copied to clipboard!`, {
+              position: "bottom-right",
+              duration: 3000,
+            })
+          })
+          .catch(() => {
+            toast.error(`Failed to copy URL`, {
+              position: "bottom-right",
+              duration: 3000,
+            })
+          })
+      }
+
 
     useEffect(() => {
         const handleResize = () => setIsWideScreen(window.innerWidth >= 425);
@@ -46,7 +65,7 @@ const HospitalDetailsPage = () => {
         { title: 'Add Review', icon: <MdEdit className='!text-yellow-400 !h-5 !w-5' />, Color: '!border-yellow-400 !text-yellow-500' },
         { title: 'Direction', icon: <MdOutlineDirections className='!text-pink-400 !h-5 !w-5' />, },
         { title: 'Save', icon: <BsBookmarkCheck className='!text-pink-400 !h-5 !w-5' />, Bold: '' },
-        { title: 'Share', icon: <FaRegShareFromSquare className='!text-pink-400 !h-5 !w-5' />, },
+        { title: 'Share', icon: <FaRegShareFromSquare className='!text-pink-400 !h-5 !w-5' />, onClick: handleCopyUrl },
     ]
 
     const roundedImages = [
@@ -127,6 +146,7 @@ const HospitalDetailsPage = () => {
                     {buttons.map((btn, index) => (
                         <Tippy key={index} content={btn.title}>
                             <button
+                                onClick={btn.onClick}
                                 key={index}
                                 className={`!flex !justify-center !items-center !gap-x-[5px] !text-xs sm:!text-sm md:!text-base !border-2 !border-gray-300 !py-2 !px-5 min-[425px]:!px-2 md:!px-4 !rounded ${btn.Color} ${btn.Bold} `}
                             >

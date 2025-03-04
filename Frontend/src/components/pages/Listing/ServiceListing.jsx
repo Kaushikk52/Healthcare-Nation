@@ -62,7 +62,6 @@ const hospitalDetails = [
     location: "Andheri",
     city: "Mumbai",
     beds: "323",
-    type: "Multispeciality Hospital",
     accreditations: ["national-accreditations.png", "joint-commision.png"],
     rating: "4.8",
     reviews: "59",
@@ -78,7 +77,6 @@ const hospitalDetails = [
     location: "Powai",
     city: "Mumbai",
     beds: "323",
-    type: "Multispeciality Hospital",
     accreditations: ["national-accreditations.png", "joint-commision.png"],
     rating: "4.8",
     reviews: "59",
@@ -710,9 +708,7 @@ export default function ServiceListing() {
                             {/* <span className="text-sm min-[425px]:text-base sm:text-lg lg:text-base xl:text-lg font-semibold text-gray-700">
                               {detail.beds} Beds
                             </span> */}
-                            <span className="text-sm min-[425px]:text-base sm:text-lg lg:text-base xl:text-lg font-semibold text-gray-700">
-                              {detail.type}
-                            </span>
+                            
                           </div>
 
                           {/* CONTACT NO */}

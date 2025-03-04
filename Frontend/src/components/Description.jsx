@@ -98,53 +98,53 @@ const Description = () => {
           </div>
 
            {/* Achievements */}
-           <div className="mb-3">
+           <div className="mb-5 border border-gray-200 !p-4 rounded-md bg-slate-50">
             <h1 className="!text-2xl !font-semibold">Achievements</h1>
-            <div className="!py-4 sm:!py-2 border border-gray-200 !p-4 rounded-md bg-slate-50">
+            <div className="!py-4 sm:!py-2 ">
               {achievements.map((item, index) => (
                 <div
                   key={index}
-                  className="!flex !flex-col !justify-center !items-center !text-center !mb-6 !space-y-2 sm:!text-left sm:!space-y-0 sm:!flex-row sm:!justify-start sm:!items-center sm:!space-x-10 sm:!mb-4"
+                  className="!flex !flex-col !justify-center !items-center !text-center !mb-6 !space-y-0 sm:!text-left sm:!space-y-0 sm:!flex-row sm:!justify-start sm:!items-center sm:!space-x-5 sm:!mb-4"
                 >
                   <img
                     src={item.image}
                     alt={item.heading}
-                    className="!rounded-full !h-24 !w-24 sm:!h-20 sm:!w-20"
+                    className="!rounded-full !h-15 !w-15 sm:!h-10 sm:!w-10"
                   />
-                  <h1 className="!text-xl !font-semibold">{item.heading}</h1>
+                  <h1 className="!text-sm !font-medium uppercase">{item.heading}</h1>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Facts */}
-          <div className="">
+          <div className="border border-gray-200 !p-4 rounded-md bg-slate-50">
             <h1 className="!text-2xl !font-semibold">Facts</h1>
-            <div className="!grid !grid-cols-1 sm:!grid-cols-2 !gap-y-8 !py-4 sm:!py-8 bg-slate-50 border border-gray-200 !p-4  !space-y-4 rounded-md">
+            <div className="!grid !grid-cols-1 sm:!grid-cols-2 !gap-y-8 !py-4 sm:!py-2">
               <div className="!flex !flex-col !justify-center !items-start !space-y-2 sm:!space-y-3">
-                <span className="!flex !items-center !text-base sm:!text-lg !font-medium uppercase">
+                <span className="!flex !items-center !text-sm !font-medium uppercase">
                   <CircleCheckBig className="!h-8 !w-8 !mr-3 sm:!mr-5 !flex-shrink-0" />
                   3 Tesla MRI Machine
                 </span>
-                <span className="!flex !items-center !text-base sm:!text-lg !font-medium uppercase">
+                <span className="!flex !items-center !text-sm !font-medium uppercase">
                   <CircleCheckBig className="!h-8 !w-8 !mr-3 sm:!mr-5 !flex-shrink-0" />
                   24/7 Pharmacy
                 </span>
-                <span className="!flex !items-center !text-base sm:!text-lg !font-medium uppercase">
+                <span className="!flex !items-center !text-sm !font-medium uppercase">
                   <CircleCheckBig className="!h-8 !w-8 !mr-3 sm:!mr-5 !flex-shrink-0" />
                   24/7 Casualty
                 </span>
               </div>
               <div className="!flex !flex-col !justify-center !items-start !space-y-2 sm:!space-y-3">
-                <span className="!flex !items-center !text-base sm:!text-lg !font-medium uppercase">
+                <span className="!flex !items-center !text-sm !font-medium uppercase">
                   <CircleCheckBig className="!h-8 !w-8 !mr-3 sm:!mr-5 !flex-shrink-0" />
                   CT Scan - 64 Slice
                 </span>
-                <span className="!flex !items-center !text-base sm:!text-lg !font-medium uppercase">
+                <span className="!flex !items-center !text-sm !font-medium uppercase">
                   <CircleCheckBig className="!h-8 !w-8  !mr-3 sm:!mr-5 !flex-shrink-0" />
                   8 Operation Theatres
                 </span>
-                <span className="!flex !items-center !text-base sm:!text-lg !font-medium uppercase">
+                <span className="!flex !items-center !text-sm !font-medium uppercase">
                   <CircleCheckBig className="!h-8 !w-8  !mr-3 sm:!mr-5 !flex-shrink-0" />
                   24/7 Cathlab
                 </span>
@@ -153,7 +153,7 @@ const Description = () => {
           </div>
 
           {/* Departments Section */}
-          <div className="!py-4">
+          <div className="!py-4 border border-gray-200 !p-4 rounded-md bg-slate-50 mt-5">
             <h1 className="!text-2xl !font-semibold">Specialities</h1>
             <div className="!flex !flex-wrap !gap-3 !py-5">
               {visibleDepartments.map((item, index) => (
@@ -184,7 +184,7 @@ const Description = () => {
           </div>
 
           {/* Corporates Section */}
-          <div className="!py-4">
+          <div className="!py-4 border border-gray-200 !p-4 rounded-md bg-slate-50 my-5">
             <h1 className="!text-2xl !font-semibold">Corporates</h1>
 
             <Swiper
@@ -208,7 +208,7 @@ const Description = () => {
                   slidesPerView: 5,
                 },
               }}
-              className="!mt-0 border border-gray-200 rounded-md"
+              className="!mt-0 "
             >
               {corporates.slice(0, 12).map((item, index) => (
                 <SwiperSlide key={index} className="!mt-4">
