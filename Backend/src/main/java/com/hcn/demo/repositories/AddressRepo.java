@@ -1,4 +1,7 @@
 package com.hcn.demo.repositories;
 
-public interface AddressRepo {
+import com.hcn.demo.models.Address;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AddressRepo extends JpaRepository<Address,String> {
 }

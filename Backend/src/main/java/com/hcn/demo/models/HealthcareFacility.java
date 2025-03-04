@@ -20,10 +20,6 @@ import java.util.UUID;
 @MappedSuperclass
 public abstract class HealthcareFacility {
 
-    @Id
-    @Column(name = "id", nullable = false, updatable = false, length = 36)
-    private String id;
-
     @NotNull(message = "Healthcare Facility name cannot be null")
     @Size(min = 3, max = 100, message = "Healthcare Facility name must be between 3 and 100 characters")
     @Column(nullable = false, length = 100)
@@ -71,13 +67,5 @@ public abstract class HealthcareFacility {
     private LocalDateTime updatedAt;
 
     private boolean isActive;
-
-    @PrePersist
-    private void onCreate() {
-        if (this.id == null) {
-            this.id = UUID.randomUUID().toString();
-        }
-        createdAt = LocalDateTime.now();
-    }
 
 }

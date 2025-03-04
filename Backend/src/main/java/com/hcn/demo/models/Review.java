@@ -29,7 +29,7 @@ public class Review {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "medical_Id", nullable = true)
+    @JoinColumn(name = "facility_Id", nullable = true)
     private MedicalFacility medicalFacility;
 
 

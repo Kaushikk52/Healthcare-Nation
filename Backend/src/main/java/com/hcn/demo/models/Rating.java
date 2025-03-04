@@ -23,7 +23,7 @@ public class Rating {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "medical_Id", nullable = true)
+    @JoinColumn(name = "facility_id", nullable = true)
     private MedicalFacility medicalFacility;
 
     private int rating;

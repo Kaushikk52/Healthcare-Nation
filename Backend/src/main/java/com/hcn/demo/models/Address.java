@@ -1,19 +1,17 @@
 package com.hcn.demo.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
+import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Builder
+@Entity
 public class Address {
 
     @Id
@@ -33,6 +31,7 @@ public class Address {
             this.id = UUID.randomUUID().toString();
         }
         createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
 

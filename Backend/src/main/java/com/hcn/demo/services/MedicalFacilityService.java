@@ -38,9 +38,9 @@ public class MedicalFacilityService {
     @Transactional
     public MedicalFacility addHospital(MedicalFacility hospital){
         Address savedAddress = addressRepo.save(hospital.getAddress());
-        hospital.setFacilityType(MedicalFacility.FacilityType.HOSPITAL);
         hospital.setAddress(savedAddress);
-        return medicalFacilityRepo.save(hospital);
+        MedicalFacility saved =  medicalFacilityRepo.save(hospital);
+        return saved;
     }
 
     @Transactional
