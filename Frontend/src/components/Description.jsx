@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 import { FaPhone, FaLocationDot, FaClock } from "react-icons/fa6";
 import { FaGlobeAmericas, FaCheck } from "react-icons/fa";
@@ -21,6 +24,11 @@ import { CircleCheck, CircleCheckBig } from "lucide-react";
 
 const Description = () => {
   const [showAll, setShowAll] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
 
   const departments = [...servicesBySpecialities];
 
@@ -58,7 +66,70 @@ const Description = () => {
         {/* Left Side */}
         <div className="lg:!col-span-8  xl:!col-span-8 ">
           {/* About Us Section */}
-          <div className="!flex !flex-col !justify-center !space-y-5 !py-5 my-5 border border-gray-200 !p-4 rounded-md bg-slate-50 ">
+          <div className="max-w-3xl mx-auto">
+            <div className="flex flex-col justify-center space-y-5 py-5 my-5 border border-gray-200 p-4 rounded-md bg-slate-50">
+              <h1 className="text-2xl font-semibold">About Us</h1>
+                <div className="relative">
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ${
+                      isExpanded ? "" : `line-clamp-5`
+                    }`}
+                  >
+                    <p className="text-base text-gray-700">
+                      {" "}
+                      The 750 bed multi-speciality hospital became operational
+                      in the first week of 2009. The project was initiated in
+                      1999 by Nitu Mandke as a large-scale heart hospital, but
+                      ran into troubles after his death in 2003. Subsequently,
+                      it was completed by the Anil Ambani-led Reliance ADA
+                      group,!" The hospital has boasted of many firsts not only
+                      in India but also in Asia. Kokilaben Dhirubhai Ambani
+                      Hospital has the first 3-room intra-operative MRI suite
+                      (IMRIS) in Asia, Asia's first EDGE Radiosurgery system
+                      from Varian Medical Systems, India's 1st Spine Surgery
+                      Suite featuring the O-arm and many more. The hospital
+                      courted controversy in 2014 when it offered incentives to
+                      doctors for referring patients. It later apologised to the
+                      Maharashtra Medical Council, In 2016, the hospital
+                      announced that it would be setting up 18 cancer-care
+                      centres in rural Maharashtra, under the name Reliance
+                      Cancer Centre's that will be operated and managed by
+                      Kokilaben Dhirubhai Ambani Hospital,14
+                    </p>
+                  </div>
+
+                  <AnimatePresence>
+                    {!isExpanded && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-background to-transparent"
+                      />
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                <div className="mt-2 flex justify-center">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={toggleExpand}
+                    className="flex items-center gap-1 text-sm font-medium text-primary"
+                  >
+                    {isExpanded ? "Read less" : "Read more"}
+                    <motion.div
+                      animate={{ rotate: isExpanded ? 180 : 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <ChevronDown className="h-4 w-4" />
+                    </motion.div>
+                  </Button>
+                </div>
+            </div>
+          </div>
+
+          {/* <div className="!flex !flex-col !justify-center !space-y-5 !py-5 my-5 border border-gray-200 !p-4 rounded-md bg-slate-50 ">
             <h1 className="!text-2xl !font-semibold">About Us</h1>
             <span className="!text-gray-600 text-pretty text-justify">
               The 750 bed multi-speciality hospital became operational in the
@@ -71,8 +142,6 @@ const Description = () => {
               suite (IMRIS) in Asia, Asia's first EDGE Radiosurgery system from
               Varian Medical Systems, India's 1st Spine Surgery Suite featuring
               the O-arm and many more.
-            </span>
-            <span className="!text-gray-600 text-pretty text-justify">
               The hospital courted controversy in 2014 when it offered
               incentives to doctors for referring patients. It later apologised
               to the Maharashtra Medical Council, In 2016, the hospital
@@ -81,10 +150,10 @@ const Description = () => {
               will be operated and managed by Kokilaben Dhirubhai Ambani
               Hospital,14
             </span>
-          </div>
+          </div> */}
 
-           {/* Achievements */}
-           <div className="mb-5 border border-gray-200 !p-4 rounded-md bg-slate-50">
+          {/* Achievements */}
+          <div className="mb-5 border border-gray-200 !p-4 rounded-md bg-slate-50">
             <h1 className="!text-2xl !font-semibold">Achievements</h1>
             <div className="!py-4 sm:!py-2 ">
               {achievements.map((item, index) => (
@@ -97,7 +166,9 @@ const Description = () => {
                     alt={item.heading}
                     className="!rounded-full !h-15 !w-15 sm:!h-10 sm:!w-10"
                   />
-                  <h1 className="!text-sm !font-medium uppercase">{item.heading}</h1>
+                  <h1 className="!text-sm !font-medium uppercase">
+                    {item.heading}
+                  </h1>
                 </div>
               ))}
             </div>
@@ -216,7 +287,6 @@ const Description = () => {
                 </SwiperSlide>
               ))}
             </Swiper>
-    
           </div>
         </div>
 
