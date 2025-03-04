@@ -157,7 +157,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="w-full bg-white p-3">
+    <nav className="w-full bg-white px-3 pt-3">
       <div className="max-w-7xl mx-auto flex items-center justify-between space-x-4">
         {/* Logo and mobile menu button */}
         <div className="flex items-center space-x-4">
@@ -223,10 +223,9 @@ export default function Navbar() {
         </div>
       </div>
 
-      <hr className="my-3" />
 
       {/* Desktop navigation */}
-      <div className="hidden md:flex justify-center items-center my-3 mb-0">
+      <div className="hidden md:flex justify-center items-center my-3 mb-0 border-t border-b border-gray-200 py-2">
         <ul className="flex justify-center items-start space-x-4">
           {navigation.map((item) => {
             const Icon = item.icon;
@@ -286,6 +285,7 @@ export default function Navbar() {
           })}
         </ul>
       </div>
+
 
       {/* Mobile menu */}
       <AnimatePresence>

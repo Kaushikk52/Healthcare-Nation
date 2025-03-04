@@ -4,6 +4,7 @@ import { FaPhone, FaLocationDot, FaClock } from "react-icons/fa6";
 import { FaGlobeAmericas, FaCheck } from "react-icons/fa";
 import { Navigation, Pagination, Autoplay, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import servicesBySpecialities from "@/data/servicesBySpecialities";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -21,22 +22,7 @@ import { CircleCheck, CircleCheckBig } from "lucide-react";
 const Description = () => {
   const [showAll, setShowAll] = useState(false);
 
-  const departments = [
-    { title: "Gastroenterologist (3)" },
-    { title: "Internal Medicine (3)" },
-    { title: "Nephrologist (3)" },
-    { title: "Cardaic Surgeon (2)" },
-    { title: "Dermatologist (2)" },
-    { title: "Neurosurgeon (2)" },
-    { title: "Pediatric Surgeon (2)" },
-    { title: "Plastic Surgeon (2)" },
-    { title: "Phychaitrist (2)" },
-    { title: "Phychologist (2)" },
-    { title: "Spine Surgeon (2)" },
-    { title: "Diabetologist (1)" },
-    { title: "Endocrlnologist (1)" },
-    { title: "Head And Neck Surgeon (1)" },
-  ];
+  const departments = [...servicesBySpecialities];
 
   const visibleDepartments = showAll ? departments : departments.slice(0, 8);
 
@@ -70,9 +56,9 @@ const Description = () => {
     <>
       <div className="!grid !grid-cols-1 lg:!grid-cols-12 !gap-6">
         {/* Left Side */}
-        <div className="lg:!col-span-8  xl:!col-span-8">
+        <div className="lg:!col-span-8  xl:!col-span-8 ">
           {/* About Us Section */}
-          <div className="!flex !flex-col !justify-center !space-y-5 !py-5">
+          <div className="!flex !flex-col !justify-center !space-y-5 !py-5 my-5 border border-gray-200 !p-4 rounded-md bg-slate-50 ">
             <h1 className="!text-2xl !font-semibold">About Us</h1>
             <span className="!text-gray-600 text-pretty text-justify">
               The 750 bed multi-speciality hospital became operational in the

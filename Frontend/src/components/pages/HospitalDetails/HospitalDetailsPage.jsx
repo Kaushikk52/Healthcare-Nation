@@ -65,7 +65,7 @@ const HospitalDetailsPage = () => {
         { title: 'Add Review', icon: <MdEdit className='!text-yellow-400 !h-5 !w-5' />, Color: '!border-yellow-400 !text-yellow-500' },
         { title: 'Direction', icon: <MdOutlineDirections className='!text-pink-400 !h-5 !w-5' />, },
         { title: 'Save', icon: <BsBookmarkCheck className='!text-pink-400 !h-5 !w-5' />, Bold: '' },
-        { title: 'Share', icon: <FaRegShareFromSquare className='!text-pink-400 !h-5 !w-5' />, onClick: handleCopyUrl },
+        { title: 'Share', icon: <FaRegShareFromSquare className='!text-pink-400 !h-5 !w-5' />, onCick: handleCopyUrl },
     ]
 
     const roundedImages = [
