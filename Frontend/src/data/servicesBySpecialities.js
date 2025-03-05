@@ -10,8 +10,8 @@ const servicesBySpecialities = [
     { id: 9, title: 'Oncology', image: 'Cancer-Centres.jpg', },
     { id: 10, title: 'Plastic Surgery', image: 'specialities/Plastic-Surgery.jpg', },
     { id: 11, title: 'Pulmonology', image: 'specialities/Pulmonology.jpg', },
-    { id: 12, title: 'Pediatric Surgery', image: 'specialities/Pediatric-Surgery.jpg', },
-    
+    { id: 12, title: 'Pediatric Surgery', image: 'specialities/Pediatric Surgery.jpg', },
+
     { id: 13, title: 'Obstetrics & Gynecology', image: 'specialities/Obstetrics-Gynecology.jpg', },
     { id: 14, title: 'Neurosurgery', image: 'specialities/Neurosurgery.jpg', },
     { id: 15, title: 'Neurology', image: 'specialities/Neurology.jpg', },
@@ -27,6 +27,15 @@ const servicesBySpecialities = [
     { id: 25, title: 'Mental Health', image: 'specialities/Mental Health.jpg', },
     { id: 26, title: 'Neonatology', image: 'specialities/Neonatology.jpg', },
     { id: 27, title: 'Oncosurgery', image: 'specialities/Oncosurgery.jpg', },
+
+    { id: 28, title: 'Orthopedics', image: '/specialities/Orthopedics.jpg', },
+    { id: 29, title: 'Pediatric Cardiology', image: '/specialities/Pediatric Cardiology.jpg', },
+    { id: 31, title: 'Physiotherapy', image: '/specialities/Physiotherapy Occupational Therapy.jpg', },
+    { id: 32, title: 'Rheumatology', image: '/specialities/Rheumatology.jpg', },
+    { id: 33, title: 'Urology', image: '/specialities/Urology.jpg', },
+    { id: 33, title: 'Surgical Gastroenterology', image: '/specialities/Surgical Gastroenterology.jfif', },
+
+
 ]
 
 export default servicesBySpecialities;

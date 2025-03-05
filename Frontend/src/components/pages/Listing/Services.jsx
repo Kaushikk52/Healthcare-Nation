@@ -42,8 +42,8 @@ export default function Services() {
 
       <div className="!max-w-4xl lg:!max-w-5xl xl:!max-w-6xl !mx-auto !px-4 lg:!px-10 xl:!px-10">
         {/*HEADING AND SORT BUTTON  */}
-        <div className='!flex w-full justify-between !items-center !mb-6'>
-          <h2 className="text-gray-700 px-1 text-center flex-grow homepage-section-heading !ml-24">
+        <div className='!flex w-full justify-between !items-center !my-3'>
+          <h2 className="text-gray-700 px-1 text-center flex-grow homepage-section-heading !ml-24 uppercase">
           Hospitals/Services by Specialities
           </h2>
           <div className='flex-shrink-0'>
