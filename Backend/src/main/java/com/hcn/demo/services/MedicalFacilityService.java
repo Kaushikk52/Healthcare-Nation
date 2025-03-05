@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,13 +37,20 @@ public class MedicalFacilityService {
         this.userDetailsService = userDetailsService;
     }
 
-    @Transactional
-    public MedicalFacility addHospital(MedicalFacility hospital){
-        Address savedAddress = addressRepo.save(hospital.getAddress());
-        hospital.setAddress(savedAddress);
-        MedicalFacility saved =  medicalFacilityRepo.save(hospital);
-        return saved;
+
+    public MedicalFacility addHospital(MedicalFacility hospital) {
+        if (hospital.getAddress() == null) {
+            throw new IllegalArgumentException("Address cannot be null for a hospital.");
+        }
+        if (hospital.getRatings() == null) {
+            hospital.setRatings(new ArrayList<>());
+        }
+        if (hospital.getReviews() == null) {
+            hospital.setReviews(new ArrayList<>());
+        }
+        return medicalFacilityRepo.save(hospital);
     }
+
 
     @Transactional
     public MedicalFacility addClinic(MedicalFacility clinic){

@@ -2,6 +2,8 @@ package com.hcn.demo.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -15,8 +17,10 @@ import java.util.UUID;
 public class Address {
 
     @Id
-    @Column(name = "id", nullable = false, updatable = false, length = 36)
-    private String id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "id", nullable = false, columnDefinition = "BINARY(16)")
+    private UUID id;
 
     private String street;
     private String city;
@@ -26,13 +30,12 @@ public class Address {
     private LocalDateTime updatedAt;
 
     @PrePersist
-    private void prePersist(){
-        if(this.id == null){
-            this.id = UUID.randomUUID().toString();
+    private void prePersist() {
+        if (id == null) {
+            id = UUID.randomUUID();
         }
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
     }
-
 
 }

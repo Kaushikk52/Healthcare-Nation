@@ -11,7 +11,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Set;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -33,8 +32,8 @@ public abstract class HealthcareFacility {
     @Column(name = "images", length = 5000, columnDefinition = "VARBINARY(5000)")
     private String[] images;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
     private Address address;
 
     private String website;
