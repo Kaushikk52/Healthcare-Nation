@@ -17,25 +17,19 @@ import java.util.UUID;
 public class Address {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", nullable = false, columnDefinition = "BINARY(16)")
-    private UUID id;
+    @Column(name = "id", nullable = false, updatable = false, length = 36)
+    private String id;
 
     private String street;
     private String city;
     private String landmark;
     private String zipCode;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
     @PrePersist
     private void prePersist() {
         if (id == null) {
-            id = UUID.randomUUID();
+            id = UUID.randomUUID().toString();
         }
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
     }
 
 }

@@ -99,9 +99,7 @@ export default function ServiceListing() {
   const [sortBy, setSortBy] = useState("relevance");
   const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
   const [bedRange, setBedRange] = useState([0, 500]);
-  const [expandedSections, setExpandedSections] = useState(
-    filters.map((filter) => filter.title)
-  );
+  const [expandedSections, setExpandedSections] = useState(filters.map((filter) => filter.title));
   const [bedRangeInput, setBedRangeInput] = useState({ min: "0", max: "500" });
   const path = import.meta.env.VITE_APP_IMG_URL;
 

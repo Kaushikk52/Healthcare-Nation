@@ -19,6 +19,8 @@ import {
   ChevronDown,
   ChevronUp,
   Trash2,
+  Plus,
+  X,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
@@ -27,6 +29,7 @@ import DatePicker from "react-datepicker";
 import { MedicalFacilitySchema } from "@/Validations/MedicalFacility";
 import { useNavigate } from "react-router-dom";
 import { spec } from "node:test/reporters";
+import { Input } from "@/components/ui/input";
 
 const DatePickerField = ({ field, form }: any) => {
   return (
@@ -42,10 +45,22 @@ const DatePickerField = ({ field, form }: any) => {
 
 export default function HospitalForm() {
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
-  const cloudName = import.meta.env.VITE_APP_CLOUD_NAME;
-  const uploadPreset = import.meta.env.VITE_APP_UPLOAD_PRESET;
-  const environment = import.meta.env.VITE_APP_ENV || "LOCAL";
-  const propertiesPath = `${uploadPreset}/${environment}/Properties`;
+  const [phones, setPhones] = useState<string[]>([""]);
+
+  const handlePhoneChange = (index: number, value: string) => {
+    const updatedPhones = [...phones];
+    updatedPhones[index] = value;
+    setPhones(updatedPhones);
+  };
+
+  const addPhone = () => {
+    setPhones([...phones, ""]);
+  };
+
+  const removePhone = (index: number) => {
+    const updatedPhones = phones.filter((_, i) => i !== index);
+    setPhones(updatedPhones);
+  };
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
 
@@ -82,38 +97,6 @@ export default function HospitalForm() {
     avgRating: 0,
   };
 
-  
-  const LOCATION_OPTIONS = [
-    {
-      label: "Bhayandar",
-      options: ["Bhayandar East", "Bhayandar West"],
-    },
-    {
-      label: "Mira Road",
-      options: ["Mira Road East"],
-    },
-    {
-      label: "Dahisar",
-      options: ["Dahisar East", "Dahisar West"],
-    },
-    {
-      label: "Borivali",
-      options: ["Borivali East", "Borivali West"],
-    },
-    {
-      label: "Malad",
-      options: ["Malad East", "Malad West"],
-    },
-    {
-      label: "Goregaon",
-      options: ["Goregaon East", "Goregaon West"],
-    },
-    {
-      label: "Kandivali",
-      options: ["Kandivali East", "Kandivali West"],
-    },
-  ];
-
   useEffect(() => {
     const token: any = localStorage.getItem("token");
     if (!token) {
@@ -138,9 +121,11 @@ export default function HospitalForm() {
     }
   }, []);
 
-  async function uploadSingleImage(image: File,type: string): Promise<string | null> {
+  async function uploadSingleImage(
+    image: File,
+    type: string
+  ): Promise<string | null> {
     try {
-
       toast.loading("Uploading Specialities Images ...", {
         position: "bottom-right",
         duration: 2000,
@@ -150,7 +135,10 @@ export default function HospitalForm() {
       formData.append("file", image);
       formData.append("type", type);
 
-      const res = await axios.post(`${baseURL}/v1/api/images/upload/single`, formData);
+      const res = await axios.post(
+        `${baseURL}/v1/api/images/upload/single`,
+        formData
+      );
       return res.data ?? null;
     } catch (err) {
       console.error("Image upload failed:", err);
@@ -207,7 +195,7 @@ export default function HospitalForm() {
 
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        `${baseURL}/v1/api/hospital/save`,
+        `${baseURL}/v1/api/facility/save`,
         { ...values, avgRating: 0.0 },
         { headers: { Authorization: `Bearer ${token}`, timeout: 20000 } }
       );
@@ -502,7 +490,7 @@ export default function HospitalForm() {
                     </div>
 
                     <div className="grid grid-cols-2 gap-6">
-                      <div>
+                      <div className="mt-2">
                         <label
                           htmlFor="address.zipCode"
                           className="block text-sm font-medium text-gray-700"
@@ -522,19 +510,57 @@ export default function HospitalForm() {
                         />
                       </div>
 
-                      <div>
-                        <label
-                          htmlFor="phone"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Phone
-                        </label>
-                        <Field
-                          id="phone"
-                          name="phone"
-                          type="text"
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        />
+                      <div className="grid grid-cols-2">
+                        <div className="flex items-center justify-between col-span-2">
+                          <label
+                            htmlFor="phone"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Add Phone Numbers
+                          </label>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={addPhone}
+                            className="h-8 w-8 p-0"
+                          >
+                            <Plus className="h-4 w-4" />
+                          </Button>
+                        </div>
+
+                        <div className="col-span-2 space-y-2">
+                          {phones.map((phone, index) => (
+                            <div
+                              key={index}
+                              className="flex items-center gap-3"
+                            >
+                              <Input
+                                id={`phone`}
+                                name={`phone`}
+                                type="tel"
+                                value={phone}
+                                onChange={(e) =>
+                                  handlePhoneChange(index, e.target.value)
+                                }
+                                placeholder="Enter phone number"
+                                className="flex-1"
+                              />
+                              {phones.length > 1 && (
+                                <Button
+                                  type="button"
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => removePhone(index)}
+                                  className="h-10 w-10"
+                                >
+                                  <X className="h-4 w-4" />
+                                </Button>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+
                         <ErrorMessage
                           name="phone"
                           component="div"
@@ -666,8 +692,6 @@ export default function HospitalForm() {
                         />
                       </div>
                     </div>
-
-                    
                   </motion.div>
                 )}
 

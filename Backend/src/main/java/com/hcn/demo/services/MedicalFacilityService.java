@@ -37,27 +37,14 @@ public class MedicalFacilityService {
         this.userDetailsService = userDetailsService;
     }
 
-
     public MedicalFacility addHospital(MedicalFacility hospital) {
-        if (hospital.getAddress() == null) {
-            throw new IllegalArgumentException("Address cannot be null for a hospital.");
-        }
-        if (hospital.getRatings() == null) {
-            hospital.setRatings(new ArrayList<>());
-        }
-        if (hospital.getReviews() == null) {
-            hospital.setReviews(new ArrayList<>());
-        }
-        return medicalFacilityRepo.save(hospital);
+        MedicalFacility savedHospital= medicalFacilityRepo.save(hospital);
+        return savedHospital;
     }
 
-
-    @Transactional
     public MedicalFacility addClinic(MedicalFacility clinic){
-        Address savedAddress = addressRepo.save(clinic.getAddress());
-        clinic.setFacilityType(MedicalFacility.FacilityType.CLINIC);
-        clinic.setAddress(savedAddress);
-        return medicalFacilityRepo.save(clinic);
+        MedicalFacility savedClinic = medicalFacilityRepo.save(clinic);
+        return savedClinic;
     }
 
     public void addRatingToMedicalFacility(String id , Rating rating, Principal principal){
