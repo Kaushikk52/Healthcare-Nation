@@ -12,8 +12,8 @@ const BrandsInIndia = () => {
             <div className="!max-w-4xl lg:!max-w-5xl xl:!max-w-6xl !mx-auto !px-4 lg:!px-10 xl:!px-10">
 
                 <div className=''>
-                    <div className='flex justify-center items-start !mb-6'>
-                    <h2 className="text-gray-700 px-1 homepage-section-heading">
+                    <div className='flex justify-center items-start !my-3'>
+                    <h2 className="text-gray-700 px-1 homepage-section-heading uppercase">
                     Hospitals/Services by Healthcare Brands in India
                         </h2>
                     </div>

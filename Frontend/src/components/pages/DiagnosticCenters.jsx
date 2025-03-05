@@ -8,8 +8,8 @@ const DiagnosticCenters = () => {
   return (
     <div className="!max-w-4xl lg:!max-w-5xl xl:!max-w-6xl !mx-auto !px-4 lg:!px-10 xl:!px-10">
       {/* DIAGNOSTIC CENTRES NEAR YOU HEADING AND EXPLORE MORE BUTTON  */}
-      <div className="flex justify-center items-start lg:items-center !mb-10">
-        <h2 className="text-gray-700 px-1 homepage-section-heading">
+      <div className="flex justify-center items-start lg:items-center !my-4">
+        <h2 className="text-gray-700 px-1 homepage-section-heading uppercase">
           Diagnostic & Laboratory Services
         </h2>
         {/* <Link

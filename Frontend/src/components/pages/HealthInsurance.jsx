@@ -9,8 +9,8 @@ const HealthInsurance = () => {
     return (
         <div className="!max-w-4xl lg:!max-w-5xl xl:!max-w-6xl !mx-auto !px-4 lg:!px-10 xl:!px-10 !mb-10">
             {/* CHOOSE YOUR HEALTH INSURANCE AND EXPLORE MORE BUTTON */}
-            <div className="flex justify-center items-start !mb-10">
-                <h2 className="text-gray-700 px-1 homepage-section-heading">
+            <div className="flex justify-center items-start !my-3">
+                <h2 className="text-gray-700 px-1 homepage-section-heading uppercase">
                 Hospitals/Services covered by Health Insurance
                 </h2>
                 {/* <Link
