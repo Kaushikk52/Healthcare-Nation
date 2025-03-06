@@ -1,6 +1,5 @@
 package com.hcn.demo.models;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -22,77 +21,58 @@ public class MedicalFacility{
     @Id
     @Column(name = "id", nullable = false, updatable = false, length = 36)
     private String id;
-
     @NotNull(message = "Hospital name cannot be null")
     @Size(min = 3, max = 100, message = "Hospital name must be between 3 and 100 characters")
     @Column(nullable = false, length = 100)
     private String name;
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
-
     private int bed;
-
     private String website;
-
+    private String openDay;
+    private String closeDay;
+    private String hours;
     @Lob
     @Column(name = "description",columnDefinition = "TEXT")
     private String description;
-
-    @NotNull(message = "Phone number cannot be null.")
-    @Size(min = 10, max = 15, message = "Phone number must be between 10 and 15 digits.")
-    @Column(name = "phone", nullable = false, unique = true, length = 15)
-    private String phone;
-
+    @ElementCollection
+    @CollectionTable(name = "user_phone_numbers", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "phone_number")
+    @Size(min = 1, message = "At least one phone number is required.")
+    private List<String> phoneNumbers;
     @Column(name = "images", length = 5000, columnDefinition = "VARBINARY(5000)")
     private String[] images;
+    @Column(name = "videos", length = 5000, columnDefinition = "VARBINARY(5000)")
+    private String[] videos;
 
-    private String[] departments;
-
-    @OneToMany(mappedBy = "medicalFacility", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Speciality> specialities;
-
+    @Enumerated(EnumType.STRING)
+    private OwnershipType ownership;
+    @Enumerated(EnumType.STRING)
+    private FacilityType facilityType;
+    private String[] brands;
+    private String[] specialities;
+    private String[] services;
+    private String[] psu;
+    private String[] accreditations;
+    private String[] concerns;
+    private String[] insurance;
+    private String[] tpa;
     private String[] altMed;
 
-    private String[] concerns;
-
-    private String[] services;
-
     private Double avgRating;
-
     @OneToMany(mappedBy = "medicalFacility", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties({"hospital","user"})
     private List<Rating> ratings;
-
     @OneToMany(mappedBy = "medicalFacility", cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"hospital","user"})
     private List<Review> reviews;
 
-    @ManyToMany
-    @JoinTable(
-            name = "hospital_brand",
-            joinColumns = @JoinColumn(name = "hospital_id"),
-            inverseJoinColumns = @JoinColumn(name = "brand_id")
-    )
-    private List<Brands> brands;
-
-    @Enumerated(EnumType.STRING)
-    private HospitalType ownership;
-
-    @Enumerated(EnumType.STRING)
-    private FacilityType facilityType;
-
-    private String openDay;
-    private String closeDay;
-    private String hours;
-
     private LocalDateTime createdAt;
-
     private LocalDateTime updatedAt;
 
 
-    public enum HospitalType{
+    public enum OwnershipType{
         PRIVATE,GOVERNMENT
     }
 

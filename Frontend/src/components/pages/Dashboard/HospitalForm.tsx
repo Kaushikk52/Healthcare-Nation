@@ -1,7 +1,9 @@
+"use client";
+
 import axios from "axios";
 import {
-  FormikHelpers,
-  FormikErrors,
+  type FormikHelpers,
+  type FormikErrors,
   Formik,
   Field,
   ErrorMessage,
@@ -16,8 +18,6 @@ import {
   Loader2,
   Check,
   AlertCircle,
-  ChevronDown,
-  ChevronUp,
   Trash2,
   Plus,
   X,
@@ -28,8 +28,14 @@ import toast, { Toaster } from "react-hot-toast";
 import DatePicker from "react-datepicker";
 import { MedicalFacilitySchema } from "@/Validations/MedicalFacility";
 import { useNavigate } from "react-router-dom";
-import { spec } from "node:test/reporters";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const DatePickerField = ({ field, form }: any) => {
   return (
@@ -46,6 +52,8 @@ const DatePickerField = ({ field, form }: any) => {
 export default function HospitalForm() {
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
   const [phones, setPhones] = useState<string[]>([""]);
+  const [step, setStep] = useState(1);
+  const navigate = useNavigate();
 
   const handlePhoneChange = (index: number, value: string) => {
     const updatedPhones = [...phones];
@@ -61,13 +69,11 @@ export default function HospitalForm() {
     const updatedPhones = phones.filter((_, i) => i !== index);
     setPhones(updatedPhones);
   };
-  const [step, setStep] = useState(1);
-  const navigate = useNavigate();
+ 
 
+  // Update the initialValues to match the schema
   const initialValues = {
     name: "",
-    phone: [""],
-    images: [] as File[],
     address: {
       street: "",
       city: "",
@@ -75,25 +81,26 @@ export default function HospitalForm() {
       zipCode: "",
       country: "",
     },
-    website: "",
     bed: 0,
-    ownership: "PRIVATE",
-    description: "",
-    brands: [""],
+    website: "",
     openDay: "",
     closeDay: "",
     hours: "",
+    description: "",
+    phone: [""],
+    images: [] as File[],
+    videos: [""],
+    ownership: "PRIVATE",
     facilityType: "HOSPITAL",
+    brands: [""],
     specialities: [""],
-    diagnosticServices: [""],
-    alternativeMedicines: [""],
-    publicSectorSchemes: [""],
+    services: [""],
+    psu: [""],
     accreditations: [""],
     concerns: [""],
-    acceptedInsurances: [""],
-    thirdPartyAdministrators: [""],
-    ratings: [],
-    reviews: [],
+    insurance: [""],
+    tpa: [""],
+    altMed: [""],
     avgRating: 0,
   };
 
@@ -177,6 +184,56 @@ export default function HospitalForm() {
     toast[type](message, { position: "bottom-right", duration: 3000 });
   }
 
+  const [startDay, setStartDay] = useState("mon");
+  const [endDay, setEndDay] = useState("sat");
+  const [hoursPerDay, setHoursPerDay] = useState(8);
+  const [displayText, setDisplayText] = useState("");
+
+  const daysOfWeek = [
+    { label: "Monday", value: "mon", index: 0 },
+    { label: "Tuesday", value: "tue", index: 1 },
+    { label: "Wednesday", value: "wed", index: 2 },
+    { label: "Thursday", value: "thu", index: 3 },
+    { label: "Friday", value: "fri", index: 4 },
+    { label: "Saturday", value: "sat", index: 5 },
+    { label: "Sunday", value: "sun", index: 6 },
+  ];
+
+  useEffect(() => {
+    if (startDay && endDay) {
+      const start = daysOfWeek.find((day) => day.value === startDay);
+      const end = daysOfWeek.find((day) => day.value === endDay);
+
+      if (start && end) {
+        // Calculate days
+        let days = 0;
+        if (end.index >= start.index) {
+          days = end.index - start.index + 1;
+        } else {
+          days = 7 - start.index + end.index + 1;
+        }
+
+        // Calculate total hours based on hours per day
+        const totalHours = hoursPerDay;
+
+        // Format the display text
+        const formattedStart =
+          start.value.charAt(0).toUpperCase() + start.value.slice(1);
+        const formattedEnd =
+          end.value.charAt(0).toUpperCase() + end.value.slice(1);
+
+        setDisplayText(`${formattedStart} - ${formattedEnd} ${totalHours}hrs`);
+      }
+    }
+  }, [startDay, endDay, hoursPerDay]);
+
+  const handleHoursChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number.parseInt(e.target.value);
+    if (!isNaN(value) && value > 0 && value <= 24) {
+      setHoursPerDay(value);
+    }
+  };
+
   async function handleSubmit(
     values: typeof initialValues,
     { setSubmitting, resetForm }: FormikHelpers<typeof initialValues>
@@ -216,7 +273,7 @@ export default function HospitalForm() {
     }
   }
 
-  const steps = ["General", "Details", "Images", "Amenities"];
+  const steps = ["General", "Details", "Images", "Tags"];
 
   const getStepFields = (stepNumber: number) => {
     switch (stepNumber) {
@@ -428,6 +485,27 @@ export default function HospitalForm() {
 
                       <div>
                         <label
+                          htmlFor="website"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          Website
+                        </label>
+                        <Field
+                          id="website"
+                          name="website"
+                          type="url"
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="https://example.com"
+                        />
+                        <ErrorMessage
+                          name="website"
+                          component="div"
+                          className="text-red-500 text-sm mt-1"
+                        />
+                      </div>
+
+                      <div>
+                        <label
                           htmlFor="address.street"
                           className="block text-sm font-medium text-gray-700"
                         >
@@ -470,19 +548,19 @@ export default function HospitalForm() {
 
                       <div>
                         <label
-                          htmlFor="address.landmark"
+                          htmlFor="address.state"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          Landmark
+                          State
                         </label>
                         <Field
-                          id="address.landmark"
-                          name="address.landmark"
+                          id="address.state"
+                          name="address.state"
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
                         <ErrorMessage
-                          name="address.landmark"
+                          name="address.state"
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />
@@ -510,13 +588,111 @@ export default function HospitalForm() {
                         />
                       </div>
 
-                      <div className="grid grid-cols-2">
-                        <div className="flex items-center justify-between col-span-2">
+                      <div>
+                        <label
+                          htmlFor="address.country"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          Country
+                        </label>
+                        <Field
+                          id="address.country"
+                          name="address.country"
+                          type="text"
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        />
+                        <ErrorMessage
+                          name="address.country"
+                          component="div"
+                          className="text-red-500 text-sm mt-1"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-6">
+                      <h2 className="text-base font-bold tracking-tight col-span-2">
+                        Weekly Working Days
+                      </h2>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 col-span-2">
+                        <div>
+                          <label
+                            htmlFor="start-day"
+                            className="block text-sm font-medium text-gray-700 mb-1"
+                          >
+                            From
+                          </label>
+                          <Field
+                            as="select"
+                            id="start-day"
+                            name="start-day"
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          >
+                            {daysOfWeek.map((day) => (
+                              <option key={day.value} value={day.value}>
+                                {day.label}
+                              </option>
+                            ))}
+                          </Field>
+                          <ErrorMessage
+                            name="start-day"
+                            component="div"
+                            className="text-red-500 text-sm mt-1"
+                          />
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor="end-day"
+                            className="block text-sm font-medium text-gray-700 mb-1"
+                          >
+                            To
+                          </label>
+                          <Field
+                            as="select"
+                            id="end-day"
+                            name="end-day"
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          >
+                            {daysOfWeek.map((day) => (
+                              <option key={day.value} value={day.value}>
+                                {day.label}
+                              </option>
+                            ))}
+                          </Field>
+                          <ErrorMessage
+                            name="end-day"
+                            component="div"
+                            className="text-red-500 text-sm mt-1"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label
+                          htmlFor="hours-per-day"
+                          className="block text-sm font-medium text-gray-700 mt-4"
+                        >
+                          Hours per day
+                        </label>
+                        <Input
+                          id="hours-per-day"
+                          type="number"
+                          min="1"
+                          max="24"
+                          value={hoursPerDay}
+                          onChange={handleHoursChange}
+                          className="w-full"
+                        />
+                      </div>
+
+                      <div>
+                        <div className="flex items-center justify-between">
                           <label
                             htmlFor="phone"
                             className="block text-sm font-medium text-gray-700"
                           >
-                            Add Phone Numbers
+                            Phone Numbers
                           </label>
                           <Button
                             type="button"
@@ -529,21 +705,25 @@ export default function HospitalForm() {
                           </Button>
                         </div>
 
-                        <div className="col-span-2 space-y-2">
+                        <div className="space-y-2 mt-1">
                           {phones.map((phone, index) => (
                             <div
                               key={index}
                               className="flex items-center gap-3"
                             >
                               <Input
-                                id={`phone`}
-                                name={`phone`}
+                                id={`phone[${index}]`}
+                                name={`phone[${index}]`}
                                 type="tel"
                                 value={phone}
-                                onChange={(e) =>
-                                  handlePhoneChange(index, e.target.value)
-                                }
-                                placeholder="Enter phone number"
+                                onChange={(e) => {
+                                  handlePhoneChange(index, e.target.value);
+                                  setFieldValue(
+                                    `phone[${index}]`,
+                                    e.target.value
+                                  );
+                                }}
+                                placeholder="Enter phone number (10 digits)"
                                 className="flex-1"
                               />
                               {phones.length > 1 && (
@@ -560,59 +740,12 @@ export default function HospitalForm() {
                             </div>
                           ))}
                         </div>
-
                         <ErrorMessage
                           name="phone"
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />
                       </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-6">
-                      {/* <div>
-                        <label
-                          htmlFor="country"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Country
-                        </label>
-                        <Field
-                          id="country"
-                          name="country"
-                          type="text"
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        />
-                        <ErrorMessage
-                          name="country"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
-                      </div> */}
-
-                      {/* <div>
-                        <label
-                          htmlFor="ownership"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Ownership
-                        </label>
-                        <Field
-                          as="select"
-                          id="ownership"
-                          name="ownership"
-                          className="mt-1 block w-full pl-3 pr-10 !py-2.5 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md"
-                        >
-                          <option value="">Select Ownership</option>
-                          <option value="private">Private</option>
-                          <option value="government">Government</option>
-                        </Field>
-                        <ErrorMessage
-                          name="ownership"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
-                      </div> */}
                     </div>
                   </motion.div>
                 )}
@@ -650,19 +783,20 @@ export default function HospitalForm() {
                     <div className="grid grid-cols-2 gap-6">
                       <div>
                         <label
-                          htmlFor="beds"
+                          htmlFor="bed"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          Beds
+                          Bed Count
                         </label>
                         <Field
-                          id="beds"
-                          name="beds"
+                          id="bed"
+                          name="bed"
                           type="number"
+                          min="1"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
                         <ErrorMessage
-                          name="beds"
+                          name="bed"
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />
@@ -679,11 +813,12 @@ export default function HospitalForm() {
                           as="select"
                           id="ownership"
                           name="ownership"
-                          className="block w-full pl-3 pr-10  !py-2.5 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md"
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         >
                           <option value="">Select Ownership</option>
-                          <option value="Private">Private</option>
-                          <option value="Government">Government</option>
+                          <option value="PRIVATE">Private</option>
+                          <option value="PUBLIC">Public</option>
+                          <option value="GOVERNMENT">Government</option>
                         </Field>
                         <ErrorMessage
                           name="ownership"
@@ -692,6 +827,109 @@ export default function HospitalForm() {
                         />
                       </div>
                     </div>
+
+                    <div className="grid grid-cols-2 gap-6">
+                      <div>
+                        <label
+                          htmlFor="specialities"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          Specialities
+                        </label>
+                        <FieldArray name="specialities">
+                          {({ push, remove, form }) => (
+                            <div className="space-y-2">
+                              
+                              {form.values.specialities.map(
+                                (_: any, index: number) => (
+                                  <div
+                                    key={index}
+                                    className="flex items-center gap-2"
+                                  >
+                                    <Field
+                                      name={`specialities[${index}]`}
+                                      type="text"
+                                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                      placeholder="Enter speciality"
+                                    />
+                                    <Button
+                                      type="button"
+                                      variant="ghost"
+                                      onClick={() => remove(index)}
+                                      className="h-10 w-10"
+                                      disabled={
+                                        form.values.specialities.length === 1
+                                      }
+                                    >
+                                      <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                  </div>
+                                )
+                              )}
+                            </div>
+                          )}
+                        </FieldArray>
+                        <ErrorMessage
+                          name="specialities"
+                          component="div"
+                          className="text-red-500 text-sm mt-1"
+                        />
+                      </div>
+
+                      <div>
+                      <label
+                        htmlFor="services"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Services
+                      </label>
+                      <FieldArray name="services">
+                        {({ push, remove, form }) => (
+                          <div className="space-y-2">
+                            {form.values.services.map(
+                              (_: any, index: number) => (
+                                <div
+                                  key={index}
+                                  className="flex items-center gap-2"
+                                >
+                                  <Field
+                                    name={`services[${index}]`}
+                                    type="text"
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder="Enter service"
+                                  />
+                                  <Button
+                                    type="button"
+                                    variant="ghost"
+                                    onClick={() => remove(index)}
+                                    className="h-10 w-10"
+                                    disabled={form.values.services.length === 1}
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                              )
+                            )}
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={() => push("")}
+                              className="mt-2"
+                            >
+                              <Plus className="h-4 w-4 mr-2" />
+                            </Button>
+                          </div>
+                        )}
+                      </FieldArray>
+                      <ErrorMessage
+                        name="services"
+                        component="div"
+                        className="text-red-500 text-sm mt-1"
+                      />
+                    </div>
+                    </div>
+
+                    
                   </motion.div>
                 )}
 
@@ -740,7 +978,6 @@ export default function HospitalForm() {
                                 onChange={(event) => {
                                   const files = event.currentTarget.files;
                                   if (files) {
-                                    // console.log(files);
                                     setFieldValue("images", [
                                       ...values.images,
                                       ...Array.from(files),
@@ -774,6 +1011,57 @@ export default function HospitalForm() {
                         </ul>
                       </div>
                     )}
+
+                    <div>
+                      <label
+                        htmlFor="videos"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Videos (URLs)
+                      </label>
+                      <FieldArray name="videos">
+                        {({ push, remove, form }) => (
+                          <div className="space-y-2">
+                            {form.values.videos.map((_: any, index: number) => (
+                              <div
+                                key={index}
+                                className="flex items-center gap-2"
+                              >
+                                <Field
+                                  name={`videos[${index}]`}
+                                  type="url"
+                                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                  placeholder="https://example.com/video"
+                                />
+                                <Button
+                                  type="button"
+                                  variant="ghost"
+                                  onClick={() => remove(index)}
+                                  className="h-10 w-10"
+                                  disabled={form.values.videos.length === 1}
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            ))}
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={() => push("")}
+                              className="mt-2"
+                            >
+                              <Plus className="h-4 w-4 mr-2" />
+                              Add Video URL
+                            </Button>
+                          </div>
+                        )}
+                      </FieldArray>
+                      <ErrorMessage
+                        name="videos"
+                        component="div"
+                        className="text-red-500 text-sm mt-1"
+                      />
+                    </div>
                   </motion.div>
                 )}
 
@@ -788,91 +1076,180 @@ export default function HospitalForm() {
                   >
                     <div>
                       <label className="block text-xl font-medium text-gray-900 mb-4">
-                        Departments
+                        Brands
                       </label>
-                      <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
-                        {["Cardiology", "Neurology", "Orthopedics"].map(
-                          (department) => (
-                            <div key={department} className="flex items-center">
-                              <Field
-                                type="checkbox"
-                                id={department}
-                                name="departments"
-                                value={department}
-                                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                              />
-                              <label
-                                htmlFor="departments"
-                                className="ml-2 block text-base text-gray-900"
+                      <FieldArray name="brands">
+                        {({ push, remove, form }) => (
+                          <div className="space-y-2">
+                            {form.values.brands.map((_: any, index: number) => (
+                              <div
+                                key={index}
+                                className="flex items-center gap-2"
                               >
-                                {department}
-                              </label>
-                            </div>
-                          )
-                        )}
-                      </div>
-                      <ErrorMessage
-                        name="departments"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
-                    </div>
-
-                    <div className="!mt-10">
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                        Alternative Medicine
-                      </label>
-                      <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
-                        {["Ayurveda", "Homeopathy"].map((altMed) => (
-                          <div key={altMed} className="flex items-center">
-                            <Field
-                              type="checkbox"
-                              id={altMed}
-                              name="altMeds"
-                              value={altMed}
-                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                            />
-                            <label
-                              htmlFor="altMeds"
-                              className="ml-2 block text-base text-gray-900"
+                                <Field
+                                  name={`brands[${index}]`}
+                                  type="text"
+                                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                  placeholder="Enter brand name"
+                                />
+                                <Button
+                                  type="button"
+                                  variant="ghost"
+                                  onClick={() => remove(index)}
+                                  className="h-10 w-10"
+                                  disabled={form.values.brands.length === 1}
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            ))}
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={() => push("")}
+                              className="mt-2"
                             >
-                              {altMed}
-                            </label>
+                              <Plus className="h-4 w-4 mr-2" />
+                              Add Brand
+                            </Button>
                           </div>
-                        ))}
-                      </div>
-                      <ErrorMessage
-                        name="altMeds"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
+                        )}
+                      </FieldArray>
                     </div>
 
-                    <div className="!mt-10">
+                    <div className="!mt-6">
+                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                        PSU (Public Sector Undertaking)
+                      </label>
+                      <FieldArray name="psu">
+                        {({ push, remove, form }) => (
+                          <div className="space-y-2">
+                            {form.values.psu.map((_: any, index: number) => (
+                              <div
+                                key={index}
+                                className="flex items-center gap-2"
+                              >
+                                <Field
+                                  name={`psu[${index}]`}
+                                  type="text"
+                                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                  placeholder="Enter PSU name"
+                                />
+                                <Button
+                                  type="button"
+                                  variant="ghost"
+                                  onClick={() => remove(index)}
+                                  className="h-10 w-10"
+                                  disabled={form.values.psu.length === 1}
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            ))}
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={() => push("")}
+                              className="mt-2"
+                            >
+                              <Plus className="h-4 w-4 mr-2" />
+                              Add PSU
+                            </Button>
+                          </div>
+                        )}
+                      </FieldArray>
+                    </div>
+
+                    <div className="!mt-6">
+                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                        Accreditations
+                      </label>
+                      <FieldArray name="accreditations">
+                        {({ push, remove, form }) => (
+                          <div className="space-y-2">
+                            {form.values.accreditations.map(
+                              (_: any, index: number) => (
+                                <div
+                                  key={index}
+                                  className="flex items-center gap-2"
+                                >
+                                  <Field
+                                    name={`accreditations[${index}]`}
+                                    type="text"
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder="Enter accreditation"
+                                  />
+                                  <Button
+                                    type="button"
+                                    variant="ghost"
+                                    onClick={() => remove(index)}
+                                    className="h-10 w-10"
+                                    disabled={
+                                      form.values.accreditations.length === 1
+                                    }
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                              )
+                            )}
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={() => push("")}
+                              className="mt-2"
+                            >
+                              <Plus className="h-4 w-4 mr-2" />
+                              Add Accreditation
+                            </Button>
+                          </div>
+                        )}
+                      </FieldArray>
+                    </div>
+
+                    <div className="!mt-6">
                       <label className="block text-xl font-medium text-gray-900 mb-4">
                         Health Concerns
                       </label>
-                      <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
-                        {["Emergency Services", "Patient Satisfaction"].map(
-                          (concern) => (
-                            <div key={concern} className="flex items-center">
-                              <Field
-                                type="checkbox"
-                                id={concern}
-                                name="concerns"
-                                value={concern}
-                                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                              />
-                              <label
-                                htmlFor="concerns"
-                                className="ml-2 block text-base text-gray-900"
-                              >
-                                {concern}
-                              </label>
-                            </div>
-                          )
+                      <FieldArray name="concerns">
+                        {({ push, remove, form }) => (
+                          <div className="space-y-2">
+                            {form.values.concerns.map(
+                              (_: any, index: number) => (
+                                <div
+                                  key={index}
+                                  className="flex items-center gap-2"
+                                >
+                                  <Field
+                                    name={`concerns[${index}]`}
+                                    type="text"
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder="Enter health concern"
+                                  />
+                                  <Button
+                                    type="button"
+                                    variant="ghost"
+                                    onClick={() => remove(index)}
+                                    className="h-10 w-10"
+                                    disabled={form.values.concerns.length === 1}
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                              )
+                            )}
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={() => push("")}
+                              className="mt-2"
+                            >
+                              <Plus className="h-4 w-4 mr-2" />
+                              Add Health Concern
+                            </Button>
+                          </div>
                         )}
-                      </div>
+                      </FieldArray>
                       <ErrorMessage
                         name="concerns"
                         component="div"
@@ -880,35 +1257,149 @@ export default function HospitalForm() {
                       />
                     </div>
 
-                    <div className="!mt-10">
+                    <div className="!mt-6">
                       <label className="block text-xl font-medium text-gray-900 mb-4">
-                        Services
+                        Insurance Accepted
                       </label>
-                      <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
-                        {[
-                          "24/7 Emergency",
-                          "Pharmacy",
-                          "Diagnostic Imaging",
-                        ].map((services) => (
-                          <div key={services} className="flex items-center">
-                            <Field
-                              type="checkbox"
-                              id={services}
-                              name="services"
-                              value={services}
-                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                            />
-                            <label
-                              htmlFor={services}
-                              className="ml-2 block text-base text-gray-900"
+                      <FieldArray name="insurance">
+                        {({ push, remove, form }) => (
+                          <div className="space-y-2">
+                            {form.values.insurance.map(
+                              (_: any, index: number) => (
+                                <div
+                                  key={index}
+                                  className="flex items-center gap-2"
+                                >
+                                  <Field
+                                    name={`insurance[${index}]`}
+                                    type="text"
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder="Enter insurance provider"
+                                  />
+                                  <Button
+                                    type="button"
+                                    variant="ghost"
+                                    onClick={() => remove(index)}
+                                    className="h-10 w-10"
+                                    disabled={
+                                      form.values.insurance.length === 1
+                                    }
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                              )
+                            )}
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={() => push("")}
+                              className="mt-2"
                             >
-                              {services}
-                            </label>
+                              <Plus className="h-4 w-4 mr-2" />
+                              Add Insurance
+                            </Button>
                           </div>
-                        ))}
-                      </div>
+                        )}
+                      </FieldArray>
                       <ErrorMessage
-                        name="healthConcern"
+                        name="insurance"
+                        component="div"
+                        className="text-red-500 text-sm mt-1"
+                      />
+                    </div>
+
+                    <div className="!mt-6">
+                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                        TPA (Third Party Administrators)
+                      </label>
+                      <FieldArray name="tpa">
+                        {({ push, remove, form }) => (
+                          <div className="space-y-2">
+                            {form.values.tpa.map((_: any, index: number) => (
+                              <div
+                                key={index}
+                                className="flex items-center gap-2"
+                              >
+                                <Field
+                                  name={`tpa[${index}]`}
+                                  type="text"
+                                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                  placeholder="Enter TPA name"
+                                />
+                                <Button
+                                  type="button"
+                                  variant="ghost"
+                                  onClick={() => remove(index)}
+                                  className="h-10 w-10"
+                                  disabled={form.values.tpa.length === 1}
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            ))}
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={() => push("")}
+                              className="mt-2"
+                            >
+                              <Plus className="h-4 w-4 mr-2" />
+                              Add TPA
+                            </Button>
+                          </div>
+                        )}
+                      </FieldArray>
+                      <ErrorMessage
+                        name="tpa"
+                        component="div"
+                        className="text-red-500 text-sm mt-1"
+                      />
+                    </div>
+
+                    <div className="!mt-6">
+                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                        Alternative Medicine
+                      </label>
+                      <FieldArray name="altMed">
+                        {({ push, remove, form }) => (
+                          <div className="space-y-2">
+                            {form.values.altMed.map((_: any, index: number) => (
+                              <div
+                                key={index}
+                                className="flex items-center gap-2"
+                              >
+                                <Field
+                                  name={`altMed[${index}]`}
+                                  type="text"
+                                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                  placeholder="Enter alternative medicine type"
+                                />
+                                <Button
+                                  type="button"
+                                  variant="ghost"
+                                  onClick={() => remove(index)}
+                                  className="h-10 w-10"
+                                  disabled={form.values.altMed.length === 1}
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            ))}
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={() => push("")}
+                              className="mt-2"
+                            >
+                              <Plus className="h-4 w-4 mr-2" />
+                              Add Alternative Medicine
+                            </Button>
+                          </div>
+                        )}
+                      </FieldArray>
+                      <ErrorMessage
+                        name="altMed"
                         component="div"
                         className="text-red-500 text-sm mt-1"
                       />

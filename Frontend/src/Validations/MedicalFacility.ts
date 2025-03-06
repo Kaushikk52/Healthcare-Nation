@@ -1,55 +1,43 @@
-import * as Yup from "yup";
+import * as yup from "yup";
 
-export const MedicalFacilitySchema = Yup.object().shape({
-  name: Yup.string().required("Facility name is required"),
-  phone: Yup.array()
-    .of(Yup.string().matches(/^\+?[1-9]\d{1,14}$/, "Invalid phone number"))
-    .min(1, "At least one phone number is required"),
-  images: Yup.array().of(Yup.string().url("Invalid image URL")),
-  address: Yup.object().shape({
-    street: Yup.string().required("Street is required"),
-    city: Yup.string().required("City is required"),
-    state: Yup.string().required("State is required"),
-    zipCode: Yup.string().matches(/^\d{5,6}$/, "Invalid ZIP code"),
-    country: Yup.string().required("Country is required"),
-  }),
-  website: Yup.string().url("Invalid website URL"),
-  bed: Yup.number().min(0, "Beds cannot be negative").required("Number of beds is required"),
-  ownership: Yup.mixed().oneOf(["PRIVATE", "GOVERNMENT"]).required("Ownership type is required"),
-  description: Yup.string().required("Description is required"),
-  brands: Yup.array().of(Yup.string()).min(1, "At least one brand is required"),
-  openDay: Yup.string().required("Opening day is required"),
-  closeDay: Yup.string().required("Closing day is required"),
-  hours: Yup.string().required("Working hours are required"),
+export const MedicalFacilitySchema = yup.object().shape({
+    name: yup.string().required("Name is required"),
+    address: yup.object({
+      street: yup.string().required("Street is required"),
+      city: yup.string().required("City is required"),
+      state: yup.string().required("State is required"),
+      zipCode: yup.string().matches(/^\d{5}$/, "Zip code must be 5 digits").required("Zip code is required"),
+      country: yup.string().required("Country is required"),
+    }).required(),
 
-  facilityType: Yup.mixed().oneOf(["HOSPITAL", "CLINIC"]).required("Facility type is required"),
-  specialities: Yup.array().of(Yup.string()).min(1, "At least one speciality is required"),
-  diagnosticServices: Yup.array().of(Yup.string()),
-  alternativeMedicines: Yup.array().of(Yup.string()),
-  publicSectorSchemes: Yup.array().of(Yup.string()),
+    bed: yup.number().min(1, "Bed count must be at least 1").required("Bed count is required"),
+    website: yup.string().url("Website must be a valid URL").required("Website is required"),
+    openDay: yup.string().required("Opening day is required"),
+    closeDay: yup.string().required("Closing day is required"),
+    hours: yup.string().required("Hours are required"),
+    description: yup.string().required("Description is required"),
+    phone: yup.array()
+      .of(yup.string().matches(/^\d{10}$/, "Phone number must be exactly 10 digits"))
+      .min(1, "At least one phone number is required")
+      .required("Phone numbers are required"),
 
-  accreditations: Yup.array().of(Yup.string()),
-  concerns: Yup.array().of(Yup.string()),
-  acceptedInsurances: Yup.array().of(Yup.string()),
-  thirdPartyAdministrators: Yup.array().of(Yup.string()),
+    images: yup.array().of(yup.string()).required("Images are required"),
+    videos: yup.array().of(yup.string().url("Each video must be a valid URL")),
 
-  ratings: Yup.array().of(
-    Yup.object().shape({
-      id: Yup.number().required(),
-      userId: Yup.number().required(),
-      medicalFacilityId: Yup.number().required(),
-      rating: Yup.number().min(0).max(5).required("Rating must be between 0 and 5"),
-      comment: Yup.string(),
-    })
-  ),
-  reviews: Yup.array().of(
-    Yup.object().shape({
-      id: Yup.number().required(),
-      userId: Yup.number().required(),
-      medicalFacilityId: Yup.number().required(),
-      reviewText: Yup.string().required("Review text is required"),
-      createdAt: Yup.string().required(),
-    })
-  ),
-  avgRating: Yup.number().min(0).max(5).required("Average rating is required"),
+
+    ownership: yup.string().oneOf(["PRIVATE", "PUBLIC", "GOVERNMENT"], "Invalid ownership type").required("Ownership type is required"),
+    facilityType: yup.string().oneOf(["HOSPITAL", "CLINIC", "DIAGNOSTIC_CENTER"], "Invalid facility type").required("Facility type is required"),
+  
+    brands: yup.array().of(yup.string()),
+    specialities: yup.array().of(yup.string()).required("Specialities are required"),
+    services: yup.array().of(yup.string()).required("Services are required"),
+    psu: yup.array().of(yup.string()),
+    accreditations: yup.array().of(yup.string()),
+    concerns: yup.array().of(yup.string()),
+    insurance: yup.array().of(yup.string()),
+    tpa: yup.array().of(yup.string()),
+    altMed: yup.array().of(yup.string()),
+  
+    avgRating: yup.number().min(0, "Rating cannot be negative").max(5, "Rating cannot exceed 5").required("Average rating is required"),
+ 
 });
