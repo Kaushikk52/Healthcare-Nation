@@ -31,8 +31,8 @@ const filters = [
   {title:"Sort By",
     options: [
       {id:"relevance", text:"Relevance"},
-      {id:"rating", text:"High to Low"},
-      {id:"reviews", text:"High to Low"}
+      {id:"rating", text:"Ratings : High to Low"},
+      {id:"reviews", text:"Reviews : High to Low"}
     ]
   },
   {
@@ -637,7 +637,7 @@ export default function ServiceListing() {
                             {detail.address.street}, {detail.address.city} - {detail.address.zipCode}
                           </span>
                           <span className="text-sm  text-green-700 capitalize">
-                            { `${detail.openDay} - ${detail.closeDay} ${detail.hours} hrs`  ||"Open 24 hours"}
+                            { `${detail.openDay} - ${detail.closeDay} ${detail.hours}`  ||"Open 24 hours"}
                           </span>
                         </div>
 
