@@ -217,7 +217,7 @@ export default function Navbar() {
               </select>
             </div>
 
-            <div className="bg-[#EDDBE9] md:w-8/12 lg:w-7/12 xl:w-7/12 flex items-center px-3 h-full rounded-r-md">
+            <div className="bg-[#EDDBE9] md:w-8/12 lg:w-7/12 xl:w-[350px] flex items-center px-3 h-full rounded-r-md">
               <BiSearchAlt2 className="h-6 w-6 text-[#9B2482] flex-shrink-0" />
               <input
                 type="text"

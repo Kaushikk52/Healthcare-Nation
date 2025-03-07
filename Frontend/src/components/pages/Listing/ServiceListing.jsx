@@ -52,6 +52,12 @@ const filters = [
       { id: "Railway Hospitals", text: "Railway Hospitals" },
     ],
   },
+  {
+    title:"Saved",
+    options:[
+      {id:"Saved", text:"Saved"}
+    ]
+  }
 ];
 
 const hospitalDetails = [
