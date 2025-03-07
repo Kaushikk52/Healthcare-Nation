@@ -602,7 +602,7 @@ function Home() {
             {servicesByAccrediations.map((service, index) => (
               <div
                 key={index}
-                className="group !grid !grid-cols-12 !gap-x-2.5 !shadow-lg !items-center !rounded-xl !py-2 sm:!py-4 lg:!py-2 xl:!py-2.5 !px-2"
+                className="group !grid !grid-cols-12 !gap-x-2.5 border !items-center !rounded-xl !py-2 sm:!py-4 lg:!py-2 xl:!py-2.5 !px-2"
               >
                 <div className="!col-span-4 md:!col-span-4 !p-1 !h-20 sm:!h-28 md:!h-24 lg:!h-20 xl:!h-[104px] !w-full">
                   <img

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaStar, FaFilter, FaChevronDown } from "react-icons/fa";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { DualRangeSlider } from "@/components/ui/DualRangeSlider";
 import { X, ChevronDown } from "lucide-react";
+import axios from "axios";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, A11y } from "swiper/modules";
@@ -60,36 +61,6 @@ const filters = [
   }
 ];
 
-const hospitalDetails = [
-  {
-    id: 1,
-    hName: "Kokilaben Hospital",
-    images: ["demo/Kokliaben-hospital.jpeg", "demo/Kokliaben-hospital.jpeg"],
-    location: "Andheri",
-    city: "Mumbai",
-    beds: "323",
-    accreditations: ["national-accreditations.png", "joint-commision.png"],
-    rating: "4.8",
-    reviews: "59",
-    contactNo: "+91 1234567890",
-  },
-  {
-    id: 2,
-    hName: "Hiranandani Hospital",
-    images: [
-      "demo/hiranandani-hospital.jpeg",
-      "demo/hiranandani-hospital.jpeg",
-    ],
-    location: "Powai",
-    city: "Mumbai",
-    beds: "323",
-    accreditations: ["national-accreditations.png", "joint-commision.png"],
-    rating: "4.8",
-    reviews: "59",
-    contactNo: "+91 1234567890",
-  },
-];
-
 const sortOptions = [
   { value: "relevance", prefix: "", label: "Relevance" },
   { value: "rating", prefix: "Ratings: ", label: "High to Low" },
@@ -97,9 +68,13 @@ const sortOptions = [
 ];
 
 export default function ServiceListing() {
+  const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS;
+  const clinicImgs = import.meta.env.VITE_APP_CLOUDINARY_CLINICS;
   const [searchParams] = useSearchParams();
+  const  type = searchParams.get("type");
   const location = searchParams.get("location");
- 
+  const [facilities, setFacilities] = useState([]);
+
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [sortBy, setSortBy] = useState("relevance");
@@ -130,6 +105,33 @@ export default function ServiceListing() {
       setBedRange([Number.parseInt(bedRangeInput.min), numValue]);
     }
   };
+
+  useEffect(() => {
+    (type) === "hospitals" ? getHospitals() : getClinics();
+  }, [type]);
+
+  const getHospitals = async () => {
+    try{
+      const response = await axios.get(`http://localhost:8081/v1/api/facility/type/${type}`);
+      const data = await response.data.hospitals;
+      // console.log(data);
+      setFacilities(data);
+    }catch(err){
+      console.log(err.message);
+    }
+  }
+
+  const getClinics =async () => {
+    try{
+      const response = await axios.get(`http://localhost:8081/v1/api/facility/type/${type}`);
+      const data = await response.data.clinics;
+      // console.log(data);
+      setFacilities(data);
+    }catch(err){
+      console.log(err.message);
+    }
+  }
+
 
   const handleFilterToggle = (filterId, filterType) => {
     if (filterType === "slider") {
@@ -583,20 +585,6 @@ export default function ServiceListing() {
                     </motion.div>
                   );
                 })}
-                {(selectedFilters.length > 0 ||
-                  bedRange[0] !== 0 ||
-                  bedRange[1] !== 500) && (
-                  <button
-                    onClick={() => {
-                      clearAllFilters();
-                      setBedRange([0, 500]);
-                      setBedRangeInput({ min: "0", max: "500" });
-                    }}
-                    className="text-sm text-blue-600 hover:text-blue-700 hover:underline"
-                  >
-                    Clear all
-                  </button>
-                )}
               </div>
 
               {/* Sort By Dropdown */}
@@ -646,7 +634,7 @@ export default function ServiceListing() {
 
             {/* LIST OF HOSPITALS WITH DETAILS */}
             <div>
-              {hospitalDetails.map((detail) => (
+              {facilities?.map((detail) => (
                 <React.Fragment key={detail.id}>
                   <div className="grid grid-cols-1 lg:grid-cols-10 gap-x-4 gap-y-2 mt-6 mb-6 sm:px-2">
                     {/* HOSPITAL IMAGE */}
@@ -661,13 +649,21 @@ export default function ServiceListing() {
                         onSlideChange={() => console.log("slide change")}
                       >
                         {detail.images.map((image, index) => (
+                          (type === "hospitals")  ?
                           <SwiperSlide key={index}>
                             <img
-                              src={path + image || "/placeholder.svg"}
-                              alt="Hospital Image"
-                              className="w-full h-auto object-cover"
+                              src={hospitalImgs + image || "/placeholder.svg"}
+                              alt={`${type} Image`}
+                              className="w-full h-auto object-cover aspect-[5/3] rounded-md"
                             />
                           </SwiperSlide>
+                          :<SwiperSlide key={index}>
+                          <img
+                            src={clinicImgs + image || "/placeholder.svg"}
+                            alt={`${type} Image`}
+                            className="w-full h-auto object-cover aspect-[5/3] rounded-md"
+                          />
+                        </SwiperSlide>
                         ))}
                       </Swiper>
                     </div>
@@ -679,13 +675,13 @@ export default function ServiceListing() {
                         {/* NAME AND LOCATION */}
                         <div className="flex flex-col">
                           <span className="line-clamp-1 text-lg min-[425px]:text-2xl sm:text-2xl lg:text-2xl xl:text-2xl font-bold text-gray-700">
-                            {detail.hName}
+                            {detail.name}
                           </span>
                           <span className="text-sm min-[425px]:text-base sm:text-lg lg:text-base xl:text-lg font-semibold text-gray-700">
-                            {detail.location}, {detail.city}
+                            {detail.address.street}, {detail.address.city} - {detail.address.zipCode}
                           </span>
-                          <span className="text-sm  text-green-700">
-                            Open 24 hours
+                          <span className="text-sm  text-green-700 capitalize">
+                            { `${detail.openDay} - ${detail.closeDay} ${detail.hours} hrs`  ||"Open 24 hours"}
                           </span>
                         </div>
 
@@ -693,12 +689,12 @@ export default function ServiceListing() {
                         <div className="!flex !flex-col !justify-center !text-white !my-1 sm:!my-0 !space-y-0.5 sm:!space-y-1.5 !text-left sm:!text-right">
                           <div className="!flex !justify-center !items-center !bg-[#267e3e] !rounded !py-0.5 !px-0">
                             <span className="!text-base !font-semibold !mr-1 !px-0">
-                              4.8
+                              {detail.avgRating}
                             </span>
                             <FaStar className="!h-4 !w-4 !mb-0.5 !px-0 !mx-0" />
                           </div>
                           <div className="!text-gray-600">
-                            <span className="text-sm">59 Reviews</span>
+                            <span className="text-sm">{detail.reviews.length} Reviews</span>
                           </div>
                         </div>
                       </div>

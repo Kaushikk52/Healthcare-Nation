@@ -1,8 +1,8 @@
 const healthcareServices = [
-    { path: '/listing', title: "Hospitals", image: "hospitals1.jpg" },
+    { path: '/listing?type=hospitals', title: "Hospitals", image: "hospitals1.jpg" },
     { path: '/', title: "Dialysis Centers", image: "Dialysis-Centres.jpg" },
     { path: '/', title: "Blood/Skin Banks", image: "Blood-Bank-1.jpg" },
-    { path: '/', title: "Clinics", image: "Clinics-1.png" },
+    { path: '/listing?type=clinics', title: "Clinics", image: "Clinics-1.png" },
     { path: '/', title: "Home Care Services", image: "HomeCare-services1.jpg" },
     { path: '/', title: "Patient Transport", image: "Patient-Transport-1.png" },
     { path: '/', title: "Diagnostics", image: "Diagnostics-img1.jpg" },

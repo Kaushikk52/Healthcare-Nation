@@ -44,8 +44,7 @@ const Reviews = () => {
           <h1 className='!text-2xl !font-semibold'>Reviews</h1>
           <select className='!px-4 !font-semibold !text-gray-500'>
             <option>Newest First</option>
-            <option>Old</option>
-            <option>All</option>
+            <option>Old First</option>
           </select>
         </div>
 

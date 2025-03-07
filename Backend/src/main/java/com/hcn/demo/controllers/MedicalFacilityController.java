@@ -62,6 +62,7 @@ public class MedicalFacilityController {
         }
     }
 
+
     @GetMapping(value = "/id/{id}")
     public ResponseEntity<Map<String,Object>> getById(@PathVariable String id){
         Map<String,Object> response = new HashMap<>();

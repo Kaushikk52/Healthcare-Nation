@@ -72,7 +72,7 @@ const Description = () => {
                 <div className="relative">
                   <div
                     className={`overflow-hidden transition-all duration-300 ${
-                      isExpanded ? "" : `line-clamp-5`
+                      isExpanded ? "" : `line-clamp-6`
                     }`}
                   >
                     <p className="text-base text-gray-700">
@@ -294,7 +294,7 @@ const Description = () => {
         <div className="lg:!col-span-4  xl:!col-span-4 !py-5">
           <div className="!flex !flex-col !justify-center !space-y-10 !p-2">
             {/* Contact And Address Details  */}
-            <div className="!flex !flex-col !space-y-6 !p-5 !bg-gray-50 !rounded-sm">
+            <div className="!flex !flex-col !space-y-6 !p-5 !bg-gray-50 !rounded-sm border">
               {/* Phone  */}
               <div className="!grid !grid-cols-12 !items-start">
                 <FaPhone className="!col-span-2 sm:!col-span-1 lg:!col-span-2 !h-6 !w-6 !mt-1" />

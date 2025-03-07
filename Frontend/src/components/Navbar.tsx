@@ -8,6 +8,7 @@ import AuthPopup from "./Auth/AuthPopup";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { FaCaretDown } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
+import axios from "axios";
 
 const DropdownLink = ({
   href,
@@ -29,6 +30,13 @@ const DropdownLink = ({
 
 export default function Navbar() {
   const location = useLocation();
+  const [currentUser, setCurrentUser] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    role: "",
+    token:""
+  });
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState("");
@@ -49,14 +57,17 @@ export default function Navbar() {
       title: "Services",
       icon: FaCaretDown,
       items: [
-        { title: "Hospitals", path: "/listing" },
+        { title: "Hospitals", path: "/listing?type=hospitals" },
         { title: "Dialysis Centres" },
-        { title: "Blood / Skin Banks" },
-        { title: "Clinics" },
+        { title: "Blood / Skin Banks"  },
+        { title: "Clinics", path: "/listing?type=clinics" },
         { title: "Home Care Services" },
         { title: "Patient Transports" },
         { title: "Diagnostics" },
-        { title: "Financial Help for Treatment" },
+        { title: "Orthotic & Prosthetics" },
+        { title: "Medical Equipment on rent" },
+        { title: "NGOs" },
+        { title: "Startup & Companies" },
       ],
     },
     {
@@ -64,12 +75,12 @@ export default function Navbar() {
       title: "Corporates",
       icon: FaCaretDown,
       items: [
-        { title: "MPT Hospitals" },
-        { title: "CGHS Hospitals" },
-        { title: "MJPJAY Hospitals" },
-        { title: "ESIC Hospitals" },
-        { title: "PMJAY Hospitals" },
-        { title: "Railway Hospitals" },
+        { title: "MPT" },
+        { title: "CGHS" },
+        { title: "MJPJAY" },
+        { title: "ESIC" },
+        { title: "PMJAY" },
+        { title: "Railway" },
       ],
     },
     {
@@ -80,9 +91,13 @@ export default function Navbar() {
         { title: "Xray" },
         { title: "MRI" },
         { title: "Sonography" },
-        { title: "Pathology" },
+        { title: "Lab/Pathology" },
         { title: "CT Scan" },
         { title: "2D Echo" },
+        { title: "EEG/EMG/NCV" },
+        { title: "Holter Monitor" },
+        { title: "Sleep Study" },
+
       ],
     },
     {
@@ -95,6 +110,12 @@ export default function Navbar() {
         { title: "Joint Pains ?" },
         { title: "Ear Problems ?" },
         { title: "Digestion Issues ?" },
+        { title: "Tooth Ache ?" },
+        { title: "Persistent Coughing ?" },
+        { title: "Urinary Problems ?" },
+        { title: "Eye Problems ?" },
+
+
       ],
     },
     {
@@ -135,6 +156,20 @@ export default function Navbar() {
       navigate(`/listing?location=${location.toLowerCase()}`);
     }
   };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  const getUser = async () => {
+    try{
+      const response = await axios.get(`http://localhost:8081/v1/api/user/principal`,
+        {headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}});
+      setCurrentUser(response.data.users);
+    }catch(err){
+      console.log(err);
+    }
+  }
 
   const locations = ["Mumbai", "Bangalore", "Chennai", "Delhi"];
 
@@ -236,14 +271,14 @@ export default function Navbar() {
             onClick={() => checkIfLogin("/dashboard/hospital")}
           >
             <User className="h-6 w-6" />
-            <span>Sign in </span>
+            {(localStorage.getItem('token')) ? <span>Welcome {currentUser.firstName} !</span> : <span>Sign in</span>}
           </button>
         </div>
       </div>
 
 
       {/* Desktop navigation */}
-      <div className="hidden md:flex justify-center items-center my-3 mb-0 border-t border-b border-gray-200 py-2">
+      <div className="hidden md:flex justify-center items-center my-0 mb-0 border-t border-b border-gray-200 py-0">
         <ul className="flex justify-center items-start space-x-4">
           {navigation.map((item) => {
             const Icon = item.icon;
@@ -259,7 +294,7 @@ export default function Navbar() {
                     location.pathname === item.path
                       ? "text-[#9B2482]"
                       : "text-gray-700"
-                  } flex items-center font-semibold cursor-pointer relative`}
+                  } flex items-center font-semibold cursor-pointer relative py-3`}
                 >
                   {item.title}
                   {Icon && (
@@ -284,7 +319,7 @@ export default function Navbar() {
                     initial="closed"
                     animate={hoveredItem === item.id ? "open" : "closed"}
                     variants={dropdownVariants}
-                    className="absolute bg-white overflow-hidden w-48 z-40 shadow-2xl mt-2 p-2 -translate-x-4"
+                    className="absolute bg-white overflow-hidden w-max z-40 shadow-2xl mt-0 p-2 -translate-x-4"
                     onMouseEnter={() => setHoveredItem(item.id)}
                     onMouseLeave={() => setHoveredItem(null)}
                   >
