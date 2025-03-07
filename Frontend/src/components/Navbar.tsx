@@ -100,11 +100,29 @@ export default function Navbar() {
     {
       id: 7,
       title: "Insurance",
+      icon: FaCaretDown,
+      items:[
+        { title: "ICICI Lombard"},
+        { title: "IFFFCO Tokio"},
+        { title: "HDFC Ergo"},
+        { title: "Bajaj Allianz"},
+        { title: "Care"},
+        { title: "Kotak"}
+      ],
       path: "#",
     },
     {
       id: 8,
       title: "TPA",
+      icon: FaCaretDown,
+      items:[
+        { title: "Health India"},
+        { title: "Vidal Health"},
+        { title: "Raksha TPA"},
+        { title: "MD India"},
+        { title: "Medi Assist"},
+        { title: "Med Save India"}
+      ],
       path: "#",
     },
   ];

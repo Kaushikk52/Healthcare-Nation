@@ -29,13 +29,6 @@ import DatePicker from "react-datepicker";
 import { MedicalFacilitySchema } from "@/Validations/MedicalFacility";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 const DatePickerField = ({ field, form }: any) => {
   return (

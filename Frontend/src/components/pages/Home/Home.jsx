@@ -103,7 +103,7 @@ function Home() {
           {/* POPULAR HEALTHCARE BRANDS IN INDIA HEADING AND EXPLORE MORE BUTTON*/}
           <div className="flex justify-between items-start lg:items-center !mt-10">
             <h2 className="text-gray-700 px-1 homepage-section-heading">
-              Hospitals/Services by Healthcare Brands in India
+              Hospitals/ Services by Healthcare Brands in India
             </h2>
             <Link
               to={"/brands-in-india"}
@@ -166,7 +166,7 @@ function Home() {
           {/*  SERVICES BY SPECIALITIES HEADING AND EXPLORE MORE BUTTON */}
           <div className="flex justify-between items-start !mt-14">
             <h2 className="text-gray-700 px-1 homepage-section-heading">
-              Hospitals/Services by Specialities
+              Hospitals/ Services by Specialities
             </h2>
             <Link
               to={"/services"}
@@ -461,7 +461,7 @@ function Home() {
           {/* PUBLIC SECTOR CORPORATES HEADING AND EXPLORE MORE BUTTON  */}
           <div className="flex justify-between items-start lg:items-start xl:items-center !mt-10">
             <h2 className="text-gray-700 px-1 homepage-section-heading lg:max-w-2xl xl:max-w-full">
-              Hospitals/Services covered by Public Sector health schemes
+              Hospitals/ Services covered by Public Sector health schemes
             </h2>
             <Link
               to={"/public-sector-corporates"}
@@ -626,7 +626,7 @@ function Home() {
           {/* SERVICES BY HEALTH CONCERN AND EXPLORE MORE BUTTON  */}
           <div className="flex justify-between items-start lg:items-center !mt-10">
             <h2 className="text-gray-700 px-1 homepage-section-heading">
-              Hospitals/Services By Health Concern
+              Hospitals/ Services By Health Concern
             </h2>
             <Link
               to={"/health-concern"}
@@ -810,7 +810,7 @@ function Home() {
           {/* CHOOSE YOUR TPA AND EXPLORE MORE BUTTON */}
           <div className="flex justify-between items-start !mt-10">
             <h2 className="text-gray-700 px-1 homepage-section-heading">
-              Hospitals/Services covered by TPA
+              Hospitals/ Services covered by TPA
             </h2>
             <Link
               to={"/tpa"}

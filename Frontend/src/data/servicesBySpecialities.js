@@ -30,7 +30,7 @@ const servicesBySpecialities = [
 
     { id: 28, title: 'Orthopedics', image: '/specialities/Orthopedics.jpg', },
     { id: 29, title: 'Pediatric Cardiology', image: '/specialities/Pediatric Cardiology.jpg', },
-    { id: 31, title: 'Physiotherapy', image: '/specialities/Physiotherapy Occupational Therapy.jpg', },
+    { id: 31, title: 'Physiotherapy/ Occupational Therapy', image: '/specialities/Physiotherapy Occupational Therapy.jpg', },
     { id: 32, title: 'Rheumatology', image: '/specialities/Rheumatology.jpg', },
     { id: 33, title: 'Urology', image: '/specialities/Urology.jpg', },
     { id: 33, title: 'Surgical Gastroenterology', image: '/specialities/Surgical Gastroenterology.jfif', },

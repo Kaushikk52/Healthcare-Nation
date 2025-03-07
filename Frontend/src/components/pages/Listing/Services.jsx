@@ -44,7 +44,7 @@ export default function Services() {
         {/*HEADING AND SORT BUTTON  */}
         <div className='!flex w-full justify-between !items-center !my-3'>
           <h2 className="text-gray-700 px-1 text-center flex-grow homepage-section-heading !ml-24 uppercase">
-          Hospitals/Services by Specialities
+          Hospitals/ Services by Specialities
           </h2>
           <div className='flex-shrink-0'>
             <Select onValueChange={handleSort}>
