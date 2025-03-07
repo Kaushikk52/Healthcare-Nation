@@ -16,11 +16,24 @@ import "swiper/css/autoplay";
 import "@/App.css";
 
 const filters = [
+  // {
+  //   title: "No of beds",
+  //   type: "slider",
+  //   range: [0, 500],
+  //   step: 50,
+  // },
   {
-    title: "No of beds",
-    type: "slider",
-    range: [0, 500],
-    step: 50,
+    title:"Saved",
+    options:[
+      {id:"Saved", text:"Saved"}
+    ]
+  },
+  {title:"Sort By",
+    options: [
+      {id:"relevance", text:"Relevance"},
+      {id:"rating", text:"High to Low"},
+      {id:"reviews", text:"High to Low"}
+    ]
   },
   {
     title: "Accreditation",
@@ -52,19 +65,7 @@ const filters = [
       { id: "PMJAY Hospitals", text: "PMJAY Hospitals" },
       { id: "Railway Hospitals", text: "Railway Hospitals" },
     ],
-  },
-  {
-    title:"Saved",
-    options:[
-      {id:"Saved", text:"Saved"}
-    ]
   }
-];
-
-const sortOptions = [
-  { value: "relevance", prefix: "", label: "Relevance" },
-  { value: "rating", prefix: "Ratings: ", label: "High to Low" },
-  { value: "reviews", prefix: "Reviews: ", label: "High to Low" },
 ];
 
 export default function ServiceListing() {
@@ -77,8 +78,6 @@ export default function ServiceListing() {
 
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState([]);
-  const [sortBy, setSortBy] = useState("relevance");
-  const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
   const [bedRange, setBedRange] = useState([0, 500]);
   const [expandedSections, setExpandedSections] = useState(filters.map((filter) => filter.title));
   const [bedRangeInput, setBedRangeInput] = useState({ min: "0", max: "500" });
@@ -585,49 +584,6 @@ export default function ServiceListing() {
                     </motion.div>
                   );
                 })}
-              </div>
-
-              {/* Sort By Dropdown */}
-              <div className="relative ml-auto">
-                <button
-                  onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
-                  className="flex items-center justify-between w-32 md:w-48 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                >
-                  <span>
-                    <span className="phone-none">Sort by:</span>{" "}
-                    {
-                      sortOptions.find((option) => option.value === sortBy)
-                        ?.label
-                    }
-                  </span>
-                  <FaChevronDown
-                    className={`ml-2 h-5 w-5 text-gray-400 ${
-                      sortDropdownOpen ? "transform rotate-180" : ""
-                    }`}
-                  />
-                </button>
-
-                {sortDropdownOpen && (
-                  <div className="absolute z-10 w-32 md:w-48 mt-1 bg-white shadow-lg rounded-md py-1">
-                    {sortOptions.map((option) => (
-                      <button
-                        key={option.value}
-                        className={`block w-full text-left px-4 py-2 text-sm ${
-                          sortBy === option.value
-                            ? "bg-gray-100 text-gray-900"
-                            : "text-gray-700"
-                        }`}
-                        onClick={() => {
-                          setSortBy(option.value);
-                          setSortDropdownOpen(false);
-                        }}
-                      >
-                        <span className="phone-none">{option.prefix}</span>
-                        {option.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
               </div>
             </div>
             <hr />
