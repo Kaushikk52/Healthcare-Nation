@@ -1,13 +1,106 @@
-import axios from 'axios';
-import { FormikHelpers, FormikErrors, Formik, Field, ErrorMessage, Form } from 'formik';
-import { motion, AnimatePresence } from 'framer-motion';
-import { jwtDecode } from 'jwt-decode';
-import { ChevronLeft, ChevronRight, Loader2, Check, AlertCircle } from 'lucide-react';
-import React, { useEffect, useState } from 'react'
-import { Button } from 'react-bootstrap';
-import toast, { Toaster } from 'react-hot-toast';
-import DatePicker from "react-datepicker";
-import { MedicalFacilitySchema } from '@/Validations/MedicalFacility';
+"use client"
+
+import axios from "axios"
+import { type FormikHelpers, type FormikErrors, Formik, Field, ErrorMessage, Form } from "formik"
+import { motion, AnimatePresence } from "framer-motion"
+import { jwtDecode } from "jwt-decode"
+import { ChevronLeft, ChevronRight, Loader2, Check, AlertCircle, Plus, X } from "lucide-react"
+import React, { useEffect, useState } from "react"
+import toast, { Toaster } from "react-hot-toast"
+import DatePicker from "react-datepicker"
+import { MedicalFacilitySchema } from "@/Validations/MedicalFacility"
+import { useNavigate } from "react-router-dom"
+import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import MultipleSelector from "@/components/ui/MultipleSelector"
+
+// Add these option arrays after all the imports
+const specialtiesOptions = [
+  { label: "Cardiology", value: "Cardiology" },
+  { label: "Neurology", value: "Neurology" },
+  { label: "Orthopedics", value: "Orthopedics" },
+  { label: "Pediatrics", value: "Pediatrics" },
+  { label: "Oncology", value: "Oncology" },
+  { label: "Dermatology", value: "Dermatology" },
+  { label: "Gynecology", value: "Gynecology" },
+  { label: "Ophthalmology", value: "Ophthalmology" },
+  { label: "Urology", value: "Urology" },
+  { label: "Psychiatry", value: "Psychiatry" },
+]
+
+const servicesOptions = [
+  { label: "Emergency Care", value: "Emergency Care" },
+  { label: "Intensive Care", value: "Intensive Care" },
+  { label: "Surgery", value: "Surgery" },
+  { label: "Radiology", value: "Radiology" },
+  { label: "Laboratory", value: "Laboratory" },
+  { label: "Pharmacy", value: "Pharmacy" },
+  { label: "Physical Therapy", value: "Physical Therapy" },
+  { label: "Ambulance", value: "Ambulance" },
+  { label: "Telemedicine", value: "Telemedicine" },
+  { label: "Dialysis", value: "Dialysis" },
+]
+
+const brandsOptions = [
+  { label: "Brand 1", value: "Brand 1" },
+  { label: "Brand 2", value: "Brand 2" },
+  { label: "Brand 3", value: "Brand 3" },
+  { label: "Brand 4", value: "Brand 4" },
+  { label: "Brand 5", value: "Brand 5" },
+]
+
+const psuOptions = [
+  { label: "PSU 1", value: "PSU 1" },
+  { label: "PSU 2", value: "PSU 2" },
+  { label: "PSU 3", value: "PSU 3" },
+  { label: "PSU 4", value: "PSU 4" },
+  { label: "PSU 5", value: "PSU 5" },
+]
+
+const accreditationsOptions = [
+  { label: "JCI", value: "JCI" },
+  { label: "NABH", value: "NABH" },
+  { label: "NABL", value: "NABL" },
+  { label: "ISO", value: "ISO" },
+  { label: "ACHSI", value: "ACHSI" },
+]
+
+const concernsOptions = [
+  { label: "Heart Disease", value: "Heart Disease" },
+  { label: "Diabetes", value: "Diabetes" },
+  { label: "Cancer", value: "Cancer" },
+  { label: "Respiratory Diseases", value: "Respiratory Diseases" },
+  { label: "Stroke", value: "Stroke" },
+  { label: "Obesity", value: "Obesity" },
+  { label: "Mental Health", value: "Mental Health" },
+]
+
+const insuranceOptions = [
+  { label: "Insurance 1", value: "Insurance 1" },
+  { label: "Insurance 2", value: "Insurance 2" },
+  { label: "Insurance 3", value: "Insurance 3" },
+  { label: "Insurance 4", value: "Insurance 4" },
+  { label: "Insurance 5", value: "Insurance 5" },
+]
+
+const tpaOptions = [
+  { label: "TPA 1", value: "TPA 1" },
+  { label: "TPA 2", value: "TPA 2" },
+  { label: "TPA 3", value: "TPA 3" },
+  { label: "TPA 4", value: "TPA 4" },
+  { label: "TPA 5", value: "TPA 5" },
+]
+
+const altMedOptions = [
+  { label: "Ayurveda", value: "Ayurveda" },
+  { label: "Homeopathy", value: "Homeopathy" },
+  { label: "Naturopathy", value: "Naturopathy" },
+  { label: "Acupuncture", value: "Acupuncture" },
+  { label: "Yoga", value: "Yoga" },
+  { label: "Unani", value: "Unani" },
+  { label: "Siddha", value: "Siddha" },
+]
 
 const DatePickerField = ({ field, form }: any) => {
   return (
@@ -18,266 +111,383 @@ const DatePickerField = ({ field, form }: any) => {
       onChange={(date) => form.setFieldValue(field.name, date)}
       className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
     />
-  );
-};
+  )
+}
+
+// Tag Input Component for reusability
+const TagInput = ({
+  values,
+  fieldName,
+  placeholder,
+  label,
+  onAddTag,
+  onRemoveTag,
+  errors,
+  touched,
+}: {
+  values: string[]
+  fieldName: string
+  placeholder: string
+  label: string
+  onAddTag: (tag: string) => void
+  onRemoveTag: (index: number) => void
+  errors: any
+  touched: any
+}) => {
+  const [inputValue, setInputValue] = useState("")
+
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && inputValue.trim()) {
+      e.preventDefault()
+      onAddTag(inputValue.trim())
+      setInputValue("")
+    }
+  }
+
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between">
+        <label className="block text-sm font-medium">{label}</label>
+      </div>
+
+      <div className="flex items-center space-x-2">
+        <Input
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={handleInputKeyDown}
+          placeholder={placeholder}
+          className="flex-1"
+        />
+        <Button
+          type="button"
+          onClick={() => {
+            if (inputValue.trim()) {
+              onAddTag(inputValue.trim())
+              setInputValue("")
+            }
+          }}
+          size="sm"
+        >
+          <Plus className="h-4 w-4" />
+        </Button>
+      </div>
+
+      <div className="flex flex-wrap gap-2 mt-2">
+        {values.map(
+          (tag, index) =>
+            tag.trim() && (
+              <Badge key={index} variant="secondary" className="text-sm py-1 px-2">
+                {tag}
+                <X className="h-3 w-3 ml-1 cursor-pointer" onClick={() => onRemoveTag(index)} />
+              </Badge>
+            ),
+        )}
+      </div>
+
+      {errors && touched && <div className="text-red-500 text-xs mt-1">{errors}</div>}
+    </div>
+  )
+}
 
 export default function ClinicForm() {
+  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL
+  const [phones, setPhones] = useState<string[]>([""])
+  const [step, setStep] = useState(1)
+  const navigate = useNavigate()
 
-    const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
-    const cloudName = import.meta.env.VITE_APP_CLOUD_NAME;
-    const uploadPreset = import.meta.env.VITE_APP_UPLOAD_PRESET;
-    const environment = import.meta.env.VITE_APP_ENV || "LOCAL";
-    const propertiesPath = `${uploadPreset}/${environment}/Properties`;
-    const [step, setStep] = useState(1);
+  const handlePhoneChange = (index: number, value: string) => {
+    const updatedPhones = [...phones]
+    updatedPhones[index] = value
+    setPhones(updatedPhones)
+  }
 
-    const initialValues = {
-      name: "",
-      address: {
-        street: "",
-        city: "",
-        landmark: "",
-        zipCode: "",
-      },
-      phone: "",
-      description:"",
-      beds: 0,
-      ownership: "",
-      specialities: [] as string[],
-      specialitiesImgs: [] as File[],
-      images: [] as File[],
-      departments: [] as string[],
-      altMeds: [] as string[],
-      concerns: [] as string[],
-      services: [] as string[],
-    };
+  const addPhone = () => {
+    setPhones([...phones, ""])
+  }
 
-    useEffect(() => {
-      const token: any = localStorage.getItem("token");
-      if (!token) {
+  const removePhone = (index: number) => {
+    const updatedPhones = phones.filter((_, i) => i !== index)
+    setPhones(updatedPhones)
+  }
+
+  // Update the initialValues to match the schema
+  const initialValues = {
+    name: "",
+    address: {
+      street: "",
+      city: "",
+      state: "",
+      zipCode: "",
+      country: "",
+    },
+    bed: 0,
+    website: "",
+    openDay: "",
+    closeDay: "",
+    hours: "",
+    description: "",
+    phone: [""],
+    images: [] as File[],
+    videos: [""],
+    ownership: "PRIVATE",
+    facilityType: "CLINIC",
+    brands: [""],
+    specialities: [""],
+    services: [""],
+    psu: [""],
+    accreditations: [""],
+    concerns: [""],
+    insurance: [""],
+    tpa: [""],
+    altMed: [""],
+    avgRating: 0,
+  }
+
+  useEffect(() => {
+    const token: any = localStorage.getItem("token")
+    if (!token) {
+      toast.error("Please Login", {
+        position: "bottom-right",
+        duration: 3000,
+      })
+    }
+    try {
+      const decodedToken: any = jwtDecode(token)
+      const currentTime = Date.now() / 1000
+      if (decodedToken.exp < currentTime) {
         toast.error("Please Login", {
           position: "bottom-right",
           duration: 3000,
-        });
+        })
+        localStorage.removeItem("token")
+        navigate("/")
       }
-      try {
-        const decodedToken: any = jwtDecode(token);
-        const currentTime = Date.now() / 1000;
-        if (decodedToken.exp < currentTime) {
-          toast.error("Please Login", {
-            position: "bottom-right",
-            duration: 3000,
-          });
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    }, []);
-
-
-    async function uploadSingleImage(image: File, type: string): Promise<string | null> {
-      try {
-        const formData = new FormData();
-        formData.append("file", image);
-        formData.append("type", type); // Pass the type (e.g., "PROJECT", "PROPERTY")
-  
-        const res = await axios.post("/api/images/upload/single", formData);
-        return res.data ?? null; // Return the file URL
-      } catch (err) {
-        console.error("Image upload failed:", err);
-        return null;
-      }
+    } catch (err) {
+      console.log(err)
     }
+  }, [])
 
-
-    async function uploadImages(images: File[], type: string): Promise<string[]> {
-      if (!images?.length) {
-        showToast("Please select images first", "error");
-        return [];
-      }
-  
-      toast.loading("Uploading Images ...", {
+  async function uploadSingleImage(image: File, type: string): Promise<string | null> {
+    try {
+      toast.loading("Uploading Specialities Images ...", {
         position: "bottom-right",
         duration: 2000,
-      });
-  
-      const formData = new FormData();
-      images.forEach((image) => formData.append("files", image));
-      formData.append("type", type); // Pass the type (e.g., "PROJECT", "PROPERTY")
-  
-      try {
-        const res = await axios.post(`${baseURL}/v1/api/images/upload/multiple`, formData);
-        return res.data ?? [];
-      } catch (err) {
-        console.error("Batch upload failed:", err);
-        return [];
-      }
+      })
+
+      const formData = new FormData()
+      formData.append("file", image)
+      formData.append("type", type)
+
+      const res = await axios.post(`${baseURL}/v1/api/images/upload/single`, formData)
+      return res.data ?? null
+    } catch (err) {
+      console.error("Image upload failed:", err)
+      return null
     }
-  
-    function showToast(message: string, type: "success" | "error") {
-      toast[type](message, { position: "bottom-right", duration: 3000 });
+  }
+
+  async function uploadImages(images: File[], type: string): Promise<string[]> {
+    if (!images?.length) {
+      showToast("Please select images first", "error")
+      return []
     }
-  
-    function prepareFormData(values: typeof initialValues): typeof initialValues {
-      const updatedValues = { ...values };
-      // if (updatedValues.type === "RENT") {
-      //   updatedValues.details.price = 0;
-      // } else if (updatedValues.type === "BUY") {
-      //   updatedValues.details.rent = 0;
-      // }
-  
-      // updatedValues.details.isApproved = false;
-      return updatedValues;
+
+    toast.loading("Uploading Images ...", {
+      position: "bottom-right",
+      duration: 2000,
+    })
+
+    const formData = new FormData()
+    images.forEach((image) => formData.append("files", image))
+    formData.append("type", type) // Pass the type (e.g., "PROJECT", "PROPERTY")
+
+    try {
+      const res = await axios.post(`${baseURL}/v1/api/images/upload/multiple/${type}`, formData)
+      return res.data ?? []
+    } catch (err) {
+      console.error("Batch upload failed:", err)
+      return []
     }
-  
-    async function handleSubmit(
-      values: typeof initialValues,
-      { setSubmitting, resetForm }: FormikHelpers<typeof initialValues>
-    ) {
-      if (step !== 4) {
-        setSubmitting(false);
-        return;
-      }
-  
-      try {
-        setSubmitting(true);
-        const imageUrls: any = await uploadImages(values.images, "Properties");
-        const preparedValues = prepareFormData(values);
-        if (imageUrls.length > 0) {
-          preparedValues.images = imageUrls;
-        }
-        const token = localStorage.getItem("token");
-        const response = await axios.post(
-          `${baseURL}/v1/api/clinic/save`,
-          preparedValues,
-          { headers: { Authorization: `Bearer ${token}`, timeout: 20000 } }
-        );
-  
-        if (response.status === 201) {
-          showToast("Form submitted successfully!", "success");
-          resetForm();
-          setStep(1);
-        }
-      } catch (err: any) {
-        if (err.response?.status === 401) {
-          showToast("Access denied! Authentication is required", "error");
+  }
+
+  function showToast(message: string, type: "success" | "error") {
+    toast[type](message, { position: "bottom-right", duration: 3000 })
+  }
+
+  const [startDay, setStartDay] = useState("mon")
+  const [endDay, setEndDay] = useState("sat")
+  const [hoursPerDay, setHoursPerDay] = useState(8)
+  const [displayText, setDisplayText] = useState("")
+
+  const daysOfWeek = [
+    { label: "Monday", value: "mon", index: 0 },
+    { label: "Tuesday", value: "tue", index: 1 },
+    { label: "Wednesday", value: "wed", index: 2 },
+    { label: "Thursday", value: "thu", index: 3 },
+    { label: "Friday", value: "fri", index: 4 },
+    { label: "Saturday", value: "sat", index: 5 },
+    { label: "Sunday", value: "sun", index: 6 },
+  ]
+
+  useEffect(() => {
+    if (startDay && endDay) {
+      const start = daysOfWeek.find((day) => day.value === startDay)
+      const end = daysOfWeek.find((day) => day.value === endDay)
+
+      if (start && end) {
+        // Calculate days
+        let days = 0
+        if (end.index >= start.index) {
+          days = end.index - start.index + 1
         } else {
-          showToast(`An error occurred: ${err.message}`, "error");
+          days = 7 - start.index + end.index + 1
         }
-      } finally {
-        setSubmitting(false);
+
+        // Calculate total hours based on hours per day
+        const totalHours = hoursPerDay
+
+        // Format the display text
+        const formattedStart = start.value.charAt(0).toUpperCase() + start.value.slice(1)
+        const formattedEnd = end.value.charAt(0).toUpperCase() + end.value.slice(1)
+
+        setDisplayText(`${formattedStart} - ${formattedEnd} ${totalHours}hrs`)
       }
     }
-  
-    const steps = ["General", "Details", "Images", "Amenities"];
-  
-    const getStepFields = (stepNumber: number) => {
-      switch (stepNumber) {
-        case 1:
-          return [
-            "name",
-            "phone",
-            "address.street",
-            "address.city",
-            "address.landmark",
-            "address.zipCode",
-          ];
-        case 2:
-          return [
-           "description",
-           "beds",
-            "ownership",
-            "specialities",
-            "specialitiesImgs",
-          ];
-        case 3:
-          return ["images"];
-        case 4:
-          return [
-            "departments",
-            "altMeds",
-            "concern",
-            "services",          
-          ];
-        default:
-          return [];
+  }, [startDay, endDay, hoursPerDay])
+
+  const handleHoursChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number.parseInt(e.target.value)
+    if (!isNaN(value) && value > 0 && value <= 24) {
+      setHoursPerDay(value)
+    }
+  }
+
+  async function handleSubmit(
+    values: typeof initialValues,
+    { setSubmitting, resetForm }: FormikHelpers<typeof initialValues>,
+  ) {
+    if (step !== 4) {
+      setSubmitting(false)
+      return
+    }
+
+    try {
+      setSubmitting(true)
+      const imageUrls: any = await uploadImages(values.images, "Clinics")
+      if (imageUrls.length > 0) {
+        values.images = imageUrls || [""]
       }
-    };
-  
-    const showErrorsToast = (errors: FormikErrors<typeof initialValues>, stepNumber: number) => {
-      const stepFields = getStepFields(stepNumber);
-      const errorMessages = stepFields.reduce((acc: string[], field) => {
-        const fieldParts = field.split('.');
-        let fieldError: any = errors;
+
+      const token = localStorage.getItem("token")
+      const response = await axios.post(
+        `${baseURL}/v1/api/facility/save`,
+        { ...values, avgRating: 0.0 },
+        { headers: { Authorization: `Bearer ${token}`, timeout: 20000 } },
+      )
+
+      if (response.status === 201) {
+        showToast("Form submitted successfully!", "success")
+        resetForm()
+        setStep(1)
+      }
+    } catch (err: any) {
+      if (err.response?.status === 401) {
+        showToast("Access denied! Authentication is required", "error")
+      } else {
+        showToast(`An error occurred: ${err.message}`, "error")
+      }
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  const steps = ["General", "Details", "Images", "Tags"]
+
+  const getStepFields = (stepNumber: number) => {
+    switch (stepNumber) {
+      case 1:
+        return ["name", "phone", "address.street", "address.city", "address.landmark", "address.zipCode"]
+      case 2:
+        return ["description", "beds", "ownership", "specialities.name", "specialities.image"]
+      case 3:
+        return ["images"]
+      case 4:
+        return ["departments", "altMeds", "concern", "services"]
+      default:
+        return []
+    }
+  }
+
+  const showErrorsToast = (errors: FormikErrors<typeof initialValues>, stepNumber: number) => {
+    const stepFields = getStepFields(stepNumber)
+    const errorMessages = stepFields.reduce((acc: string[], field) => {
+      const fieldParts = field.split(".")
+      let fieldError: any = errors
+      for (const part of fieldParts) {
+        fieldError = fieldError && fieldError[part]
+      }
+      if (fieldError) {
+        acc.push(`${field}: ${fieldError}`)
+      }
+      return acc
+    }, [])
+
+    if (errorMessages.length > 0) {
+      toast.error(
+        <div>
+          <strong>Errors on step {stepNumber}:</strong>
+          <ul className="list-disc pl-4 mt-2">
+            {errorMessages.map((message, index) => (
+              <li key={index}>{message}</li>
+            ))}
+          </ul>
+        </div>,
+        { duration: 5000, position: "bottom-right" },
+      )
+    }
+  }
+
+  const hasStepErrors = (errors: FormikErrors<typeof initialValues>, touched: any, stepNumber: number) => {
+    const stepFields = getStepFields(stepNumber)
+    return stepFields.some((field) => {
+      const fieldParts = field.split(".")
+      let fieldError: any = errors
+      let fieldTouched: any = touched
+      for (const part of fieldParts) {
+        fieldError = fieldError && fieldError[part]
+        fieldTouched = fieldTouched && fieldTouched[part]
+      }
+      return fieldError && fieldTouched
+    })
+  }
+
+  const showAllErrors = (errors: FormikErrors<typeof initialValues>) => {
+    const allErrorMessages = steps.flatMap((_, index) => {
+      const stepNumber = index + 1
+      const stepFields = getStepFields(stepNumber)
+      return stepFields.reduce((acc: string[], field) => {
+        const fieldParts = field.split(".")
+        let fieldError: any = errors
         for (const part of fieldParts) {
-          fieldError = fieldError && fieldError[part];
+          fieldError = fieldError && fieldError[part]
         }
         if (fieldError) {
-          acc.push(`${field}: ${fieldError}`);
+          acc.push(`Step ${stepNumber} - ${field}: ${fieldError}`)
         }
-        return acc;
-      }, []);
-  
-      if (errorMessages.length > 0) {
-        toast.error(
-          <div>
-            <strong>Errors on step {stepNumber}:</strong>
-            <ul className="list-disc pl-4 mt-2">
-              {errorMessages.map((message, index) => (
-                <li key={index}>{message}</li>
-              ))}
-            </ul>
-          </div>,
-          { duration: 5000, position: "bottom-right" }
-        );
-      }
-    };
-  
-    const hasStepErrors = (errors: FormikErrors<typeof initialValues>, touched: any, stepNumber: number) => {
-      const stepFields = getStepFields(stepNumber);
-      return stepFields.some((field) => {
-        const fieldParts = field.split('.');
-        let fieldError: any = errors;
-        let fieldTouched: any = touched;
-        for (const part of fieldParts) {
-          fieldError = fieldError && fieldError[part];
-          fieldTouched = fieldTouched && fieldTouched[part];
-        }
-        return fieldError && fieldTouched;
-      });
-    };
-  
-    const showAllErrors = (errors: FormikErrors<typeof initialValues>) => {
-      const allErrorMessages = steps.flatMap((_, index) => {
-        const stepNumber = index + 1;
-        const stepFields = getStepFields(stepNumber);
-        return stepFields.reduce((acc: string[], field) => {
-          const fieldParts = field.split('.');
-          let fieldError: any = errors;
-          for (const part of fieldParts) {
-            fieldError = fieldError && fieldError[part];
-          }
-          if (fieldError) {
-            acc.push(`Step ${stepNumber} - ${field}: ${fieldError}`);
-          }
-          return acc;
-        }, []);
-      });
-  
-      if (allErrorMessages.length > 0) {
-        allErrorMessages.forEach((message) => {
-          toast.error(
-            `${message}`,
-            { duration: 10000, position: "bottom-right" }
-          );
-        })
-      }
-    };
-  
-  
-  
-  
-  
+        return acc
+      }, [])
+    })
 
+    if (allErrorMessages.length > 0) {
+      allErrorMessages.forEach((message) => {
+        toast.error(`${message}`, {
+          duration: 10000,
+          position: "bottom-right",
+        })
+      })
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center py-1 px-2 sm:px-3 lg:px-8">
@@ -288,12 +498,8 @@ export default function ClinicForm() {
         className="max-w-4xl w-full space-y-8 bg-white p-[1.70rem]  rounded-xl shadow-lg"
       >
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Add Clinic
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Please fill the details of your Clinic
-          </p>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Add Clinic</h2>
+          <p className="mt-2 text-center text-sm text-gray-600">Please fill the details of your clinic</p>
         </div>
 
         <div className="flex justify-start items-center mb-8 flex-wrap">
@@ -301,16 +507,13 @@ export default function ClinicForm() {
             <React.Fragment key={s}>
               <div className="flex flex-col items-center">
                 <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center ${index + 1 <= step
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200 text-gray-600"
-                    } font-bold text-lg transition-colors duration-300`}
+                  className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                    index + 1 <= step ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-600"
+                  } font-bold text-lg transition-colors duration-300`}
                 >
                   {index + 1}
                 </div>
-                <div className="mt-2 text-xs font-medium text-gray-500">
-                  {s}
-                </div>
+                <div className="mt-2 text-xs font-medium text-gray-500">{s}</div>
               </div>
               {index < steps.length - 1 && (
                 <motion.div
@@ -343,11 +546,7 @@ export default function ClinicForm() {
           ))}
         </div>
 
-        <Formik
-          initialValues={initialValues}
-          validationSchema={MedicalFacilitySchema}
-          onSubmit={handleSubmit}
-        >
+        <Formik initialValues={initialValues} validationSchema={MedicalFacilitySchema} onSubmit={handleSubmit}>
           {({ values, errors, touched, setFieldValue, isSubmitting }) => (
             <Form className="mt-8 space-y-6">
               <AnimatePresence mode="wait">
@@ -360,14 +559,9 @@ export default function ClinicForm() {
                     transition={{ duration: 0.5 }}
                     className="space-y-6"
                   >
-
                     <div className="grid grid-cols-1 gap-6">
-
                       <div>
-                        <label
-                          htmlFor="name"
-                          className="block text-sm font-medium text-gray-700"
-                        >
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                           Clinic Name
                         </label>
                         <Field
@@ -376,18 +570,25 @@ export default function ClinicForm() {
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
-                        <ErrorMessage
-                          name="name"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
+                        <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
                       </div>
 
                       <div>
-                        <label
-                          htmlFor="address.street"
-                          className="block text-sm font-medium text-gray-700"
-                        >
+                        <label htmlFor="website" className="block text-sm font-medium text-gray-700">
+                          Website
+                        </label>
+                        <Field
+                          id="website"
+                          name="website"
+                          type="url"
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="https://example.com"
+                        />
+                        <ErrorMessage name="website" component="div" className="text-red-500 text-sm mt-1" />
+                      </div>
+
+                      <div>
+                        <label htmlFor="address.street" className="block text-sm font-medium text-gray-700">
                           Street
                         </label>
                         <Field
@@ -396,26 +597,13 @@ export default function ClinicForm() {
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
-                        <ErrorMessage
-                          name="address.street"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
+                        <ErrorMessage name="address.street" component="div" className="text-red-500 text-sm mt-1" />
                       </div>
-
                     </div>
 
-
-
-
-
                     <div className="grid grid-cols-2 gap-5">
-
                       <div>
-                        <label
-                          htmlFor="address.city"
-                          className="block text-sm font-medium text-gray-700"
-                        >
+                        <label htmlFor="address.city" className="block text-sm font-medium text-gray-700">
                           City
                         </label>
                         <Field
@@ -424,45 +612,26 @@ export default function ClinicForm() {
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
-                        <ErrorMessage
-                          name="address.city"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
+                        <ErrorMessage name="address.city" component="div" className="text-red-500 text-sm mt-1" />
                       </div>
 
                       <div>
-                        <label
-                          htmlFor="address.landmark"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Landmark
+                        <label htmlFor="address.state" className="block text-sm font-medium text-gray-700">
+                          State
                         </label>
                         <Field
-                          id="address.landmark"
-                          name="address.landmark"
+                          id="address.state"
+                          name="address.state"
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
-                        <ErrorMessage
-                          name="address.landmark"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
+                        <ErrorMessage name="address.state" component="div" className="text-red-500 text-sm mt-1" />
                       </div>
-
                     </div>
 
-
-
-
                     <div className="grid grid-cols-2 gap-6">
-
-                      <div>
-                        <label
-                          htmlFor="address.zipCode"
-                          className="block text-sm font-medium text-gray-700"
-                        >
+                      <div className="mt-2">
+                        <label htmlFor="address.zipCode" className="block text-sm font-medium text-gray-700">
                           Zip Code
                         </label>
                         <Field
@@ -471,90 +640,126 @@ export default function ClinicForm() {
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
-                        <ErrorMessage
-                          name="address.zipCode"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
+                        <ErrorMessage name="address.zipCode" component="div" className="text-red-500 text-sm mt-1" />
+                      </div>
+
+                      <div>
+                        <label htmlFor="address.country" className="block text-sm font-medium text-gray-700">
+                          Country
+                        </label>
+                        <Field
+                          id="address.country"
+                          name="address.country"
+                          type="text"
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        />
+                        <ErrorMessage name="address.country" component="div" className="text-red-500 text-sm mt-1" />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-6">
+                      <h2 className="text-base font-bold tracking-tight col-span-2">Weekly Working Days</h2>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 col-span-2">
+                        <div>
+                          <label htmlFor="start-day" className="block text-sm font-medium text-gray-700 mb-1">
+                            From
+                          </label>
+                          <Field
+                            as="select"
+                            id="start-day"
+                            name="start-day"
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          >
+                            {daysOfWeek.map((day) => (
+                              <option key={day.value} value={day.value}>
+                                {day.label}
+                              </option>
+                            ))}
+                          </Field>
+                          <ErrorMessage name="start-day" component="div" className="text-red-500 text-sm mt-1" />
+                        </div>
+
+                        <div>
+                          <label htmlFor="end-day" className="block text-sm font-medium text-gray-700 mb-1">
+                            To
+                          </label>
+                          <Field
+                            as="select"
+                            id="end-day"
+                            name="end-day"
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          >
+                            {daysOfWeek.map((day) => (
+                              <option key={day.value} value={day.value}>
+                                {day.label}
+                              </option>
+                            ))}
+                          </Field>
+                          <ErrorMessage name="end-day" component="div" className="text-red-500 text-sm mt-1" />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label htmlFor="hours-per-day" className="block text-sm font-medium text-gray-700 mt-4">
+                          Hours per day
+                        </label>
+                        <Input
+                          id="hours-per-day"
+                          type="number"
+                          min="1"
+                          max="24"
+                          value={hoursPerDay}
+                          onChange={handleHoursChange}
+                          className="w-full"
                         />
                       </div>
 
                       <div>
-                        <label
-                          htmlFor="phone"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Phone
-                        </label>
-                        <Field
-                          id="phone"
-                          name="phone"
-                          type="text"
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        />
-                        <ErrorMessage
-                          name="phone"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
+                        {/* Tag-based Phone input */}
+                        <TagInput
+                          values={values.phone}
+                          fieldName="phone"
+                          placeholder="Enter phone number"
+                          label="Phone Numbers"
+                          onAddTag={(tag) => {
+                            // Validate phone number if needed
+                            const phoneRegex = /^\d{10}$/
+                            if (phoneRegex.test(tag) || true) {
+                              // Remove || true for validation
+                              const newPhones = [...values.phone]
+                              // Replace empty string at the end or add a new one
+                              const emptyIndex = newPhones.findIndex((p) => !p.trim())
+                              if (emptyIndex >= 0) {
+                                newPhones[emptyIndex] = tag
+                              } else {
+                                newPhones.push(tag)
+                              }
+                              // Ensure there's always an empty slot at the end for a new entry
+                              if (!newPhones.includes("")) {
+                                newPhones.push("")
+                              }
+                              setFieldValue("phone", newPhones)
+                            } else {
+                              toast.error("Please enter a valid 10-digit phone number", {
+                                duration: 3000,
+                              })
+                            }
+                          }}
+                          onRemoveTag={(index) => {
+                            const newPhones = [...values.phone]
+                            newPhones.splice(index, 1)
+                            // Ensure there's always at least one empty slot
+                            if (newPhones.length === 0 || !newPhones.includes("")) {
+                              newPhones.push("")
+                            }
+                            setFieldValue("phone", newPhones)
+                          }}
+                          errors={errors.phone}
+                          touched={touched.phone}
                         />
                       </div>
-
-
-
                     </div>
-
-
-
-
-
-                    <div className="grid grid-cols-2 gap-6">
-                      {/* <div>
-                        <label
-                          htmlFor="country"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Country
-                        </label>
-                        <Field
-                          id="country"
-                          name="country"
-                          type="text"
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        />
-                        <ErrorMessage
-                          name="country"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
-                      </div> */}
-
-
-                      {/* <div>
-                        <label
-                          htmlFor="ownership"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Ownership
-                        </label>
-                        <Field
-                          as="select"
-                          id="ownership"
-                          name="ownership"
-                          className="mt-1 block w-full pl-3 pr-10 !py-2.5 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md"
-                        >
-                          <option value="">Select Ownership</option>
-                          <option value="private">Private</option>
-                          <option value="government">Government</option>
-                        </Field>
-                        <ErrorMessage
-                          name="ownership"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
-                      </div> */}
-
-                    </div>
-
-
                   </motion.div>
                 )}
 
@@ -567,13 +772,8 @@ export default function ClinicForm() {
                     transition={{ duration: 0.5 }}
                     className="space-y-6"
                   >
-
-
                     <div>
-                      <label
-                        htmlFor="description"
-                        className="block text-sm font-medium text-gray-700 mb-1"
-                      >
+                      <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
                         Description
                       </label>
                       <Field
@@ -583,462 +783,78 @@ export default function ClinicForm() {
                         rows={4}
                         className="mt-1 block w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 touch-manipulation"
                       />
-                      <ErrorMessage
-                        name="description"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
+                      <ErrorMessage name="description" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
 
-
-
-
-
-
                     <div className="grid grid-cols-2 gap-6">
-
                       <div>
-                        <label
-                          htmlFor="beds"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Beds
+                        <label htmlFor="bed" className="block text-sm font-medium text-gray-700">
+                          Bed Count
                         </label>
                         <Field
-                          id="beds"
-                          name="beds"
+                          id="bed"
+                          name="bed"
                           type="number"
+                          min="1"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
-                        <ErrorMessage
-                          name="beds"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
+                        <ErrorMessage name="bed" component="div" className="text-red-500 text-sm mt-1" />
                       </div>
 
                       <div>
-                        <label
-                          htmlFor="ownership"
-                          className="block text-sm font-medium text-gray-700"
-                        >
+                        <label htmlFor="ownership" className="block text-sm font-medium text-gray-700">
                           Ownership
                         </label>
                         <Field
                           as="select"
                           id="ownership"
                           name="ownership"
-                          className="mt-1 block w-full pl-3 pr-10 !py-2.5 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md"
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         >
                           <option value="">Select Ownership</option>
-                          <option value="Private">Private</option>
-                          <option value="Government">Government</option>
+                          <option value="PRIVATE">Private</option>
+                          <option value="PUBLIC">Public</option>
+                          <option value="GOVERNMENT">Government</option>
                         </Field>
-                        <ErrorMessage
-                          name="ownership"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
-                      </div>
-
-                    </div>
-
-                    <div className='!mt-10'>
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                        Specialities
-                      </label>
-                      <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
-                        {[
-                          "Cardiology",
-                          "Neurology",
-                          "Orthopedics",
-                        ].map((specialities) => (
-                          <div key={specialities} className="flex items-center">
-                            <Field
-                              type="checkbox"
-                              id={specialities}
-                              name="specialities"
-                              value={specialities}
-                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                            />
-                            <label
-                              htmlFor={specialities}
-                              className="ml-2 block text-base text-gray-900"
-                            >
-                              {specialities}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                      <ErrorMessage
-                        name="specialities"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700">
-                        Upload Property Images
-                      </label>
-                      <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                        <div className="space-y-1 text-center">
-                          <svg
-                            className="mx-auto h-12 w-12 text-gray-400"
-                            stroke="currentColor"
-                            fill="none"
-                            viewBox="0 0 48 48"
-                            aria-hidden="true"
-                          >
-                            <path
-                              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                              strokeWidth={2}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                          <div className="flex text-sm text-gray-600">
-                            <label
-                              htmlFor="file-upload"
-                              className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
-                            >
-                              <span>Upload a file</span>
-                              <input
-                                id="file-upload"
-                                name="file-upload"
-                                type="file"
-                                className="sr-only"
-                                accept="image/*"
-                                multiple
-                                onChange={(event) => {
-                                  const files = event.currentTarget.files;
-                                  if (files) {
-                                    // console.log(files);
-                                    setFieldValue("images", [
-                                      ...values.images,
-                                      ...Array.from(files),
-                                    ]);
-                                  }
-                                }}
-                              />
-                            </label>
-                            <p className="pl-1">or drag and drop</p>
-                          </div>
-                          <p className="text-xs text-gray-500">
-                            PNG, JPG, GIF up to 10MB
-                          </p>
-                        </div>
-                      </div>
-                      <ErrorMessage
-                        name="images"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
-                    </div>
-                    {values.images.length > 0 && (
-                      <div>
-                        <h4 className="text-sm font-medium text-gray-700 mb-2">
-                          Uploaded Images:
-                        </h4>
-                        <ul className="list-disc pl-5 text-sm text-gray-600">
-                          {values.images.map((file: File, index: number) => (
-                            <li key={index}>{file.name}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-
-
-
-                    {/* <div className="grid grid-cols-2 gap-6">
-                      <div>
-                        <label
-                          htmlFor="details.balconies"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Balconies
-                        </label>
-                        <Field
-                          id="details.balconies"
-                          name="details.balconies"
-                          type="number"
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        />
-                        <ErrorMessage
-                          name="details.balconies"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="details.floorNo"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Floor No.
-                        </label>
-                        <Field
-                          id="details.floorNo"
-                          name="details.floorNo"
-                          type="number"
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        />
-                        <ErrorMessage
-                          name="details.floorNo"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
+                        <ErrorMessage name="ownership" component="div" className="text-red-500 text-sm mt-1" />
                       </div>
                     </div>
-                    <div>
-                      <label
-                        htmlFor="details.facing"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Facing
-                      </label>
-                      <Field
-                        as="select"
-                        id="details.facing"
-                        name="details.facing"
-                        className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md"
-                      >
-                        <option value="">Select facing</option>
-                        <option value="north">North</option>
-                        <option value="south">South</option>
-                        <option value="east">East</option>
-                        <option value="west">West</option>
-                      </Field>
-                      <ErrorMessage
-                        name="details.facing"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label
-                          htmlFor={`details.carpetArea`}
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Carpet Area
-                        </label>
-                        <Field
-                          id={`details.carpetArea`}
-                          name={`details.carpetArea`}
-                          type="number"
-                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                        />
-                        <ErrorMessage
-                          name={`details.carpetArea`}
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor={`details.areaUnit`}
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Area Unit
-                        </label>
-                        <Field
-                          as="select"
-                          id={`details.areaUnit`}
-                          name={`details.areaUnit`}
-                          className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md"
-                        >
-                          <option value="">Select Unit</option>
-                          <option value="sqft">sq ft</option>
-                          <option value="sqm">sq m</option>
-                          <option value="sqyd">sq yd</option>
-                          <option value="acre">acre</option>
-                        </Field>
-                        <ErrorMessage
-                          name={`details.areaUnit`}
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                          Under Construction
-                        </label>
-                        <div className="mt-2 space-x-4">
-                          <label className="inline-flex items-center">
-                            <Field
-                              type="radio"
-                              name="details.underConstruction"
-                              value="Yes"
-                              className="form-radio h-4 w-4 text-blue-600"
-                            />
-                            <span className="ml-2">Yes</span>
-                          </label>
-                          <label className="inline-flex items-center">
-                            <Field
-                              type="radio"
-                              name="details.underConstruction"
-                              value="No"
-                              className="form-radio h-4 w-4 text-blue-600"
-                            />
-                            <span className="ml-2">No</span>
-                          </label>
-                        </div>
-                        <ErrorMessage
-                          name="details.underConstruction"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
-                      </div>
-                      {values.details.underConstruction === "Yes" ? (
-                        <div>
-                          <label
-                            htmlFor="details.possesion"
-                            className="block text-sm font-medium text-gray-700"
-                          >
-                            Possession Date
-                          </label>
-                          <Field
-                            id="details.possesion"
-                            name="details.possesion"
-                            type="date"
-                            component={DatePickerField}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                          />
-                          <ErrorMessage
-                            name="details.possesion"
-                            component="div"
-                            className="text-red-500 text-sm mt-1"
-                          />
-                        </div>
-                      ) : (
-                        <div>
-                          <label
-                            htmlFor="details.builtIn"
-                            className="block text-sm font-medium text-gray-700"
-                          >
-                            Built-in Date
-                          </label>
-                          <Field
-                            id="details.builtIn"
-                            name="details.builtIn"
-                            component={DatePickerField}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                          />
-                          <ErrorMessage
-                            name="details.builtIn"
-                            component="div"
-                            className="text-red-500 text-sm mt-1"
-                          />
-                        </div>
-                      )}
-                    </div>
 
-                    {values.type === "RENT" && (
+                    <div className="grid grid-cols-2 gap-6">
                       <div>
-                        <label
-                          htmlFor="details.rent"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Rent (per month)
-                        </label>
-                        <div className="mt-1 flex rounded-md shadow-sm">
-                          <Field
-                            id="details.rent"
-                            name="details.rent"
-                            type="number"
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Enter rent per month"
-                          />
-                          <Field
-                            as="select"
-                            name="details.amtUnit"
-                            className="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 text-sm focus:ring-blue-500 focus:border-blue-500"
-                          >
-                            <option value="">Select Rent Unit</option>
-                            <option value="K">Thousand</option>
-                            <option value="L">Lakh</option>
-                            <option value="Cr">Cr</option>
-                          </Field>
-                        </div>
-                        <ErrorMessage
-                          name="details.rent"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Specialities</label>
+                        <MultipleSelector
+                          value={values.specialities.filter((s) => s.trim()).map((s) => ({ label: s, value: s }))}
+                          onChange={(newValue) => {
+                            setFieldValue(
+                              "specialities",
+                              newValue.map((item) => item.value),
+                            )
+                          }}
+                          options={specialtiesOptions}
+                          placeholder="Select specialities"
+                          className="w-full"
                         />
-                        <ErrorMessage
-                          name="details.amtUnit"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
+                        <ErrorMessage name="specialities" component="div" className="text-red-500 text-sm mt-1" />
                       </div>
-                    )}
-                    {values.type === "BUY" && (
+
                       <div>
-                        <label
-                          htmlFor="details.price"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Price
-                        </label>
-                        <div className="mt-1 flex rounded-md shadow-sm">
-                          <Field
-                            id="details.price"
-                            name="details.price"
-                            type="number"
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Enter property price"
-                          />
-                          <Field
-                            as="select"
-                            name="details.amtUnit"
-                            className="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 text-sm focus:ring-blue-500 focus:border-blue-500"
-                          >
-                            <option value="">Select Price Unit</option>
-                            <option value="K">Thousand</option>
-                            <option value="L">Lakh</option>
-                            <option value="Cr">Cr</option>
-                          </Field>
-                        </div>
-                        <ErrorMessage
-                          name="details.price"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Services</label>
+                        <MultipleSelector
+                          value={values.services.filter((s) => s.trim()).map((s) => ({ label: s, value: s }))}
+                          onChange={(newValue) => {
+                            setFieldValue(
+                              "services",
+                              newValue.map((item) => item.value),
+                            )
+                          }}
+                          options={servicesOptions}
+                          placeholder="Select services"
+                          className="w-full"
                         />
-                        <ErrorMessage
-                          name="details.amtUnit"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
+                        <ErrorMessage name="services" component="div" className="text-red-500 text-sm mt-1" />
                       </div>
-                    )}
-                    <div>
-                      <label
-                        htmlFor="details.furnishedStatus"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Furnished Status
-                      </label>
-                      <Field
-                        as="select"
-                        id="details.furnishedStatus"
-                        name="details.furnishedStatus"
-                        className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md"
-                      >
-                        <option value="">Select status</option>
-                        <option value="UNFURNISHED">Unfurnished</option>
-                        <option value="SEMIFURNISHED">Semi-furnished</option>
-                        <option value="FURNISHED">Fully-furnished</option>
-                      </Field>
-                      <ErrorMessage
-                        name="details.furnishedStatus"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
-                    </div> */}
+                    </div>
                   </motion.div>
                 )}
 
@@ -1052,9 +868,7 @@ export default function ClinicForm() {
                     className="space-y-6"
                   >
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">
-                        Upload Property Images
-                      </label>
+                      <label className="block text-sm font-medium text-gray-700">Upload Clinic Images</label>
                       <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                         <div className="space-y-1 text-center">
                           <svg
@@ -1085,35 +899,23 @@ export default function ClinicForm() {
                                 accept="image/*"
                                 multiple
                                 onChange={(event) => {
-                                  const files = event.currentTarget.files;
+                                  const files = event.currentTarget.files
                                   if (files) {
-                                    // console.log(files);
-                                    setFieldValue("images", [
-                                      ...values.images,
-                                      ...Array.from(files),
-                                    ]);
+                                    setFieldValue("images", [...values.images, ...Array.from(files)])
                                   }
                                 }}
                               />
                             </label>
                             <p className="pl-1">or drag and drop</p>
                           </div>
-                          <p className="text-xs text-gray-500">
-                            PNG, JPG, GIF up to 10MB
-                          </p>
+                          <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
                         </div>
                       </div>
-                      <ErrorMessage
-                        name="images"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
+                      <ErrorMessage name="images" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
                     {values.images.length > 0 && (
                       <div>
-                        <h4 className="text-sm font-medium text-gray-700 mb-2">
-                          Uploaded Images:
-                        </h4>
+                        <h4 className="text-sm font-medium text-gray-700 mb-2">Uploaded Images:</h4>
                         <ul className="list-disc pl-5 text-sm text-gray-600">
                           {values.images.map((file: File, index: number) => (
                             <li key={index}>{file.name}</li>
@@ -1121,163 +923,185 @@ export default function ClinicForm() {
                         </ul>
                       </div>
                     )}
+
+                    <div>
+                      {/* Tag-based Videos input */}
+                      <TagInput
+                        values={values.videos}
+                        fieldName="videos"
+                        placeholder="https://example.com/video"
+                        label="Videos (URLs)"
+                        onAddTag={(tag) => {
+                          // Basic URL validation
+                          const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/
+                          if (urlRegex.test(tag) || true) {
+                            // Remove || true for validation
+                            const newVideos = [...values.videos]
+                            const emptyIndex = newVideos.findIndex((v) => !v.trim())
+                            if (emptyIndex >= 0) {
+                              newVideos[emptyIndex] = tag
+                            } else {
+                              newVideos.push(tag)
+                            }
+                            if (!newVideos.includes("")) {
+                              newVideos.push("")
+                            }
+                            setFieldValue("videos", newVideos)
+                          } else {
+                            toast.error("Please enter a valid URL", {
+                              duration: 3000,
+                            })
+                          }
+                        }}
+                        onRemoveTag={(index) => {
+                          const newVideos = [...values.videos]
+                          newVideos.splice(index, 1)
+                          if (newVideos.length === 0 || !newVideos.includes("")) {
+                            newVideos.push("")
+                          }
+                          setFieldValue("videos", newVideos)
+                        }}
+                        errors={errors.videos}
+                        touched={touched.videos}
+                      />
+                    </div>
                   </motion.div>
                 )}
 
-                 {step === 4 && (
-                                  <motion.div
-                                    key="step4"
-                                    initial={{ opacity: 0, x: 50 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    exit={{ opacity: 0, x: -50 }}
-                                    transition={{ duration: 0.5 }}
-                                    className="space-y-6"
-                                  >
-                
-                                    <div>
-                                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                                        Departments
-                                      </label>
-                                      <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
-                                        {[
-                                          "Cardiology",
-                                          "Neurology",
-                                          "Orthopedics",
-                                        ].map((department) => (
-                                          <div key={department} className="flex items-center">
-                                            <Field
-                                              type="checkbox"
-                                              id={department}
-                                              name="departments"
-                                              value={department}
-                                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                                            />
-                                            <label
-                                              htmlFor="departments"
-                                              className="ml-2 block text-base text-gray-900"
-                                            >
-                                              {department}
-                                            </label>
-                                          </div>
-                                        ))}
-                                      </div>
-                                      <ErrorMessage
-                                        name="departments"
-                                        component="div"
-                                        className="text-red-500 text-sm mt-1"
-                                      />
-                                    </div>
-                
-                                    <div className='!mt-10'>
-                                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                                        Alternative Medicine
-                                      </label>
-                                      <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
-                                        {[
-                                          "Ayurveda",
-                                          "Homeopathy",
-                                          
-                                        ].map((altMed) => (
-                                          <div key={altMed} className="flex items-center">
-                                            <Field
-                                              type="checkbox"
-                                              id={altMed}
-                                              name="altMeds"
-                                              value={altMed}
-                                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                                            />
-                                            <label
-                                              htmlFor="altMeds"
-                                              className="ml-2 block text-base text-gray-900"
-                                            >
-                                              {altMed}
-                                            </label>
-                                          </div>
-                                        ))}
-                                      </div>
-                                      <ErrorMessage
-                                        name="altMeds"
-                                        component="div"
-                                        className="text-red-500 text-sm mt-1"
-                                      />
-                                    </div>
-                
-                                    <div className='!mt-10'>
-                                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                                       Health Concerns
-                                      </label>
-                                      <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
-                                        {[
-                                          "Emergency Services",
-                                          "Patient Satisfaction",
-                                          
-                                        ].map((concern) => (
-                                          <div key={concern} className="flex items-center">
-                                            <Field
-                                              type="checkbox"
-                                              id={concern}
-                                              name="concerns"
-                                              value={concern}
-                                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                                            />
-                                            <label
-                                              htmlFor="concerns"
-                                              className="ml-2 block text-base text-gray-900"
-                                            >
-                                              {concern}
-                                            </label>
-                                          </div>
-                                        ))}
-                                      </div>
-                                      <ErrorMessage
-                                        name="concerns"
-                                        component="div"
-                                        className="text-red-500 text-sm mt-1"
-                                      />
-                                    </div>
-                
-                                    <div className='!mt-10'>
-                                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                                       Services
-                                      </label>
-                                      <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 md:gap-3 sm:gap-2">
-                                        {[
-                                          "24/7 Emergency",
-                                          "Pharmacy",
-                                          "Diagnostic Imaging",
-                                          
-                                        ].map((services) => (
-                                          <div key={services} className="flex items-center">
-                                            <Field
-                                              type="checkbox"
-                                              id={services}
-                                              name="services"
-                                              value={services}
-                                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                                            />
-                                            <label
-                                              htmlFor="services"
-                                              className="ml-2 block text-base text-gray-900"
-                                            >
-                                              {services}
-                                            </label>
-                                          </div>
-                                        ))}
-                                      </div>
-                                      <ErrorMessage
-                                        name="healthConcern"
-                                        component="div"
-                                        className="text-red-500 text-sm mt-1"
-                                      />
-                                    </div>
-                
-                            
-                                  </motion.div>
-                                )}
+                {step === 4 && (
+                  <motion.div
+                    key="step4"
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -50 }}
+                    transition={{ duration: 0.5 }}
+                    className="space-y-6"
+                  >
+                    <div>
+                      <label className="block text-xl font-medium text-gray-900 mb-4">Brands</label>
+                      <MultipleSelector
+                        value={values.brands.filter((b) => b.trim()).map((b) => ({ label: b, value: b }))}
+                        onChange={(newValue) => {
+                          setFieldValue(
+                            "brands",
+                            newValue.map((item) => item.value),
+                          )
+                        }}
+                        options={brandsOptions}
+                        placeholder="Select brands"
+                        className="w-full"
+                      />
+                      <ErrorMessage name="brands" component="div" className="text-red-500 text-sm mt-1" />
+                    </div>
+
+                    <div className="!mt-6">
+                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                        PSU (Public Sector Undertaking)
+                      </label>
+                      <MultipleSelector
+                        value={values.psu.filter((p) => p.trim()).map((p) => ({ label: p, value: p }))}
+                        onChange={(newValue) => {
+                          setFieldValue(
+                            "psu",
+                            newValue.map((item) => item.value),
+                          )
+                        }}
+                        options={psuOptions}
+                        placeholder="Select PSUs"
+                        className="w-full"
+                      />
+                      <ErrorMessage name="psu" component="div" className="text-red-500 text-sm mt-1" />
+                    </div>
+
+                    <div className="!mt-6">
+                      <label className="block text-xl font-medium text-gray-900 mb-4">Accreditations</label>
+                      <MultipleSelector
+                        value={values.accreditations.filter((a) => a.trim()).map((a) => ({ label: a, value: a }))}
+                        onChange={(newValue) => {
+                          setFieldValue(
+                            "accreditations",
+                            newValue.map((item) => item.value),
+                          )
+                        }}
+                        options={accreditationsOptions}
+                        placeholder="Select accreditations"
+                        className="w-full"
+                      />
+                      <ErrorMessage name="accreditations" component="div" className="text-red-500 text-sm mt-1" />
+                    </div>
+
+                    <div className="!mt-6">
+                      <label className="block text-xl font-medium text-gray-900 mb-4">Health Concerns</label>
+                      <MultipleSelector
+                        value={values.concerns.filter((c) => c.trim()).map((c) => ({ label: c, value: c }))}
+                        onChange={(newValue) => {
+                          setFieldValue(
+                            "concerns",
+                            newValue.map((item) => item.value),
+                          )
+                        }}
+                        options={concernsOptions}
+                        placeholder="Select health concerns"
+                        className="w-full"
+                      />
+                      <ErrorMessage name="concerns" component="div" className="text-red-500 text-sm mt-1" />
+                    </div>
+
+                    <div className="!mt-6">
+                      <label className="block text-xl font-medium text-gray-900 mb-4">Insurance Accepted</label>
+                      <MultipleSelector
+                        value={values.insurance.filter((i) => i.trim()).map((i) => ({ label: i, value: i }))}
+                        onChange={(newValue) => {
+                          setFieldValue(
+                            "insurance",
+                            newValue.map((item) => item.value),
+                          )
+                        }}
+                        options={insuranceOptions}
+                        placeholder="Select insurance providers"
+                        className="w-full"
+                      />
+                      <ErrorMessage name="insurance" component="div" className="text-red-500 text-sm mt-1" />
+                    </div>
+
+                    <div className="!mt-6">
+                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                        TPA (Third Party Administrators)
+                      </label>
+                      <MultipleSelector
+                        value={values.tpa.filter((t) => t.trim()).map((t) => ({ label: t, value: t }))}
+                        onChange={(newValue) => {
+                          setFieldValue(
+                            "tpa",
+                            newValue.map((item) => item.value),
+                          )
+                        }}
+                        options={tpaOptions}
+                        placeholder="Select TPAs"
+                        className="w-full"
+                      />
+                      <ErrorMessage name="tpa" component="div" className="text-red-500 text-sm mt-1" />
+                    </div>
+
+                    <div className="!mt-6">
+                      <label className="block text-xl font-medium text-gray-900 mb-4">Alternative Medicine</label>
+                      <MultipleSelector
+                        value={values.altMed.filter((a) => a.trim()).map((a) => ({ label: a, value: a }))}
+                        onChange={(newValue) => {
+                          setFieldValue(
+                            "altMed",
+                            newValue.map((item) => item.value),
+                          )
+                        }}
+                        options={altMedOptions}
+                        placeholder="Select alternative medicine types"
+                        className="w-full"
+                      />
+                      <ErrorMessage name="altMed" component="div" className="text-red-500 text-sm mt-1" />
+                    </div>
+                  </motion.div>
+                )}
               </AnimatePresence>
-
-
-
 
               <div className="flex justify-between pt-5">
                 {step > 1 && (
@@ -1295,9 +1119,9 @@ export default function ClinicForm() {
                     type="button"
                     onClick={() => {
                       if (!hasStepErrors(errors, touched, step)) {
-                        setStep((prev) => prev + 1);
+                        setStep((prev) => prev + 1)
                       } else {
-                        showErrorsToast(errors, step);
+                        showErrorsToast(errors, step)
                       }
                     }}
                     className="ml-auto bg-blue-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 items-center"
@@ -1310,7 +1134,7 @@ export default function ClinicForm() {
                     type="submit"
                     onClick={() => {
                       if (Object.keys(errors).length > 0) {
-                        showAllErrors(errors);
+                        showAllErrors(errors)
                       }
                     }}
                     disabled={isSubmitting}
