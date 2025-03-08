@@ -8,6 +8,7 @@ import { FaGlobeAmericas, FaCheck } from "react-icons/fa";
 import { Navigation, Pagination, Autoplay, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import servicesBySpecialities from "@/data/servicesBySpecialities";
+import publicSectorCorporates from "@/data/publicSector";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -22,7 +23,7 @@ import Ex_Logo from "/Images/hospital-details/dynamic-content-images/description
 import Throphy from "/Images/hospital-details/dynamic-content-images/description-images/throphy.jpg";
 import { CircleCheck, CircleCheckBig } from "lucide-react";
 
-const Description = () => {
+const Description = (props) => {
   const [showAll, setShowAll] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -34,20 +35,7 @@ const Description = () => {
 
   const visibleDepartments = showAll ? departments : departments.slice(0, 8);
 
-  const corporates = [
-    { image: Ex_Logo, title: "Railways" },
-    { image: PMJAY_Logo, title: "PMJAY" },
-    { image: Ex_Logo, title: "Railways" },
-    { image: PMJAY_Logo, title: "PMJAY" },
-    { image: Ex_Logo, title: "Railways" },
-    { image: PMJAY_Logo, title: "PMJAY" },
-    { image: Ex_Logo, title: "Railways" },
-    { image: PMJAY_Logo, title: "PMJAY" },
-    { image: Ex_Logo, title: "Railways" },
-    { image: PMJAY_Logo, title: "PMJAY" },
-    { image: Ex_Logo, title: "Railways" },
-    { image: PMJAY_Logo, title: "PMJAY" },
-  ];
+  const corporates = [...publicSectorCorporates.map((psu) => ({ title: psu.title, image: "/Images/"+psu.image,borderColor:psu.borderColor }))];
 
   const achievements = [
     {
@@ -69,88 +57,48 @@ const Description = () => {
           <div className="max-w-3xl mx-auto">
             <div className="flex flex-col justify-center space-y-5 py-5 my-5 border border-gray-200 p-4 rounded-md bg-slate-50">
               <h1 className="text-2xl font-semibold">About Us</h1>
-                <div className="relative">
-                  <div
-                    className={`overflow-hidden transition-all duration-300 ${
-                      isExpanded ? "" : `line-clamp-6`
-                    }`}
-                  >
-                    <p className="text-base text-gray-700">
-                      {" "}
-                      The 750 bed multi-speciality hospital became operational
-                      in the first week of 2009. The project was initiated in
-                      1999 by Nitu Mandke as a large-scale heart hospital, but
-                      ran into troubles after his death in 2003. Subsequently,
-                      it was completed by the Anil Ambani-led Reliance ADA
-                      group,!" The hospital has boasted of many firsts not only
-                      in India but also in Asia. Kokilaben Dhirubhai Ambani
-                      Hospital has the first 3-room intra-operative MRI suite
-                      (IMRIS) in Asia, Asia's first EDGE Radiosurgery system
-                      from Varian Medical Systems, India's 1st Spine Surgery
-                      Suite featuring the O-arm and many more. The hospital
-                      courted controversy in 2014 when it offered incentives to
-                      doctors for referring patients. It later apologised to the
-                      Maharashtra Medical Council, In 2016, the hospital
-                      announced that it would be setting up 18 cancer-care
-                      centres in rural Maharashtra, under the name Reliance
-                      Cancer Centre's that will be operated and managed by
-                      Kokilaben Dhirubhai Ambani Hospital,14
-                    </p>
-                  </div>
-
-                  <AnimatePresence>
-                    {!isExpanded && (
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-background to-transparent"
-                      />
-                    )}
-                  </AnimatePresence>
+              <div className="relative">
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${
+                    isExpanded ? "" : `line-clamp-6`
+                  }`}
+                >
+                  <p className="text-base text-gray-700">
+                    {" "}
+                    {props.details.description}
+                  </p>
                 </div>
 
-                <div className="mt-2 flex justify-center">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={toggleExpand}
-                    className="flex items-center gap-1 text-sm font-medium text-primary"
-                  >
-                    {isExpanded ? "Read less" : "Read more"}
+                <AnimatePresence>
+                  {!isExpanded && (
                     <motion.div
-                      animate={{ rotate: isExpanded ? 180 : 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <ChevronDown className="h-4 w-4" />
-                    </motion.div>
-                  </Button>
-                </div>
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-background to-transparent"
+                    />
+                  )}
+                </AnimatePresence>
+              </div>
+
+              <div className="mt-2 flex justify-center">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={toggleExpand}
+                  className="flex items-center gap-1 text-sm font-medium text-primary"
+                >
+                  {isExpanded ? "Read less" : "Read more"}
+                  <motion.div
+                    animate={{ rotate: isExpanded ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ChevronDown className="h-4 w-4" />
+                  </motion.div>
+                </Button>
+              </div>
             </div>
           </div>
-
-          {/* <div className="!flex !flex-col !justify-center !space-y-5 !py-5 my-5 border border-gray-200 !p-4 rounded-md bg-slate-50 ">
-            <h1 className="!text-2xl !font-semibold">About Us</h1>
-            <span className="!text-gray-600 text-pretty text-justify">
-              The 750 bed multi-speciality hospital became operational in the
-              first week of 2009. The project was initiated in 1999 by Nitu
-              Mandke as a large-scale heart hospital, but ran into troubles
-              after his death in 2003. Subsequently, it was completed by the
-              Anil Ambani-led Reliance ADA group,!" The hospital has boasted of
-              many firsts not only in India but also in Asia. Kokilaben
-              Dhirubhai Ambani Hospital has the first 3-room intra-operative MRI
-              suite (IMRIS) in Asia, Asia's first EDGE Radiosurgery system from
-              Varian Medical Systems, India's 1st Spine Surgery Suite featuring
-              the O-arm and many more.
-              The hospital courted controversy in 2014 when it offered
-              incentives to doctors for referring patients. It later apologised
-              to the Maharashtra Medical Council, In 2016, the hospital
-              announced that it would be setting up 18 cancer-care centres in
-              rural Maharashtra, under the name Reliance Cancer Centre's that
-              will be operated and managed by Kokilaben Dhirubhai Ambani
-              Hospital,14
-            </span>
-          </div> */}
 
           {/* Achievements */}
           <div className="mb-5 border border-gray-200 !p-4 rounded-md bg-slate-50">
@@ -209,18 +157,19 @@ const Description = () => {
             </div>
           </div>
 
-          {/* Departments Section */}
+          {/* Specialities Section */}
           <div className="!py-4 border border-gray-200 !p-4 rounded-md bg-slate-50 mt-5">
             <h1 className="!text-2xl !font-semibold">Specialities</h1>
             <div className="!flex !flex-wrap !gap-3 !py-5">
-              {visibleDepartments.map((item, index) => (
+              {props.details.specialities?.map((speciality, index) => (
                 <button
                   key={index}
                   className="!bg-gray-100 !px-4 !py-2 !rounded-full !text-sm !text-gray-700 hover:!bg-gray-200 !transition"
                 >
-                  {item.title}
+                  {speciality}
                 </button>
               ))}
+
               {!showAll && (
                 <button
                   className="!bg-cyan-600 !px-4 !py-2 !rounded-full !text-white !text-sm !font-medium hover:!bg-cyan-700 !transition"
@@ -246,7 +195,6 @@ const Description = () => {
 
             <Swiper
               modules={[Navigation, Pagination, Autoplay, A11y]}
-              spaceBetween={8}
               slidesPerView={6}
               loop={true}
               navigation
@@ -267,25 +215,27 @@ const Description = () => {
               }}
               className="!mt-0 "
             >
-              {corporates.slice(0, 12).map((item, index) => (
-                <SwiperSlide key={index} className="!mt-4">
-                  <div key={index} className="group">
-                    <div
-                      key={index}
-                      className="!flex !flex-col !justify-center !items-center !text-center"
-                    >
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="!rounded-full !h-24 !w-24 sm:!h-28 sm:!w-28 md:!h-32 md:!w-32 lg:!h-20 lg:!w-20 xl:!h-24 xl:!w-24 !object-cover"
-                      />
-                      <h1 className="!py-2 !text-gray-700 !font-medium !text-sm sm:!text-base">
-                        {item.title}
-                      </h1>
+              {props.details.psu?.map((item, index) => {
+                const corp = corporates.find((corp) => corp.title === item); // Find instead of filter
+                const corpImg = corp?.image; // Get the image
+
+                return (
+                  <SwiperSlide key={index} className="!mt-4">
+                    <div className="group">
+                      <div className="!flex !flex-col !justify-center !items-center !text-center h-full">
+                        <img
+                          src={corpImg}
+                          alt={item}
+                          className={`rounded-full h-full aspect-square w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-20 xl:max-w-20`}
+                        />
+                        <h1 className="!py-2 !text-gray-700 !font-medium !text-sm sm:!text-base">
+                          {item}
+                        </h1>
+                      </div>
                     </div>
-                  </div>
-                </SwiperSlide>
-              ))}
+                  </SwiperSlide>
+                );
+              })}
             </Swiper>
           </div>
         </div>

@@ -168,6 +168,10 @@ export default function Navbar() {
       setCurrentUser(response.data.users);
     }catch(err){
       console.log(err);
+      // if(err.response.status === 400){
+      //   localStorage.removeItem('token');
+      //   navigate('/');
+      // }
     }
   }
 

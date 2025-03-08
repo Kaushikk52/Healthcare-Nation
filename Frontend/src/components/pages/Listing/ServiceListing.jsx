@@ -8,6 +8,7 @@ import axios from "axios";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, A11y } from "swiper/modules";
+import servicesByAccrediations from "@/data/accrediations";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -112,7 +113,7 @@ export default function ServiceListing() {
   const getHospitals = async () => {
     try{
       const response = await axios.get(`http://localhost:8081/v1/api/facility/type/${type}`);
-      const data = await response.data.hospitals;
+      const data = response.data.hospitals;
       // console.log(data);
       setFacilities(data);
     }catch(err){
@@ -601,7 +602,7 @@ export default function ServiceListing() {
                         slidesPerView={1}
                         navigation
                         pagination={{ clickable: true }}
-                        scrollbar={{ draggable: true }}
+                        draggable={true}
                         onSlideChange={() => console.log("slide change")}
                       >
                         {detail.images.map((image, index) => (
@@ -681,19 +682,21 @@ export default function ServiceListing() {
                           {/* ACCREDITATIONS IMAGES*/}
                           <div className="flex items-center space-x-2">
                             {detail.accreditations.map((acc, index) => (
+                              acc = servicesByAccrediations.filter((service) => service.title === acc)[index]?.image,
                               <img
                                 key={index}
                                 src={path + acc || "/placeholder.svg"}
-                                alt="accreditation image"
+                                alt={`${acc}`}
                                 className="h-12 w-12 rounded-full"
                               />
+                              
                             ))}
                           </div>
 
                           {/* VIEW DETAILS BUTTON */}
                           <div>
                             <Link
-                                          to={"/hospital-details-page"}
+                                          to={"/hospital-details-page/" + detail.id}
                                           style={{
                                             textDecoration: "none",
                                           }}

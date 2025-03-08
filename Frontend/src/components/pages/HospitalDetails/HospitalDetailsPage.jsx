@@ -17,21 +17,39 @@ import Main_Hospital_Image from "/Images/hospital-details/main-images/main-hospi
 import Patint_Room from "/Images/hospital-details/main-images/patient-room.jpg";
 import Hallway from "/Images/hospital-details/main-images/hallway.jpg";
 
-// Rounded Images
-import First_Logo from "/Images/hospital-details/rounded-images/first-logo.jpg";
-import Second_Logo from "/Images/hospital-details/rounded-images/second-logo.jpg";
-import Third_Logo from "/Images/hospital-details/rounded-images/third-logo.jpg";
+import servicesByAccrediations from "@/data/accrediations";
 
 // Dynamic Content Components imports
 import Description from "../../Description";
 import Photos from "../../Photos";
 import Videos from "../../Videos";
 import Reviews from "../../Reviews";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const HospitalDetailsPage = () => {
+  const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS;
   const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 425);
-
   const [activeTabButton, setActiveTabButton] = useState("description");
+  const [hospital, setHospital] = useState({});
+  const { id } = useParams();
+
+  useEffect(() => {
+    getHospitalDetails(id);
+  }, [id]);
+
+  const getHospitalDetails = async (id) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8081/v1/api/facility/id/${id}`
+      );
+      const data = response.data.facility;
+      // console.log(data);
+      setHospital(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleCopyUrl = () => {
     navigator.clipboard
@@ -79,37 +97,33 @@ const HospitalDetailsPage = () => {
     },
   ];
 
-  const roundedImages = [
-    { image: First_Logo, alt: "first logo" },
-    { image: Second_Logo, alt: "second logo" },
-    { image: Third_Logo, alt: "third logo" },
-  ];
+  const accrediations = [];
 
   const tabButtons = [
     {
       id: "description",
-      component: <Description />,
+      component: <Description details={hospital} />,
       title: "Description",
       marginX: "!mr-2",
       paddingX: "!pr-1 min-[425px]:!pr-2",
     },
     {
       id: "photos",
-      component: <Photos />,
+      component: <Photos details={hospital} />,
       title: "Photos",
       marginX: "!mx-2",
       paddingX: "!px-1 min-[425px]:!px-2",
     },
     {
       id: "videos",
-      component: <Videos />,
+      component: <Videos details={hospital} />,
       title: "Videos",
       marginX: "!mx-2",
       paddingX: "!px-1 min-[425px]:!px-2",
     },
     {
       id: "reviews",
-      component: <Reviews />,
+      component: <Reviews details={hospital} />,
       title: "Reviews",
       marginX: "!mx-2",
       paddingX: "!px-1 min-[425px]:!px-2",
@@ -219,23 +233,25 @@ const HospitalDetailsPage = () => {
         {/* Left Side */}
         <div className="!flex !flex-col !justify-center !space-y-1.5">
           <span className="!text-2xl lg:!text-4xl !font-medium !text-wrap">
-            Kokilaben Dhirubhai Ambani Hospital
+            {hospital.name}
           </span>
           {/* <span className='!text-md lg:!text-xl !font-medium text-gray-600'>Andheri, Mumbai</span> */}
 
           <span className="!text-md lg:!text-xl !font-medium text-gray-600">
-            700 Beds
+            {hospital.bed} Beds
           </span>
         </div>
 
         {/* Right Side  */}
         <div className="!flex !flex-col !justify-center !text-white !my-2 sm:!my-0 !space-y-0.5 sm:!space-y-1.5 !text-left sm:!text-right">
           <div className="!flex !justify-center !items-center !bg-[#267e3e] !rounded !py-0.5 !px-0">
-            <span className="!text-xl !font-semibold !mr-1 !px-0">4.8</span>
+            <span className="!text-xl !font-semibold !mr-1 !px-0">
+              {hospital.avgRating}
+            </span>
             <IoIosStar className="!h-5 !w-5 !mb-0.5 !px-0 !mx-0" />
           </div>
           <div className="!text-gray-600">
-            <span>59 Reviews</span>
+            <span>{hospital.reviews?.length} Reviews</span>
           </div>
         </div>
       </div>
@@ -259,14 +275,22 @@ const HospitalDetailsPage = () => {
 
         {/* Right Side for Rounded Images */}
         <div className="!flex !space-x-1.5 md:!space-x-2">
-          {roundedImages.map((item, index) => (
-            <img
-              key={index}
-              src={item.image}
-              alt={item.alt}
-              className="!h-14 !w-14 md:!h-14 md:!w-14 !object-cover !object-center !rounded-full"
-            />
-          ))}
+          {hospital.accreditations?.map((acc, index) => {
+            const accreditation = servicesByAccrediations.find(
+              (item) => item.title === acc
+            );
+            const accImg = accreditation?.image; // Get the image
+
+            // Only render image if accImg is available
+            return (
+              <img
+                key={index}
+                src={`Images/accreditations/${accImg}`}
+                alt={accImg}
+                className="!h-14 !w-14 md:!h-14 md:!w-14 !object-cover !object-center !rounded-full"
+              />
+            );
+          })}
         </div>
       </div>
 

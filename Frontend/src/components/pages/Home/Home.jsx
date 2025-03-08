@@ -150,9 +150,9 @@ function Home() {
                           className={`rounded-full aspect-square ${brand.objectProperty} shadow-md shadow-[rgba(45,45,51,0.08)]  w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl`}
                         />
                       </div>
-                      <p className="text-base sm:text-lg lg:text-sm xl:text-base font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482]">
+                      {/* <p className="text-base sm:text-lg lg:text-sm xl:text-base font-semibold mt-2 text-gray-700 group-hover:text-[#9b2482]">
                         {brand.title}
-                      </p>
+                      </p> */}
                     </Link>
                   </div>
                 </SwiperSlide>

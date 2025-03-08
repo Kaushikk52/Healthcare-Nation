@@ -1,5 +1,3 @@
-"use client";
-
 import axios from "axios";
 import {
   type FormikHelpers,
@@ -29,21 +27,23 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import MultipleSelector from "@/components/ui/MultipleSelector";
-import { error } from "console";
+
+import servicesBySpecialities from "@/data/servicesBySpecialities"
+import popularBrands from "@/data/brands";
+import diagnosticCentres from "@/data/diagnostic";
+import publicSector from "@/data/publicSector";
+import servicesByAccrediations from "@/data/accrediations";
+import servicesByHealthConcern from "@/data/healthConcern";
+import chooseYourHealthInsurance from "@/data/healthInsurance";
+import chooseYourTPA from "@/data/tpa";
+import alternativeMedicine from "@/data/alternativeMedicine";
+
+//TODO: More services , digital services ,Diagnostics
 
 // Add these option arrays after all the imports
 const specialtiesOptions = [
-  { label: "Cardiology", value: "Cardiology" },
-  { label: "Neurology", value: "Neurology" },
-  { label: "Orthopedics", value: "Orthopedics" },
-  { label: "Pediatrics", value: "Pediatrics" },
-  { label: "Oncology", value: "Oncology" },
-  { label: "Dermatology", value: "Dermatology" },
-  { label: "Gynecology", value: "Gynecology" },
-  { label: "Ophthalmology", value: "Ophthalmology" },
-  { label: "Urology", value: "Urology" },
-  { label: "Psychiatry", value: "Psychiatry" },
-];
+...servicesBySpecialities.map((speciality) => ({ label: speciality.title, value: speciality.title })),
+]
 
 const servicesOptions = [
   { label: "Emergency Care", value: "Emergency Care" },
@@ -56,67 +56,39 @@ const servicesOptions = [
   { label: "Ambulance", value: "Ambulance" },
   { label: "Telemedicine", value: "Telemedicine" },
   { label: "Dialysis", value: "Dialysis" },
-];
+]
 
 const brandsOptions = [
-  { label: "Brand 1", value: "Brand 1" },
-  { label: "Brand 2", value: "Brand 2" },
-  { label: "Brand 3", value: "Brand 3" },
-  { label: "Brand 4", value: "Brand 4" },
-  { label: "Brand 5", value: "Brand 5" },
-];
+...popularBrands.map((brand) => ({label : brand.title, value: brand.title})),
+]
 
 const psuOptions = [
-  { label: "PSU 1", value: "PSU 1" },
-  { label: "PSU 2", value: "PSU 2" },
-  { label: "PSU 3", value: "PSU 3" },
-  { label: "PSU 4", value: "PSU 4" },
-  { label: "PSU 5", value: "PSU 5" },
-];
+...publicSector.map((psu) => ({label : psu.title, value: psu.title})),
+]
 
 const accreditationsOptions = [
-  { label: "JCI", value: "JCI" },
-  { label: "NABH", value: "NABH" },
-  { label: "NABL", value: "NABL" },
-  { label: "ISO", value: "ISO" },
-  { label: "ACHSI", value: "ACHSI" },
-];
+...servicesByAccrediations.map((accreditation) => ({label : accreditation.title, value: accreditation.title})),
+]
 
 const concernsOptions = [
-  { label: "Heart Disease", value: "Heart Disease" },
-  { label: "Diabetes", value: "Diabetes" },
-  { label: "Cancer", value: "Cancer" },
-  { label: "Respiratory Diseases", value: "Respiratory Diseases" },
-  { label: "Stroke", value: "Stroke" },
-  { label: "Obesity", value: "Obesity" },
-  { label: "Mental Health", value: "Mental Health" },
-];
+ ...servicesByHealthConcern.map((concern)=> ({ label: concern.title, value: concern.title })),
+]
 
 const insuranceOptions = [
-  { label: "Insurance 1", value: "Insurance 1" },
-  { label: "Insurance 2", value: "Insurance 2" },
-  { label: "Insurance 3", value: "Insurance 3" },
-  { label: "Insurance 4", value: "Insurance 4" },
-  { label: "Insurance 5", value: "Insurance 5" },
-];
+...chooseYourHealthInsurance.map((insurance) => ({label : insurance.title, value: insurance.title})),
+]
 
 const tpaOptions = [
-  { label: "TPA 1", value: "TPA 1" },
-  { label: "TPA 2", value: "TPA 2" },
-  { label: "TPA 3", value: "TPA 3" },
-  { label: "TPA 4", value: "TPA 4" },
-  { label: "TPA 5", value: "TPA 5" },
-];
+...chooseYourTPA.map((tpa) => ({label : tpa.title, value: tpa.title})),
+]
+
+const diagnositcsOptions = [
+...diagnosticCentres.map((diagnostic) => ({label : diagnostic.title, value: diagnostic.title})),
+]
 
 const altMedOptions = [
-  { label: "Ayurveda", value: "Ayurveda" },
-  { label: "Homeopathy", value: "Homeopathy" },
-  { label: "Naturopathy", value: "Naturopathy" },
-  { label: "Acupuncture", value: "Acupuncture" },
-  { label: "Yoga", value: "Yoga" },
-  { label: "Unani", value: "Unani" },
-  { label: "Siddha", value: "Siddha" },
-];
+...alternativeMedicine.map((altMed) => ({label : altMed.title, value: altMed.title})),
+]
 
 const DatePickerField = ({ field, form }: any) => {
   return (
@@ -258,6 +230,7 @@ export default function ClinicForm() {
     ownership: "PRIVATE",
     facilityType: "CLINIC",
     brands: [""],
+    diagnositcs: [""],
     specialities: [""],
     services: [""],
     psu: [""],
@@ -266,6 +239,7 @@ export default function ClinicForm() {
     insurance: [""],
     tpa: [""],
     altMed: [""],
+
     avgRating: 0,
   };
 
@@ -1246,6 +1220,31 @@ export default function ClinicForm() {
                       />
                       <ErrorMessage
                         name="concerns"
+                        component="div"
+                        className="text-red-500 text-sm mt-1"
+                      />
+                    </div>
+
+                    <div className="!mt-6">
+                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                        Diagnostics
+                      </label>
+                      <MultipleSelector
+                        value={values.concerns
+                          .filter((c) => c.trim())
+                          .map((c) => ({ label: c, value: c }))}
+                        onChange={(newValue) => {
+                          setFieldValue(
+                            "diagnostics",
+                            newValue.map((item) => item.value)
+                          );
+                        }}
+                        options={diagnositcsOptions}
+                        placeholder="Select diagnostics"
+                        className="w-full"
+                      />
+                      <ErrorMessage
+                        name="diagnostics"
                         component="div"
                         className="text-red-500 text-sm mt-1"
                       />

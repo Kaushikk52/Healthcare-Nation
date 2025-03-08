@@ -51,6 +51,7 @@ public class MedicalFacility{
     @Enumerated(EnumType.STRING)
     private FacilityType facilityType;
     private String[] brands;
+    private String[] diagnostics;
     private String[] specialities;
     private String[] services;
     private String[] psu;

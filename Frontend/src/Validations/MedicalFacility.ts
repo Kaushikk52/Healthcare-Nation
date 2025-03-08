@@ -29,6 +29,7 @@ export const MedicalFacilitySchema = yup.object().shape({
     facilityType: yup.string().oneOf(["HOSPITAL", "CLINIC", "DIAGNOSTIC_CENTER"], "Invalid facility type").required("Facility type is required"),
   
     brands: yup.array().of(yup.string()),
+    diagnostics: yup.array().of(yup.string()),
     specialities: yup.array().of(yup.string()).required("Specialities are required"),
     services: yup.array().of(yup.string()).required("Services are required"),
     psu: yup.array().of(yup.string()),
