@@ -16,13 +16,13 @@ export const MedicalFacilitySchema = yup.object().shape({
     closeDay: yup.string().required("Closing day is required"),
     hours: yup.string().required("Hours are required"),
     description: yup.string().required("Description is required"),
-    phone: yup.array()
+    phoneNumbers: yup.array()
       .of(yup.string().matches(/^\d{10}$/, "Phone number must be exactly 10 digits"))
       .min(1, "At least one phone number is required")
       .required("Phone numbers are required"),
 
     images: yup.array().of(yup.string()).required("Images are required"),
-    videos: yup.array().of(yup.string().url("Each video must be a valid URL")),
+    videos: yup.array().of(yup.string()),
 
 
     ownership: yup.string().oneOf(["PRIVATE", "PUBLIC", "GOVERNMENT"], "Invalid ownership type").required("Ownership type is required"),

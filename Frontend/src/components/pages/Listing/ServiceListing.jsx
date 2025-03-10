@@ -206,8 +206,8 @@ export default function ServiceListing() {
                       d="m1 9 4-4-4-4"
                     />
                   </svg>
-                  <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2">
-                    Pediatric Hospital
+                  <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2 capitalize">
+                    {type}
                   </span>
                 </div>
               </li>
@@ -391,7 +391,7 @@ export default function ServiceListing() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold capitalize">Hospitals in {location || "Mumbai"}</h2>
+              <h2 className="text-2xl font-bold capitalize">{type} in {location || "Mumbai"}</h2>
               <button
                 onClick={() => setFilterOpen(true)}
                 className="md:hidden flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50"
@@ -593,7 +593,9 @@ export default function ServiceListing() {
             <div>
               {facilities?.map((detail) => (
                 <React.Fragment key={detail.id}>
-                  <div className="grid grid-cols-1 lg:grid-cols-10 gap-x-4 gap-y-2 mt-6 mb-6 sm:px-2">
+                  
+                <Link to={`/${type}-details/${detail.id}`}>
+                <div className="grid grid-cols-1 lg:grid-cols-10 gap-x-4 gap-y-2 mt-6 mb-6 sm:px-2">
                     {/* HOSPITAL IMAGE */}
                     <div className="lg:col-span-4">
                       <Swiper
@@ -638,7 +640,7 @@ export default function ServiceListing() {
                             {detail.address.street}, {detail.address.city} - {detail.address.zipCode}
                           </span>
                           <span className="text-sm  text-green-700 capitalize">
-                            { `${detail.openDay} - ${detail.closeDay} ${detail.hours}`  ||"Open 24 hours"}
+                            { `${detail.openDay} - ${detail.closeDay} ${detail.hours} hrs`  ||"Open 24 hours"}
                           </span>
                         </div>
 
@@ -681,22 +683,30 @@ export default function ServiceListing() {
                         <div className="flex justify-between items-center">
                           {/* ACCREDITATIONS IMAGES*/}
                           <div className="flex items-center space-x-2">
-                            {detail.accreditations.map((acc, index) => (
-                              acc = servicesByAccrediations.filter((service) => service.title === acc)[index]?.image,
-                              <img
-                                key={index}
-                                src={path + acc || "/placeholder.svg"}
-                                alt={`${acc}`}
-                                className="h-12 w-12 rounded-full"
-                              />
-                              
-                            ))}
+                             {detail.accreditations?.map((acc, index) => {
+                                        const accreditation = servicesByAccrediations.find(
+                                          (item) => item.title === acc
+                                        );
+                                        const accImg = accreditation?.image; // Get the image
+                            
+                                        // Only render image if accImg is available
+                                        return (
+                                          <>
+                                          <img
+                                            key={index}
+                                            src={`/Images/${accImg}`}
+                                            alt={accImg}
+                                            className="!h-14 !w-14 md:!h-14 md:!w-14 !object-cover !object-center !rounded-full"
+                                          />
+                                          </>
+                                        );
+                                      })}
                           </div>
 
                           {/* VIEW DETAILS BUTTON */}
-                          <div>
+                        <div>
                             <Link
-                                          to={"/hospital-details-page/" + detail.id}
+                                          to={`/${type}-details/` + detail.id}
                                           style={{
                                             textDecoration: "none",
                                           }}
@@ -713,6 +723,10 @@ export default function ServiceListing() {
                       </div>
                     </div>
                   </div>
+                
+                
+                </Link>
+                 
                   <hr key={`hr-${detail.id}`} />
                 </React.Fragment>
               ))}

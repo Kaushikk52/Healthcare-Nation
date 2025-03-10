@@ -16,6 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+//@JsonIgnoreProperties({"ratings","reviews"})
 public class MedicalFacility{
 
     @Id
@@ -36,11 +37,11 @@ public class MedicalFacility{
     @Lob
     @Column(name = "description",columnDefinition = "TEXT")
     private String description;
-    @ElementCollection
-    @CollectionTable(name = "user_phone_numbers", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "phone_number")
+
+    @Column(name = "phoneNumbers")
     @Size(min = 1, message = "At least one phone number is required.")
-    private List<String> phoneNumbers;
+    private String[] phoneNumbers;
+
     @Column(name = "images", length = 5000, columnDefinition = "VARBINARY(5000)")
     private String[] images;
     @Column(name = "videos", length = 5000, columnDefinition = "VARBINARY(5000)")
@@ -50,15 +51,26 @@ public class MedicalFacility{
     private OwnershipType ownership;
     @Enumerated(EnumType.STRING)
     private FacilityType facilityType;
+
+    @Column(name = "brands", length = 5000, columnDefinition = "VARBINARY(5000)")
     private String[] brands;
+    @Column(name = "diagnostics", length = 5000, columnDefinition = "VARBINARY(5000)")
     private String[] diagnostics;
+    @Column(name = "specialities", length = 5000, columnDefinition = "VARBINARY(5000)")
     private String[] specialities;
+    @Column(name = "services", length = 5000, columnDefinition = "VARBINARY(5000)")
     private String[] services;
+    @Column(name = "psu", length = 5000, columnDefinition = "VARBINARY(5000)")
     private String[] psu;
+    @Column(name = "accreditations", length = 5000, columnDefinition = "VARBINARY(5000)")
     private String[] accreditations;
+    @Column(name = "concerns", length = 5000, columnDefinition = "VARBINARY(5000)")
     private String[] concerns;
+    @Column(name = "insurance", length = 5000, columnDefinition = "VARBINARY(5000)")
     private String[] insurance;
+    @Column(name = "tpa", length = 5000, columnDefinition = "VARBINARY(5000)")
     private String[] tpa;
+    @Column(name = "altMed", length = 5000, columnDefinition = "VARBINARY(5000)")
     private String[] altMed;
 
     private Double avgRating;

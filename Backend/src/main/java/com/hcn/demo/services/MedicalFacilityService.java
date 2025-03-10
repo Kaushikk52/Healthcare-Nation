@@ -53,8 +53,6 @@ public class MedicalFacilityService {
         rating.setMedicalFacility(facility);
         User principalUser = (User)userDetailsService.loadUserByUsername(principal.getName());
         rating.setUser(principalUser);
-        Double avgRating = ratingRepo.findAverageRatingByMedicalFacilityId(id);
-        facility.setAvgRating(avgRating);
         ratingRepo.save(rating);
     }
 

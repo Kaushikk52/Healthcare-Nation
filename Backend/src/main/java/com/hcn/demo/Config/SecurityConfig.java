@@ -59,6 +59,13 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT ,"/v1/api/facility/edit/**").authenticated()
                         .requestMatchers(HttpMethod.DELETE , "/v1/api/facility/delete/**").authenticated()
 
+                        //Reviews endpoints
+                        .requestMatchers(HttpMethod.GET ,"/v1/api/review/**").permitAll()
+
+                        //Ratings endpoints
+                        .requestMatchers(HttpMethod.GET ,"/v1/api/rating/**").permitAll()
+
+
 
 
                         // Images endpoints

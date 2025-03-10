@@ -32,10 +32,30 @@ const HospitalDetailsPage = () => {
   const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 425);
   const [activeTabButton, setActiveTabButton] = useState("description");
   const [hospital, setHospital] = useState({});
-  const { id } = useParams();
+  const [ratings,setRatings] = useState([]);
+  const [avgRating, setAvgRating] = useState(0);
+  const { id,type } = useParams();
+
+  const getRatings = async(id) =>{
+    try{
+      const response = await axios.get(`http://localhost:8081/v1/api/rating/facility/${id}`);
+      const data = response.data.ratings;
+      setRatings(data);
+      const sum = data.reduce((acc ,r ) => acc + r.rating,0);
+      let average = sum / data.length;
+      if (isNaN(average)) {
+        average = 0;
+        setAvgRating(average.toPrecision(2));
+      }
+
+    }catch(err){
+      console.log(err.message);
+    }
+  }
 
   useEffect(() => {
     getHospitalDetails(id);
+    getRatings(id);
   }, [id]);
 
   const getHospitalDetails = async (id) => {
@@ -78,8 +98,7 @@ const HospitalDetailsPage = () => {
   const buttons = [
     {
       title: "Add Review",
-      icon: <MdEdit className="!text-yellow-400 !h-5 !w-5" />,
-      Color: "!border-yellow-400 !text-yellow-500",
+      icon: <MdEdit className="!text-pink-400 !h-5 !w-5" />,
     },
     {
       title: "Direction",
@@ -97,33 +116,31 @@ const HospitalDetailsPage = () => {
     },
   ];
 
-  const accrediations = [];
-
   const tabButtons = [
     {
       id: "description",
-      component: <Description details={hospital} />,
+      component: <Description details={hospital} phones={hospital.phoneNumbers} />,
       title: "Description",
       marginX: "!mr-2",
       paddingX: "!pr-1 min-[425px]:!pr-2",
     },
     {
       id: "photos",
-      component: <Photos details={hospital} />,
+      component: <Photos images={hospital.images} />,
       title: "Photos",
       marginX: "!mx-2",
       paddingX: "!px-1 min-[425px]:!px-2",
     },
     {
       id: "videos",
-      component: <Videos details={hospital} />,
+      component: <Videos videos={hospital.videos} />,
       title: "Videos",
       marginX: "!mx-2",
       paddingX: "!px-1 min-[425px]:!px-2",
     },
     {
       id: "reviews",
-      component: <Reviews details={hospital} />,
+      component: <Reviews id={hospital.id} />,
       title: "Reviews",
       marginX: "!mx-2",
       paddingX: "!px-1 min-[425px]:!px-2",
@@ -187,8 +204,8 @@ const HospitalDetailsPage = () => {
                       d="m1 9 4-4-4-4"
                     />
                   </svg>
-                  <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2">
-                    Pediatric Hospital
+                  <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2 capitalize">
+                    {type}
                   </span>
                 </div>
               </li>
@@ -246,7 +263,7 @@ const HospitalDetailsPage = () => {
         <div className="!flex !flex-col !justify-center !text-white !my-2 sm:!my-0 !space-y-0.5 sm:!space-y-1.5 !text-left sm:!text-right">
           <div className="!flex !justify-center !items-center !bg-[#267e3e] !rounded !py-0.5 !px-0">
             <span className="!text-xl !font-semibold !mr-1 !px-0">
-              {hospital.avgRating}
+              {avgRating}
             </span>
             <IoIosStar className="!h-5 !w-5 !mb-0.5 !px-0 !mx-0" />
           </div>
@@ -283,12 +300,14 @@ const HospitalDetailsPage = () => {
 
             // Only render image if accImg is available
             return (
+              <>
               <img
                 key={index}
-                src={`Images/accreditations/${accImg}`}
+                src={`/Images/${accImg}`}
                 alt={accImg}
                 className="!h-14 !w-14 md:!h-14 md:!w-14 !object-cover !object-center !rounded-full"
               />
+              </>
             );
           })}
         </div>

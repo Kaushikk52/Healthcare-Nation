@@ -14,6 +14,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
+@JsonIgnoreProperties({"medicalFacility"})
 public class Review {
 
     @Id

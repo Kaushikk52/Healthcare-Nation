@@ -82,7 +82,7 @@ const tpaOptions = [
 ...chooseYourTPA.map((tpa) => ({label : tpa.title, value: tpa.title})),
 ]
 
-const diagnositcsOptions = [
+const diagnosticsOptions = [
 ...diagnosticCentres.map((diagnostic) => ({label : diagnostic.title, value: diagnostic.title})),
 ]
 
@@ -230,7 +230,7 @@ export default function ClinicForm() {
     ownership: "PRIVATE",
     facilityType: "CLINIC",
     brands: [""],
-    diagnositcs: [""],
+    diagnostics: [""],
     specialities: [""],
     services: [""],
     psu: [""],
@@ -1239,7 +1239,7 @@ export default function ClinicForm() {
                             newValue.map((item) => item.value)
                           );
                         }}
-                        options={diagnositcsOptions}
+                        options={diagnosticsOptions}
                         placeholder="Select diagnostics"
                         className="w-full"
                       />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,26 +16,31 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/swiper-bundle.css";
 
-import PMJAY_Logo from "/Images/hospital-details/dynamic-content-images/description-images/pmjay-logo.png";
-import Ex_Logo from "/Images/hospital-details/dynamic-content-images/description-images/ex-logo.jpg";
-
 // Achievement Images
 import Throphy from "/Images/hospital-details/dynamic-content-images/description-images/throphy.jpg";
-import { CircleCheck, CircleCheckBig } from "lucide-react";
+import { CircleCheckBig } from "lucide-react";
 
 const Description = (props) => {
   const [showAll, setShowAll] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [phones, setPhones] = useState([]);
+
+  useEffect(() => {
+    setPhones(props.phones);
+    console.log(phones, props.phones);
+  }, [props]);
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
 
-  const departments = [...servicesBySpecialities];
-
-  const visibleDepartments = showAll ? departments : departments.slice(0, 8);
-
-  const corporates = [...publicSectorCorporates.map((psu) => ({ title: psu.title, image: "/Images/"+psu.image,borderColor:psu.borderColor }))];
+  const corporates = [
+    ...publicSectorCorporates.map((psu) => ({
+      title: psu.title,
+      image: "/Images/" + psu.image,
+      borderColor: psu.borderColor,
+    })),
+  ];
 
   const achievements = [
     {
@@ -164,7 +169,7 @@ const Description = (props) => {
               {props.details.specialities?.map((speciality, index) => (
                 <button
                   key={index}
-                  className="!bg-gray-100 !px-4 !py-2 !rounded-full !text-sm !text-gray-700 hover:!bg-gray-200 !transition"
+                  className="!bg-gray-200 !px-4 !py-2 !rounded-full !text-sm !text-gray-700 hover:!bg-gray-200 !transition"
                 >
                   {speciality}
                 </button>
@@ -246,19 +251,24 @@ const Description = (props) => {
             {/* Contact And Address Details  */}
             <div className="!flex !flex-col !space-y-6 !p-5 !bg-gray-50 !rounded-sm border">
               {/* Phone  */}
-              <div className="!grid !grid-cols-12 !items-start">
-                <FaPhone className="!col-span-2 sm:!col-span-1 lg:!col-span-2 !h-6 !w-6 !mt-1" />
-                <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-2xl lg:!text-xl">
-                  (800) 570-3142
-                </span>
-              </div>
+              {props.phones?.map((number) => (
+                <div key={number} className="!grid !grid-cols-12 !items-start">
+                  <FaPhone className="!col-span-2 sm:!col-span-1 lg:!col-span-2 !h-6 !w-6 !mt-1" />
+                  <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-2xl lg:!text-xl">
+                    {number}
+                  </span>
+                </div>
+              ))}
 
               {/* Location  */}
               <div className="!grid !grid-cols-12 !items-start">
                 <FaLocationDot className="!col-span-2 sm:!col-span-1 lg:!col-span-2 !h-6 !w-6 !mt-0.5 !text-red-600" />
                 <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 text-balance">
+                  {props.details.address?.street} {props.details.address?.city}{" "}
+                  - {props.details.address?.zipCode}
+                  {/* 
                   Rao Saheb, Achutrao Patwardhan Marg, Four Bungalows, Andheri
-                  West, Mumbai, Maharashtra 400053
+                  West, Mumbai, Maharashtra 400053 */}
                 </span>
               </div>
 
@@ -266,15 +276,16 @@ const Description = (props) => {
               <div className="!grid !grid-cols-12 !items-center">
                 <FaGlobeAmericas className="!col-span-2 sm:!col-span-1 lg:!col-span-2 !h-6 !w-6 !mt-0.5 !text-blue-500" />
                 <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-md">
-                  kokilabenhospital.com
+                  {props.details.website}
                 </span>
               </div>
 
               {/* Woring hours */}
               <div className="!grid !grid-cols-12 !items-center">
                 <FaClock className="!col-span-2 sm:!col-span-1 lg:!col-span-2 !h-6 !w-6 !mt-0.5 !text-blue-500" />
-                <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-md !text-[#74c365]">
-                  Open 24 hours
+                <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-md !text-[#74c365] capitalize">
+                  {props.details.openDay} - {props.details.closeDay}{" "}
+                  {props.details.hours} Hrs
                 </span>
               </div>
             </div>

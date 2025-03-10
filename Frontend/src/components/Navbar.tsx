@@ -165,6 +165,10 @@ export default function Navbar() {
     try{
       const response = await axios.get(`http://localhost:8081/v1/api/user/principal`,
         {headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}});
+      if(response.status === 401){
+        setCurrentUser(null);
+        localStorage.removeItem('token');
+      }
       setCurrentUser(response.data.users);
     }catch(err){
       console.log(err);

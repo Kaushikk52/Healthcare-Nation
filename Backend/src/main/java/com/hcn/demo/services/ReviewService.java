@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.List;
 
 @Service
 public class ReviewService {
@@ -15,6 +16,12 @@ public class ReviewService {
     @Autowired
     public ReviewService(ReviewRepo reviewRepo){
         this.reviewRepo = reviewRepo;
+    }
+
+
+    public List<Review> getReviewsByHospital(String id){
+        List<Review> reviews = reviewRepo.findByMedicalFacility_Id(id);
+        return reviews;
     }
 
 

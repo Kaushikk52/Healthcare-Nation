@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { IoIosStar, IoMdThumbsUp } from "react-icons/io";
 import { BiSolidComment } from "react-icons/bi";
@@ -9,8 +9,51 @@ import First_Reviewer from '/Images/hospital-details/dynamic-content-images/revi
 import Second_Reviewer from '/Images/hospital-details/dynamic-content-images/review-images/second-reviewer-image.jpg'
 import Third_Reviewer from '/Images/hospital-details/dynamic-content-images/review-images/third-reviewer-image.jpg'
 import Fourth_Reviewer from '/Images/hospital-details/dynamic-content-images/review-images/fourth-reviewer-image.jpg'
+import axios from 'axios';
+import { User } from 'lucide-react';
 
-const Reviews = () => {
+const Reviews = (props) => {
+  const [reviews,setReviews] = useState([]);
+  const [ratings,setRatings] = useState([]);
+  const [avgRating, setAvgRating] = useState(0);
+
+
+
+  const getReviews = async(id) =>{
+    try{
+      const response = await axios.get(`http://localhost:8081/v1/api/review/facility/${props.id}`);
+      const data = response.data.reviews;
+      setReviews(data);
+    }catch(err){
+      console.log(err.message);
+    }
+  }
+
+  const getRatings = async(id) =>{
+    try{
+      const response = await axios.get(`http://localhost:8081/v1/api/rating/facility/${props.id}`);
+      const data = response.data.ratings;
+      setRatings(data);
+      const sum = data.reduce((acc ,r ) => acc + r.rating,0);
+      let average = sum / data.length;
+      if (isNaN(average)) {
+        average = 0;
+        setAvgRating(average.toPrecision(2));
+      }
+      setAvgRating(average.toPrecision(2));
+
+    }catch(err){
+      console.log(err.message);
+    }
+  }
+  
+
+  useEffect(()=> {
+    getReviews(props.id);
+    getRatings(props.id);
+  },[props.id])
+
+
 
 
   const starIcon = Array(5).fill(null);
@@ -25,12 +68,11 @@ const Reviews = () => {
 
   const reviewer = [
     { id: 1, image: First_Reviewer, name: 'Julia Deep', reviewCount: '1 Review', relativeTime: '4 days ago', reviewedText: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets.` },
-    { id: 2, image: Second_Reviewer, name: 'John Doe', reviewCount: '1 Review', relativeTime: '3 days ago', reviewedText: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets.` },
-    { id: 3, image: Third_Reviewer, name: 'Jane Doe', reviewCount: '1 Review', relativeTime: '2 days ago', reviewedText: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets.` },
-    { id: 4, image: Fourth_Reviewer, name: 'Blackacre', reviewCount: '1 Review', relativeTime: '1 days ago', reviewedText: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets.` },
-  ]
+   ]
 
   const [likes, setLikes] = useState(reviewer.map(() => false));
+
+
 
 
   return (
@@ -52,8 +94,8 @@ const Reviews = () => {
         <div className='!grid !grid-cols-1 !grid-rows-2 sm:!grid-rows-none sm:!grid-cols-12 !gap-y-4 !py-8'>
           {/* Left box */}
           <div className='!row-span-1 sm:!col-span-3 !bg-[#1e90ff] !text-white !bg-opacity-90 !rounded-xl sm:!rounded-2xl !flex !flex-col !items-center !justify-center !space-y-1'>
-            <h1 className='!text-4xl !font-semibold'>4.8</h1>
-            <span className='!text-lg !font-semibold'>59 Reviews</span>
+            <h1 className='!text-4xl !font-semibold'>{avgRating}</h1>
+            <span className='!text-lg !font-semibold'>{reviews.length} Reviews</span>
           </div>
           {/* Right Bars  */}
           <div className='!row-span-1 sm:!col-span-9 !flex'>
@@ -71,16 +113,16 @@ const Reviews = () => {
         </div>
 
         {/* Reviews by peoples */}
-        {reviewer.map((review) => (
-          <div key={review.id} className='!my-4 sm:!my-6'>
+        {reviews.map((review,index) => (
+          <div key={index} className='!my-4 sm:!my-6'>
             {/* Reviwer Information */}
             <div className='!grid !grid-cols-1 !gap-y-2 sm:!grid-cols-7 md:!grid-cols-9 lg:!grid-cols-8 xl:!grid-cols-11'>
               <div className='sm:!col-span-1 md:!col-span-1 lg:!col-span-1 xl:!col-span-1'>
-                <img src={review.image} alt="reviewer image" className='!h-20 !w-20 !rounded-full !object-cover !object-center' />
+                <User/>
               </div>
               <div className='sm:!col-span-6 md:!col-span-8 lg:!col-span-7 xl:!col-span-10 sm:!px-2 md:!px-3 lg:!px-0 xl:!px-6 !flex !flex-col !justify-center'>
-                <h1 className='!text-2xl !font-semibold'>{review.name}</h1>
-                <span className='!text-md !text-gray-600 !font-semibold'>{review.reviewCount}</span>
+                <h1 className='!text-2xl !font-semibold'>{review.user.firstName} {review.user.lastName}</h1>
+                <span className='!text-md !text-gray-600 !font-semibold'>{review.reviewCount || 5}</span>
               </div>
             </div>
 
@@ -93,14 +135,14 @@ const Reviews = () => {
                 }
               </div>
               <div>
-                <span className='!text-md !font-semibold'>{review.relativeTime}</span>
+                <span className='!text-md !font-semibold'>{review.createdAt}</span>
               </div>
             </div>
 
             {/* Reviewed text and Like, Comment, Share Buttons */}
             <div className='!flex !flex-col !items-start !py-1'>
               <div>
-                <span className='!text-base !font-medium !text-gray-400'>{review.reviewedText}</span>
+                <span className='!text-base !font-medium !text-gray-400'>{review.comment}</span>
               </div>
               <div className='!flex !items-center !space-x-4 sm:!space-x-6'>
                 <button

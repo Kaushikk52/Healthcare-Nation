@@ -93,7 +93,7 @@ const tpaOptions = [
   ...chooseYourTPA.map((tpa) => ({ label: tpa.title, value: tpa.title })),
 ];
 
-const diagnositcsOptions = [
+const diagnosticsOptions = [
   ...diagnosticCentres.map((diagnostic) => ({
     label: diagnostic.title,
     value: diagnostic.title,
@@ -234,13 +234,13 @@ export default function HospitalForm() {
     closeDay: "",
     hours: "",
     description: "",
-    phone: [""],
+    phoneNumbers: [""],
     images: [] as File[],
     videos: [""],
     ownership: "PRIVATE",
     facilityType: "HOSPITAL",
     brands: [""],
-    diagnositcs: [""],
+    diagnostics: [""],
     specialities: [""],
     services: [""],
     psu: [""],
@@ -599,7 +599,14 @@ export default function HospitalForm() {
           validationSchema={MedicalFacilitySchema}
           onSubmit={handleSubmit}
         >
-          {({ values, errors, touched, setFieldValue, isSubmitting, handleChange }) => (
+          {({
+            values,
+            errors,
+            touched,
+            setFieldValue,
+            isSubmitting,
+            handleChange,
+          }) => (
             <Form className="mt-8 space-y-6">
               <AnimatePresence mode="wait">
                 {step === 1 && (
@@ -844,41 +851,28 @@ export default function HospitalForm() {
                       <div>
                         {/* Tag-based Phone input */}
                         <TagInput
-                          values={values.phone}
+                          values={values.phoneNumbers}
                           fieldName="phone"
                           placeholder="Enter phone number"
                           label="Phone Numbers"
                           onAddTag={(tag) => {
                             // Validate phone number if needed
-                            const phoneRegex = /^\d{10}$/;
+                            const phoneRegex = /^\d{10}$/
                             if (phoneRegex.test(tag) || true) {
                               // Remove || true for validation
-                              const newPhones = [...values.phone];
+                              const newPhones = [...values.phoneNumbers]
                               // Replace empty string at the end or add a new one
-                              const emptyIndex = newPhones.findIndex(
-                                (p) => !p.trim()
-                              );
+                              const emptyIndex = newPhones.findIndex((p) => !p.trim())
                               if (emptyIndex >= 0) {
-                                newPhones[emptyIndex] = tag;
+                                newPhones[emptyIndex] = tag
                               } else {
-                                newPhones.push(tag);
+                                newPhones.push(tag)
                               }
-                              // Ensure there's always an empty slot at the end for a new entry
-                              if (!newPhones.includes("")) {
-                                newPhones.push("");
-                              }
-                              setFieldValue("phone", newPhones);
-                            } else {
-                              toast.error(
-                                "Please enter a valid 10-digit phone number",
-                                {
-                                  duration: 3000,
-                                }
-                              );
-                            }
+                              setFieldValue("phoneNumbers", newPhones)
+                            } 
                           }}
                           onRemoveTag={(index) => {
-                            const newPhones = [...values.phone];
+                            const newPhones = [...values.phoneNumbers];
                             newPhones.splice(index, 1);
                             // Ensure there's always at least one empty slot
                             if (
@@ -887,10 +881,10 @@ export default function HospitalForm() {
                             ) {
                               newPhones.push("");
                             }
-                            setFieldValue("phone", newPhones);
+                            setFieldValue("phoneNumbers", newPhones);
                           }}
-                          errors={errors.phone}
-                          touched={touched.phone}
+                          errors={errors.phoneNumbers}
+                          touched={touched.phoneNumbers}
                         />
                       </div>
                     </div>
@@ -1116,25 +1110,25 @@ export default function HospitalForm() {
                         placeholder="https://example.com/video"
                         label="Videos (URLs)"
                         onAddTag={(tag) => {
-                          // Basic URL validation
-                          const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
-                          if (urlRegex.test(tag) || true) {
-                            // Remove || true for validation
+                          // Extract YouTube video ID
+                          const youtubeRegex =
+                            /(?:youtube\.com\/.*[?&]v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+                          const match = tag.match(youtubeRegex);
+                          const videoID = match ? match[1] : null;
+
+                          if (videoID) {
                             const newVideos = [...values.videos];
                             const emptyIndex = newVideos.findIndex(
                               (v) => !v.trim()
                             );
                             if (emptyIndex >= 0) {
-                              newVideos[emptyIndex] = tag;
+                              newVideos[emptyIndex] = videoID;
                             } else {
-                              newVideos.push(tag);
-                            }
-                            if (!newVideos.includes("")) {
-                              newVideos.push("");
+                              newVideos.push(videoID);
                             }
                             setFieldValue("videos", newVideos);
                           } else {
-                            toast.error("Please enter a valid URL", {
+                            toast.error("Please enter a valid YouTube URL", {
                               duration: 3000,
                             });
                           }
@@ -1271,7 +1265,7 @@ export default function HospitalForm() {
                         Diagnostics
                       </label>
                       <MultipleSelector
-                        value={values.concerns
+                        value={values.diagnostics
                           .filter((c) => c.trim())
                           .map((c) => ({ label: c, value: c }))}
                         onChange={(newValue) => {
@@ -1280,7 +1274,7 @@ export default function HospitalForm() {
                             newValue.map((item) => item.value)
                           );
                         }}
-                        options={diagnositcsOptions}
+                        options={diagnosticsOptions}
                         placeholder="Select diagnostics"
                         className="w-full"
                       />

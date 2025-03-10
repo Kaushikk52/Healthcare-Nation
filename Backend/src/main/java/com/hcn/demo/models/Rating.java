@@ -1,5 +1,6 @@
 package com.hcn.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,6 +13,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
+@JsonIgnoreProperties({"medicalFacility"})
 public class Rating {
 
     @Id

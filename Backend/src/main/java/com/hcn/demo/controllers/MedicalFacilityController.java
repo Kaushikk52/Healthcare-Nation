@@ -132,7 +132,7 @@ public class MedicalFacilityController {
     }
 
 
-    @PostMapping(value = "/{id}/ratings")
+    @PostMapping(value = "/{id}/rating")
     public ResponseEntity<Map<String, Object>> addRating(@PathVariable String id, @RequestBody Rating rating, Principal principal){
         Map<String, Object> response = new HashMap<>();
         try {

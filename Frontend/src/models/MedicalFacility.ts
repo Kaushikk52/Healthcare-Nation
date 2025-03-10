@@ -5,7 +5,7 @@ import { Review } from "./Review";
 export interface MedicalFacility {
     id: number;
     name: string;
-    phone: string[];
+    phoneNumbers: string[];
     images: string[];
     address: Address;
     website: string;
