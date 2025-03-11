@@ -21,12 +21,19 @@ import HealthInurance from './components/pages/HealthInsurance';
 import TPA from './components/pages/TPA';
 import HealthcareServices from './components/pages/HealthcareServices';
 import ScrollToTop from './components/ScrollToTop';
+
+import Contact from './components/pages/Contact';
+import PrivacyPolicy from './components/pages/PrivacyPolicy';
+import ContentPolicy from './components/pages/ContentPolicy';
+import AboutUs from './components/pages/AboutUs';
+import TermsAndConditions from './components/pages/TermsAndConditions';
+
 function App() {
 
 
   return (
     <BrowserRouter>
-    <ScrollToTop />
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Main />} />
@@ -51,6 +58,12 @@ function App() {
           <Route path='/popular-hospitals' element={< PopularHospitals />} />
           <Route path='/health-insurance' element={< HealthInurance />} />
           <Route path='/tpa' element={< TPA />} />
+
+          <Route path='/contact-us' element={<Contact />} />
+          <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+          <Route path='/content-policy' element={<ContentPolicy />} />
+          <Route path='/about-us' element={<AboutUs />} />
+          <Route path='/terms-and-conditions' element={<TermsAndConditions />} />
 
         </Route>
       </Routes>

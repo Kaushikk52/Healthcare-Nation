@@ -85,11 +85,11 @@ function Footer() {
   ];
 
   const footerLinks = [
-    { name: "About Us", href: "/about" },
+    { name: "About Us", href: "/about-us" },
     { name: "Content Policy", href: "/content-policy" },
-    { name: "Privacy Policy", href: "/privacy" },
-    { name: "Terms & Conditions", href: "/terms" },
-    { name: "Contact Us", href: "/contact" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
+    { name: "Terms & Conditions", href: "/terms-and-conditions" },
+    { name: "Contact Us", href: "/contact-us" },
     
   ];
 
@@ -116,7 +116,7 @@ function Footer() {
                       <li key={link.name}>
                         {index > 0 && <span className="mr-4">|</span>}
                         <Link
-                          href={link.href}
+                          to={link.href}
                           className="hover:text-white/80 transition-colors text-sm font-sans font-medium"
                         >
                           {link.name}
