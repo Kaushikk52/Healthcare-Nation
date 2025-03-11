@@ -24,17 +24,16 @@ const filters = [
   //   step: 50,
   // },
   {
-    title:"Saved",
-    options:[
-      {id:"Saved", text:"Saved"}
-    ]
+    title: "Saved",
+    options: [{ id: "Saved", text: "Saved" }],
   },
-  {title:"Sort By",
+  {
+    title: "Sort By",
     options: [
-      {id:"relevance", text:"Relevance"},
-      {id:"rating", text:"Ratings : High to Low"},
-      {id:"reviews", text:"Reviews : High to Low"}
-    ]
+      { id: "relevance", text: "Relevance" },
+      { id: "rating", text: "Ratings : High to Low" },
+      { id: "reviews", text: "Reviews : High to Low" },
+    ],
   },
   {
     title: "Accreditation",
@@ -66,21 +65,23 @@ const filters = [
       { id: "PMJAY Hospitals", text: "PMJAY Hospitals" },
       { id: "Railway Hospitals", text: "Railway Hospitals" },
     ],
-  }
+  },
 ];
 
 export default function ServiceListing() {
   const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS;
   const clinicImgs = import.meta.env.VITE_APP_CLOUDINARY_CLINICS;
   const [searchParams] = useSearchParams();
-  const  type = searchParams.get("type");
+  const type = searchParams.get("type");
   const location = searchParams.get("location");
   const [facilities, setFacilities] = useState([]);
 
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [bedRange, setBedRange] = useState([0, 500]);
-  const [expandedSections, setExpandedSections] = useState(filters.map((filter) => filter.title));
+  const [expandedSections, setExpandedSections] = useState(
+    filters.map((filter) => filter.title)
+  );
   const [bedRangeInput, setBedRangeInput] = useState({ min: "0", max: "500" });
   const path = import.meta.env.VITE_APP_IMG_URL;
 
@@ -107,31 +108,34 @@ export default function ServiceListing() {
   };
 
   useEffect(() => {
-    (type) === "hospitals" ? getHospitals() : getClinics();
+    type === "hospitals" ? getHospitals() : getClinics();
   }, [type]);
 
   const getHospitals = async () => {
-    try{
-      const response = await axios.get(`http://localhost:8081/v1/api/facility/type/${type}`);
+    try {
+      const response = await axios.get(
+        `http://localhost:8081/v1/api/facility/type/${type}`
+      );
       const data = response.data.hospitals;
       // console.log(data);
       setFacilities(data);
-    }catch(err){
+    } catch (err) {
       console.log(err.message);
     }
-  }
+  };
 
-  const getClinics =async () => {
-    try{
-      const response = await axios.get(`http://localhost:8081/v1/api/facility/type/${type}`);
+  const getClinics = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8081/v1/api/facility/type/${type}`
+      );
       const data = await response.data.clinics;
       // console.log(data);
       setFacilities(data);
-    }catch(err){
+    } catch (err) {
       console.log(err.message);
     }
-  }
-
+  };
 
   const handleFilterToggle = (filterId, filterType) => {
     if (filterType === "slider") {
@@ -391,15 +395,17 @@ export default function ServiceListing() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold capitalize">{type} in {location || "Mumbai"}</h2>
-              <button
-                onClick={() => setFilterOpen(true)}
-                className="md:hidden flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50"
-              >
-                <FaFilter className="w-4 h-4" />
-                <span>Filters</span>
-              </button>
-            </div>
+          <h2 className="text-2xl font-bold capitalize">
+            {type} in {location || "Mumbai"}
+          </h2>
+          <button
+            onClick={() => setFilterOpen(true)}
+            className="md:hidden flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50"
+          >
+            <FaFilter className="w-4 h-4" />
+            <span>Filters</span>
+          </button>
+        </div>
         <div className="flex gap-6">
           {/* Desktop Filters */}
           <div className="hidden md:block w-72 flex-shrink-0">
@@ -534,7 +540,6 @@ export default function ServiceListing() {
             </div>
           </div>
 
-
           {/* Hospital Listings */}
           <div className="flex-1">
             {/* Applied Filters and Sort */}
@@ -593,140 +598,141 @@ export default function ServiceListing() {
             <div>
               {facilities?.map((detail) => (
                 <React.Fragment key={detail.id}>
-                  
-                <Link to={`/${type}-details/${detail.id}`}>
-                <div className="grid grid-cols-1 lg:grid-cols-10 gap-x-4 gap-y-2 mt-6 mb-6 sm:px-2">
-                    {/* HOSPITAL IMAGE */}
-                    <div className="lg:col-span-4">
-                      <Swiper
-                        modules={[Navigation, Pagination, A11y]}
-                        spaceBetween={50}
-                        slidesPerView={1}
-                        navigation
-                        pagination={{ clickable: true }}
-                        draggable={true}
-                        onSlideChange={() => console.log("slide change")}
-                      >
-                        {detail.images.map((image, index) => (
-                          (type === "hospitals")  ?
-                          <SwiperSlide key={index}>
-                            <img
-                              src={hospitalImgs + image || "/placeholder.svg"}
-                              alt={`${type} Image`}
-                              className="w-full h-auto object-cover aspect-[5/3] rounded-md"
-                            />
-                          </SwiperSlide>
-                          :<SwiperSlide key={index}>
-                          <img
-                            src={clinicImgs + image || "/placeholder.svg"}
-                            alt={`${type} Image`}
-                            className="w-full h-auto object-cover aspect-[5/3] rounded-md"
-                          />
-                        </SwiperSlide>
-                        ))}
-                      </Swiper>
-                    </div>
-
-                    {/* HOSPITAL DETAILS  */}
-                    <div className="lg:col-span-6 flex flex-col justify-between">
-                      {/* HOSPITAL NAME, LOCATION, RATING & REVIEWS COUNT*/}
-                      <div className="flex justify-between items-start space-x-2">
-                        {/* NAME AND LOCATION */}
-                        <div className="flex flex-col">
-                          <span className="line-clamp-1 text-lg min-[425px]:text-2xl sm:text-2xl lg:text-2xl xl:text-2xl font-bold text-gray-700">
-                            {detail.name}
-                          </span>
-                          <span className="text-sm min-[425px]:text-base sm:text-lg lg:text-base xl:text-lg font-semibold text-gray-700">
-                            {detail.address.street}, {detail.address.city} - {detail.address.zipCode}
-                          </span>
-                          <span className="text-sm  text-green-700 capitalize">
-                            { `${detail.openDay} - ${detail.closeDay} ${detail.hours} hrs`  ||"Open 24 hours"}
-                          </span>
-                        </div>
-
-                        {/* RATING AND REVIEW COUNT */}
-                        <div className="!flex !flex-col !justify-center !text-white !my-1 sm:!my-0 !space-y-0.5 sm:!space-y-1.5 !text-left sm:!text-right">
-                          <div className="!flex !justify-center !items-center !bg-[#267e3e] !rounded !py-0.5 !px-0">
-                            <span className="!text-base !font-semibold !mr-1 !px-0">
-                              {detail.avgRating}
-                            </span>
-                            <FaStar className="!h-4 !w-4 !mb-0.5 !px-0 !mx-0" />
-                          </div>
-                          <div className="!text-gray-600">
-                            <span className="text-sm">{detail.reviews.length} Reviews</span>
-                          </div>
-                        </div>
+                  <Link to={`/${type}-details/${detail.id}`}>
+                    <div className="grid grid-cols-1 lg:grid-cols-10 gap-x-4 gap-y-2 mt-6 mb-6 sm:px-2">
+                      {/* HOSPITAL IMAGE */}
+                      <div className="lg:col-span-4">
+                        <Swiper
+                          modules={[Navigation, Pagination, A11y]}
+                          spaceBetween={50}
+                          slidesPerView={1}
+                          navigation
+                          pagination={{ clickable: true }}
+                          draggable={true}
+                          onSlideChange={() => console.log("slide change")}
+                        >
+                          {detail.images.map((image, index) =>
+                            type === "hospitals" ? (
+                              <SwiperSlide key={index}>
+                                <img
+                                  src={
+                                    hospitalImgs + image || "/placeholder.svg"
+                                  }
+                                  alt={`${type} Image`}
+                                  className="w-full h-auto object-cover aspect-[5/3] rounded-md"
+                                />
+                              </SwiperSlide>
+                            ) : (
+                              <SwiperSlide key={index}>
+                                <img
+                                  src={clinicImgs + image || "/placeholder.svg"}
+                                  alt={`${type} Image`}
+                                  className="w-full h-auto object-cover aspect-[5/3] rounded-md"
+                                />
+                              </SwiperSlide>
+                            )
+                          )}
+                        </Swiper>
                       </div>
 
-                      {/* SECOND ELEMENT FOR FLEX-COL JUSTIFY-BETWEEN */}
-                      <div className="flex flex-col space-y-2.5">
-                        {/* HOSPITAL BEDS COUNT, TYPE & CONTACT NO */}
-                        <div className="flex justify-between items-end">
-                          {/* BEDS COUNT AND TYPE */}
+                      {/* HOSPITAL DETAILS  */}
+                      <div className="lg:col-span-6 flex flex-col justify-between">
+                        {/* HOSPITAL NAME, LOCATION, RATING & REVIEWS COUNT*/}
+                        <div className="flex justify-between items-start space-x-2">
+                          {/* NAME AND LOCATION */}
                           <div className="flex flex-col">
-                            {/* <span className="text-sm min-[425px]:text-base sm:text-lg lg:text-base xl:text-lg font-semibold text-gray-700">
-                              {detail.beds} Beds
-                            </span> */}
-                            
+                            <span className="line-clamp-1 text-lg min-[425px]:text-2xl sm:text-2xl lg:text-2xl xl:text-2xl font-bold text-gray-700">
+                              {detail.name}
+                            </span>
+                            <span className="text-sm min-[425px]:text-base sm:text-lg lg:text-base xl:text-lg font-semibold text-gray-700">
+                              {detail.address.street}, {detail.address.city} -{" "}
+                              {detail.address.zipCode}
+                            </span>
+                            <span className="text-sm  text-green-700 capitalize">
+                              {`${detail.openDay} - ${detail.closeDay} ${detail.hours} hrs` ||
+                                "Open 24 hours"}
+                            </span>
                           </div>
 
-                          {/* CONTACT NO */}
-                          {/* <div className="flex items-center">
+                          {/* RATING AND REVIEW COUNT */}
+                          <div className="!flex !flex-col !justify-center !text-white !my-1 sm:!my-0 !space-y-0.5 sm:!space-y-1.5 !text-left sm:!text-right">
+                            <div className="!flex !justify-center !items-center !bg-[#267e3e] !rounded !py-0.5 !px-0">
+                              <span className="!text-base !font-semibold !mr-1 !px-0">
+                                {detail.avgRating}
+                              </span>
+                              <FaStar className="!h-4 !w-4 !mb-0.5 !px-0 !mx-0" />
+                            </div>
+                            <div className="!text-gray-600">
+                              <span className="text-sm">
+                                {detail.reviews.length} Reviews
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* SECOND ELEMENT FOR FLEX-COL JUSTIFY-BETWEEN */}
+                        <div className="flex flex-col space-y-2.5">
+                          {/* HOSPITAL BEDS COUNT, TYPE & CONTACT NO */}
+                          <div className="flex justify-between items-end">
+                            {/* BEDS COUNT AND TYPE */}
+                            <div className="flex flex-col">
+                              {/* <span className="text-sm min-[425px]:text-base sm:text-lg lg:text-base xl:text-lg font-semibold text-gray-700">
+                              {detail.beds} Beds
+                            </span> */}
+                            </div>
+
+                            {/* CONTACT NO */}
+                            {/* <div className="flex items-center">
                             <FaPhoneAlt className="min-[425px]:h-4 min-[425px]:w-4 mr-1 min-[425px]:mr-2 flex-shrink-0" />
                             <span className="text-sm min-[425px]:text-base sm:text-lg lg:text-base xl:text-lg font-semibold text-gray-700">
                               {detail.contactNo}
                             </span>
                           </div> */}
-                        </div>
-
-                        {/* HOSPITAL ACCREDITATIONS IMAGES & VIEW DETAILS BUTTON */}
-                        <div className="flex justify-between items-center">
-                          {/* ACCREDITATIONS IMAGES*/}
-                          <div className="flex items-center space-x-2">
-                             {detail.accreditations?.map((acc, index) => {
-                                        const accreditation = servicesByAccrediations.find(
-                                          (item) => item.title === acc
-                                        );
-                                        const accImg = accreditation?.image; // Get the image
-                            
-                                        // Only render image if accImg is available
-                                        return (
-                                          <>
-                                          <img
-                                            key={index}
-                                            src={`/Images/${accImg}`}
-                                            alt={accImg}
-                                            className="!h-14 !w-14 md:!h-14 md:!w-14 !object-cover !object-center !rounded-full"
-                                          />
-                                          </>
-                                        );
-                                      })}
                           </div>
 
-                          {/* VIEW DETAILS BUTTON */}
-                        <div>
-                            <Link
-                                          to={`/${type}-details/` + detail.id}
-                                          style={{
-                                            textDecoration: "none",
-                                          }}
-                                          className="!py-1.5 !px-2 min-[425px]:!px-4 !text-center !text-[11px] min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]"
-                                        >
-                                         View Details
-                                        </Link>
+                          {/* HOSPITAL ACCREDITATIONS IMAGES & VIEW DETAILS BUTTON */}
+                          <div className="flex justify-between items-center">
+                            {/* ACCREDITATIONS IMAGES*/}
+                            <div className="flex items-center space-x-2">
+                              {detail.accreditations?.map((acc, index) => {
+                                const accreditation =
+                                  servicesByAccrediations.find(
+                                    (item) => item.title === acc
+                                  );
+                                const accImg = accreditation?.image; // Get the image
 
+                                // Only render image if accImg is available
+                                return (
+                                  <>
+                                    <img
+                                      key={index}
+                                      src={`/Images/${accImg}`}
+                                      alt={accImg}
+                                      className="!h-14 !w-14 md:!h-14 md:!w-14 !object-cover !object-center !rounded-full"
+                                    />
+                                  </>
+                                );
+                              })}
+                            </div>
 
-
-                         
+                            {/* VIEW DETAILS BUTTON */}
+                            <div>
+                              <Link
+                                to={`/${type}-details/` + detail.id}
+                                style={{
+                                  textDecoration: "none",
+                                }}
+                                className="!py-1.5 !px-2 min-[425px]:!px-4 !text-center !text-[11px] min-[425px]:!text-sm !rounded-[5px] !border !text-[#2277b2] cursor-pointer hover:!bg-[#2277b2] hover:!text-[#fff]"
+                              >
+                                View Details
+                              </Link>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                
-                
-                </Link>
-                 
+                  </Link>
+
                   <hr key={`hr-${detail.id}`} />
                 </React.Fragment>
               ))}

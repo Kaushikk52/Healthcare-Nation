@@ -45,8 +45,8 @@ const HospitalDetailsPage = () => {
       let average = sum / data.length;
       if (isNaN(average)) {
         average = 0;
-        setAvgRating(average.toPrecision(2));
       }
+      setAvgRating(average.toPrecision(2));
 
     }catch(err){
       console.log(err.message);

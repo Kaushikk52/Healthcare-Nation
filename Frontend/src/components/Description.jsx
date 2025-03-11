@@ -109,19 +109,17 @@ const Description = (props) => {
           <div className="mb-5 border border-gray-200 !p-4 rounded-md bg-slate-50">
             <h1 className="!text-2xl !font-semibold">Achievements</h1>
             <div className="!py-4 sm:!py-2 ">
-              {achievements.map((item, index) => (
+              {props.details.achievements?.map((item, index) => (
                 <div
                   key={index}
                   className="!flex !flex-col !justify-center !items-center !text-center !mb-6 !space-y-0 sm:!text-left sm:!space-y-0 sm:!flex-row sm:!justify-start sm:!items-center sm:!space-x-5 sm:!mb-4"
                 >
                   <img
-                    src={item.image}
-                    alt={item.heading}
+                    src={Throphy}
+                    alt={item}
                     className="!rounded-full !h-15 !w-15 sm:!h-10 sm:!w-10"
                   />
-                  <h1 className="!text-sm !font-medium uppercase">
-                    {item.heading}
-                  </h1>
+                  <h1 className="!text-sm !font-medium uppercase">{item}</h1>
                 </div>
               ))}
             </div>
@@ -130,34 +128,16 @@ const Description = (props) => {
           {/* Facts */}
           <div className="border border-gray-200 !p-4 rounded-md bg-slate-50">
             <h1 className="!text-2xl !font-semibold">Facts</h1>
-            <div className="!grid !grid-cols-1 sm:!grid-cols-2 !gap-y-8 !py-4 sm:!py-2">
-              <div className="!flex !flex-col !justify-center !items-start !space-y-2 sm:!space-y-3">
-                <span className="!flex !items-center !text-sm !font-medium uppercase">
-                  <CircleCheckBig className="!h-8 !w-8 !mr-3 sm:!mr-5 !flex-shrink-0" />
-                  3 Tesla MRI Machine
-                </span>
-                <span className="!flex !items-center !text-sm !font-medium uppercase">
-                  <CircleCheckBig className="!h-8 !w-8 !mr-3 sm:!mr-5 !flex-shrink-0" />
-                  24/7 Pharmacy
-                </span>
-                <span className="!flex !items-center !text-sm !font-medium uppercase">
-                  <CircleCheckBig className="!h-8 !w-8 !mr-3 sm:!mr-5 !flex-shrink-0" />
-                  24/7 Casualty
-                </span>
-              </div>
-              <div className="!flex !flex-col !justify-center !items-start !space-y-2 sm:!space-y-3">
-                <span className="!flex !items-center !text-sm !font-medium uppercase">
-                  <CircleCheckBig className="!h-8 !w-8 !mr-3 sm:!mr-5 !flex-shrink-0" />
-                  CT Scan - 64 Slice
-                </span>
-                <span className="!flex !items-center !text-sm !font-medium uppercase">
-                  <CircleCheckBig className="!h-8 !w-8  !mr-3 sm:!mr-5 !flex-shrink-0" />
-                  8 Operation Theatres
-                </span>
-                <span className="!flex !items-center !text-sm !font-medium uppercase">
-                  <CircleCheckBig className="!h-8 !w-8  !mr-3 sm:!mr-5 !flex-shrink-0" />
-                  24/7 Cathlab
-                </span>
+            <div className="!py-4 sm:!py-2">
+              <div className="grid grid-cols-2 gap-y-4">
+                {props.details.facts?.map((fact) => {
+                  return (
+                    <span className="!flex !items-center !text-sm !font-medium uppercase">
+                    <CircleCheckBig className="!h-8 !w-8 !mr-3 sm:!mr-5 !flex-shrink-0" />
+                    {fact}
+                  </span>
+                  )
+                })}
               </div>
             </div>
           </div>

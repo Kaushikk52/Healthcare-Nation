@@ -118,11 +118,12 @@ const Reviews = (props) => {
             {/* Reviwer Information */}
             <div className='!grid !grid-cols-1 !gap-y-2 sm:!grid-cols-7 md:!grid-cols-9 lg:!grid-cols-8 xl:!grid-cols-11'>
               <div className='sm:!col-span-1 md:!col-span-1 lg:!col-span-1 xl:!col-span-1'>
-                <User/>
+              <img src={First_Reviewer} alt="reviewer image" className='!h-20 !w-20 !rounded-full !object-cover !object-center' />
+              {/* <User/> */}
               </div>
               <div className='sm:!col-span-6 md:!col-span-8 lg:!col-span-7 xl:!col-span-10 sm:!px-2 md:!px-3 lg:!px-0 xl:!px-6 !flex !flex-col !justify-center'>
                 <h1 className='!text-2xl !font-semibold'>{review.user.firstName} {review.user.lastName}</h1>
-                <span className='!text-md !text-gray-600 !font-semibold'>{review.reviewCount || 5}</span>
+                <span className='!text-md !text-gray-600 !font-semibold'>{review.reviewCount || 5} Review</span>
               </div>
             </div>
 

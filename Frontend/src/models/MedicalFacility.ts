@@ -6,6 +6,8 @@ export interface MedicalFacility {
     id: number;
     name: string;
     phoneNumbers: string[];
+    facts: string[];
+    achievements: string[];
     images: string[];
     address: Address;
     website: string;

@@ -21,6 +21,8 @@ export const MedicalFacilitySchema = yup.object().shape({
       .min(1, "At least one phone number is required")
       .required("Phone numbers are required"),
 
+    facts:yup.array().of(yup.string()),
+    achievements:yup.array().of(yup.string()),
     images: yup.array().of(yup.string()).required("Images are required"),
     videos: yup.array().of(yup.string()),
 

@@ -235,6 +235,8 @@ export default function HospitalForm() {
     hours: "",
     description: "",
     phoneNumbers: [""],
+    facts:[""],
+    achievements:[""],
     images: [] as File[],
     videos: [""],
     ownership: "PRIVATE",
@@ -857,19 +859,21 @@ export default function HospitalForm() {
                           label="Phone Numbers"
                           onAddTag={(tag) => {
                             // Validate phone number if needed
-                            const phoneRegex = /^\d{10}$/
+                            const phoneRegex = /^\d{10}$/;
                             if (phoneRegex.test(tag) || true) {
                               // Remove || true for validation
-                              const newPhones = [...values.phoneNumbers]
+                              const newPhones = [...values.phoneNumbers];
                               // Replace empty string at the end or add a new one
-                              const emptyIndex = newPhones.findIndex((p) => !p.trim())
+                              const emptyIndex = newPhones.findIndex(
+                                (p) => !p.trim()
+                              );
                               if (emptyIndex >= 0) {
-                                newPhones[emptyIndex] = tag
+                                newPhones[emptyIndex] = tag;
                               } else {
-                                newPhones.push(tag)
+                                newPhones.push(tag);
                               }
-                              setFieldValue("phoneNumbers", newPhones)
-                            } 
+                              setFieldValue("phoneNumbers", newPhones);
+                            }
                           }}
                           onRemoveTag={(index) => {
                             const newPhones = [...values.phoneNumbers];
@@ -958,7 +962,6 @@ export default function HospitalForm() {
                         >
                           <option value="">Select Ownership</option>
                           <option value="PRIVATE">Private</option>
-                          <option value="PUBLIC">Public</option>
                           <option value="GOVERNMENT">Government</option>
                         </Field>
                         <ErrorMessage
@@ -1019,6 +1022,73 @@ export default function HospitalForm() {
                           className="text-red-500 text-sm mt-1"
                         />
                       </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-6">
+                      <TagInput
+                        values={values.achievements}
+                        fieldName="achievements"
+                        placeholder="Enter achievement"
+                        label="Achievements"
+                        onAddTag={(tag) => {
+                          if (tag.trim()) {
+                            const newAchievements = [...values.achievements];
+                            const emptyIndex = newAchievements.findIndex(
+                              (a) => !a.trim()
+                            );
+                            if (emptyIndex >= 0) {
+                              newAchievements[emptyIndex] = tag;
+                            } else {
+                              newAchievements.push(tag);
+                            }
+                            setFieldValue("achievements", newAchievements);
+                          }
+                        }}
+                        onRemoveTag={(index) => {
+                          const newAchievements = [...values.achievements];
+                          newAchievements.splice(index, 1);
+                          if (
+                            newAchievements.length === 0 ||
+                            !newAchievements.includes("")
+                          ) {
+                            newAchievements.push("");
+                          }
+                          setFieldValue("achievements", newAchievements);
+                        }}
+                        errors={errors.achievements}
+                        touched={touched.achievements}
+                      />
+
+                      <TagInput
+                        values={values.facts}
+                        fieldName="facts"
+                        placeholder="Enter a fact"
+                        label="Facts"
+                        onAddTag={(tag) => {
+                          if (tag.trim()) {
+                            const newFacts = [...values.facts];
+                            const emptyIndex = newFacts.findIndex(
+                              (f) => !f.trim()
+                            );
+                            if (emptyIndex >= 0) {
+                              newFacts[emptyIndex] = tag;
+                            } else {
+                              newFacts.push(tag);
+                            }
+                            setFieldValue("facts", newFacts);
+                          }
+                        }}
+                        onRemoveTag={(index) => {
+                          const newFacts = [...values.facts];
+                          newFacts.splice(index, 1);
+                          if (newFacts.length === 0 || !newFacts.includes("")) {
+                            newFacts.push("");
+                          }
+                          setFieldValue("facts", newFacts);
+                        }}
+                        errors={errors.facts}
+                        touched={touched.facts}
+                      />
                     </div>
                   </motion.div>
                 )}
