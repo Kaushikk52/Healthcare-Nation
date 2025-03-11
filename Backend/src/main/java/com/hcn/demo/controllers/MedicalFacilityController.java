@@ -137,6 +137,7 @@ public class MedicalFacilityController {
         Map<String, Object> response = new HashMap<>();
         try {
             facilityServ.addRatingToMedicalFacility(id,rating,principal);
+            facilityServ.updateAverageRating(id);
             log.info("Rating {} added successfully : {}", rating,id);
             response.put("message","Rating added successfully");
             return ResponseEntity.status(HttpStatus.OK).body(response);

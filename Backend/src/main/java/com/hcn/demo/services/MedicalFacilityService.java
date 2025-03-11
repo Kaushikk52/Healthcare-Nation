@@ -56,6 +56,14 @@ public class MedicalFacilityService {
         ratingRepo.save(rating);
     }
 
+    public void updateAverageRating(String id){
+        MedicalFacility facility = this.getFacilityById(id);
+        Double avgRating = ratingRepo.calculateAverageRatingByFacilityId(id);
+        facility.setAvgRating(avgRating);
+        medicalFacilityRepo.save(facility);
+    }
+
+
     public void addReviewToMedicalFacility(String id, Review review,Principal principal){
         MedicalFacility facility = this.getFacilityById(id);
         facility.addReview(review);

@@ -226,7 +226,7 @@ export default function HospitalForm() {
       city: "",
       state: "",
       zipCode: "",
-      country: "",
+      landmark: "",
     },
     bed: 0,
     website: "",
@@ -748,19 +748,19 @@ export default function HospitalForm() {
 
                       <div>
                         <label
-                          htmlFor="address.country"
+                          htmlFor="address.landmark"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          Country
+                          Landmark
                         </label>
                         <Field
-                          id="address.country"
-                          name="address.country"
+                          id="address.landmark"
+                          name="address.landmark"
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
                         <ErrorMessage
-                          name="address.country"
+                          name="address.landmark"
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />

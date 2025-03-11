@@ -32,30 +32,11 @@ const HospitalDetailsPage = () => {
   const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 425);
   const [activeTabButton, setActiveTabButton] = useState("description");
   const [hospital, setHospital] = useState({});
-  const [ratings,setRatings] = useState([]);
-  const [avgRating, setAvgRating] = useState(0);
+
   const { id,type } = useParams();
-
-  const getRatings = async(id) =>{
-    try{
-      const response = await axios.get(`http://localhost:8081/v1/api/rating/facility/${id}`);
-      const data = response.data.ratings;
-      setRatings(data);
-      const sum = data.reduce((acc ,r ) => acc + r.rating,0);
-      let average = sum / data.length;
-      if (isNaN(average)) {
-        average = 0;
-      }
-      setAvgRating(average.toPrecision(2));
-
-    }catch(err){
-      console.log(err.message);
-    }
-  }
 
   useEffect(() => {
     getHospitalDetails(id);
-    getRatings(id);
   }, [id]);
 
   const getHospitalDetails = async (id) => {
@@ -88,6 +69,32 @@ const HospitalDetailsPage = () => {
       });
   };
 
+  const handleDirection = () => {
+    const hospitalAddress = `${hospital.name} ${hospital.address.street},${hospital.address.landmark} ,${hospital.address.city} - ${hospital.address.zipCode}`
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          const start = `${latitude},${longitude}`; // User's current location
+          const end = encodeURIComponent(hospitalAddress); // Destination
+          const mapsUrl = `https://www.google.com/maps/dir/${start}/${end}`;
+          window.open(mapsUrl, "_blank");
+        },
+        (error) => {
+          toast.error("Failed to get your location. Please enable GPS.", {
+            position: "bottom-right",
+            duration: 3000,
+          });
+        }
+      );
+    } else {
+      toast.error("Geolocation is not supported by this browser.", {
+        position: "bottom-right",
+        duration: 3000,
+      });
+    }
+  };
+
   useEffect(() => {
     const handleResize = () => setIsWideScreen(window.innerWidth >= 425);
     window.addEventListener("resize", handleResize);
@@ -103,6 +110,7 @@ const HospitalDetailsPage = () => {
     {
       title: "Direction",
       icon: <MdOutlineDirections className="!text-pink-400 !h-5 !w-5" />,
+      onClick:handleDirection,
     },
     {
       title: "Save",
@@ -140,7 +148,7 @@ const HospitalDetailsPage = () => {
     },
     {
       id: "reviews",
-      component: <Reviews id={hospital.id} />,
+      component: <Reviews id={hospital.id} avgRating={hospital.avgRating?.toPrecision(2)} />,
       title: "Reviews",
       marginX: "!mx-2",
       paddingX: "!px-1 min-[425px]:!px-2",
@@ -263,7 +271,7 @@ const HospitalDetailsPage = () => {
         <div className="!flex !flex-col !justify-center !text-white !my-2 sm:!my-0 !space-y-0.5 sm:!space-y-1.5 !text-left sm:!text-right">
           <div className="!flex !justify-center !items-center !bg-[#267e3e] !rounded !py-0.5 !px-0">
             <span className="!text-xl !font-semibold !mr-1 !px-0">
-              {avgRating}
+              {hospital.avgRating?.toPrecision(2)}
             </span>
             <IoIosStar className="!h-5 !w-5 !mb-0.5 !px-0 !mx-0" />
           </div>

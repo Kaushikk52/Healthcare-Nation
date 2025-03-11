@@ -204,7 +204,7 @@ export default function Navbar() {
   const checkIfLogin = (route: string) => {
     const token = localStorage.getItem("token");
     setNavigateTo(route);
-    console.log(route, toggle, token);
+    // console.log(route, toggle, token);
     if (token !== null && !toggle) {
       //user logged in and no popup
       navigate(route); //

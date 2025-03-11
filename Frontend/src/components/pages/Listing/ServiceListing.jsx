@@ -658,7 +658,7 @@ export default function ServiceListing() {
                           <div className="!flex !flex-col !justify-center !text-white !my-1 sm:!my-0 !space-y-0.5 sm:!space-y-1.5 !text-left sm:!text-right">
                             <div className="!flex !justify-center !items-center !bg-[#267e3e] !rounded !py-0.5 !px-0">
                               <span className="!text-base !font-semibold !mr-1 !px-0">
-                                {detail.avgRating}
+                                {detail.avgRating.toPrecision(2)}
                               </span>
                               <FaStar className="!h-4 !w-4 !mb-0.5 !px-0 !mx-0" />
                             </div>

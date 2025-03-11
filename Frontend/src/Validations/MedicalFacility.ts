@@ -7,7 +7,7 @@ export const MedicalFacilitySchema = yup.object().shape({
       city: yup.string().required("City is required"),
       state: yup.string().required("State is required"),
       zipCode: yup.string().matches(/^\d{6}$/, "Zip code must be 6 digits").required("Zip code is required"),
-      country: yup.string().required("Country is required"),
+      landmark: yup.string().required("Landmark is required"),
     }).required(),
 
     bed: yup.number().min(1, "Bed count must be at least 1").required("Bed count is required"),
