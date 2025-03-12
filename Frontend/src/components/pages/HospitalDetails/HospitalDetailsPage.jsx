@@ -6,7 +6,7 @@ import { IoIosStar } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
 import { MdOutlineDirections } from "react-icons/md";
 import { FaRegShareFromSquare } from "react-icons/fa6";
-import { BsBookmarkCheck } from "react-icons/bs";
+import { BsBookmarkCheck , BsBookmark } from "react-icons/bs";
 
 // Tippy React
 import Tippy from "@tippyjs/react";
@@ -48,6 +48,7 @@ const HospitalDetailsPage = () => {
       const data = response.data.facility;
       // console.log(data);
       setHospital(data);
+      setSaved(data.isSaved);
     } catch (error) {
       console.error(error);
     }
@@ -115,8 +116,12 @@ const HospitalDetailsPage = () => {
   };
 
   const removeSavedHospital = async (hospitalId) => {
-    return await axios.delete(`http://localhost:8081/v1/api/saved/${hospitalId}`,{},
-      {headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}}
+    return await axios.delete(`http://localhost:8081/v1/api/saved/${hospitalId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        }
     );
   };
 
@@ -149,8 +154,8 @@ const HospitalDetailsPage = () => {
       onClick:handleDirection,
     },
     {
-      title: "Save",
-      icon: saved? <BsBookmarkCheck fill="pink" className="!text-pink-400 !h-5 !w-5" /> : <BsBookmarkCheck className="!text-pink-400 !h-5 !w-5" />,
+      title: saved ? "Saved" : "Save",
+      icon: saved? <BsBookmarkCheck className="text-pink-400 h-5 w-5 transition-transform duration-200 scale-110" /> :  <BsBookmark className="text-pink-400 h-5 w-5 transition-transform duration-200 hover:scale-110" />,
       onClick: handleSave,
       Bold: "",
     },

@@ -41,14 +41,22 @@ public class SavedFacilityController {
     }
 
     @GetMapping("/hospitals")
-    public ResponseEntity<List<SavedFacility>> getSavedHospitals(@PathVariable String userId) {
-        return ResponseEntity.ok(savedFacilityServ.getSavedHospitals(userId));
+    public ResponseEntity<List<SavedFacility>> getSavedHospitals(Principal principal) {
+        User currentUser = userServ.getCurrentUserRole(principal);
+        return ResponseEntity.ok(savedFacilityServ.getSavedHospitals(currentUser.getId()));
     }
 
     @DeleteMapping("/{hospitalId}")
-    public ResponseEntity<String> removeSavedHospital(Principal principal, @PathVariable String hospitalId) {
-        User currentUser = userServ.getCurrentUserRole(principal);
-        savedFacilityServ.removeSavedHospital(currentUser.getId(), hospitalId);
-        return ResponseEntity.ok("Hospital removed from saved list");
+    public ResponseEntity<?> removeSavedHospital(Principal principal, @PathVariable String hospitalId) {
+        Map<String, Object> response = new HashMap<>();
+        try{
+            User currentUser = userServ.getCurrentUserRole(principal);
+            savedFacilityServ.removeSavedHospital(currentUser.getId(), hospitalId);
+            response.put("message","Hospital saved successfully");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.warn("An Error occurred : {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Internal server Error");
+        }
     }
 }

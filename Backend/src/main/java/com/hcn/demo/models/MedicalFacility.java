@@ -101,6 +101,8 @@ public class MedicalFacility{
     @JsonIgnoreProperties({"hospital","user"})
     private List<Review> reviews;
 
+    private Boolean isSaved;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

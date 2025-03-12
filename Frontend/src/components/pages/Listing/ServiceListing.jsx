@@ -153,6 +153,36 @@ export default function ServiceListing() {
     setSelectedFilters([]);
   };
 
+  useEffect(() => {
+    getFilteredFacilities();
+  }, [selectedFilters]);
+
+  const getSavedHospitals = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8081/v1/api/saved/hospitals`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });      
+      const data = await response.data;
+    }catch(err){
+      console.log(err.message);
+    }
+  }
+
+  const getFilteredFacilities = async() => {
+    try {
+   
+      console.log(selectedFilters);
+      const hasSaved = selectedFilters.includes("Saved");
+      if(hasSaved){
+        await getSavedHospitals();
+      }
+    }catch(err){
+      console.log(err.message);
+    }
+  }
+
   return (
     <div className="relative bg-gray-50 min-h-screen">
       {/* Breadcrumbs */}

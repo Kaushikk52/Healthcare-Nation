@@ -35,6 +35,9 @@ public class SavedFacilityService {
         MedicalFacility hospital = medicalFacilityRepo.findById(hospitalId)
                 .orElseThrow(() -> new RuntimeException("Hospital not found"));
 
+        hospital.setIsSaved(true);
+        medicalFacilityRepo.save(hospital);
+
         SavedFacility savedHospital = new SavedFacility();
         savedHospital.setUser(user);
         savedHospital.setHospital(hospital);
@@ -47,6 +50,11 @@ public class SavedFacilityService {
     }
 
     public void removeSavedHospital(String userId, String hospitalId) {
+        MedicalFacility hospital = medicalFacilityRepo.findById(hospitalId)
+                .orElseThrow(() -> new RuntimeException("Hospital not found"));
+
+        hospital.setIsSaved(false);
+        medicalFacilityRepo.save(hospital);
         savedFacilityRepo.deleteByUserIdAndHospitalId(userId, hospitalId);
     }
 
