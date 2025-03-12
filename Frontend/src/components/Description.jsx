@@ -27,7 +27,7 @@ const Description = (props) => {
 
   useEffect(() => {
     setPhones(props.phones);
-    console.log(phones, props.phones);
+    // console.log(phones, props.phones);
   }, [props]);
 
   const toggleExpand = () => {

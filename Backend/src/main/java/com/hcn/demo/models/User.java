@@ -39,6 +39,8 @@ public class User implements UserDetails {
     @Column(name = "role", nullable = false, length = 10)
     private UserRole role;
 
+
+
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private List<Review> reviews;
 

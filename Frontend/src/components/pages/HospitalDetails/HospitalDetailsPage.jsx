@@ -32,6 +32,7 @@ const HospitalDetailsPage = () => {
   const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 425);
   const [activeTabButton, setActiveTabButton] = useState("description");
   const [hospital, setHospital] = useState({});
+  const [saved, setSaved] = useState(false);
 
   const { id,type } = useParams();
 
@@ -95,6 +96,41 @@ const HospitalDetailsPage = () => {
     }
   };
 
+  const saveHospital = async (hospitalId) => {
+    try{
+      const response = await axios.post(
+        `http://localhost:8081/v1/api/saved/${hospitalId}`, 
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        }
+      );
+      
+      return response.data.message;
+    }catch(err){
+      console.log(err.message);
+    }
+  };
+
+  const removeSavedHospital = async (hospitalId) => {
+    return await axios.delete(`http://localhost:8081/v1/api/saved/${hospitalId}`,{},
+      {headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}}
+    );
+  };
+
+  const handleSave = async () => {
+    if (saved) {
+      await removeSavedHospital(id);
+      setSaved(false);
+    } else {
+      await saveHospital(id);
+      setSaved(true);
+    }
+    // setSaved(!saved);
+  };
+
   useEffect(() => {
     const handleResize = () => setIsWideScreen(window.innerWidth >= 425);
     window.addEventListener("resize", handleResize);
@@ -114,7 +150,8 @@ const HospitalDetailsPage = () => {
     },
     {
       title: "Save",
-      icon: <BsBookmarkCheck className="!text-pink-400 !h-5 !w-5" />,
+      icon: saved? <BsBookmarkCheck fill="pink" className="!text-pink-400 !h-5 !w-5" /> : <BsBookmarkCheck className="!text-pink-400 !h-5 !w-5" />,
+      onClick: handleSave,
       Bold: "",
     },
     {

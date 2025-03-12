@@ -59,6 +59,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT ,"/v1/api/facility/edit/**").authenticated()
                         .requestMatchers(HttpMethod.DELETE , "/v1/api/facility/delete/**").authenticated()
 
+                        //Saved Facility endpoints
+                        .requestMatchers(HttpMethod.GET,"/v1/api/saved/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/v1/api/saved/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/v1/api/saved/**").authenticated()
+
                         //Reviews endpoints
                         .requestMatchers(HttpMethod.GET ,"/v1/api/review/**").permitAll()
 
