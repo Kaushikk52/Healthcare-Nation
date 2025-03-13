@@ -159,7 +159,8 @@ export default function Navbar() {
 
   useEffect(() => {
     getUser();
-  }, []);
+    checkIfLogin('');
+  },[]);
 
   const getUser = async () => {
     try{

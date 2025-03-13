@@ -6,7 +6,7 @@ import { IoIosStar } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
 import { MdOutlineDirections } from "react-icons/md";
 import { FaRegShareFromSquare } from "react-icons/fa6";
-import { BsBookmarkCheck , BsBookmark } from "react-icons/bs";
+import { BsBookmarkCheck, BsBookmark } from "react-icons/bs";
 
 // Tippy React
 import Tippy from "@tippyjs/react";
@@ -27,18 +27,27 @@ import Reviews from "../../Reviews";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
+import ReviewModal from "../../ReviewModal";
+import { motion, AnimatePresence } from "framer-motion";
+
 const HospitalDetailsPage = () => {
   const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS;
   const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 425);
   const [activeTabButton, setActiveTabButton] = useState("description");
   const [hospital, setHospital] = useState({});
   const [saved, setSaved] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { id,type } = useParams();
+  const { id, type } = useParams();
 
   useEffect(() => {
     getHospitalDetails(id);
   }, [id]);
+
+  const handleAddRating= () =>{
+    console.log("parent component updated");
+    getHospitalDetails(id);
+  }
 
   const getHospitalDetails = async (id) => {
     try {
@@ -72,7 +81,7 @@ const HospitalDetailsPage = () => {
   };
 
   const handleDirection = () => {
-    const hospitalAddress = `${hospital.name} ${hospital.address.street},${hospital.address.landmark} ,${hospital.address.city} - ${hospital.address.zipCode}`
+    const hospitalAddress = `${hospital.name} ${hospital.address.street},${hospital.address.landmark} ,${hospital.address.city} - ${hospital.address.zipCode}`;
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -98,30 +107,31 @@ const HospitalDetailsPage = () => {
   };
 
   const saveHospital = async (hospitalId) => {
-    try{
+    try {
       const response = await axios.post(
-        `http://localhost:8081/v1/api/saved/${hospitalId}`, 
+        `http://localhost:8081/v1/api/saved/${hospitalId}`,
         {},
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       );
-      
+
       return response.data.message;
-    }catch(err){
+    } catch (err) {
       console.log(err.message);
     }
   };
 
   const removeSavedHospital = async (hospitalId) => {
-    return await axios.delete(`http://localhost:8081/v1/api/saved/${hospitalId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
-        }
+    return await axios.delete(
+      `http://localhost:8081/v1/api/saved/${hospitalId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
     );
   };
 
@@ -147,15 +157,21 @@ const HospitalDetailsPage = () => {
     {
       title: "Add Review",
       icon: <MdEdit className="!text-pink-400 !h-5 !w-5" />,
+      onClick: () => {setIsModalOpen(true)}
+
     },
     {
       title: "Direction",
       icon: <MdOutlineDirections className="!text-pink-400 !h-5 !w-5" />,
-      onClick:handleDirection,
+      onClick: handleDirection,
     },
     {
       title: saved ? "Saved" : "Save",
-      icon: saved? <BsBookmarkCheck className="text-pink-400 h-5 w-5 transition-transform duration-200 scale-110" /> :  <BsBookmark className="text-pink-400 h-5 w-5 transition-transform duration-200 hover:scale-110" />,
+      icon: saved ? (
+        <BsBookmarkCheck className="text-pink-400 h-5 w-5 transition-transform duration-200 scale-110" />
+      ) : (
+        <BsBookmark className="text-pink-400 h-5 w-5 transition-transform duration-200 hover:scale-110" />
+      ),
       onClick: handleSave,
       Bold: "",
     },
@@ -169,7 +185,9 @@ const HospitalDetailsPage = () => {
   const tabButtons = [
     {
       id: "description",
-      component: <Description details={hospital} phones={hospital.phoneNumbers} />,
+      component: (
+        <Description details={hospital} phones={hospital.phoneNumbers} />
+      ),
       title: "Description",
       marginX: "!mr-2",
       paddingX: "!pr-1 min-[425px]:!pr-2",
@@ -190,7 +208,13 @@ const HospitalDetailsPage = () => {
     },
     {
       id: "reviews",
-      component: <Reviews id={hospital.id} avgRating={hospital.avgRating?.toPrecision(2)} />,
+      component: (
+        <Reviews
+          id={hospital.id}
+          avgRating={hospital.avgRating?.toPrecision(2)}
+          addRating={handleAddRating}
+        />
+      ),
       title: "Reviews",
       marginX: "!mx-2",
       paddingX: "!px-1 min-[425px]:!px-2",
@@ -338,6 +362,14 @@ const HospitalDetailsPage = () => {
               </button>
             </Tippy>
           ))}
+          <AnimatePresence>
+            {isModalOpen && (
+              <ReviewModal
+                onClose={() => setIsModalOpen(false)}
+                id={hospital.id}
+              />
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Right Side for Rounded Images */}
@@ -351,12 +383,12 @@ const HospitalDetailsPage = () => {
             // Only render image if accImg is available
             return (
               <>
-              <img
-                key={index}
-                src={`/Images/${accImg}`}
-                alt={accImg}
-                className="!h-14 !w-14 md:!h-14 md:!w-14 !object-cover !object-center !rounded-full"
-              />
+                <img
+                  key={index}
+                  src={`/Images/${accImg}`}
+                  alt={accImg}
+                  className="!h-14 !w-14 md:!h-14 md:!w-14 !object-cover !object-center !rounded-full"
+                />
               </>
             );
           })}

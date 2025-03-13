@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaStar, FaFilter, FaChevronDown } from "react-icons/fa";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { FaStar, FaFilter } from "react-icons/fa";
+import { Link, useSearchParams } from "react-router-dom";
 import { DualRangeSlider } from "@/components/ui/DualRangeSlider";
 import { X, ChevronDown } from "lucide-react";
 import axios from "axios";
@@ -151,9 +151,13 @@ export default function ServiceListing() {
 
   const clearAllFilters = () => {
     setSelectedFilters([]);
+    getHospitals();
   };
 
   useEffect(() => {
+    if(selectedFilters.length < 1){
+      getHospitals();
+    }
     getFilteredFacilities();
   }, [selectedFilters]);
 
@@ -165,6 +169,8 @@ export default function ServiceListing() {
         },
       });      
       const data = await response.data;
+      // console.log("Saved Hospital :",data);
+      setFacilities(data);
     }catch(err){
       console.log(err.message);
     }

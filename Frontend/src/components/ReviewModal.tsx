@@ -5,22 +5,15 @@ import axios from "axios"
 
 interface ReviewModalProps {
   onClose: () => void
-  currentRating: number | null
   id:string
 }
 
-const ReviewModal: React.FC<ReviewModalProps> = ({ onClose, currentRating,id }) => {
+const ReviewModal: React.FC<ReviewModalProps> = ({ onClose,id }) => {
   const [review, setReview] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (!currentRating) {
-      alert("Please select a rating before submitting your review")
-      return
-    }
-
+    e.preventDefault();
     setIsSubmitting(true)
 
     // POST request for review
@@ -51,18 +44,6 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ onClose, currentRating,id }) 
             <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
               <X className="h-6 w-6" />
             </button>
-          </div>
-
-          <div className="flex justify-center space-x-2 mb-4">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <div key={star}>
-                <Star
-                  size={24}
-                  fill={star <= (currentRating || 0) ? "#4CAF50" : "none"}
-                  color={star <= (currentRating || 0) ? "#4CAF50" : "#D1D5DB"}
-                />
-              </div>
-            ))}
           </div>
 
           <form onSubmit={handleSubmit}>

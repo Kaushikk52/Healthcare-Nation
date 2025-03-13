@@ -1,5 +1,6 @@
 package com.hcn.demo.controllers;
 
+import com.hcn.demo.models.MedicalFacility;
 import com.hcn.demo.models.SavedFacility;
 import com.hcn.demo.models.User;
 import com.hcn.demo.services.SavedFacilityService;
@@ -35,13 +36,13 @@ public class SavedFacilityController {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             log.warn("An Error occurred : {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Internal server Error");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
 
     }
 
     @GetMapping("/hospitals")
-    public ResponseEntity<List<SavedFacility>> getSavedHospitals(Principal principal) {
+    public ResponseEntity<List<MedicalFacility>> getSavedHospitals(Principal principal) {
         User currentUser = userServ.getCurrentUserRole(principal);
         return ResponseEntity.ok(savedFacilityServ.getSavedHospitals(currentUser.getId()));
     }

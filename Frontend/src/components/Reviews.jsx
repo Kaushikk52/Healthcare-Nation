@@ -13,17 +13,17 @@ import First_Reviewer from "/Images/hospital-details/dynamic-content-images/revi
 import axios from "axios";
 import { User } from "lucide-react";
 
-const Reviews = (props) => {
+const Reviews = ({id,avgRating,addRating}) => {
   const [reviews, setReviews] = useState([]);
   const [sort, setSort] = useState("newest");
   const [rating, setRating] = useState(null)
   const [hoveredRating, setHoveredRating] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const getReviews = async (id) => {
+  const getReviews = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8081/v1/api/review/facility/${props.id}`
+        `http://localhost:8081/v1/api/review/facility/${id}`
       );
       const data = response.data.reviews;
       setReviews(data);
@@ -32,12 +32,12 @@ const Reviews = (props) => {
     }
   };
 
-  const handleRatingClick = async (selectedRating) => {
+  addRating = async (selectedRating) => {
     setRating(selectedRating)
 
     // POST request for rating 
     try {
-      const response = await axios.post(`http://localhost:8081/v1/api/facility/${props.id}/rating`,
+      const response = await axios.post(`http://localhost:8081/v1/api/facility/${id}/rating`,
         { rating: selectedRating },
         {headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}}
       );
@@ -52,10 +52,9 @@ const Reviews = (props) => {
     }
   }
 
-
   useEffect(() => {
-    getReviews(props.id);
-  }, [props.id]);
+    getReviews(id);
+  }, [id]);
 
   const starIcon = Array(5).fill(null);
 
@@ -101,7 +100,7 @@ const Reviews = (props) => {
         <div className="!grid !grid-cols-1 !grid-rows-2 sm:!grid-rows-none sm:!grid-cols-12 !gap-y-4 !py-8">
           {/* Left box */}
           <div className="!row-span-1 sm:!col-span-3 !bg-[#1e90ff] !text-white !bg-opacity-90 !rounded-xl sm:!rounded-2xl !flex !flex-col !items-center !justify-center !space-y-1">
-            <h1 className="!text-4xl !font-semibold">{props.avgRating}</h1>
+            <h1 className="!text-4xl !font-semibold">{avgRating}</h1>
             <span className="!text-lg !font-semibold">
               {reviews.length} Reviews
             </span>
@@ -162,7 +161,11 @@ const Reviews = (props) => {
         </div>
         <div>
           <span className="!text-md !font-semibold">
-            {new Date(review.createdAt).toLocaleDateString()}
+            {new Date(review.createdAt).toLocaleDateString("en-US",{
+              month: "short",
+              day: "2-digit",
+              year: "numeric"
+            })}
           </span>
         </div>
       </div>
@@ -215,7 +218,7 @@ const Reviews = (props) => {
               key={star}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => handleRatingClick(star)}
+              onClick={() => addRating(star)}
               onMouseEnter={() => setHoveredRating(star)}
               onMouseLeave={() => setHoveredRating(null)}
               className="focus:outline-none"
@@ -243,7 +246,7 @@ const Reviews = (props) => {
       </div>
 
       <AnimatePresence>
-        {isModalOpen && <ReviewModal onClose={() => setIsModalOpen(false)} currentRating={rating} id={props.id} />}
+        {isModalOpen && <ReviewModal onClose={() => setIsModalOpen(false)} currentRating={rating} id={id} />}
       </AnimatePresence>
       </div>
     </div>
