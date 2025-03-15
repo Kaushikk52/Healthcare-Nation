@@ -97,6 +97,9 @@ export default function Navbar() {
         { title: "EEG/EMG/NCV" },
         { title: "Holter Monitor" },
         { title: "Sleep Study" },
+        { title: "Mammography" },
+        { title: "Pulmonary Function Test" },
+
 
       ],
     },

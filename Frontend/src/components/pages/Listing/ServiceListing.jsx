@@ -130,7 +130,7 @@ export default function ServiceListing() {
         `http://localhost:8081/v1/api/facility/type/${type}`
       );
       const data = await response.data.clinics;
-      // console.log(data);
+      console.log(data);
       setFacilities(data);
     } catch (err) {
       console.log(err.message);
@@ -151,12 +151,12 @@ export default function ServiceListing() {
 
   const clearAllFilters = () => {
     setSelectedFilters([]);
-    getHospitals();
+    type === "hospitals" ? getHospitals() : getClinics();
   };
 
   useEffect(() => {
     if(selectedFilters.length < 1){
-      getHospitals();
+      type === "hospitals" ? getHospitals() : getClinics();
     }
     getFilteredFacilities();
   }, [selectedFilters]);
@@ -176,13 +176,17 @@ export default function ServiceListing() {
     }
   }
 
+  const getSavedClinics = async() => {
+    setFacilities([]);
+  }
+
   const getFilteredFacilities = async() => {
     try {
    
       console.log(selectedFilters);
       const hasSaved = selectedFilters.includes("Saved");
       if(hasSaved){
-        await getSavedHospitals();
+        type === "hospitals" ? getSavedHospitals() : getSavedClinics();
       }
     }catch(err){
       console.log(err.message);

@@ -60,7 +60,7 @@ const Description = (props) => {
         <div className="lg:!col-span-8  xl:!col-span-8 ">
           {/* About Us Section */}
           <div className="max-w-3xl mx-auto">
-            <div className="flex flex-col justify-center space-y-5 py-5 my-5 border border-gray-200 p-4 rounded-md bg-slate-50">
+            <div className="flex flex-col justify-center space-y-5 py-5 my-5 border border-gray-200 p-4 rounded-md ">
               <h1 className="text-2xl font-semibold">About Us</h1>
               <div className="relative">
                 <div
@@ -261,13 +261,13 @@ const Description = (props) => {
               </div>
 
               {/* Woring hours */}
-              <div className="!grid !grid-cols-12 !items-center">
+              {/* <div className="!grid !grid-cols-12 !items-center">
                 <FaClock className="!col-span-2 sm:!col-span-1 lg:!col-span-2 !h-6 !w-6 !mt-0.5 !text-blue-500" />
                 <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-md !text-[#74c365] capitalize">
                   {props.details.openDay} - {props.details.closeDay}{" "}
                   {props.details.hours} Hrs
                 </span>
-              </div>
+              </div> */}
             </div>
 
             {/* Map Location  */}

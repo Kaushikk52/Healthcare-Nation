@@ -28,7 +28,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import MultipleSelector from "@/components/ui/MultipleSelector";
 
-import servicesBySpecialities from "@/data/servicesBySpecialities"
+import servicesBySpecialities from "@/data/servicesBySpecialities";
 import popularBrands from "@/data/brands";
 import diagnosticCentres from "@/data/diagnostic";
 import publicSector from "@/data/publicSector";
@@ -36,14 +36,15 @@ import servicesByAccrediations from "@/data/accrediations";
 import servicesByHealthConcern from "@/data/healthConcern";
 import chooseYourHealthInsurance from "@/data/healthInsurance";
 import chooseYourTPA from "@/data/tpa";
-import alternativeMedicine from "@/data/alternativeMedicine";
-
-//TODO: More services , digital services ,Diagnostics
+import alternativeMedicine from "@/data/alternativeMedicine"
 
 // Add these option arrays after all the imports
 const specialtiesOptions = [
-...servicesBySpecialities.map((speciality) => ({ label: speciality.title, value: speciality.title })),
-]
+  ...servicesBySpecialities.map((speciality) => ({
+    label: speciality.title,
+    value: speciality.title,
+  })),
+];
 
 const servicesOptions = [
   { label: "Emergency Care", value: "Emergency Care" },
@@ -56,39 +57,55 @@ const servicesOptions = [
   { label: "Ambulance", value: "Ambulance" },
   { label: "Telemedicine", value: "Telemedicine" },
   { label: "Dialysis", value: "Dialysis" },
-]
+];
 
 const brandsOptions = [
-...popularBrands.map((brand) => ({label : brand.title, value: brand.title})),
-]
+  ...popularBrands.map((brand) => ({ label: brand.title, value: brand.title })),
+];
 
 const psuOptions = [
-...publicSector.map((psu) => ({label : psu.title, value: psu.title})),
-]
+  ...publicSector.map((psu) => ({ label: psu.title, value: psu.title })),
+];
 
 const accreditationsOptions = [
-...servicesByAccrediations.map((accreditation) => ({label : accreditation.title, value: accreditation.title})),
-]
+  ...servicesByAccrediations.map((accreditation) => ({
+    label: accreditation.title,
+    value: accreditation.title,
+  })),
+];
 
 const concernsOptions = [
- ...servicesByHealthConcern.map((concern)=> ({ label: concern.title, value: concern.title })),
-]
+  ...servicesByHealthConcern.map((concern) => ({
+    label: concern.title,
+    value: concern.title,
+  })),
+];
 
 const insuranceOptions = [
-...chooseYourHealthInsurance.map((insurance) => ({label : insurance.title, value: insurance.title})),
-]
+  ...chooseYourHealthInsurance.map((insurance) => ({
+    label: insurance.title,
+    value: insurance.title,
+  })),
+];
 
 const tpaOptions = [
-...chooseYourTPA.map((tpa) => ({label : tpa.title, value: tpa.title})),
-]
+  ...chooseYourTPA.map((tpa) => ({ label: tpa.title, value: tpa.title })),
+];
 
 const diagnosticsOptions = [
-...diagnosticCentres.map((diagnostic) => ({label : diagnostic.title, value: diagnostic.title})),
-]
+  ...diagnosticCentres.map((diagnostic) => ({
+    label: diagnostic.title,
+    value: diagnostic.title,
+  })),
+];
+
 
 const altMedOptions = [
-...alternativeMedicine.map((altMed) => ({label : altMed.title, value: altMed.title})),
-]
+  ...alternativeMedicine.map((med)=> ({
+    label: med.title,
+    value: med.title
+  }))
+];
 
 const DatePickerField = ({ field, form }: any) => {
   return (
@@ -193,21 +210,6 @@ export default function ClinicForm() {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
 
-  const handlePhoneChange = (index: number, value: string) => {
-    const updatedPhones = [...phones];
-    updatedPhones[index] = value;
-    setPhones(updatedPhones);
-  };
-
-  const addPhone = () => {
-    setPhones([...phones, ""]);
-  };
-
-  const removePhone = (index: number) => {
-    const updatedPhones = phones.filter((_, i) => i !== index);
-    setPhones(updatedPhones);
-  };
-
   // Update the initialValues to match the schema
   const initialValues = {
     name: "",
@@ -216,7 +218,7 @@ export default function ClinicForm() {
       city: "",
       state: "",
       zipCode: "",
-      country: "",
+      landmark: "",
     },
     bed: 0,
     website: "",
@@ -224,7 +226,9 @@ export default function ClinicForm() {
     closeDay: "",
     hours: "",
     description: "",
-    phone: [""],
+    phoneNumbers: [""],
+    facts:[""],
+    achievements:[""],
     images: [] as File[],
     videos: [""],
     ownership: "PRIVATE",
@@ -239,7 +243,6 @@ export default function ClinicForm() {
     insurance: [""],
     tpa: [""],
     altMed: [""],
-
     avgRating: 0,
   };
 
@@ -323,6 +326,11 @@ export default function ClinicForm() {
     toast[type](message, { position: "bottom-right", duration: 3000 });
   }
 
+  const [startDay, setStartDay] = useState("");
+  const [endDay, setEndDay] = useState("");
+  const [hoursPerDay, setHoursPerDay] = useState(8);
+  const [displayText, setDisplayText] = useState("");
+
   const daysOfWeek = [
     { label: "Monday", value: "mon", index: 0 },
     { label: "Tuesday", value: "tue", index: 1 },
@@ -332,6 +340,41 @@ export default function ClinicForm() {
     { label: "Saturday", value: "sat", index: 5 },
     { label: "Sunday", value: "sun", index: 6 },
   ];
+
+  useEffect(() => {
+    if (startDay && endDay) {
+      const start = daysOfWeek.find((day) => day.value === startDay);
+      const end = daysOfWeek.find((day) => day.value === endDay);
+
+      if (start && end) {
+        // Calculate days
+        let days = 0;
+        if (end.index >= start.index) {
+          days = end.index - start.index + 1;
+        } else {
+          days = 7 - start.index + end.index + 1;
+        }
+
+        // Calculate total hours based on hours per day
+        const totalHours = hoursPerDay;
+
+        // Format the display text
+        const formattedStart =
+          start.value.charAt(0).toUpperCase() + start.value.slice(1);
+        const formattedEnd =
+          end.value.charAt(0).toUpperCase() + end.value.slice(1);
+
+        setDisplayText(`${formattedStart} - ${formattedEnd} ${totalHours}hrs`);
+      }
+    }
+  }, [startDay, endDay, hoursPerDay]);
+
+  const handleHoursChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number.parseInt(e.target.value);
+    if (!isNaN(value) && value > 0 && value <= 24) {
+      setHoursPerDay(value);
+    }
+  };
 
   async function handleSubmit(
     values: typeof initialValues,
@@ -453,8 +496,7 @@ export default function ClinicForm() {
   };
 
   const showAllErrors = (errors: FormikErrors<typeof initialValues>) => {
-    console.log("errors : ", errors);
-
+    console.log("Errors : ", errors);
     const allErrorMessages = steps.flatMap((_, index) => {
       const stepNumber = index + 1;
       const stepFields = getStepFields(stepNumber);
@@ -698,19 +740,19 @@ export default function ClinicForm() {
 
                       <div>
                         <label
-                          htmlFor="address.country"
+                          htmlFor="address.landmark"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          Country
+                          Landmark
                         </label>
                         <Field
-                          id="address.country"
-                          name="address.country"
+                          id="address.landmark"
+                          name="address.landmark"
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
                         <ErrorMessage
-                          name="address.country"
+                          name="address.landmark"
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />
@@ -791,7 +833,7 @@ export default function ClinicForm() {
                           max="24"
                           value={values.hours} // Formik state
                           onChange={handleChange} // Formik's handleChange
-                          className="w-full border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                          className="w-full border border-gray-300 rounded px-3 py-2 outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
                         <ErrorMessage
                           name="hours"
@@ -803,7 +845,7 @@ export default function ClinicForm() {
                       <div>
                         {/* Tag-based Phone input */}
                         <TagInput
-                          values={values.phone}
+                          values={values.phoneNumbers}
                           fieldName="phone"
                           placeholder="Enter phone number"
                           label="Phone Numbers"
@@ -812,7 +854,7 @@ export default function ClinicForm() {
                             const phoneRegex = /^\d{10}$/;
                             if (phoneRegex.test(tag) || true) {
                               // Remove || true for validation
-                              const newPhones = [...values.phone];
+                              const newPhones = [...values.phoneNumbers];
                               // Replace empty string at the end or add a new one
                               const emptyIndex = newPhones.findIndex(
                                 (p) => !p.trim()
@@ -822,22 +864,11 @@ export default function ClinicForm() {
                               } else {
                                 newPhones.push(tag);
                               }
-                              // Ensure there's always an empty slot at the end for a new entry
-                              if (!newPhones.includes("")) {
-                                newPhones.push("");
-                              }
-                              setFieldValue("phone", newPhones);
-                            } else {
-                              toast.error(
-                                "Please enter a valid 10-digit phone number",
-                                {
-                                  duration: 3000,
-                                }
-                              );
+                              setFieldValue("phoneNumbers", newPhones);
                             }
                           }}
                           onRemoveTag={(index) => {
-                            const newPhones = [...values.phone];
+                            const newPhones = [...values.phoneNumbers];
                             newPhones.splice(index, 1);
                             // Ensure there's always at least one empty slot
                             if (
@@ -846,10 +877,10 @@ export default function ClinicForm() {
                             ) {
                               newPhones.push("");
                             }
-                            setFieldValue("phone", newPhones);
+                            setFieldValue("phoneNumbers", newPhones);
                           }}
-                          errors={errors.phone}
-                          touched={touched.phone}
+                          errors={errors.phoneNumbers}
+                          touched={touched.phoneNumbers}
                         />
                       </div>
                     </div>
@@ -923,7 +954,6 @@ export default function ClinicForm() {
                         >
                           <option value="">Select Ownership</option>
                           <option value="PRIVATE">Private</option>
-                          <option value="PUBLIC">Public</option>
                           <option value="GOVERNMENT">Government</option>
                         </Field>
                         <ErrorMessage
@@ -984,6 +1014,73 @@ export default function ClinicForm() {
                           className="text-red-500 text-sm mt-1"
                         />
                       </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-6">
+                      <TagInput
+                        values={values.achievements}
+                        fieldName="achievements"
+                        placeholder="Enter achievement"
+                        label="Achievements"
+                        onAddTag={(tag) => {
+                          if (tag.trim()) {
+                            const newAchievements = [...values.achievements];
+                            const emptyIndex = newAchievements.findIndex(
+                              (a) => !a.trim()
+                            );
+                            if (emptyIndex >= 0) {
+                              newAchievements[emptyIndex] = tag;
+                            } else {
+                              newAchievements.push(tag);
+                            }
+                            setFieldValue("achievements", newAchievements);
+                          }
+                        }}
+                        onRemoveTag={(index) => {
+                          const newAchievements = [...values.achievements];
+                          newAchievements.splice(index, 1);
+                          if (
+                            newAchievements.length === 0 ||
+                            !newAchievements.includes("")
+                          ) {
+                            newAchievements.push("");
+                          }
+                          setFieldValue("achievements", newAchievements);
+                        }}
+                        errors={errors.achievements}
+                        touched={touched.achievements}
+                      />
+
+                      <TagInput
+                        values={values.facts}
+                        fieldName="facts"
+                        placeholder="Enter a fact"
+                        label="Facts"
+                        onAddTag={(tag) => {
+                          if (tag.trim()) {
+                            const newFacts = [...values.facts];
+                            const emptyIndex = newFacts.findIndex(
+                              (f) => !f.trim()
+                            );
+                            if (emptyIndex >= 0) {
+                              newFacts[emptyIndex] = tag;
+                            } else {
+                              newFacts.push(tag);
+                            }
+                            setFieldValue("facts", newFacts);
+                          }
+                        }}
+                        onRemoveTag={(index) => {
+                          const newFacts = [...values.facts];
+                          newFacts.splice(index, 1);
+                          if (newFacts.length === 0 || !newFacts.includes("")) {
+                            newFacts.push("");
+                          }
+                          setFieldValue("facts", newFacts);
+                        }}
+                        errors={errors.facts}
+                        touched={touched.facts}
+                      />
                     </div>
                   </motion.div>
                 )}
@@ -1075,25 +1172,25 @@ export default function ClinicForm() {
                         placeholder="https://example.com/video"
                         label="Videos (URLs)"
                         onAddTag={(tag) => {
-                          // Basic URL validation
-                          const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
-                          if (urlRegex.test(tag) || true) {
-                            // Remove || true for validation
+                          // Extract YouTube video ID
+                          const youtubeRegex =
+                            /(?:youtube\.com\/.*[?&]v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+                          const match = tag.match(youtubeRegex);
+                          const videoID = match ? match[1] : null;
+
+                          if (videoID) {
                             const newVideos = [...values.videos];
                             const emptyIndex = newVideos.findIndex(
                               (v) => !v.trim()
                             );
                             if (emptyIndex >= 0) {
-                              newVideos[emptyIndex] = tag;
+                              newVideos[emptyIndex] = videoID;
                             } else {
-                              newVideos.push(tag);
-                            }
-                            if (!newVideos.includes("")) {
-                              newVideos.push("");
+                              newVideos.push(videoID);
                             }
                             setFieldValue("videos", newVideos);
                           } else {
-                            toast.error("Please enter a valid URL", {
+                            toast.error("Please enter a valid YouTube URL", {
                               duration: 3000,
                             });
                           }
@@ -1202,6 +1299,33 @@ export default function ClinicForm() {
 
                     <div className="!mt-6">
                       <label className="block text-xl font-medium text-gray-900 mb-4">
+                        Alternative Medicines
+                      </label>
+                      <MultipleSelector
+                        value={values.altMed
+                          .filter((a) => a.trim())
+                          .map((a) => ({ label: a, value: a }))}
+                        onChange={(newValue) => {
+                          setFieldValue(
+                            "altMed",
+                            newValue.map((item) => item.value)
+                          );
+                        }}
+                        options={altMedOptions}
+                        placeholder="Select Alternative Medicines"
+                        className="w-full"
+                      />
+                      <ErrorMessage
+                        name="altMed"
+                        component="div"
+                        className="text-red-500 text-sm mt-1"
+                      />
+                    </div>
+
+                    
+
+                    <div className="!mt-6">
+                      <label className="block text-xl font-medium text-gray-900 mb-4">
                         Health Concerns
                       </label>
                       <MultipleSelector
@@ -1230,7 +1354,7 @@ export default function ClinicForm() {
                         Diagnostics
                       </label>
                       <MultipleSelector
-                        value={values.concerns
+                        value={values.diagnostics
                           .filter((c) => c.trim())
                           .map((c) => ({ label: c, value: c }))}
                         onChange={(newValue) => {
@@ -1300,30 +1424,22 @@ export default function ClinicForm() {
                       />
                     </div>
 
-                    <div className="!mt-6">
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                        Alternative Medicine
-                      </label>
+                    {/* <div className="!mt-6">
+                      <label className="block text-xl font-medium text-gray-900 mb-4">Alternative Medicine</label>
                       <MultipleSelector
-                        value={values.altMed
-                          .filter((a) => a.trim())
-                          .map((a) => ({ label: a, value: a }))}
+                        value={values.altMed.filter((a) => a.trim()).map((a) => ({ label: a, value: a }))}
                         onChange={(newValue) => {
                           setFieldValue(
                             "altMed",
-                            newValue.map((item) => item.value)
-                          );
+                            newValue.map((item) => item.value),
+                          )
                         }}
                         options={altMedOptions}
                         placeholder="Select alternative medicine types"
                         className="w-full"
                       />
-                      <ErrorMessage
-                        name="altMed"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
-                    </div>
+                      <ErrorMessage name="altMed" component="div" className="text-red-500 text-sm mt-1" />
+                    </div> */}
                   </motion.div>
                 )}
               </AnimatePresence>

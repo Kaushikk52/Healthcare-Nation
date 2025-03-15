@@ -16,7 +16,7 @@ import { User } from "lucide-react";
 const Reviews = ({id,avgRating,addRating}) => {
   const [reviews, setReviews] = useState([]);
   const [sort, setSort] = useState("newest");
-  const [rating, setRating] = useState(null)
+  const [rating, setRating] = useState(avgRating)
   const [hoveredRating, setHoveredRating] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -32,7 +32,7 @@ const Reviews = ({id,avgRating,addRating}) => {
     }
   };
 
-  addRating = async (selectedRating) => {
+  const handleRatingSubmission  = async (selectedRating) => {
     setRating(selectedRating)
 
     // POST request for rating 
@@ -42,11 +42,14 @@ const Reviews = ({id,avgRating,addRating}) => {
         {headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}}
       );
 
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error("Failed to submit rating")
       }
-
       console.log("Rating submitted successfully")
+      if (addRating) {
+        addRating(); // Trigger the parent component update
+      }
+      return response.data.avgRating;
     } catch (error) {
       console.error("Error submitting rating:", error)
     }
@@ -218,7 +221,7 @@ const Reviews = ({id,avgRating,addRating}) => {
               key={star}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => addRating(star)}
+              onClick={() => handleRatingSubmission(star)}
               onMouseEnter={() => setHoveredRating(star)}
               onMouseLeave={() => setHoveredRating(null)}
               className="focus:outline-none"

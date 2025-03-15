@@ -44,7 +44,7 @@ const HospitalDetailsPage = () => {
     getHospitalDetails(id);
   }, [id]);
 
-  const handleAddRating= () =>{
+  const handleAddRating= () =>{  
     console.log("parent component updated");
     getHospitalDetails(id);
   }
@@ -194,7 +194,7 @@ const HospitalDetailsPage = () => {
     },
     {
       id: "photos",
-      component: <Photos images={hospital.images} />,
+      component:   <Photos images={hospital.images} type={type} />,
       title: "Photos",
       marginX: "!mx-2",
       paddingX: "!px-1 min-[425px]:!px-2",
@@ -327,10 +327,19 @@ const HospitalDetailsPage = () => {
             {hospital.name}
           </span>
           {/* <span className='!text-md lg:!text-xl !font-medium text-gray-600'>Andheri, Mumbai</span> */}
+          <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 text-balance">
+                  {hospital.address?.street}, {hospital.address?.landmark}, {hospital.address?.city}{" "}
+                  - {hospital.address?.zipCode}
+                  {/* 
+                  Rao Saheb, Achutrao Patwardhan Marg, Four Bungalows, Andheri
+                  West, Mumbai, Maharashtra 400053 */}
+                </span>
+          <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-md !text-[#74c365] capitalize">
 
-          <span className="!text-md lg:!text-xl !font-medium text-gray-600">
-            {hospital.bed} Beds
+          {hospital.openDay} - {hospital.closeDay}{" "}
+          {hospital.hours} Hrs
           </span>
+
         </div>
 
         {/* Right Side  */}

@@ -139,7 +139,7 @@ function Home() {
                       to="/"
                       className="cursor-pointer flex flex-col items-center"
                     >
-                      <div className="!text-center !border-2 border-black !rounded-full">
+                      <div className="!text-center !border-2 border-gray-300 !rounded-full">
                         <img
                           src={
                             brand.image
