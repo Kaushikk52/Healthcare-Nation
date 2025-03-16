@@ -39,6 +39,10 @@ public class MedicalFacility{
     private String closeDay;
     private String hours;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Lob
     @Column(name = "description",columnDefinition = "TEXT")
     private String description;

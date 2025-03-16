@@ -11,7 +11,6 @@ export interface MedicalFacility {
     images: string[];
     address: Address;
     website: string;
-    bed: number;
     ownership: Ownership; // PRIVATE or GOVERNMENT
     description:string;
     brands:string[];

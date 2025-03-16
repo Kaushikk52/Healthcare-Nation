@@ -1,125 +1,18 @@
-import axios from "axios";
-import {
-  type FormikHelpers,
-  type FormikErrors,
-  Formik,
-  Field,
-  ErrorMessage,
-  Form,
-} from "formik";
-import { motion, AnimatePresence } from "framer-motion";
-import { jwtDecode } from "jwt-decode";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Loader2,
-  Check,
-  AlertCircle,
-  Plus,
-  X,
-} from "lucide-react";
-import React, { useEffect, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
-import DatePicker from "react-datepicker";
-import { MedicalFacilitySchema } from "@/Validations/MedicalFacility";
-import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import MultipleSelector from "@/components/ui/MultipleSelector";
-
-import servicesBySpecialities from "@/data/servicesBySpecialities";
 import popularBrands from "@/data/brands";
-import diagnosticCentres from "@/data/diagnostic";
-import publicSector from "@/data/publicSector";
-import servicesByAccrediations from "@/data/accrediations";
-import servicesByHealthConcern from "@/data/healthConcern";
-import chooseYourHealthInsurance from "@/data/healthInsurance";
-import chooseYourTPA from "@/data/tpa";
-import alternativeMedicine from "@/data/alternativeMedicine"
+import { HomecareSchema } from "@/Validations/Homecare";
+import axios from "axios";
+import { ErrorMessage, Field, Form, Formik, FormikErrors } from "formik";
+import { AnimatePresence, motion } from "framer-motion";
+import { AlertCircle, Check, ChevronLeft, ChevronRight, Loader2, Plus, X } from "lucide-react";
+import React from "react";
+import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
-// Add these option arrays after all the imports
-const specialtiesOptions = [
-  ...servicesBySpecialities.map((speciality) => ({
-    label: speciality.title,
-    value: speciality.title,
-  })),
-];
-
-const servicesOptions = [
-  { label: "Emergency Care", value: "Emergency Care" },
-  { label: "Intensive Care", value: "Intensive Care" },
-  { label: "Surgery", value: "Surgery" },
-  { label: "Radiology", value: "Radiology" },
-  { label: "Laboratory", value: "Laboratory" },
-  { label: "Pharmacy", value: "Pharmacy" },
-  { label: "Physical Therapy", value: "Physical Therapy" },
-  { label: "Ambulance", value: "Ambulance" },
-  { label: "Telemedicine", value: "Telemedicine" },
-  { label: "Dialysis", value: "Dialysis" },
-];
-
-const brandsOptions = [
-  ...popularBrands.map((brand) => ({ label: brand.title, value: brand.title })),
-];
-
-const psuOptions = [
-  ...publicSector.map((psu) => ({ label: psu.title, value: psu.title })),
-];
-
-const accreditationsOptions = [
-  ...servicesByAccrediations.map((accreditation) => ({
-    label: accreditation.title,
-    value: accreditation.title,
-  })),
-];
-
-const concernsOptions = [
-  ...servicesByHealthConcern.map((concern) => ({
-    label: concern.title,
-    value: concern.title,
-  })),
-];
-
-const insuranceOptions = [
-  ...chooseYourHealthInsurance.map((insurance) => ({
-    label: insurance.title,
-    value: insurance.title,
-  })),
-];
-
-const tpaOptions = [
-  ...chooseYourTPA.map((tpa) => ({ label: tpa.title, value: tpa.title })),
-];
-
-const diagnosticsOptions = [
-  ...diagnosticCentres.map((diagnostic) => ({
-    label: diagnostic.title,
-    value: diagnostic.title,
-  })),
-];
-
-
-const altMedOptions = [
-  ...alternativeMedicine.map((med)=> ({
-    label: med.title,
-    value: med.title
-  }))
-];
-
-const DatePickerField = ({ field, form }: any) => {
-  return (
-    <DatePicker
-      {...field}
-      selected={(field.value && new Date(field.value)) || null}
-      dateFormat="dd/MM/yyyy"
-      onChange={(date) => form.setFieldValue(field.name, date)}
-      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-    />
-  );
-};
-
-// Tag Input Component for reusability
 const TagInput = ({
   values,
   fieldName,
@@ -204,10 +97,17 @@ const TagInput = ({
   );
 };
 
-export default function ClinicForm() {
+const brandsOptions = [
+  ...popularBrands.map((brand) => ({ label: brand.title, value: brand.title })),
+];
+
+function HomecareForm() {
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
   const [phones, setPhones] = useState<string[]>([""]);
   const [step, setStep] = useState(1);
+  const [startDay, setStartDay] = useState("mon");
+  const [endDay, setEndDay] = useState("sat");
+  const [hoursPerDay, setHoursPerDay] = useState(8);
   const navigate = useNavigate();
 
   // Update the initialValues to match the schema
@@ -226,73 +126,23 @@ export default function ClinicForm() {
     hours: "",
     description: "",
     phoneNumbers: [""],
-    facts:[""],
-    achievements:[""],
     images: [] as File[],
     videos: [""],
     ownership: "PRIVATE",
-    facilityType: "CLINIC",
     brands: [""],
-    diagnostics: [""],
-    specialities: [""],
-    services: [""],
-    psu: [""],
-    accreditations: [""],
-    concerns: [""],
-    insurance: [""],
-    tpa: [""],
-    altMed: [""],
-    avgRating: 0,
   };
 
-  useEffect(() => {
-    const token: any = localStorage.getItem("token");
-    if (!token) {
-      toast.error("Please Login", {
-        position: "bottom-right",
-        duration: 3000,
-      });
-    }
-    try {
-      const decodedToken: any = jwtDecode(token);
-      const currentTime = Date.now() / 1000;
-      if (decodedToken.exp < currentTime) {
-        toast.error("Please Login", {
-          position: "bottom-right",
-          duration: 3000,
-        });
-        localStorage.removeItem("token");
-        navigate("/");
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
+  const daysOfWeek = [
+    { label: "Monday", value: "mon", index: 0 },
+    { label: "Tuesday", value: "tue", index: 1 },
+    { label: "Wednesday", value: "wed", index: 2 },
+    { label: "Thursday", value: "thu", index: 3 },
+    { label: "Friday", value: "fri", index: 4 },
+    { label: "Saturday", value: "sat", index: 5 },
+    { label: "Sunday", value: "sun", index: 6 },
+  ];
 
-  async function uploadSingleImage(
-    image: File,
-    type: string
-  ): Promise<string | null> {
-    try {
-      toast.loading("Uploading Specialities Images ...", {
-        position: "bottom-right",
-        duration: 2000,
-      });
-
-      const formData = new FormData();
-      formData.append("file", image);
-      formData.append("type", type);
-
-      const res = await axios.post(
-        `${baseURL}/v1/api/images/upload/single`,
-        formData
-      );
-      return res.data ?? null;
-    } catch (err) {
-      console.error("Image upload failed:", err);
-      return null;
-    }
-  }
+  const steps = ["General", "Details", "Images", "Tags"];
 
   async function uploadImages(images: File[], type: string): Promise<string[]> {
     if (!images?.length) {
@@ -324,21 +174,115 @@ export default function ClinicForm() {
   function showToast(message: string, type: "success" | "error") {
     toast[type](message, { position: "bottom-right", duration: 3000 });
   }
+  
+  const getStepFields = (stepNumber: number) => {
+      switch (stepNumber) {
+        case 1:
+          return [
+            "name",
+            "phone",
+            "address.street",
+            "address.city",
+            "address.landmark",
+            "address.zipCode",
+          ];
+        case 2:
+          return [
+            "description",
+            "ownership",
+            "specialities.name",
+            "specialities.image",
+          ];
+        case 3:
+          return ["images"];
+        case 4:
+          return ["departments", "altMeds", "concern", "services"];
+        default:
+          return [];
+      }
+    };
+  
+    const showErrorsToast = (
+      errors: FormikErrors<typeof initialValues>,
+      stepNumber: number
+    ) => {
+      const stepFields = getStepFields(stepNumber);
+      const errorMessages = stepFields.reduce((acc: string[], field) => {
+        const fieldParts = field.split(".");
+        let fieldError: any = errors;
+        for (const part of fieldParts) {
+          fieldError = fieldError && fieldError[part];
+        }
+        if (fieldError) {
+          acc.push(`${field}: ${fieldError}`);
+        }
+        return acc;
+      }, []);
+  
+      if (errorMessages.length > 0) {
+        toast.error(
+          <div>
+            <strong>Errors on step {stepNumber}:</strong>
+            <ul className="list-disc pl-4 mt-2">
+              {errorMessages.map((message, index) => (
+                <li key={index}>{message}</li>
+              ))}
+            </ul>
+          </div>,
+          { duration: 5000, position: "bottom-right" }
+        );
+      }
+    };
+  
+    const hasStepErrors = (
+      errors: FormikErrors<typeof initialValues>,
+      touched: any,
+      stepNumber: number
+    ) => {
+      const stepFields = getStepFields(stepNumber);
+      return stepFields.some((field) => {
+        const fieldParts = field.split(".");
+        let fieldError: any = errors;
+        let fieldTouched: any = touched;
+        for (const part of fieldParts) {
+          fieldError = fieldError && fieldError[part];
+          fieldTouched = fieldTouched && fieldTouched[part];
+        }
+        return fieldError && fieldTouched;
+      });
+    };
+  
+    const showAllErrors = (errors: FormikErrors<typeof initialValues>) => {
+      console.log("Errors : ", errors);
+      const allErrorMessages = steps.flatMap((_, index) => {
+        const stepNumber = index + 1;
+        const stepFields = getStepFields(stepNumber);
+        return stepFields.reduce((acc: string[], field) => {
+          const fieldParts = field.split(".");
+          let fieldError: any = errors;
+          for (const part of fieldParts) {
+            fieldError = fieldError && fieldError[part];
+          }
+          if (fieldError) {
+            acc.push(`Step ${stepNumber} - ${field}: ${fieldError}`);
+          }
+          return acc;
+        }, []);
+      });
+  
+      if (allErrorMessages.length > 0) {
+        allErrorMessages.forEach((message) => {
+          toast.error(`${message}`, {
+            duration: 10000,
+            position: "bottom-right",
+          });
+        });
+      }
+    };
 
-  const [startDay, setStartDay] = useState("");
-  const [endDay, setEndDay] = useState("");
-  const [hoursPerDay, setHoursPerDay] = useState(8);
-  const [displayText, setDisplayText] = useState("");
+    const handleSubmit = () =>{
 
-  const daysOfWeek = [
-    { label: "Monday", value: "mon", index: 0 },
-    { label: "Tuesday", value: "tue", index: 1 },
-    { label: "Wednesday", value: "wed", index: 2 },
-    { label: "Thursday", value: "thu", index: 3 },
-    { label: "Friday", value: "fri", index: 4 },
-    { label: "Saturday", value: "sat", index: 5 },
-    { label: "Sunday", value: "sun", index: 6 },
-  ];
+    }
 
   useEffect(() => {
     if (startDay && endDay) {
@@ -362,164 +306,9 @@ export default function ClinicForm() {
           start.value.charAt(0).toUpperCase() + start.value.slice(1);
         const formattedEnd =
           end.value.charAt(0).toUpperCase() + end.value.slice(1);
-
-        setDisplayText(`${formattedStart} - ${formattedEnd} ${totalHours}hrs`);
       }
     }
   }, [startDay, endDay, hoursPerDay]);
-
-  const handleHoursChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number.parseInt(e.target.value);
-    if (!isNaN(value) && value > 0 && value <= 24) {
-      setHoursPerDay(value);
-    }
-  };
-
-  async function handleSubmit(
-    values: typeof initialValues,
-    { setSubmitting, resetForm }: FormikHelpers<typeof initialValues>
-  ) {
-    if (step !== 4) {
-      setSubmitting(false);
-      return;
-    }
-
-    try {
-      setSubmitting(true);
-      const imageUrls: any = await uploadImages(values.images, "Clinics");
-      if (imageUrls.length > 0) {
-        values.images = imageUrls || [""];
-      }
-
-      const token = localStorage.getItem("token");
-      const response = await axios.post(
-        `${baseURL}/v1/api/facility/save`,
-        { ...values, avgRating: 0.0 },
-        { headers: { Authorization: `Bearer ${token}`, timeout: 20000 } }
-      );
-
-      if (response.status === 201) {
-        showToast("Form submitted successfully!", "success");
-        resetForm();
-        setStep(1);
-      }
-    } catch (err: any) {
-      if (err.response?.status === 401) {
-        showToast("Access denied! Authentication is required", "error");
-      } else {
-        showToast(`An error occurred: ${err.message}`, "error");
-      }
-    } finally {
-      setSubmitting(false);
-    }
-  }
-
-  const steps = ["General", "Details", "Images", "Tags"];
-
-  const getStepFields = (stepNumber: number) => {
-    switch (stepNumber) {
-      case 1:
-        return [
-          "name",
-          "phone",
-          "address.street",
-          "address.city",
-          "address.landmark",
-          "address.zipCode",
-        ];
-      case 2:
-        return [
-          "description",
-          "ownership",
-          "specialities.name",
-          "specialities.image",
-        ];
-      case 3:
-        return ["images"];
-      case 4:
-        return ["departments", "altMeds", "concern", "services"];
-      default:
-        return [];
-    }
-  };
-
-  const showErrorsToast = (
-    errors: FormikErrors<typeof initialValues>,
-    stepNumber: number
-  ) => {
-    const stepFields = getStepFields(stepNumber);
-    const errorMessages = stepFields.reduce((acc: string[], field) => {
-      const fieldParts = field.split(".");
-      let fieldError: any = errors;
-      for (const part of fieldParts) {
-        fieldError = fieldError && fieldError[part];
-      }
-      if (fieldError) {
-        acc.push(`${field}: ${fieldError}`);
-      }
-      return acc;
-    }, []);
-
-    if (errorMessages.length > 0) {
-      toast.error(
-        <div>
-          <strong>Errors on step {stepNumber}:</strong>
-          <ul className="list-disc pl-4 mt-2">
-            {errorMessages.map((message, index) => (
-              <li key={index}>{message}</li>
-            ))}
-          </ul>
-        </div>,
-        { duration: 5000, position: "bottom-right" }
-      );
-    }
-  };
-
-  const hasStepErrors = (
-    errors: FormikErrors<typeof initialValues>,
-    touched: any,
-    stepNumber: number
-  ) => {
-    const stepFields = getStepFields(stepNumber);
-    return stepFields.some((field) => {
-      const fieldParts = field.split(".");
-      let fieldError: any = errors;
-      let fieldTouched: any = touched;
-      for (const part of fieldParts) {
-        fieldError = fieldError && fieldError[part];
-        fieldTouched = fieldTouched && fieldTouched[part];
-      }
-      return fieldError && fieldTouched;
-    });
-  };
-
-  const showAllErrors = (errors: FormikErrors<typeof initialValues>) => {
-    console.log("Errors : ", errors);
-    const allErrorMessages = steps.flatMap((_, index) => {
-      const stepNumber = index + 1;
-      const stepFields = getStepFields(stepNumber);
-      return stepFields.reduce((acc: string[], field) => {
-        const fieldParts = field.split(".");
-        let fieldError: any = errors;
-        for (const part of fieldParts) {
-          fieldError = fieldError && fieldError[part];
-        }
-        if (fieldError) {
-          acc.push(`Step ${stepNumber} - ${field}: ${fieldError}`);
-        }
-        return acc;
-      }, []);
-    });
-
-    if (allErrorMessages.length > 0) {
-      allErrorMessages.forEach((message) => {
-        toast.error(`${message}`, {
-          duration: 10000,
-          position: "bottom-right",
-        });
-      });
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center py-1 px-2 sm:px-3 lg:px-8">
@@ -531,10 +320,10 @@ export default function ClinicForm() {
       >
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Add Clinic
+            Add Homecare
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Please fill the details of your clinic
+            Please fill the details of your Homecare
           </p>
         </div>
 
@@ -588,7 +377,7 @@ export default function ClinicForm() {
 
         <Formik
           initialValues={initialValues}
-          validationSchema={MedicalFacilitySchema}
+          validationSchema={HomecareSchema}
           onSubmit={handleSubmit}
         >
           {({
@@ -616,7 +405,7 @@ export default function ClinicForm() {
                           htmlFor="name"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          Clinic Name
+                          Hospital Name
                         </label>
                         <Field
                           id="name"
@@ -916,7 +705,6 @@ export default function ClinicForm() {
                     </div>
 
                     <div className="grid grid-cols-2 gap-6">
-                  
                       <div>
                         <label
                           htmlFor="ownership"
@@ -941,125 +729,6 @@ export default function ClinicForm() {
                         />
                       </div>
                     </div>
-
-                    <div className="grid grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Specialities
-                        </label>
-                        <MultipleSelector
-                          value={values.specialities
-                            .filter((s) => s.trim())
-                            .map((s) => ({ label: s, value: s }))}
-                          onChange={(newValue) => {
-                            setFieldValue(
-                              "specialities",
-                              newValue.map((item) => item.value)
-                            );
-                          }}
-                          options={specialtiesOptions}
-                          placeholder="Select specialities"
-                          className="w-full"
-                        />
-                        <ErrorMessage
-                          name="specialities"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Services
-                        </label>
-                        <MultipleSelector
-                          value={values.services
-                            .filter((s) => s.trim())
-                            .map((s) => ({ label: s, value: s }))}
-                          onChange={(newValue) => {
-                            setFieldValue(
-                              "services",
-                              newValue.map((item) => item.value)
-                            );
-                          }}
-                          options={servicesOptions}
-                          placeholder="Select services"
-                          className="w-full"
-                        />
-                        <ErrorMessage
-                          name="services"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-6">
-                      <TagInput
-                        values={values.achievements}
-                        fieldName="achievements"
-                        placeholder="Enter achievement"
-                        label="Achievements"
-                        onAddTag={(tag) => {
-                          if (tag.trim()) {
-                            const newAchievements = [...values.achievements];
-                            const emptyIndex = newAchievements.findIndex(
-                              (a) => !a.trim()
-                            );
-                            if (emptyIndex >= 0) {
-                              newAchievements[emptyIndex] = tag;
-                            } else {
-                              newAchievements.push(tag);
-                            }
-                            setFieldValue("achievements", newAchievements);
-                          }
-                        }}
-                        onRemoveTag={(index) => {
-                          const newAchievements = [...values.achievements];
-                          newAchievements.splice(index, 1);
-                          if (
-                            newAchievements.length === 0 ||
-                            !newAchievements.includes("")
-                          ) {
-                            newAchievements.push("");
-                          }
-                          setFieldValue("achievements", newAchievements);
-                        }}
-                        errors={errors.achievements}
-                        touched={touched.achievements}
-                      />
-
-                      <TagInput
-                        values={values.facts}
-                        fieldName="facts"
-                        placeholder="Enter a fact"
-                        label="Facts"
-                        onAddTag={(tag) => {
-                          if (tag.trim()) {
-                            const newFacts = [...values.facts];
-                            const emptyIndex = newFacts.findIndex(
-                              (f) => !f.trim()
-                            );
-                            if (emptyIndex >= 0) {
-                              newFacts[emptyIndex] = tag;
-                            } else {
-                              newFacts.push(tag);
-                            }
-                            setFieldValue("facts", newFacts);
-                          }
-                        }}
-                        onRemoveTag={(index) => {
-                          const newFacts = [...values.facts];
-                          newFacts.splice(index, 1);
-                          if (newFacts.length === 0 || !newFacts.includes("")) {
-                            newFacts.push("");
-                          }
-                          setFieldValue("facts", newFacts);
-                        }}
-                        errors={errors.facts}
-                        touched={touched.facts}
-                      />
-                    </div>
                   </motion.div>
                 )}
 
@@ -1074,7 +743,7 @@ export default function ClinicForm() {
                   >
                     <div>
                       <label className="block text-sm font-medium text-gray-700">
-                        Upload Clinic Images
+                        Upload Hospital Images
                       </label>
                       <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                         <div className="space-y-1 text-center">
@@ -1224,200 +893,6 @@ export default function ClinicForm() {
                         className="text-red-500 text-sm mt-1"
                       />
                     </div>
-
-                    <div className="!mt-6">
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                        PSU (Public Sector Undertaking)
-                      </label>
-                      <MultipleSelector
-                        value={values.psu
-                          .filter((p) => p.trim())
-                          .map((p) => ({ label: p, value: p }))}
-                        onChange={(newValue) => {
-                          setFieldValue(
-                            "psu",
-                            newValue.map((item) => item.value)
-                          );
-                        }}
-                        options={psuOptions}
-                        placeholder="Select PSUs"
-                        className="w-full"
-                      />
-                      <ErrorMessage
-                        name="psu"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
-                    </div>
-
-                    <div className="!mt-6">
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                        Accreditations
-                      </label>
-                      <MultipleSelector
-                        value={values.accreditations
-                          .filter((a) => a.trim())
-                          .map((a) => ({ label: a, value: a }))}
-                        onChange={(newValue) => {
-                          setFieldValue(
-                            "accreditations",
-                            newValue.map((item) => item.value)
-                          );
-                        }}
-                        options={accreditationsOptions}
-                        placeholder="Select accreditations"
-                        className="w-full"
-                      />
-                      <ErrorMessage
-                        name="accreditations"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
-                    </div>
-
-                    <div className="!mt-6">
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                        Alternative Medicines
-                      </label>
-                      <MultipleSelector
-                        value={values.altMed
-                          .filter((a) => a.trim())
-                          .map((a) => ({ label: a, value: a }))}
-                        onChange={(newValue) => {
-                          setFieldValue(
-                            "altMed",
-                            newValue.map((item) => item.value)
-                          );
-                        }}
-                        options={altMedOptions}
-                        placeholder="Select Alternative Medicines"
-                        className="w-full"
-                      />
-                      <ErrorMessage
-                        name="altMed"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
-                    </div>
-
-                    
-
-                    <div className="!mt-6">
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                        Health Concerns
-                      </label>
-                      <MultipleSelector
-                        value={values.concerns
-                          .filter((c) => c.trim())
-                          .map((c) => ({ label: c, value: c }))}
-                        onChange={(newValue) => {
-                          setFieldValue(
-                            "concerns",
-                            newValue.map((item) => item.value)
-                          );
-                        }}
-                        options={concernsOptions}
-                        placeholder="Select health concerns"
-                        className="w-full"
-                      />
-                      <ErrorMessage
-                        name="concerns"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
-                    </div>
-
-                    <div className="!mt-6">
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                        Diagnostics
-                      </label>
-                      <MultipleSelector
-                        value={values.diagnostics
-                          .filter((c) => c.trim())
-                          .map((c) => ({ label: c, value: c }))}
-                        onChange={(newValue) => {
-                          setFieldValue(
-                            "diagnostics",
-                            newValue.map((item) => item.value)
-                          );
-                        }}
-                        options={diagnosticsOptions}
-                        placeholder="Select diagnostics"
-                        className="w-full"
-                      />
-                      <ErrorMessage
-                        name="diagnostics"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
-                    </div>
-
-                    <div className="!mt-6">
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                        Insurance Accepted
-                      </label>
-                      <MultipleSelector
-                        value={values.insurance
-                          .filter((i) => i.trim())
-                          .map((i) => ({ label: i, value: i }))}
-                        onChange={(newValue) => {
-                          setFieldValue(
-                            "insurance",
-                            newValue.map((item) => item.value)
-                          );
-                        }}
-                        options={insuranceOptions}
-                        placeholder="Select insurance providers"
-                        className="w-full"
-                      />
-                      <ErrorMessage
-                        name="insurance"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
-                    </div>
-
-                    <div className="!mt-6">
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                        TPA (Third Party Administrators)
-                      </label>
-                      <MultipleSelector
-                        value={values.tpa
-                          .filter((t) => t.trim())
-                          .map((t) => ({ label: t, value: t }))}
-                        onChange={(newValue) => {
-                          setFieldValue(
-                            "tpa",
-                            newValue.map((item) => item.value)
-                          );
-                        }}
-                        options={tpaOptions}
-                        placeholder="Select TPAs"
-                        className="w-full"
-                      />
-                      <ErrorMessage
-                        name="tpa"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
-                    </div>
-
-                    {/* <div className="!mt-6">
-                      <label className="block text-xl font-medium text-gray-900 mb-4">Alternative Medicine</label>
-                      <MultipleSelector
-                        value={values.altMed.filter((a) => a.trim()).map((a) => ({ label: a, value: a }))}
-                        onChange={(newValue) => {
-                          setFieldValue(
-                            "altMed",
-                            newValue.map((item) => item.value),
-                          )
-                        }}
-                        options={altMedOptions}
-                        placeholder="Select alternative medicine types"
-                        className="w-full"
-                      />
-                      <ErrorMessage name="altMed" component="div" className="text-red-500 text-sm mt-1" />
-                    </div> */}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -1498,5 +973,7 @@ export default function ClinicForm() {
       </motion.div>
       <Toaster />
     </div>
-  );
+  )
 }
+
+export default HomecareForm;

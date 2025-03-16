@@ -10,6 +10,10 @@ import ClinicDetailsPage from './components/pages/ClinicDetails/ClinicDetailsPag
 import DashboardLayout from './components/pages/Dashboard/DashboardLayout';
 import HospitalForm from './components/pages/Dashboard/HospitalForm';
 import ClinicForm from './components/pages/Dashboard/ClinicForm';
+import BankForm from './components/pages/Dashboard/BankForm';
+import HomecareForm from './components/pages/Dashboard/HomecareForm';
+import TransportForm from './components/pages/Dashboard/TransportForm';
+import OrthoticsForm from './components/pages/Dashboard/OrthoticsForm';
 import DiagnosticCenters from './components/pages/DiagnosticCenters';
 import AlternativeMedicine from './components/pages/AlternativeMedicine';
 import OnlineServices from './components/pages/OnlineServices';
@@ -46,6 +50,10 @@ function App() {
           <Route path="/dashboard" element={<DashboardLayout />} >
             <Route path='/dashboard/hospital' element={<HospitalForm />} />
             <Route path='/dashboard/clinic' element={<ClinicForm />} />
+            <Route path='/dashboard/bank' element={<BankForm />} />
+            <Route path='/dashboard/homecare' element={<HomecareForm />} />
+            <Route path='/dashboard/transport' element={<TransportForm />} />
+            <Route path='/dashboard/op' element={<OrthoticsForm />} />
           </Route>
 
           <Route path='/healthcare-services' element={< HealthcareServices />} />

@@ -1,20 +1,32 @@
-import axios from 'axios';
-import { Menu, LogOut, User, Flame, Home, LayoutDashboard, PlusSquare, Users, HospitalIcon  } from 'lucide-react';
+import axios from "axios";
+import {
+  Menu,
+  LogOut,
+  User,
+  HospitalIcon,
+  ShieldPlus,
+  Accessibility,
+  Ambulance,
+} from "lucide-react";
 import { FaClinicMedical } from "react-icons/fa";
-import React, { useEffect, useState } from 'react'
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { MdOutlineMedicalInformation } from "react-icons/md";
+import React, { useEffect, useState } from "react";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 
 function Sidebar() {
-
   const location = useLocation();
-
 
   const navItems = [
     { icon: HospitalIcon, label: "Hospital", href: "/dashboard/hospital" },
-    { icon: FaClinicMedical , label: "Clinic", href: "/dashboard/clinic" },
-    { icon: PlusSquare, label: "Add Project", href: "/dashboard/add-project" },
-    { icon: Users, label: "Users", href: `users` },
-    {icon : Flame, label: "Blog Posting", href:`/blog`}
+    { icon: FaClinicMedical, label: "Clinic", href: "/dashboard/clinic" },
+    { icon: ShieldPlus, label: "Bank", href: "/dashboard/bank" },
+    { icon: Accessibility, label: "Homecare", href: "/dashboard/homecare" },
+    { icon: Ambulance, label: "Transport", href: "/dashboard/transport" },
+    {
+      icon: MdOutlineMedicalInformation,
+      label: "Orthotics & Prosthetics",
+      href: "/dashboard/op",
+    },
   ];
 
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
@@ -56,14 +68,14 @@ function Sidebar() {
     };
 
     checkScreenSize();
-    window.addEventListener('resize', checkScreenSize);
+    window.addEventListener("resize", checkScreenSize);
 
-    return () => window.removeEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
   async function handleLogout() {
-    localStorage.removeItem('token');
-    navigate('/');
+    localStorage.removeItem("token");
+    navigate("/");
   }
 
   const toggleSidebar = () => {
@@ -80,7 +92,9 @@ function Sidebar() {
     >
       <div className="p-4">
         <button
-          className={`text-gray-800 hover:bg-gray-100 p-2 rounded-md ${isMobile ? "hidden" : ""}`}
+          className={`text-gray-800 hover:bg-gray-100 p-2 rounded-md ${
+            isMobile ? "hidden" : ""
+          }`}
           onClick={toggleSidebar}
         >
           <Menu className="h-6 w-6" />
@@ -88,7 +102,6 @@ function Sidebar() {
         </button>
       </div>
       <nav className="flex-grow overflow-y-auto">
-        {currentUser.role == "ROLE_ADMIN"?
         <ul className="space-y-2 p-4">
           {navItems.map((item, index) => (
             <li key={index}>
@@ -99,30 +112,16 @@ function Sidebar() {
                 }`}
               >
                 <item.icon className="h-5 w-5 flex-shrink-0" />
-                {isOpen && !isMobile && <span className="ml-2">{item.label}</span>}
-                {(!isOpen || isMobile) && <span className="sr-only">{item.label}</span>}
+                {isOpen && !isMobile && (
+                  <span className="ml-2">{item.label}</span>
+                )}
+                {(!isOpen || isMobile) && (
+                  <span className="sr-only">{item.label}</span>
+                )}
               </Link>
             </li>
           ))}
         </ul>
-        : <ul className="space-y-2 p-4">
-        {navItems.slice(0,2).map((item, index) => (
-          <li key={index}>
-            <Link
-              to={item.href}
-              className={`flex items-center  rounded-md p-2 ${
-                (!isOpen || isMobile) && "justify-center"
-              } ${location.pathname === item.href ? 'bg-blue-500 text-white font-medium' : 'text-gray-800 hover:bg-gray-100'} `}
-            >
-              <item.icon className="h-5 w-5 flex-shrink-0" />
-              {isOpen && !isMobile && <span className="ml-2">{item.label}</span>}
-              {(!isOpen || isMobile) && <span className="sr-only">{item.label}</span>}
-            </Link>
-          </li>
-        ))}
-      </ul>
-
-        }
       </nav>
 
       <div className="p-4 space-y-2">
@@ -136,7 +135,8 @@ function Sidebar() {
           {isOpen && !isMobile && <span className="ml-2">Logout</span>}
           {(!isOpen || isMobile) && <span className="sr-only">Logout</span>}
         </button>
-        <Link to={`/user/${currentUser.userId}`}
+        <Link
+          to={`/user/${currentUser.userId}`}
           className={`flex items-center text-gray-800 hover:bg-gray-100 rounded-md p-2 w-full ${
             (!isOpen || isMobile) && "justify-center"
           }`}
@@ -147,7 +147,7 @@ function Sidebar() {
         </Link>
       </div>
     </div>
-  )
+  );
 }
 
-export default Sidebar
+export default Sidebar;

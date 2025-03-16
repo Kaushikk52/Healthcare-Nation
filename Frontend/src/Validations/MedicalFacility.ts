@@ -10,7 +10,6 @@ export const MedicalFacilitySchema = yup.object().shape({
       landmark: yup.string().required("Landmark is required"),
     }).required(),
 
-    bed: yup.number().min(1, "Bed count must be at least 1").required("Bed count is required"),
     website: yup.string().url("Website must be a valid URL").required("Website is required"),
     openDay: yup.string().required("Opening day is required"),
     closeDay: yup.string().required("Closing day is required"),
