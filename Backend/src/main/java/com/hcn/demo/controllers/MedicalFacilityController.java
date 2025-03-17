@@ -3,11 +3,13 @@ package com.hcn.demo.controllers;
 import com.hcn.demo.models.MedicalFacility;
 import com.hcn.demo.models.Rating;
 import com.hcn.demo.models.Review;
+import com.hcn.demo.models.User;
 import com.hcn.demo.services.MedicalFacilityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -23,6 +25,9 @@ public class MedicalFacilityController {
 
     @Autowired
     private MedicalFacilityService facilityServ;
+
+    @Autowired
+    private UserDetailsService userDetailsServ;
 
     @GetMapping(value = "/type/{type}")
     public ResponseEntity<Map<String, Object>> getAll(@PathVariable String type){
@@ -62,6 +67,23 @@ public class MedicalFacilityController {
         }
     }
 
+    @GetMapping(value = "/current-user")
+    public ResponseEntity<Map<String,Object>> getByCurrentUser(Principal principal){
+        Map<String,Object> response = new HashMap<>();
+        List<MedicalFacility> facilitiesList = new ArrayList<>();
+        try {
+            User currentUser = (User)userDetailsServ.loadUserByUsername(principal.getName());
+            List<MedicalFacility> facilityList = facilityServ.getByUserId(currentUser.getId());
+            log.info("Retreived Facilities {} by User ID : {}",facilityList.size(),currentUser.getId());
+            response.put("message", "Retrived Facilties :"+facilityList.size()+" by User ID : "+currentUser.getId());
+            response.put("facilities",facilityList);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            log.warn("An Error occurred : {}", e.getMessage());
+            response.put("message",e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
 
     @GetMapping(value = "/id/{id}")
     public ResponseEntity<Map<String,Object>> getById(@PathVariable String id){
@@ -111,11 +133,12 @@ public class MedicalFacilityController {
     }
 
     @PostMapping(value = "/save")
-    public ResponseEntity<Map<String,Object>> addFacility(@RequestBody MedicalFacility facility){
+    public ResponseEntity<Map<String,Object>> addFacility(@RequestBody MedicalFacility facility,Principal principal){
         Map<String,Object> response = new HashMap<>();
         try{
             if(facility.getFacilityType().equals(MedicalFacility.FacilityType.HOSPITAL)){
-                MedicalFacility savedHospital = facilityServ.addHospital(facility);
+                User principalUser = (User)userDetailsServ.loadUserByUsername(principal.getName());
+                MedicalFacility savedHospital = facilityServ.addHospital(facility,principalUser);
                 log.info("Hospital posted successfully : {}",savedHospital.getId());
                 response.put("message","Hospital posted successfully");
             }else{

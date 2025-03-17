@@ -37,7 +37,8 @@ public class MedicalFacilityService {
         this.userDetailsService = userDetailsService;
     }
 
-    public MedicalFacility addHospital(MedicalFacility hospital) {
+    public MedicalFacility addHospital(MedicalFacility hospital,User principalUser) {
+        hospital.setUser(principalUser);
         MedicalFacility savedHospital= medicalFacilityRepo.save(hospital);
         return savedHospital;
     }
@@ -76,6 +77,11 @@ public class MedicalFacilityService {
 
     public List<MedicalFacility> getAllFacilities(){
         return medicalFacilityRepo.findAll();
+    }
+
+    public List<MedicalFacility> getByUserId(String id){
+        List<MedicalFacility> facilityList = medicalFacilityRepo.findByUser_Id(id);
+        return facilityList;
     }
 
     public List<MedicalFacility> getAllHospitals(){

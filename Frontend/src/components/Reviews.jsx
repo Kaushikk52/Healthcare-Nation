@@ -14,6 +14,7 @@ import axios from "axios";
 import { User } from "lucide-react";
 
 const Reviews = ({id,avgRating,addRating}) => {
+  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
   const [reviews, setReviews] = useState([]);
   const [sort, setSort] = useState("newest");
   const [rating, setRating] = useState(avgRating)
@@ -23,7 +24,7 @@ const Reviews = ({id,avgRating,addRating}) => {
   const getReviews = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8081/v1/api/review/facility/${id}`
+        `${baseURL}/v1/api/review/facility/${id}`
       );
       const data = response.data.reviews;
       setReviews(data);
@@ -37,7 +38,7 @@ const Reviews = ({id,avgRating,addRating}) => {
 
     // POST request for rating 
     try {
-      const response = await axios.post(`http://localhost:8081/v1/api/facility/${id}/rating`,
+      const response = await axios.post(`${baseURL}/v1/api/facility/${id}/rating`,
         { rating: selectedRating },
         {headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}}
       );

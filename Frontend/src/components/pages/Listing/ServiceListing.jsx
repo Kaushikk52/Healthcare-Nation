@@ -69,6 +69,7 @@ const filters = [
 ];
 
 export default function ServiceListing() {
+  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
   const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS;
   const clinicImgs = import.meta.env.VITE_APP_CLOUDINARY_CLINICS;
   const [searchParams] = useSearchParams();
@@ -114,7 +115,7 @@ export default function ServiceListing() {
   const getHospitals = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8081/v1/api/facility/type/${type}`
+        `${baseURL}/v1/api/facility/type/${type}`
       );
       const data = response.data.hospitals;
       // console.log(data);
@@ -127,7 +128,7 @@ export default function ServiceListing() {
   const getClinics = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8081/v1/api/facility/type/${type}`
+        `${baseURL}/v1/api/facility/type/${type}`
       );
       const data = await response.data.clinics;
       console.log(data);
@@ -163,7 +164,7 @@ export default function ServiceListing() {
 
   const getSavedHospitals = async () => {
     try {
-      const response = await axios.get(`http://localhost:8081/v1/api/saved/hospitals`, {
+      const response = await axios.get(`${baseURL}/v1/api/saved/hospitals`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

@@ -12,4 +12,6 @@ import java.util.List;
 public interface MedicalFacilityRepo extends JpaRepository<MedicalFacility,String>, JpaSpecificationExecutor<MedicalFacility> {
 
     List<MedicalFacility> findByFacilityType(MedicalFacility.FacilityType type);
+
+    List<MedicalFacility> findByUser_Id(String id);
 }

@@ -9,6 +9,7 @@ interface ReviewModalProps {
 }
 
 const ReviewModal: React.FC<ReviewModalProps> = ({ onClose,id }) => {
+  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
   const [review, setReview] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -18,7 +19,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ onClose,id }) => {
 
     // POST request for review
     try {
-      const response = await axios.post(`http://localhost:8081/v1/api/facility/${id}/review`, {comment : review},
+      const response = await axios.post(`${baseURL}/v1/api/facility/${id}/review`, {comment : review},
         {headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}}
       )
       console.log("Review submitted successfully")

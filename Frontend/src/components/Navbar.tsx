@@ -29,6 +29,7 @@ const DropdownLink = ({
 );
 
 export default function Navbar() {
+  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
   const location = useLocation();
   const [currentUser, setCurrentUser] = useState({
     firstName: "",
@@ -167,7 +168,7 @@ export default function Navbar() {
 
   const getUser = async () => {
     try{
-      const response = await axios.get(`http://localhost:8081/v1/api/user/principal`,
+      const response = await axios.get(`${baseURL}/v1/api/user/principal`,
         {headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}});
       if(response.status === 401){
         setCurrentUser(null);

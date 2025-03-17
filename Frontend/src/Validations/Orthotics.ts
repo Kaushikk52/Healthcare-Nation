@@ -37,4 +37,5 @@ export const OrthoticsSchema = yup.object().shape({
     .oneOf(["PRIVATE", "PUBLIC", "GOVERNMENT"], "Invalid ownership type")
     .required("Ownership type is required"),
   brands: yup.array().of(yup.string()),
+  medicalFacilites: yup.array().of(yup.string()),
 });

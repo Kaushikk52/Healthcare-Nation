@@ -1,5 +1,7 @@
 package com.hcn.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hcn.demo.helper.StringListConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -7,7 +9,9 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -16,10 +20,11 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@JsonIgnoreProperties({"medicalFacilities"})
 public class Orthotics {
 
     @Id
-    @Column(name = "user_id",nullable = false,updatable = false,length = 36)
+    @Column(name = "id",nullable = false,updatable = false,length = 36)
     private String id;
 
     @NotNull(message = "Hospital name cannot be null")
@@ -57,9 +62,13 @@ public class Orthotics {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @ManyToOne
-    @JoinColumn(name = "medical_facility_id")
-    private MedicalFacility medicalFacility;
+    @ManyToMany
+    @JoinTable(
+            name = "orthotics_medical_facilities",
+            joinColumns = @JoinColumn(name = "orthotics_id"),
+            inverseJoinColumns = @JoinColumn(name = "medical_facility_id")
+    )
+    private List<MedicalFacility> medicalFacilities;
 
     @Column(name = "brands", columnDefinition = "TEXT")
     @Convert(converter = StringListConverter.class)

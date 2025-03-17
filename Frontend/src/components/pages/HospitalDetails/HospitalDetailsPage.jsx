@@ -31,6 +31,7 @@ import ReviewModal from "../../ReviewModal";
 import { motion, AnimatePresence } from "framer-motion";
 
 const HospitalDetailsPage = () => {
+  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
   const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS;
   const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 425);
   const [activeTabButton, setActiveTabButton] = useState("description");
@@ -52,7 +53,7 @@ const HospitalDetailsPage = () => {
   const getHospitalDetails = async (id) => {
     try {
       const response = await axios.get(
-        `http://localhost:8081/v1/api/facility/id/${id}`
+        `${baseURL}/v1/api/facility/id/${id}`
       );
       const data = response.data.facility;
       // console.log(data);
@@ -109,7 +110,7 @@ const HospitalDetailsPage = () => {
   const saveHospital = async (hospitalId) => {
     try {
       const response = await axios.post(
-        `http://localhost:8081/v1/api/saved/${hospitalId}`,
+        `${baseURL}/v1/api/saved/${hospitalId}`,
         {},
         {
           headers: {
@@ -126,7 +127,7 @@ const HospitalDetailsPage = () => {
 
   const removeSavedHospital = async (hospitalId) => {
     return await axios.delete(
-      `http://localhost:8081/v1/api/saved/${hospitalId}`,
+      `${baseURL}/v1/api/saved/${hospitalId}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,

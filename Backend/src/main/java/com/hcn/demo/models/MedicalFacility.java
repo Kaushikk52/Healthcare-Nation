@@ -1,6 +1,7 @@
 package com.hcn.demo.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hcn.demo.helper.StringListConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-//@JsonIgnoreProperties({"ratings","reviews"})
+//@JsonIgnoreProperties({"orthotics"})
 public class MedicalFacility{
 
     @Id
@@ -96,6 +97,9 @@ public class MedicalFacility{
     @Column(name = "altMed", columnDefinition = "TEXT")
     @Convert(converter = StringListConverter.class)
     private List<String> altMed;
+
+    @ManyToMany(mappedBy = "medicalFacilities")
+    private List<Orthotics> orthotics;
 
     private Double avgRating;
     @OneToMany(mappedBy = "medicalFacility", cascade = CascadeType.ALL, orphanRemoval = true)

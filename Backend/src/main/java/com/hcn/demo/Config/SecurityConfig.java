@@ -53,8 +53,7 @@ public class SecurityConfig {
 
                         // Facilities endpoints
                         .requestMatchers(HttpMethod.GET, "/v1/api/facility/type/**",
-                        "/v1/api/facility/id/**",
-                        "/v1/api/facility/filter").permitAll()
+                        "/v1/api/facility/id/**","/v1/api/facility/filter","/v1/api/facility/current-user").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/api/facility/**").authenticated()
                         .requestMatchers(HttpMethod.PUT ,"/v1/api/facility/edit/**").authenticated()
                         .requestMatchers(HttpMethod.DELETE , "/v1/api/facility/delete/**").authenticated()
@@ -69,6 +68,12 @@ public class SecurityConfig {
 
                         //Ratings endpoints
                         .requestMatchers(HttpMethod.GET ,"/v1/api/rating/**").permitAll()
+
+                        //Orthotics endpoints
+                        .requestMatchers(HttpMethod.GET,
+                                "/v1/api/orthotics/all", "/v1/api/orthotics/id/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/api/orthotics/**").authenticated()
+
 
 
 
