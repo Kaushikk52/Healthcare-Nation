@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -284,7 +282,7 @@ export default function Navbar() {
             onClick={() => checkIfLogin("/dashboard/hospital")}
           >
             <User className="h-6 w-6" />
-            {(localStorage.getItem('token')) ? <span>Welcome {currentUser.firstName} !</span> : <span>Sign in</span>}
+            {(localStorage.getItem('token')) && currentUser ? <span>Welcome {currentUser?.firstName} !</span> : <span>Sign in</span>}
           </button>
         </div>
       </div>

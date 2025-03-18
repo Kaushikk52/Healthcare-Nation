@@ -15,7 +15,7 @@ export interface Bank {
     images:string[];
     videos:string[];
     ownership:Ownership;
-    medicalFacility:MedicalFacility;
+    medicalFacilities:MedicalFacility[];
     brands:string[];
     accrediations:string[];
 }

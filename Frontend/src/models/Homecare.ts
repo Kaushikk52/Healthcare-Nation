@@ -15,8 +15,9 @@ export interface Homecare {
     images:string[];
     videos:string[];
     ownership:Ownership;
-    medicalFacility:MedicalFacility;
+    medicalFacilities:MedicalFacility[];
     brands:string[];
+
 }
 
 export enum Ownership {

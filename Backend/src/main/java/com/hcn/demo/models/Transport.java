@@ -1,6 +1,7 @@
 package com.hcn.demo.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hcn.demo.helper.StringListConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -17,8 +18,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@JsonIgnoreProperties(value = {"medicalFacilities"}, allowSetters = true)
 public class Transport {
-
 
     @Id
     @Column(name = "user_id",nullable = false,updatable = false,length = 36)
@@ -56,9 +57,13 @@ public class Transport {
     @Enumerated(EnumType.STRING)
     private OwnershipType ownership;
 
-    @ManyToOne
-    @JoinColumn(name = "medical_facility_id")
-    private MedicalFacility medicalFacility;
+    @ManyToMany
+    @JoinTable(
+            name = "transport_medical_facilities",
+            joinColumns = @JoinColumn(name = "transport_id"),
+            inverseJoinColumns = @JoinColumn(name = "medical_facility_id")
+    )
+    private List<MedicalFacility> medicalFacilities;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

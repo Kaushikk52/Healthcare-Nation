@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import MultipleSelector from "@/components/ui/MultipleSelector";
 import popularBrands from "@/data/brands";
+import { MedicalFacility } from "@/models/MedicalFacility";
 import { TransportSchema } from "@/Validations/Transport";
 import axios from "axios";
-import { ErrorMessage, Field, Form, Formik, FormikErrors } from "formik";
+import { ErrorMessage, Field, Form, Formik, FormikErrors, FormikHelpers } from "formik";
 import { AnimatePresence, motion } from "framer-motion";
 import { AlertCircle, Check, ChevronLeft, ChevronRight, Loader2, Plus, X } from "lucide-react";
 import React from "react";
@@ -104,6 +105,7 @@ const brandsOptions = [
 function TransportForm() {
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
   const [phones, setPhones] = useState<string[]>([""]);
+  const [facilities, setFacilities] = useState<MedicalFacility[]>([]);
   const [step, setStep] = useState(1);
   const [startDay, setStartDay] = useState("mon");
   const [endDay, setEndDay] = useState("sat");
@@ -130,6 +132,7 @@ function TransportForm() {
     videos: [""],
     ownership: "PRIVATE",
     brands: [""],
+    medicalFacilities: [],
   };
 
   const daysOfWeek = [
@@ -140,6 +143,13 @@ function TransportForm() {
     { label: "Friday", value: "fri", index: 4 },
     { label: "Saturday", value: "sat", index: 5 },
     { label: "Sunday", value: "sun", index: 6 },
+  ];
+
+  const facilitiesOptions = [
+    ...facilities.map((facility) => ({
+      value: facility.id.toString(),
+      label: facility.name,
+    })),
   ];
 
   const steps = ["General", "Details", "Images", "Tags"];
@@ -280,9 +290,69 @@ function TransportForm() {
       }
     };
 
-    const handleSubmit = () =>{
-
+    const getCurrentUserFacilities = async (): Promise<void> => {
+      try {
+        const response = await axios.get(
+          `${baseURL}/v1/api/facility/current-user`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        console.log("Current User facilites : ", response.data);
+        setFacilities(response.data.facilities);
+      } catch (err: any) {
+        console.log(err.message);
+      }
+    };
+  
+    async function handleSubmit(
+      values: typeof initialValues,
+      { setSubmitting, resetForm }: FormikHelpers<typeof initialValues>
+    ) {
+      if (step !== 4) {
+        setSubmitting(false);
+        return;
+      }
+  
+      try {
+        setSubmitting(true);
+        const imageUrls: any = await uploadImages(values.images, "Hospitals");
+        if (imageUrls.length > 0) {
+          values.images = imageUrls || [""];
+        }
+  
+        values.medicalFacilities = values.medicalFacilities?.map((facility) => ({
+          id: facility,
+        }));
+  
+        const token = localStorage.getItem("token");
+        const response = await axios.post(
+          `${baseURL}/v1/api/transport/save`,
+          { ...values, avgRating: 0.0 },
+          { headers: { Authorization: `Bearer ${token}`, timeout: 20000 } }
+        );
+  
+        if (response.status === 201) {
+          showToast("Form submitted successfully!", "success");
+          resetForm();
+          setStep(1);
+        }
+      } catch (err: any) {
+        if (err.response?.status === 401) {
+          showToast("Access denied! Authentication is required", "error");
+        } else {
+          showToast(`An error occurred: ${err.message}`, "error");
+        }
+      } finally {
+        setSubmitting(false);
+      }
     }
+  
+    useEffect(() => {
+      getCurrentUserFacilities();
+    }, []);
 
   useEffect(() => {
     if (startDay && endDay) {
@@ -405,7 +475,7 @@ function TransportForm() {
                           htmlFor="name"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          Hospital Name
+                          Name
                         </label>
                         <Field
                           id="name"
@@ -743,7 +813,7 @@ function TransportForm() {
                   >
                     <div>
                       <label className="block text-sm font-medium text-gray-700">
-                        Upload Hospital Images
+                        Upload Images
                       </label>
                       <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                         <div className="space-y-1 text-center">
@@ -889,6 +959,32 @@ function TransportForm() {
                       />
                       <ErrorMessage
                         name="brands"
+                        component="div"
+                        className="text-red-500 text-sm mt-1"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                        Medical Facilities
+                      </label>
+                      <MultipleSelector
+                        value={values.medicalFacilities?.map((b) => ({
+                          label: b,
+                          value: b,
+                        }))}
+                        onChange={(newValue) => {
+                          setFieldValue(
+                            "medicalFacilities",
+                            newValue.map((item) => item.value)
+                          );
+                        }}
+                        options={facilitiesOptions}
+                        placeholder="Select Medical Facility"
+                        className="w-full"
+                      />
+                      <ErrorMessage
+                        name="medicalFacilities"
                         component="div"
                         className="text-red-500 text-sm mt-1"
                       />

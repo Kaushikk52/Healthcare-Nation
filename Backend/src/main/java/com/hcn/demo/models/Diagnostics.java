@@ -1,7 +1,6 @@
 package com.hcn.demo.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hcn.demo.helper.StringListConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -9,9 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -21,10 +18,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(value = {"medicalFacilities"}, allowSetters = true)
-public class Orthotics {
+public class Diagnostics {
 
     @Id
-    @Column(name = "id",nullable = false,updatable = false,length = 36)
+    @Column(name = "user_id",nullable = false,updatable = false,length = 36)
     private String id;
 
     @NotNull(message = "Hospital name cannot be null")
@@ -35,7 +32,6 @@ public class Orthotics {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
-
     private int bed;
     private String website;
     private String openDay;
@@ -50,30 +46,48 @@ public class Orthotics {
     @Size(min = 1, message = "At least one phone number is required.")
     private String[] phoneNumbers;
 
-
     @Column(name = "images", length = 5000, columnDefinition = "VARBINARY(5000)")
     private String[] images;
     @Column(name = "videos", length = 5000, columnDefinition = "VARBINARY(5000)")
     private String[] videos;
 
     @Enumerated(EnumType.STRING)
-    private OwnershipType ownership;
+    private Bank.OwnershipType ownership;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     @ManyToMany
     @JoinTable(
-            name = "orthotics_medical_facilities",
-            joinColumns = @JoinColumn(name = "orthotics_id"),
+            name = "bank_medical_facilities",
+            joinColumns = @JoinColumn(name = "bank_id"),
             inverseJoinColumns = @JoinColumn(name = "medical_facility_id")
     )
     private List<MedicalFacility> medicalFacilities;
+
+    @Column(name = "accrediations", columnDefinition = "TEXT")
+    @Convert(converter = StringListConverter.class)
+    private List<String> accrediations;
 
     @Column(name = "brands", columnDefinition = "TEXT")
     @Convert(converter = StringListConverter.class)
     private List<String> brands;
 
+    @Column(name = "diagnostics", columnDefinition = "TEXT")
+    @Convert(converter = StringListConverter.class)
+    private List<String> diagnostics;
+
+    @Column(name = "psu", columnDefinition = "TEXT")
+    @Convert(converter = StringListConverter.class)
+    private List<String> psu;
+
+    @Column(name = "insurance", columnDefinition = "TEXT")
+    @Convert(converter = StringListConverter.class)
+    private List<String> insurance;
+
+    @Column(name = "tpa", columnDefinition = "TEXT")
+    @Convert(converter = StringListConverter.class)
+    private List<String> tpa;
 
     public enum OwnershipType{
         PRIVATE,GOVERNMENT

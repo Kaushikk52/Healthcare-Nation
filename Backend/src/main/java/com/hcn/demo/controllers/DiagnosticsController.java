@@ -1,0 +1,107 @@
+package com.hcn.demo.controllers;
+
+import com.hcn.demo.models.Diagnostics;
+import com.hcn.demo.services.DiagnosticsService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping(value = "/v1/api/diagnostics")
+@Slf4j
+public class DiagnosticsController {
+    
+    @Autowired
+    private DiagnosticsService diagnosticsServ;
+
+    @PostMapping(value = "/save")
+    public ResponseEntity<Map<String,Object>> save(@RequestBody Diagnostics diagnostics){
+        Map<String,Object> response = new HashMap<>();
+        try {
+            Diagnostics savedDiagnostics = diagnosticsServ.addDiagnostics(diagnostics);
+            log.info("Diagnostics posted successfully : {}",savedDiagnostics.getId());
+            response.put("message", "Diagnostics posted successfully");
+            response.put("savedDiagnostics", savedDiagnostics);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (Exception e) {
+            log.warn("An Error occurred : {}", e.getMessage());
+            response.put("message",e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+        }
+    }
+
+    @GetMapping(value = "/all")
+    public ResponseEntity<Map<String,Object>> getAll(){
+        Map<String,Object> response = new HashMap<>();
+        try {
+            List<Diagnostics> diagnosticsList = diagnosticsServ.getAll();
+            log.info("Retrieved Diagnostics List :{}",diagnosticsList.size());
+            response.put("message","Retrieved Diagnostics list : "+diagnosticsList.size());
+            response.put("diagnosticsList",diagnosticsList);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            log.warn("An Error occurred : {}", e.getMessage());
+            response.put("message",e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    @GetMapping(value = "/id/{id}")
+    public ResponseEntity<Map<String,Object>> getById(@PathVariable String id){
+        Map<String,Object> response = new HashMap<>();
+        try {
+            Diagnostics diagnostics = diagnosticsServ.getById(id);
+            log.info("Retrieved Diagnostics By Id:{}",diagnostics.getId());
+            response.put("message","Retrieved Diagnostics By Id : "+diagnostics.getId());
+            response.put("diagnostics",diagnostics);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }catch (RuntimeException e) {
+            log.warn("A RuntimeException occurred : {}", e.getMessage());
+            response.put("message",e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+
+        } catch (Exception e) {
+            log.warn("An Error occurred : {}", e.getMessage());
+            response.put("message",e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+
+    @PostMapping(value = "/edit")
+    public ResponseEntity<Map<String,Object>> edit(@RequestBody Diagnostics diagnostics){
+        Map<String,Object> response = new HashMap<>();
+        try{
+            Diagnostics updatedDiagnostics= diagnosticsServ.edit(diagnostics);
+            response.put("message","Diagnostics updated successfully");
+            response.put("updatedDiagnostics", updatedDiagnostics);
+            log.info("Diagnostics updated successfully : {}", updatedDiagnostics.getId());
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            log.warn("An Error occurred : {}", e.getMessage());
+            response.put("message",e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    @PostMapping(value = "/delete/{id}")
+    public ResponseEntity<Map<String,Object>> delete(@PathVariable String id){
+        Map<String,Object> response = new HashMap<>();
+        try{
+            String message = diagnosticsServ.delete(id);
+            log.info("Diagnostics with ID : {} Deleted successfully",id);
+            response.put("message",message);
+            return  ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            log.warn("An Error occurred : {}", e.getMessage());
+            response.put("message",e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+}

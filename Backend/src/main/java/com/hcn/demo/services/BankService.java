@@ -1,12 +1,52 @@
 package com.hcn.demo.services;
 
+import com.hcn.demo.models.Bank;
+import com.hcn.demo.models.MedicalFacility;
+import com.hcn.demo.repositories.BankRepo;
+import com.hcn.demo.repositories.MedicalFacilityRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BankService {
 
+    @Autowired
+    private BankRepo bankRepo;
+
+    @Autowired
+    private MedicalFacilityRepo facilityRepo;
 
 
+    public Bank addBank(Bank bank){
+        List<String> ids = bank.getMedicalFacilities().stream()
+                .map(MedicalFacility::getId)
+                .collect(Collectors.toList());
+        List<MedicalFacility> facilityList =  facilityRepo.findAllById(ids);
+        bank.setMedicalFacilities(facilityList);
+        return bankRepo.save(bank);
+    }
 
+    public List<Bank> getAll(){
+        List<Bank> bankList = bankRepo.findAll();
+        return bankList;
+    }
 
+    public Bank getById(String id){
+        Bank bank = bankRepo.findById(id).orElseThrow(() -> new RuntimeException("Not found..."));
+        return bank;
+    }
+
+    public Bank edit(Bank bank){
+        Bank existingBank = this.getById(bank.getId());
+        return existingBank;
+    }
+
+    public String delete(String id){
+        Bank existingBank = this.getById(id);
+        bankRepo.delete(existingBank);
+        return "Deleted Bank by ID : " + id;
+    }
 }

@@ -18,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-//@JsonIgnoreProperties({"orthotics"})
+@JsonIgnoreProperties(value = {"orthotics","homecare","transport", "bank","diagnosticsServices"}, allowGetters = true)
 public class MedicalFacility{
 
     @Id
@@ -100,6 +100,18 @@ public class MedicalFacility{
 
     @ManyToMany(mappedBy = "medicalFacilities")
     private List<Orthotics> orthotics;
+
+    @ManyToMany(mappedBy = "medicalFacilities")
+    private List<Homecare> homecare;
+
+    @ManyToMany(mappedBy = "medicalFacilities")
+    private List<Transport> transport;
+
+    @ManyToMany(mappedBy = "medicalFacilities")
+    private List<Bank> bank;
+
+    @ManyToMany(mappedBy = "medicalFacilities")
+    private List<Diagnostics> diagnosticsServices;
 
     private Double avgRating;
     @OneToMany(mappedBy = "medicalFacility", cascade = CascadeType.ALL, orphanRemoval = true)

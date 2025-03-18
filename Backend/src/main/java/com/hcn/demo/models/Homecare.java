@@ -1,5 +1,6 @@
 package com.hcn.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hcn.demo.helper.StringListConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@JsonIgnoreProperties(value = {"medicalFacilities"}, allowSetters = true)
 public class Homecare {
 
     @Id
@@ -57,9 +59,13 @@ public class Homecare {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @ManyToOne
-    @JoinColumn(name = "medical_facility_id")
-    private MedicalFacility medicalFacility;
+    @ManyToMany
+    @JoinTable(
+            name = "homecare_medical_facilities",
+            joinColumns = @JoinColumn(name = "homecare_id"),
+            inverseJoinColumns = @JoinColumn(name = "medical_facility_id")
+    )
+    private List<MedicalFacility> medicalFacilities;
 
     @Column(name = "brands", columnDefinition = "TEXT")
     @Convert(converter = StringListConverter.class)

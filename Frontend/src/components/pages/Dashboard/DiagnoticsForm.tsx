@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import MultipleSelector from "@/components/ui/MultipleSelector";
 import popularBrands from "@/data/brands";
-import { MedicalFacility } from "@/models/MedicalFacility";
-import { HomecareSchema } from "@/Validations/Homecare";
+import servicesByAccrediations from "@/data/accrediations";
+import { BankSchema } from "@/Validations/Bank";
 import axios from "axios";
 import {
   ErrorMessage,
@@ -28,6 +28,11 @@ import React from "react";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { MedicalFacility } from "@/models/MedicalFacility";
+import chooseYourHealthInsurance from "@/data/healthInsurance";
+import chooseYourTPA from "@/data/tpa";
+import diagnosticCentres from "@/data/diagnostic";
+import publicSector from "@/data/publicSector";
 
 const TagInput = ({
   values,
@@ -117,7 +122,36 @@ const brandsOptions = [
   ...popularBrands.map((brand) => ({ label: brand.title, value: brand.title })),
 ];
 
-function HomecareForm() {
+const psuOptions = [
+  ...publicSector.map((psu) => ({ label: psu.title, value: psu.title })),
+];
+
+const accrediationsOptions = [
+  ...servicesByAccrediations.map((accreditation) => ({
+    label: accreditation.title,
+    value: accreditation.title,
+  })),
+];
+
+const insuranceOptions = [
+  ...chooseYourHealthInsurance.map((insurance) => ({
+    label: insurance.title,
+    value: insurance.title,
+  })),
+];
+
+const tpaOptions = [
+  ...chooseYourTPA.map((tpa) => ({ label: tpa.title, value: tpa.title })),
+];
+
+const diagnosticsOptions = [
+  ...diagnosticCentres.map((diagnostic) => ({
+    label: diagnostic.title,
+    value: diagnostic.title,
+  })),
+];
+
+function DiagnosticsForm() {
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
   const [phones, setPhones] = useState<string[]>([""]);
   const [facilities, setFacilities] = useState<MedicalFacility[]>([]);
@@ -147,6 +181,11 @@ function HomecareForm() {
     videos: [""],
     ownership: "PRIVATE",
     brands: [""],
+    accrediations: [""],
+    psu:[""],
+    diagnostics:[""],
+    insurance:[""],
+    tpa:[""],
     medicalFacilities: [],
   };
 
@@ -344,7 +383,7 @@ function HomecareForm() {
 
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        `${baseURL}/v1/api/homecare/save`,
+        `${baseURL}/v1/api/diagnostics/save`,
         { ...values, avgRating: 0.0 },
         { headers: { Authorization: `Bearer ${token}`, timeout: 20000 } }
       );
@@ -405,10 +444,10 @@ function HomecareForm() {
       >
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Add Homecare
+            Add Diagnostics
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Please fill the details of your Homecare
+            Please fill the details of your Diagnostics
           </p>
         </div>
 
@@ -462,7 +501,7 @@ function HomecareForm() {
 
         <Formik
           initialValues={initialValues}
-          validationSchema={HomecareSchema}
+          validationSchema={BankSchema}
           onSubmit={handleSubmit}
         >
           {({
@@ -979,6 +1018,131 @@ function HomecareForm() {
                       />
                     </div>
 
+                    <div className="!mt-6">
+                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                        PSU (Public Sector Undertaking)
+                      </label>
+                      <MultipleSelector
+                        value={values.psu
+                          .filter((p) => p.trim())
+                          .map((p) => ({ label: p, value: p }))}
+                        onChange={(newValue) => {
+                          setFieldValue(
+                            "psu",
+                            newValue.map((item) => item.value)
+                          );
+                        }}
+                        options={psuOptions}
+                        placeholder="Select PSUs"
+                        className="w-full"
+                      />
+                      <ErrorMessage
+                        name="psu"
+                        component="div"
+                        className="text-red-500 text-sm mt-1"
+                      />
+                    </div>
+
+                    <div className="!mt-6">
+                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                        Accrediations
+                      </label>
+                      <MultipleSelector
+                        value={values.accrediations
+                          .filter((a) => a.trim())
+                          .map((a) => ({ label: a, value: a }))}
+                        onChange={(newValue) => {
+                          setFieldValue(
+                            "accrediations",
+                            newValue.map((item) => item.value)
+                          );
+                        }}
+                        options={accrediationsOptions}
+                        placeholder="Select accrediations"
+                        className="w-full"
+                      />
+                      <ErrorMessage
+                        name="accrediations"
+                        component="div"
+                        className="text-red-500 text-sm mt-1"
+                      />
+                    </div>
+
+                    <div className="!mt-6">
+                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                        Diagnostics
+                      </label>
+                      <MultipleSelector
+                        value={values.diagnostics
+                          .filter((c) => c.trim())
+                          .map((c) => ({ label: c, value: c }))}
+                        onChange={(newValue) => {
+                          setFieldValue(
+                            "diagnostics",
+                            newValue.map((item) => item.value)
+                          );
+                        }}
+                        options={diagnosticsOptions}
+                        placeholder="Select diagnostics"
+                        className="w-full"
+                      />
+                      <ErrorMessage
+                        name="diagnostics"
+                        component="div"
+                        className="text-red-500 text-sm mt-1"
+                      />
+                    </div>
+
+                    <div className="!mt-6">
+                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                        Insurance Accepted
+                      </label>
+                      <MultipleSelector
+                        value={values.insurance
+                          .filter((i) => i.trim())
+                          .map((i) => ({ label: i, value: i }))}
+                        onChange={(newValue) => {
+                          setFieldValue(
+                            "insurance",
+                            newValue.map((item) => item.value)
+                          );
+                        }}
+                        options={insuranceOptions}
+                        placeholder="Select insurance providers"
+                        className="w-full"
+                      />
+                      <ErrorMessage
+                        name="insurance"
+                        component="div"
+                        className="text-red-500 text-sm mt-1"
+                      />
+                    </div>
+
+                    <div className="!mt-6">
+                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                        TPA (Third Party Administrators)
+                      </label>
+                      <MultipleSelector
+                        value={values.tpa
+                          .filter((t) => t.trim())
+                          .map((t) => ({ label: t, value: t }))}
+                        onChange={(newValue) => {
+                          setFieldValue(
+                            "tpa",
+                            newValue.map((item) => item.value)
+                          );
+                        }}
+                        options={tpaOptions}
+                        placeholder="Select TPAs"
+                        className="w-full"
+                      />
+                      <ErrorMessage
+                        name="tpa"
+                        component="div"
+                        className="text-red-500 text-sm mt-1"
+                      />
+                    </div>
+
                     <div>
                       <label className="block text-xl font-medium text-gray-900 mb-4">
                         Medical Facilities
@@ -1087,4 +1251,4 @@ function HomecareForm() {
   );
 }
 
-export default HomecareForm;
+export default DiagnosticsForm;

@@ -1,6 +1,7 @@
 package com.hcn.demo.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hcn.demo.helper.StringListConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@JsonIgnoreProperties(value = {"medicalFacilities"}, allowSetters = true)
 public class Bank {
 
     @Id
@@ -47,7 +49,6 @@ public class Bank {
     @Size(min = 1, message = "At least one phone number is required.")
     private String[] phoneNumbers;
 
-
     @Column(name = "images", length = 5000, columnDefinition = "VARBINARY(5000)")
     private String[] images;
     @Column(name = "videos", length = 5000, columnDefinition = "VARBINARY(5000)")
@@ -59,13 +60,17 @@ public class Bank {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @ManyToOne
-    @JoinColumn(name = "medical_facility_id")
-    private MedicalFacility medicalFacility;
+    @ManyToMany
+    @JoinTable(
+            name = "bank_medical_facilities",
+            joinColumns = @JoinColumn(name = "bank_id"),
+            inverseJoinColumns = @JoinColumn(name = "medical_facility_id")
+    )
+    private List<MedicalFacility> medicalFacilities;
 
-    @Column(name = "accreditations", columnDefinition = "TEXT")
+    @Column(name = "accrediations", columnDefinition = "TEXT")
     @Convert(converter = StringListConverter.class)
-    private List<String> accreditations;
+    private List<String> accrediations;
 
     @Column(name = "brands", columnDefinition = "TEXT")
     @Convert(converter = StringListConverter.class)

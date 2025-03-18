@@ -7,6 +7,7 @@ import {
   ShieldPlus,
   Accessibility,
   Ambulance,
+  Activity,
 } from "lucide-react";
 import { FaClinicMedical } from "react-icons/fa";
 import { MdOutlineMedicalInformation } from "react-icons/md";
@@ -27,6 +28,7 @@ function Sidebar() {
       label: "Orthotics & Prosthetics",
       href: "/dashboard/op",
     },
+    { icon: Activity, label: "Diagnostics", href: "/dashboard/diagnostics" },
   ];
 
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;

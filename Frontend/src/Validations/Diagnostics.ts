@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const BankSchema = yup.object().shape({
+export const DiagnosticsSchema = yup.object().shape({
   name: yup.string().required("Name is required"),
   address: yup
     .object({
@@ -30,6 +30,7 @@ export const BankSchema = yup.object().shape({
     )
     .min(1, "At least one phone number is required")
     .required("Phone numbers are required"),
+
   images: yup.array().of(yup.string()).required("Images are required"),
   videos: yup.array().of(yup.string()),
   ownership: yup
@@ -37,6 +38,9 @@ export const BankSchema = yup.object().shape({
     .oneOf(["PRIVATE", "PUBLIC", "GOVERNMENT"], "Invalid ownership type")
     .required("Ownership type is required"),
   brands: yup.array().of(yup.string()),
-  accrediations: yup.array().of(yup.string()),
-  medicalFacilities: yup.array().of(yup.string())
+  diagnostics: yup.array().of(yup.string()),
+  accreditations: yup.array().of(yup.string()),
+  psu: yup.array().of(yup.string()),
+  insurance: yup.array().of(yup.string()),
+  tpa: yup.array().of(yup.string()),
 });

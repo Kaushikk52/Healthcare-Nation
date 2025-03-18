@@ -14,6 +14,7 @@ import BankForm from './components/pages/Dashboard/BankForm';
 import HomecareForm from './components/pages/Dashboard/HomecareForm';
 import TransportForm from './components/pages/Dashboard/TransportForm';
 import OrthoticsForm from './components/pages/Dashboard/OrthoticsForm';
+import DiagnosticsForm from './components/pages/Dashboard/DiagnoticsForm';
 import DiagnosticCenters from './components/pages/DiagnosticCenters';
 import AlternativeMedicine from './components/pages/AlternativeMedicine';
 import OnlineServices from './components/pages/OnlineServices';
@@ -54,6 +55,7 @@ function App() {
             <Route path='/dashboard/homecare' element={<HomecareForm />} />
             <Route path='/dashboard/transport' element={<TransportForm />} />
             <Route path='/dashboard/op' element={<OrthoticsForm />} />
+            <Route path='/dashboard/diagnostics' element={<DiagnosticsForm />} />
           </Route>
 
           <Route path='/healthcare-services' element={< HealthcareServices />} />

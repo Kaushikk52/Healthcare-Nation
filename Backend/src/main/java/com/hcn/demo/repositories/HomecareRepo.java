@@ -1,9 +1,9 @@
 package com.hcn.demo.repositories;
 
-import com.hcn.demo.models.Orthotics;
+import com.hcn.demo.models.Homecare;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OrthoticsRepo extends JpaRepository<Orthotics,String> {
+public interface HomecareRepo extends JpaRepository<Homecare,String> {
 }

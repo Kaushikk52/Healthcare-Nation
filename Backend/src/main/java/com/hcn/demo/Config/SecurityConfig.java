@@ -74,6 +74,25 @@ public class SecurityConfig {
                                 "/v1/api/orthotics/all", "/v1/api/orthotics/id/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/api/orthotics/**").authenticated()
 
+                        //Homecare endpoints
+                        .requestMatchers(HttpMethod.GET,
+                                "/v1/api/homecare/all", "/v1/api/homecare/id/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/api/homecare/**").authenticated()
+
+                        //Transport endpoints
+                        .requestMatchers(HttpMethod.GET,
+                                "/v1/api/transport/all", "/v1/api/transport/id/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/api/transport/**").authenticated()
+
+                        //Transport endpoints
+                        .requestMatchers(HttpMethod.GET,
+                                "/v1/api/bank/all", "/v1/api/bank/id/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/api/bank/**").authenticated()
+
+                        //Diagnostics endpoints
+                        .requestMatchers(HttpMethod.GET,
+                                "/v1/api/diagnotics/all", "/v1/api/diagnotics/id/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/api/diagnotics/**").authenticated()
 
 
 

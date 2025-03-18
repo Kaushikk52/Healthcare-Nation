@@ -146,7 +146,7 @@ function OrthoticsForm() {
   ];
 
   const facilitiesOptions = [
-    ...facilities.map((facility)=> ({value : facility.id, label: facility.name}) )
+    ...facilities.map((facility)=> ({value : facility.id.toString(), label: facility.name}) )
   ]
 
   const steps = ["General", "Details", "Images", "Tags"];
@@ -467,7 +467,7 @@ function OrthoticsForm() {
                           htmlFor="name"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          Hospital Name
+                          Name
                         </label>
                         <Field
                           id="name"
@@ -805,7 +805,7 @@ function OrthoticsForm() {
                   >
                     <div>
                       <label className="block text-sm font-medium text-gray-700">
-                        Upload Hospital Images
+                        Upload Images
                       </label>
                       <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                         <div className="space-y-1 text-center">
