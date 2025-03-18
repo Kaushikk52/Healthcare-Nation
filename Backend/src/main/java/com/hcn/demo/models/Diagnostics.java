@@ -59,8 +59,8 @@ public class Diagnostics {
 
     @ManyToMany
     @JoinTable(
-            name = "bank_medical_facilities",
-            joinColumns = @JoinColumn(name = "bank_id"),
+            name = "diagnostics_medical_facilities",
+            joinColumns = @JoinColumn(name = "diagnostics_id"),
             inverseJoinColumns = @JoinColumn(name = "medical_facility_id")
     )
     private List<MedicalFacility> medicalFacilities;

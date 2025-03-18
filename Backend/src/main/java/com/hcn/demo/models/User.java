@@ -40,9 +40,10 @@ public class User implements UserDetails {
     private UserRole role;
 
 
-
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private List<Review> reviews;
+
+    private int totalReviews;
 
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private List<Rating> ratings;

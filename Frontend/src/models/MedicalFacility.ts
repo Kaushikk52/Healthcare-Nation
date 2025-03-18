@@ -20,7 +20,7 @@ export interface MedicalFacility {
 
     facilityType: FacilityType; // HOSPITAL or CLINIC
     specialities: string[]; // Ex: Cardiology, Neurology
-    diagnosticServices: string[]; // Ex: MRI, CT Scan
+    diagnostics: string[]; // Ex: MRI, CT Scan
     alternativeMedicines: string[]; // Ex: Ayurveda, Homeopathy
     publicSectorSchemes: string[]; // Ex: Ayushman Bharat, ESI
   

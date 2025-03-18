@@ -58,7 +58,10 @@ const Reviews = ({id,avgRating,addRating}) => {
 
   useEffect(() => {
     getReviews(id);
-  }, [id]);
+    if (addRating) {
+      addRating();
+    }
+  }, [id,isModalOpen]);
 
   const starIcon = Array(5).fill(null);
 
@@ -151,7 +154,7 @@ const Reviews = ({id,avgRating,addRating}) => {
             {review.user.firstName} {review.user.lastName}
           </h1>
           <span className="!text-md !text-gray-600 !font-semibold">
-            {review.reviewCount || 5} Review
+            {review.user.totalReviews} Review
           </span>
         </div>
       </div>
@@ -250,7 +253,7 @@ const Reviews = ({id,avgRating,addRating}) => {
       </div>
 
       <AnimatePresence>
-        {isModalOpen && <ReviewModal onClose={() => setIsModalOpen(false)} currentRating={rating} id={id} />}
+        {isModalOpen && <ReviewModal onClose={() => setIsModalOpen(false)} id={id} />}
       </AnimatePresence>
       </div>
     </div>

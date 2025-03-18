@@ -26,14 +26,16 @@ public class MedicalFacilityService {
     private final RatingRepo ratingRepo;
     private final ReviewRepo reviewRepo;
     private final UserDetailsService userDetailsService;
+    private final UserRepo userRepo;
 
     @Autowired
     public MedicalFacilityService(MedicalFacilityRepo medicalFacilityRepo, AddressRepo addressRepo, RatingRepo ratingRepo,
-                                  ReviewRepo reviewRepo, UserDetailsService userDetailsService){
+                                  ReviewRepo reviewRepo, UserRepo userRepo,UserDetailsService userDetailsService){
         this.medicalFacilityRepo = medicalFacilityRepo;
         this.addressRepo = addressRepo;
         this.ratingRepo = ratingRepo;
         this.reviewRepo = reviewRepo;
+        this.userRepo = userRepo;
         this.userDetailsService = userDetailsService;
     }
 
@@ -71,6 +73,8 @@ public class MedicalFacilityService {
         review.setMedicalFacility(facility);
         User principalUser = (User)userDetailsService.loadUserByUsername(principal.getName());
         review.setUser(principalUser);
+        principalUser.setTotalReviews(principalUser.getTotalReviews()+1);
+        userRepo.save(principalUser);
         reviewRepo.save(review);
 
     }

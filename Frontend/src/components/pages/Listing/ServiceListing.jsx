@@ -183,11 +183,12 @@ export default function ServiceListing() {
 
   const getFilteredFacilities = async() => {
     try {
-   
-      console.log(selectedFilters);
-      const hasSaved = selectedFilters.includes("Saved");
-      if(hasSaved){
-        type === "hospitals" ? getSavedHospitals() : getSavedClinics();
+      if (selectedFilters.length > 0){
+
+        const hasSaved = selectedFilters?.includes("Saved");
+        if(hasSaved){
+          type === "hospitals" ? getSavedHospitals() : getSavedClinics();
+        }
       }
     }catch(err){
       console.log(err.message);

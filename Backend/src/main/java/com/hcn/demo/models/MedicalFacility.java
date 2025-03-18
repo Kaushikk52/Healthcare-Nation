@@ -1,7 +1,7 @@
 package com.hcn.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hcn.demo.helper.StringListConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -18,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonIgnoreProperties(value = {"orthotics","homecare","transport", "bank","diagnosticsServices"}, allowGetters = true)
+@JsonIgnoreProperties(value = {"orthotics","homecare","transport", "bank","diagnosticsList"}, allowGetters = true)
 public class MedicalFacility{
 
     @Id
@@ -111,14 +111,14 @@ public class MedicalFacility{
     private List<Bank> bank;
 
     @ManyToMany(mappedBy = "medicalFacilities")
-    private List<Diagnostics> diagnosticsServices;
+    private List<Diagnostics> diagnosticsList;
 
     private Double avgRating;
     @OneToMany(mappedBy = "medicalFacility", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties({"hospital","user"})
     private List<Rating> ratings;
     @OneToMany(mappedBy = "medicalFacility", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"hospital","user"})
+    @JsonIgnoreProperties(value = {"hospital","user"})
     private List<Review> reviews;
 
     private Boolean isSaved;

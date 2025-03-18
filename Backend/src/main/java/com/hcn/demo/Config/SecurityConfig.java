@@ -91,8 +91,8 @@ public class SecurityConfig {
 
                         //Diagnostics endpoints
                         .requestMatchers(HttpMethod.GET,
-                                "/v1/api/diagnotics/all", "/v1/api/diagnotics/id/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/api/diagnotics/**").authenticated()
+                                "/v1/api/diagnostics/all", "/v1/api/diagnostics/id/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/api/diagnostics/**").authenticated()
 
 
 

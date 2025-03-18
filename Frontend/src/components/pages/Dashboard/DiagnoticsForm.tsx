@@ -384,7 +384,7 @@ function DiagnosticsForm() {
       const token = localStorage.getItem("token");
       const response = await axios.post(
         `${baseURL}/v1/api/diagnostics/save`,
-        { ...values, avgRating: 0.0 },
+        { ...values },
         { headers: { Authorization: `Bearer ${token}`, timeout: 20000 } }
       );
 

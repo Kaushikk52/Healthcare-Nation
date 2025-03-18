@@ -2,7 +2,7 @@ import { Address } from "./Address";
 
 
 export interface Diagnostics{
-    id: number;
+        id: number;
         name: string;
         phoneNumbers: string[];
         facts: string[];
@@ -17,7 +17,7 @@ export interface Diagnostics{
         closeDay:string;
         hours:string;
 
-        diagnosticServices: string[]; // Ex: MRI, CT Scan
+        diagnostic: string[]; // Ex: MRI, CT Scan
         thirdPartyAdministrators: string[]; // Ex: Medi Assist, Vidal Health
         accrediations: string[]; // Ex: NABH, JCI
         insurance:string[];
