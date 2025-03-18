@@ -2,7 +2,7 @@ package com.hcn.demo.services;
 
 import com.hcn.demo.models.*;
 import com.hcn.demo.repositories.*;
-import com.hcn.demo.specifications.MedicalFacilitySpecification;
+import com.hcn.demo.specifications.GenericSpecification;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -101,7 +101,7 @@ public class MedicalFacilityService {
     }
 
     public List<MedicalFacility> getFilteredHospitals(Map<String,Object> filters){
-        Specification<MedicalFacility> spec = MedicalFacilitySpecification.findByCriteria(filters);
+        Specification<MedicalFacility> spec = GenericSpecification.findByCriteria(filters);
         List<MedicalFacility> filteredHospitals = medicalFacilityRepo.findAll(spec);
         return filteredHospitals;
     }

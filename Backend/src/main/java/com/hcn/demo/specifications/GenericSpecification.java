@@ -1,15 +1,14 @@
 package com.hcn.demo.specifications;
 
-import com.hcn.demo.models.MedicalFacility;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MedicalFacilitySpecification {
+public class GenericSpecification<T>  {
 
-    public static Specification<MedicalFacility> findByCriteria(Map<String,Object> filters){
+    public static <T> Specification<T> findByCriteria(Map<String,Object> filters){
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 

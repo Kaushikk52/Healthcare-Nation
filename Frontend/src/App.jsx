@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout';
 import Main from './components/pages/Home/Main';
 import Services from './components/pages/Listing/Services';
-import ServiceListing from './components/pages/Listing/ServiceListing';
+import ServiceListing from './components/pages/Listing/ServiceListing.tsx';
 import BrandsInIndia from './components/pages/BrandsInIndia';
 import HospitalDetailsPage from './components/pages/HospitalDetails/HospitalDetailsPage';
 import ClinicDetailsPage from './components/pages/ClinicDetails/ClinicDetailsPage';

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaStar, FaFilter } from "react-icons/fa";
 import { Link, useSearchParams } from "react-router-dom";
-import { DualRangeSlider } from "@/components/ui/DualRangeSlider";
 import { X, ChevronDown } from "lucide-react";
 import axios from "axios";
 
@@ -17,18 +16,14 @@ import "swiper/css/autoplay";
 import "@/App.css";
 
 const filters = [
-  // {
-  //   title: "No of beds",
-  //   type: "slider",
-  //   range: [0, 500],
-  //   step: 50,
-  // },
   {
     title: "Saved",
+    filterType: "saved",
     options: [{ id: "Saved", text: "Saved" }],
   },
   {
     title: "Sort By",
+    filterType: "sortBy",
     options: [
       { id: "relevance", text: "Relevance" },
       { id: "rating", text: "Ratings : High to Low" },
@@ -37,6 +32,7 @@ const filters = [
   },
   {
     title: "Accreditation",
+    filterType: "accrediation",
     options: [
       { id: "NABH", text: "NABH", count: 34 },
       { id: "JCI", text: "JCI", count: 16 },
@@ -44,6 +40,7 @@ const filters = [
   },
   {
     title: "Ownership",
+    filterType: "ownership",
     options: [
       { id: "Private", text: "Private" },
       { id: "Government", text: "Government" },
@@ -51,6 +48,7 @@ const filters = [
   },
   {
     title: "Specialities",
+    filterType: "specialities",
     options: [
       { id: "Eye-care", text: "Eye-care" },
       { id: "Maternity", text: "Maternity" },
@@ -58,6 +56,7 @@ const filters = [
   },
   {
     title: "Corporates",
+    filterType: "psu",
     options: [
       { id: "MPT Hospitals", text: "MPT Hospitals" },
       { id: "CGHS Hospitals", text: "CGHS Hospitals" },
@@ -66,25 +65,80 @@ const filters = [
       { id: "Railway Hospitals", text: "Railway Hospitals" },
     ],
   },
+  {
+    title: "Brands",
+    filterType: "brands",
+    options: [
+      { id: "Apollo", text: "Apollo" },
+      { id: "Fortis", text: "Fortis" },
+      { id: "Max", text: "Max" },
+    ],
+  },
+  {
+    title: "Diagnostics",
+    filterType: "diagnostics",
+    options: [
+      { id: "X-Ray", text: "X-Ray" },
+      { id: "MRI", text: "MRI" },
+      { id: "CT Scan", text: "CT Scan" },
+    ],
+  },
+  {
+    title: "Insurance",
+    filterType: "insurance",
+    options: [
+      { id: "ICICI", text: "ICICI" },
+      { id: "HDFC", text: "HDFC" },
+      { id: "LIC", text: "LIC" },
+    ],
+  },
+  {
+    title: "TPA",
+    filterType: "tpa",
+    options: [
+      { id: "Medi Assist", text: "Medi Assist" },
+      { id: "MD India", text: "MD India" },
+    ],
+  },
+  {
+    title: "Alternative Medicine",
+    filterType: "altMed",
+    options: [
+      { id: "Ayurveda", text: "Ayurveda" },
+      { id: "Homeopathy", text: "Homeopathy" },
+      { id: "Yoga", text: "Yoga" },
+    ],
+  },
 ];
 
 export default function ServiceListing() {
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
   const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS;
   const clinicImgs = import.meta.env.VITE_APP_CLOUDINARY_CLINICS;
-  const [searchParams] = useSearchParams();
-  const type = searchParams.get("type");
-  const location = searchParams.get("location");
-  const [facilities, setFacilities] = useState([]);
-
-  const [filterOpen, setFilterOpen] = useState(false);
-  const [selectedFilters, setSelectedFilters] = useState([]);
-  const [bedRange, setBedRange] = useState([0, 500]);
+  const path = import.meta.env.VITE_APP_IMG_URL;
   const [expandedSections, setExpandedSections] = useState(
     filters.map((filter) => filter.title)
   );
-  const [bedRangeInput, setBedRangeInput] = useState({ min: "0", max: "500" });
-  const path = import.meta.env.VITE_APP_IMG_URL;
+  const [searchParams] = useSearchParams();
+  const type = searchParams.get("type");
+  const location = searchParams.get("location");
+
+  const [facilities, setFacilities] = useState([]);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [selectedFilters, setSelectedFilters] = useState({
+    brands: [],
+    diagnostics: [],
+    specialities: [],
+    psu: [],
+    accrediation: [],
+    concern: [],
+    insurance: [],
+    tpa: [],
+    altMed: [],
+    ownership: [],
+    sortBy: [],
+    saved: false,
+  });
 
   const toggleSection = (sectionTitle) => {
     setExpandedSections((prev) =>
@@ -94,106 +148,117 @@ export default function ServiceListing() {
     );
   };
 
-  const handleBedRangeInput = (type, value) => {
-    const numValue = Number.parseInt(value) || 0;
-    if (type === "min" && numValue <= Number.parseInt(bedRangeInput.max)) {
-      setBedRangeInput((prev) => ({ ...prev, min: value }));
-      setBedRange([numValue, Number.parseInt(bedRangeInput.max)]);
-    } else if (
-      type === "max" &&
-      numValue >= Number.parseInt(bedRangeInput.min)
-    ) {
-      setBedRangeInput((prev) => ({ ...prev, max: value }));
-      setBedRange([Number.parseInt(bedRangeInput.min), numValue]);
-    }
-  };
-
   useEffect(() => {
-    type === "hospitals" ? getHospitals() : getClinics();
+    type === "hospitals" ? fetchHospitals() : fetchClinics();
   }, [type]);
 
-  const getHospitals = async () => {
+  const handleSavedFilter = (saved) => {
+      selectedFilters.saved = saved;
     try {
-      const response = await axios.get(
-        `${baseURL}/v1/api/facility/type/${type}`
-      );
-      const data = response.data.hospitals;
-      // console.log(data);
-      setFacilities(data);
-    } catch (err) {
+      if (selectedFilters.saved === true){
+          type === "hospitals" ? fetchSavedHospitals() : fetchSavedClinics();
+      }
+    }catch(err){
       console.log(err.message);
     }
   };
 
-  const getClinics = async () => {
+  const fetchHospitals = async () => {
     try {
       const response = await axios.get(
-        `${baseURL}/v1/api/facility/type/${type}`
+        `${baseURL}/v1/api/facility/type/hospitals`
       );
-      const data = await response.data.clinics;
-      console.log(data);
-      setFacilities(data);
-    } catch (err) {
-      console.log(err.message);
+      setFacilities(response.data.hospitals);
+    } catch (error) {
+      console.error("Error fetching hospitals:", error);
+    }
+  };
+
+  const fetchClinics = async () => {
+    try {
+      const response = await axios.get(
+        `${baseURL}/v1/api/facility/type/clinics`
+      );
+      setFacilities(response.data.clinics);
+    } catch (error) {
+      console.error("Error fetching clinics:", error);
     }
   };
 
   const handleFilterToggle = (filterId, filterType) => {
-    if (filterType === "slider") {
-      // Handle slider separately if needed
-      return;
-    }
-    setSelectedFilters((prev) =>
-      prev.includes(filterId)
-        ? prev.filter((id) => id !== filterId)
-        : [...prev, filterId]
-    );
+    setSelectedFilters((prevFilters) => {
+      const newFilters = { ...prevFilters };
+      if(filterType === "saved"){
+        fetchSavedHospitals();
+      }
+      if (filterType === "sortBy") {
+        newFilters[filterType] = [filterId];
+      } else {
+        // newFilters[filterType] = newFilters[filterType].includes(filterId)
+        //   ? newFilters[filterType].filter((id) => id !== filterId)
+        //   : [...newFilters[filterType], filterId];
+      }
+      return newFilters;
+    });
   };
 
   const clearAllFilters = () => {
-    setSelectedFilters([]);
-    type === "hospitals" ? getHospitals() : getClinics();
+    setSelectedFilters({
+      brands: [],
+      diagnostics: [],
+      specialities: [],
+      psu: [],
+      accrediation: [],
+      concern: [],
+      insurance: [],
+      tpa: [],
+      altMed: [],
+      ownership: [],
+      sortBy: [],
+      saved: false,
+    });
   };
 
   useEffect(() => {
-    if(selectedFilters.length < 1){
-      type === "hospitals" ? getHospitals() : getClinics();
-    }
-    getFilteredFacilities();
+    applyFilters();
   }, [selectedFilters]);
 
-  const getSavedHospitals = async () => {
+  const applyFilters = async () => {
+    try {
+      if (selectedFilters.saved === true) {
+          return fetchSavedHospitals();
+      }
+      const response = await axios.post(`${baseURL}/v1/api/facility/filter`, {
+        params: {
+          filters: selectedFilters,
+          type: type
+        }
+      
+      });
+      setFacilities(
+        type === "hospitals" ? response.data?.hospitals : response.data.clinics
+      );
+    } catch (error) {
+      console.error("Error applying filters:", error);
+    }
+  };
+
+  const fetchSavedHospitals = async () => {
     try {
       const response = await axios.get(`${baseURL}/v1/api/saved/hospitals`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      });      
-      const data = await response.data;
-      // console.log("Saved Hospital :",data);
-      setFacilities(data);
-    }catch(err){
-      console.log(err.message);
+      });
+      setFacilities(response.data);
+    } catch (error) {
+      console.error("Error fetching saved hospitals:", error);
     }
-  }
+  };
 
-  const getSavedClinics = async() => {
+  const fetchSavedClinics = async () => {
     setFacilities([]);
-  }
-
-  const getFilteredFacilities = async() => {
-    try {
-      if (selectedFilters.length > 0){
-
-        const hasSaved = selectedFilters?.includes("Saved");
-        if(hasSaved){
-          type === "hospitals" ? getSavedHospitals() : getSavedClinics();
-        }
-      }
-    }catch(err){
-      console.log(err.message);
-    }
-  }
+  };
 
   return (
     <div className="relative bg-gray-50 min-h-screen">
@@ -262,18 +327,12 @@ export default function ServiceListing() {
         </div>
       </div>
 
-      {/* Banner */}
-      {/* <div className="relative h-48 md:h-64 lg:h-96 overflow-hidden">
-        <img
-          src={path + "demo/pediatric-banner2.jpg"}
-          alt="Pediatric Hospital Banner"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <h1 className="text-white text-3xl md:text-4xl lg:text-5xl font-bold text-center">
-            Pediatric Hospitals in Mumbai
-          </h1>
-        </div>
+      {/* Debug Panel - Uncomment to see selected filters in UI */}
+      {/* <div className="max-w-7xl mx-auto px-4 py-3 bg-white mt-4 rounded shadow">
+        <h3 className="font-semibold mb-2">Selected Filters:</h3>
+        <pre className="bg-gray-100 p-3 rounded text-sm overflow-auto">
+          {JSON.stringify(getSelectedFilters(), null, 2)}
+        </pre>
       </div> */}
 
       {/* Mobile Filter Overlay */}
@@ -331,71 +390,24 @@ export default function ServiceListing() {
                       expandedSections.includes(section.title) ? "" : "hidden"
                     }`}
                   >
-                    {section.type === "slider" ? (
-                      <div className="px-2 py-4">
-                        <div className="flex gap-4 mb-4">
-                          <div className="flex-1">
-                            <label className="text-sm text-gray-600">Min</label>
-                            <input
-                              type="number"
-                              value={bedRangeInput.min}
-                              onChange={(e) =>
-                                handleBedRangeInput("min", e.target.value)
-                              }
-                              className="w-full px-2 py-1 border rounded text-sm"
-                              min="0"
-                              max={bedRangeInput.max}
-                            />
-                          </div>
-                          <div className="flex-1">
-                            <label className="text-sm text-gray-600">Max</label>
-                            <input
-                              type="number"
-                              value={bedRangeInput.max}
-                              onChange={(e) =>
-                                handleBedRangeInput("max", e.target.value)
-                              }
-                              className="w-full px-2 py-1 border rounded text-sm"
-                              min={bedRangeInput.min}
-                              max="500"
-                            />
-                          </div>
-                        </div>
-                        <Slider
-                          value={bedRange}
-                          max={500}
-                          min={0}
-                          step={50}
-                          onValueChange={(value) => {
-                            setBedRange(value);
-                            setBedRangeInput({
-                              min: value[0].toString(),
-                              max: value[1].toString(),
-                            });
-                          }}
-                        />
-                        <div className="flex justify-between mt-2 text-sm text-gray-600">
-                          <span>{bedRange[0]} beds</span>
-                          <span>{bedRange[1]} beds</span>
-                        </div>
-                      </div>
-                    ) : (
-                      section.options.map((option) => (
-                        <label
-                          key={option.id}
-                          className="flex items-center space-x-3 cursor-pointer group"
+                    {section.options.map((option) => (
+                      <label
+                        key={option.id}
+                        className="flex items-center space-x-3 cursor-pointer group"
+                      >
+                        <div
+                          className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors
+${
+  Array.isArray(selectedFilters[section.filterType]) &&
+  selectedFilters[section.filterType].includes(option.id)
+    ? "border-blue-500 bg-blue-500"
+    : "border-gray-300 group-hover:border-blue-500"
+}`}
                         >
-                          <div
-                            className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors
-                                                      ${
-                                                        selectedFilters.includes(
-                                                          option.id
-                                                        )
-                                                          ? "border-blue-500 bg-blue-500"
-                                                          : "border-gray-300 group-hover:border-blue-500"
-                                                      }`}
-                          >
-                            {selectedFilters.includes(option.id) && (
+                          {Array.isArray(selectedFilters[section.filterType]) &&
+                            selectedFilters[section.filterType].includes(
+                              option.id
+                            ) && (
                               <motion.svg
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
@@ -408,24 +420,32 @@ export default function ServiceListing() {
                                 />
                               </motion.svg>
                             )}
-                          </div>
-                          <input
-                            type="checkbox"
-                            className="hidden"
-                            checked={selectedFilters.includes(option.id)}
-                            onChange={() => handleFilterToggle(option.id)}
-                          />
-                          <span className="flex-1 text-gray-700">
-                            {option.text}
+                        </div>
+                        <input
+                          type="checkbox"
+                          className="hidden"
+                          checked={
+                            Array.isArray(
+                              selectedFilters[section.filterType]
+                            ) &&
+                            selectedFilters[section.filterType].includes(
+                              option.id
+                            )
+                          }
+                          onChange={() =>
+                            handleFilterToggle(option.id, section.filterType)
+                          }
+                        />
+                        <span className="flex-1 text-gray-700">
+                          {option.text}
+                        </span>
+                        {option.count && (
+                          <span className="text-gray-400 text-sm">
+                            ({option.count})
                           </span>
-                          {option.count && (
-                            <span className="text-gray-400 text-sm">
-                              ({option.count})
-                            </span>
-                          )}
-                        </label>
-                      ))
-                    )}
+                        )}
+                      </label>
+                    ))}
                   </div>
                 </div>
               ))}
@@ -481,71 +501,30 @@ export default function ServiceListing() {
                       expandedSections.includes(section.title) ? "" : "hidden"
                     }`}
                   >
-                    {section.type === "slider" ? (
-                      <div className="px-2 py-4">
-                        <div className="flex gap-4 mb-4">
-                          <div className="flex-1">
-                            <label className="text-sm text-gray-600">Min</label>
-                            <input
-                              type="number"
-                              value={bedRangeInput.min}
-                              onChange={(e) =>
-                                handleBedRangeInput("min", e.target.value)
-                              }
-                              className="w-full px-2 py-1 border rounded text-sm"
-                              min="0"
-                              max={bedRangeInput.max}
-                            />
-                          </div>
-                          <div className="flex-1">
-                            <label className="text-sm text-gray-600">Max</label>
-                            <input
-                              type="number"
-                              value={bedRangeInput.max}
-                              onChange={(e) =>
-                                handleBedRangeInput("max", e.target.value)
-                              }
-                              className="w-full px-2 py-1 border rounded text-sm"
-                              min={bedRangeInput.min}
-                              max="500"
-                            />
-                          </div>
-                        </div>
-                        <DualRangeSlider
-                          value={bedRange}
-                          max={500}
-                          min={0}
-                          step={50}
-                          onValueChange={(value) => {
-                            setBedRange(value);
-                            setBedRangeInput({
-                              min: value[0].toString(),
-                              max: value[1].toString(),
-                            });
-                          }}
-                        />
-                        <div className="flex justify-between mt-2 text-sm text-gray-600">
-                          <span>{bedRange[0]} beds</span>
-                          <span>{bedRange[1]} beds</span>
-                        </div>
-                      </div>
-                    ) : (
-                      section.options.map((option) => (
-                        <label
-                          key={option.id}
-                          className="flex items-center space-x-3 cursor-pointer group"
-                        >
-                          <div
-                            className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors
+                    {section.options.map((option) => (
+                      <label
+                        key={option.id}
+                        className="flex items-center space-x-3 cursor-pointer group"
+                      >
+                        <div
+                          className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors
                                                       ${
-                                                        selectedFilters.includes(
-                                                          option.id
-                                                        )
+                                                        Array.isArray(
+                                                          selectedFilters[
+                                                            section.filterType
+                                                          ]
+                                                        ) &&
+                                                        selectedFilters[
+                                                          section.filterType
+                                                        ].includes(option.id)
                                                           ? "border-blue-500 bg-blue-500"
                                                           : "border-gray-300 group-hover:border-blue-500"
                                                       }`}
-                          >
-                            {selectedFilters.includes(option.id) && (
+                        >
+                          {Array.isArray(selectedFilters[section.filterType]) &&
+                            selectedFilters[section.filterType].includes(
+                              option.id
+                            ) && (
                               <motion.svg
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
@@ -558,24 +537,32 @@ export default function ServiceListing() {
                                 />
                               </motion.svg>
                             )}
-                          </div>
-                          <input
-                            type="checkbox"
-                            className="hidden"
-                            checked={selectedFilters.includes(option.id)}
-                            onChange={() => handleFilterToggle(option.id)}
-                          />
-                          <span className="flex-1 text-gray-700">
-                            {option.text}
+                        </div>
+                        <input
+                          type="checkbox"
+                          className="hidden"
+                          checked={
+                            Array.isArray(
+                              selectedFilters[section.filterType]
+                            ) &&
+                            selectedFilters[section.filterType].includes(
+                              option.id
+                            )
+                          }
+                          onChange={() =>
+                            handleFilterToggle(option.id, section.filterType)
+                          }
+                        />
+                        <span className="flex-1 text-gray-700">
+                          {option.text}
+                        </span>
+                        {option.count && (
+                          <span className="text-gray-400 text-sm">
+                            ({option.count})
                           </span>
-                          {option.count && (
-                            <span className="text-gray-400 text-sm">
-                              ({option.count})
-                            </span>
-                          )}
-                        </label>
-                      ))
-                    )}
+                        )}
+                      </label>
+                    ))}
                   </div>
                 </div>
               ))}
@@ -588,50 +575,64 @@ export default function ServiceListing() {
             <div className="flex justify-between items-center mb-6 sm:px-2">
               {/* Applied Filters */}
               <div className="flex flex-wrap gap-2">
-                {bedRange[0] !== 0 || bedRange[1] !== 500 ? (
-                  <motion.div
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.8, opacity: 0 }}
-                    className="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 border border-blue-200 rounded-full text-sm text-blue-700"
-                  >
-                    <span>{`${bedRange[0]} - ${bedRange[1]} beds`}</span>
-                    <button
-                      onClick={() => {
-                        setBedRange([0, 500]);
-                        setBedRangeInput({ min: "0", max: "500" });
-                      }}
-                      className="w-4 h-4 flex items-center justify-center rounded-full hover:bg-blue-100"
-                    >
-                      ×
-                    </button>
-                  </motion.div>
-                ) : null}
-                {selectedFilters.map((filterId) => {
-                  const filterOption = filters
-                    .flatMap((section) => section.options || [])
-                    .find((option) => option?.id === filterId);
+                {Object.entries(selectedFilters).flatMap(
+                  ([filterType, values]) => {
+                    if (filterType === "saved" && values === true) {
+                      return [
+                        <motion.div
+                          key="saved"
+                          initial={{ scale: 0.8, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.8, opacity: 0 }}
+                          className="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 border border-blue-200 rounded-full text-sm text-blue-700"
+                        >
+                          <span>Saved</span>
+                          <button
+                            onClick={() => handleSavedFilter(!selectedFilters.saved)}
+                            className="w-4 h-4 flex items-center justify-center rounded-full hover:bg-blue-100"
+                          >
+                            ×
+                          </button>
+                        </motion.div>,
+                      ];
+                    }
 
-                  if (!filterOption) return null;
+                    if (Array.isArray(values)) {
+                      return values.map((filterId) => {
+                        const filterSection = filters.find(
+                          (section) => section.filterType === filterType
+                        );
+                        const filterOption = filterSection?.options.find(
+                          (option) => option.id === filterId
+                        );
 
-                  return (
-                    <motion.div
-                      key={filterId}
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0.8, opacity: 0 }}
-                      className="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 border border-blue-200 rounded-full text-sm text-blue-700"
-                    >
-                      <span>{filterOption.text}</span>
-                      <button
-                        onClick={() => handleFilterToggle(filterId)}
-                        className="w-4 h-4 flex items-center justify-center rounded-full hover:bg-blue-100"
-                      >
-                        ×
-                      </button>
-                    </motion.div>
-                  );
-                })}
+                        if (!filterOption) return null;
+
+                        return (
+                          <motion.div
+                            key={`${filterType}-${filterId}`}
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.8, opacity: 0 }}
+                            className="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 border border-blue-200 rounded-full text-sm text-blue-700"
+                          >
+                            <span>{filterOption.text}</span>
+                            <button
+                              onClick={() =>
+                                handleFilterToggle(filterId, filterType)
+                              }
+                              className="w-4 h-4 flex items-center justify-center rounded-full hover:bg-blue-100"
+                            >
+                              ×
+                            </button>
+                          </motion.div>
+                        );
+                      });
+                    }
+
+                    return [];
+                  }
+                )}
               </div>
             </div>
             <hr />
@@ -722,14 +723,6 @@ export default function ServiceListing() {
                               {detail.beds} Beds
                             </span> */}
                             </div>
-
-                            {/* CONTACT NO */}
-                            {/* <div className="flex items-center">
-                            <FaPhoneAlt className="min-[425px]:h-4 min-[425px]:w-4 mr-1 min-[425px]:mr-2 flex-shrink-0" />
-                            <span className="text-sm min-[425px]:text-base sm:text-lg lg:text-base xl:text-lg font-semibold text-gray-700">
-                              {detail.contactNo}
-                            </span>
-                          </div> */}
                           </div>
 
                           {/* HOSPITAL ACCREDITATIONS IMAGES & VIEW DETAILS BUTTON */}
