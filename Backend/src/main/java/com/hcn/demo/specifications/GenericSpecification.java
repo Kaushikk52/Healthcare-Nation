@@ -60,27 +60,37 @@ public class GenericSpecification<T>  {
 
             if(filters.containsKey("accrediations")){
                 List<String> accreditations = (List<String>) filters.get("accrediations");
-                predicates.add(root.get("accreditations").in(accreditations));
+                for (String acc : accreditations) {
+                    predicates.add(criteriaBuilder.like(root.get("accreditations"), "%" + acc + "%"));
+                }
             }
 
             if(filters.containsKey("concerns")){
                 List<String> concerns = (List<String>) filters.get("concerns");
-                predicates.add(root.get("concerns").in(concerns));
+                for (String concern : concerns) {
+                    predicates.add(criteriaBuilder.like(root.get("concerns"), "%" + concern + "%"));
+                }
             }
 
             if(filters.containsKey("insurance")){
                 List<String> insurance = (List<String>) filters.get("insurance");
-                predicates.add(root.get("insurance").in(insurance));
+                for (String i : insurance) {
+                    predicates.add(criteriaBuilder.like(root.get("insurance"), "%" + i + "%"));
+                }
             }
 
             if(filters.containsKey("tpa")){
                 List<String> tpa = (List<String>) filters.get("tpa");
-                predicates.add(root.get("tpa").in(tpa));
+                for (String t : tpa) {
+                    predicates.add(criteriaBuilder.like(root.get("tpa"), "%" + t + "%"));
+                }
             }
 
             if(filters.containsKey("altMed")){
                 List<String> altMed = (List<String>) filters.get("altMed");
-                predicates.add(root.get("altMed").in(altMed));
+                for (String a : altMed) {
+                    predicates.add(criteriaBuilder.like(root.get("altMed"), "%" + a + "%"));
+                }
             }
 
             // Combine all predicates with AND operator

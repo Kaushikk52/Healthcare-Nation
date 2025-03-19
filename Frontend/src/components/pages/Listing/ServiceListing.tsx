@@ -7,7 +7,12 @@ import axios from "axios"
 
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation, Pagination, A11y } from "swiper/modules"
+
 import servicesByAccrediations from "@/data/accrediations"
+import servicesBySpecialities from "@/data/servicesBySpecialities";
+import publicSectorCorporates from "@/data/publicSector";
+import popularBrands from "@/data/brands";
+import diagnosticCentres from "@/data/diagnostic"
 
 import "swiper/css"
 import "swiper/css/navigation"
@@ -103,39 +108,28 @@ const filters: FilterSection[] = [
     title: "Specialities",
     filterType: "specialities",
     options: [
-      { id: "General Surgery", text: "General Surgery" },
-      { id: "Pediatric Surgery", text: "Pediatric Surgery" },
-      { id: "Ophthalmology", text: "Ophthalmology" },
-
+      ...servicesBySpecialities.map((spec) => ({id : spec.title, text: spec.title}))
     ],
   },
   {
     title: "Corporates",
     filterType: "psu",
     options: [
-      { id: "MPT", text: "MPT" },
-      { id: "CGHS", text: "CGHS" },
-      { id: "MJPJAY", text: "MJPJAY" },
-      { id: "PMJAY", text: "PMJAY" },
-      { id: "Railway", text: "Railway" },
+      ...publicSectorCorporates.map((psu)=> ({id: psu.title , text: psu.title}))
     ],
   },
   {
     title: "Brands",
     filterType: "brands",
     options: [
-      { id: "Apollo", text: "Apollo" },
-      { id: "Fortis", text: "Fortis" },
-      { id: "Max", text: "Max" },
+      ...popularBrands.map((brand) => ({id: brand.title, text: brand.title}))
     ],
   },
   {
     title: "Diagnostics",
     filterType: "diagnostics",
     options: [
-      { id: "X-Ray", text: "X-Ray" },
-      { id: "MRI", text: "MRI" },
-      { id: "CT Scan", text: "CT Scan" },
+      ...diagnosticCentres.map((diag) => ({id: diag.title, text:diag.title}))
     ],
   },
   {
