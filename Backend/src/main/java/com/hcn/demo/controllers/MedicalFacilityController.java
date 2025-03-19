@@ -108,13 +108,36 @@ public class MedicalFacilityController {
 
     @GetMapping(value = "/filter")
     public ResponseEntity<Map<String,Object>> getFilteredHospitals(@RequestParam(required = false) String type,
-    @RequestParam(required = false) List<String> services
+                                                                   @RequestParam(required = false) List<String> diagnostics,
+                                                                   @RequestParam(required = false) List<String> accrediation,
+                                                                   @RequestParam(required = false) String ownership,
+                                                                   @RequestParam(required = false) List<String> specialities,
+                                                                   @RequestParam(required = false) List<String> psu,
+                                                                   @RequestParam(required = false) List<String> brands,
+                                                                   @RequestParam(required = false) List<String> services,
+                                                                   @RequestParam(required = false) List<String> accreditations,
+                                                                   @RequestParam(required = false) List<String> concerns,
+                                                                   @RequestParam(required = false) List<String> insurance,
+                                                                   @RequestParam(required = false) List<String> tpa,
+                                                                   @RequestParam(required = false) List<String> altMed
+
     ){
         Map<String,Object> response = new HashMap<>();
         try{
             Map<String,Object> filters = new HashMap<>();
             if(type != null) filters.put("type",type);
+            if (accrediation != null && !accrediation.isEmpty()) filters.put("accrediations", accrediation);
+            if (ownership != null && !ownership.isEmpty()) filters.put("ownership", ownership);
+            if (specialities != null && !specialities.isEmpty()) filters.put("specialities", specialities);
+            if (psu != null && !psu.isEmpty()) filters.put("psu", psu);
+            if (brands != null && !brands.isEmpty()) filters.put("brands", brands);
+            if (diagnostics != null && !diagnostics.isEmpty()) filters.put("diagnostics", diagnostics);
             if (services != null && !services.isEmpty()) filters.put("services", services);
+            if (accreditations != null && !accreditations.isEmpty()) filters.put("accreditations", accreditations);
+            if (concerns != null && !concerns.isEmpty()) filters.put("concerns", concerns);
+            if (insurance != null && !insurance.isEmpty()) filters.put("insurance", insurance);
+            if (tpa != null && !tpa.isEmpty()) filters.put("tpa", tpa);
+            if (altMed != null && !altMed.isEmpty()) filters.put("altMed", altMed);
             List<MedicalFacility> filteredHospitals = facilityServ.getFilteredHospitals(filters);
             if(filteredHospitals.isEmpty()) {
                 log.warn("No Hospitals found");
