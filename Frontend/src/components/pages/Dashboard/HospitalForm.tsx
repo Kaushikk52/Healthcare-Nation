@@ -237,7 +237,7 @@ export default function HospitalForm() {
     images: [] as File[],
     videos: [""],
     ownership: "PRIVATE",
-    facilityType: "HOSPITAL",
+    facilityType: "hospitals",
     brands: [""],
     diagnostics: [""],
     specialities: [""],

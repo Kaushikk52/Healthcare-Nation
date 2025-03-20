@@ -291,7 +291,9 @@ const HospitalDetailsPage = () => {
       <div className="!grid !grid-cols-12 !gap-2 sm:!gap-4 lg:!gap-3 !py-4 ">
         <div className="!col-span-12 lg:!col-span-8">
           <img
-            src={Main_Hospital_Image}
+            // src={Main_Hospital_Image}
+            // src={`/Images/Blood-Bank-1.jpg`}
+            src={`${hospitalImgs}/${hospital.images?.[0]}`}
             alt="main hospital"
             className="!h-[240px] min-[425px]:!h-[280px] sm:!h-[380px] lg:!h-[412px] !w-full !rounded-sm !object-cover"
           />

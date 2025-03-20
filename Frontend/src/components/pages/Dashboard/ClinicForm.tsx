@@ -231,7 +231,7 @@ export default function ClinicForm() {
     images: [] as File[],
     videos: [""],
     ownership: "PRIVATE",
-    facilityType: "CLINIC",
+    facilityType: "clinics",
     brands: [""],
     diagnostics: [""],
     specialities: [""],

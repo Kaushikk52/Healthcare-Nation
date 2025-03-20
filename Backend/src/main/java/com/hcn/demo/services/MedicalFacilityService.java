@@ -89,18 +89,18 @@ public class MedicalFacilityService {
     }
 
     public List<MedicalFacility> getAllHospitals(){
-        return medicalFacilityRepo.findByFacilityType(MedicalFacility.FacilityType.HOSPITAL);
+        return medicalFacilityRepo.findByFacilityType(MedicalFacility.FacilityType.hospitals);
     }
 
     public List<MedicalFacility> getAllClinics(){
-        return medicalFacilityRepo.findByFacilityType(MedicalFacility.FacilityType.CLINIC);
+        return medicalFacilityRepo.findByFacilityType(MedicalFacility.FacilityType.clinics);
     }
 
     public MedicalFacility getFacilityById(String id){
         return medicalFacilityRepo.findById(id).orElseThrow(()-> new RuntimeException("Not found ..."));
     }
 
-    public List<MedicalFacility> getFilteredHospitals(Map<String,Object> filters){
+    public List<MedicalFacility> getFilteredFacilities(Map<String,Object> filters){
         Specification<MedicalFacility> spec = GenericSpecification.findByCriteria(filters);
         List<MedicalFacility> filteredHospitals = medicalFacilityRepo.findAll(spec);
         return filteredHospitals;

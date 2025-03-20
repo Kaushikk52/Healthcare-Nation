@@ -1,5 +1,6 @@
 package com.hcn.demo.controllers;
 
+import com.hcn.demo.models.Orthotics;
 import com.hcn.demo.models.Transport;
 import com.hcn.demo.services.TransportService;
 import lombok.extern.slf4j.Slf4j;
@@ -67,6 +68,41 @@ public class TransportController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 
         } catch (Exception e) {
+            log.warn("An Error occurred : {}", e.getMessage());
+            response.put("message",e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    @GetMapping(value = "/filter")
+    public ResponseEntity<Map<String,Object>> getFilteredTransport(
+            @RequestParam(required = false) String ownership,
+            @RequestParam(required = false) List<String> brands
+
+
+    ){
+        Map<String,Object> response = new HashMap<>();
+        try {
+            Map<String,Object> filters = new HashMap<>();
+            if (ownership != null && !ownership.isEmpty()) filters.put("ownership", ownership);
+            if (brands != null && !brands.isEmpty()) filters.put("brands", brands);
+            List<Transport> filteredTransport;
+            if(filters.isEmpty()){
+                filteredTransport = transportServ.getAll();
+            }else{
+                filteredTransport = transportServ.getFilteredTransport(filters);
+            }
+
+            if(filteredTransport.isEmpty()){
+                log.warn("No Transport found");
+                response.put("message", "No Transport found");
+            }else{
+                log.info("Retrieved filtered Transport");
+                response.put("message", "Retrieved filtered Transport : "+filteredTransport.size());
+            }
+            response.put("transport",filteredTransport);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }catch (Exception e) {
             log.warn("An Error occurred : {}", e.getMessage());
             response.put("message",e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);

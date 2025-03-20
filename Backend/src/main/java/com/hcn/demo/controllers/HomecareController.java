@@ -1,5 +1,6 @@
 package com.hcn.demo.controllers;
 
+import com.hcn.demo.models.Bank;
 import com.hcn.demo.models.Homecare;
 import com.hcn.demo.services.HomecareService;
 import lombok.extern.slf4j.Slf4j;
@@ -68,6 +69,41 @@ public class HomecareController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 
         } catch (Exception e) {
+            log.warn("An Error occurred : {}", e.getMessage());
+            response.put("message",e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    @GetMapping(value = "/filter")
+    public ResponseEntity<Map<String,Object>> getFilteredHomecare(
+            @RequestParam(required = false) String ownership,
+            @RequestParam(required = false) List<String> brands
+
+
+    ){
+        Map<String,Object> response = new HashMap<>();
+        try {
+            Map<String,Object> filters = new HashMap<>();
+            if (ownership != null && !ownership.isEmpty()) filters.put("ownership", ownership);
+            if (brands != null && !brands.isEmpty()) filters.put("brands", brands);
+            List<Homecare> filteredHomecare;
+            if(filters.isEmpty()){
+                filteredHomecare = homecareServ.getAll();
+            }else{
+                filteredHomecare = homecareServ.getFilteredHomecare(filters);
+            }
+
+            if(filteredHomecare.isEmpty()){
+                log.warn("No Homecare found");
+                response.put("message", "No Homecare found");
+            }else{
+                log.info("Retrieved filtered Banks");
+                response.put("message", "Retrieved filtered Banks : "+filteredHomecare.size());
+            }
+            response.put("homecare",filteredHomecare);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }catch (Exception e) {
             log.warn("An Error occurred : {}", e.getMessage());
             response.put("message",e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);

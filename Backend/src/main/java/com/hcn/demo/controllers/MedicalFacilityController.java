@@ -115,7 +115,6 @@ public class MedicalFacilityController {
                                                                    @RequestParam(required = false) List<String> psu,
                                                                    @RequestParam(required = false) List<String> brands,
                                                                    @RequestParam(required = false) List<String> services,
-                                                                   @RequestParam(required = false) List<String> accreditations,
                                                                    @RequestParam(required = false) List<String> concerns,
                                                                    @RequestParam(required = false) List<String> insurance,
                                                                    @RequestParam(required = false) List<String> tpa,
@@ -133,20 +132,27 @@ public class MedicalFacilityController {
             if (brands != null && !brands.isEmpty()) filters.put("brands", brands);
             if (diagnostics != null && !diagnostics.isEmpty()) filters.put("diagnostics", diagnostics);
             if (services != null && !services.isEmpty()) filters.put("services", services);
-            if (accreditations != null && !accreditations.isEmpty()) filters.put("accreditations", accreditations);
             if (concerns != null && !concerns.isEmpty()) filters.put("concerns", concerns);
             if (insurance != null && !insurance.isEmpty()) filters.put("insurance", insurance);
             if (tpa != null && !tpa.isEmpty()) filters.put("tpa", tpa);
             if (altMed != null && !altMed.isEmpty()) filters.put("altMed", altMed);
-            List<MedicalFacility> filteredHospitals = facilityServ.getFilteredHospitals(filters);
-            if(filteredHospitals.isEmpty()) {
+            List<MedicalFacility> filteredFacilities;
+            if(filters.isEmpty()){
+                 filteredFacilities = type.equals("hospitals") ?
+                                facilityServ.getAllHospitals()
+                                : facilityServ.getAllClinics();
+            }else{
+                filteredFacilities= facilityServ.getFilteredFacilities(filters);
+            }
+
+            if(filteredFacilities.isEmpty()) {
                 log.warn("No Hospitals found");
                 response.put("message", "No Hospitals found");
             }else{
                 log.info("Retrieved filtered Hospitals");
-                response.put("message", "Retrieved filtered Hospitals : "+filteredHospitals.size());
+                response.put("message", "Retrieved filtered Facilities : "+filteredFacilities.size());
             }
-            response.put("hospitals",filteredHospitals);
+            response.put(type,filteredFacilities);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
             log.warn("An Error occurred : {}", e.getMessage());
@@ -159,7 +165,7 @@ public class MedicalFacilityController {
     public ResponseEntity<Map<String,Object>> addFacility(@RequestBody MedicalFacility facility,Principal principal){
         Map<String,Object> response = new HashMap<>();
         try{
-            if(facility.getFacilityType().equals(MedicalFacility.FacilityType.HOSPITAL)){
+            if(facility.getFacilityType().equals(MedicalFacility.FacilityType.hospitals)){
                 User principalUser = (User)userDetailsServ.loadUserByUsername(principal.getName());
                 MedicalFacility savedHospital = facilityServ.addHospital(facility,principalUser);
                 log.info("Hospital posted successfully : {}",savedHospital.getId());

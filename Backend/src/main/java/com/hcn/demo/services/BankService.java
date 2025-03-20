@@ -4,10 +4,13 @@ import com.hcn.demo.models.Bank;
 import com.hcn.demo.models.MedicalFacility;
 import com.hcn.demo.repositories.BankRepo;
 import com.hcn.demo.repositories.MedicalFacilityRepo;
+import com.hcn.demo.specifications.GenericSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,6 +40,12 @@ public class BankService {
     public Bank getById(String id){
         Bank bank = bankRepo.findById(id).orElseThrow(() -> new RuntimeException("Not found..."));
         return bank;
+    }
+
+    public List<Bank> getFilteredBanks(Map<String,Object> filters){
+        Specification<Bank> spec = GenericSpecification.findByCriteria(filters);
+        List<Bank> filteredBanks = bankRepo.findAll(spec);
+        return filteredBanks;
     }
 
     public Bank edit(Bank bank){

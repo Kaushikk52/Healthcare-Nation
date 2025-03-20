@@ -58,12 +58,12 @@ export default function Navbar() {
       items: [
         { title: "Hospitals", path: "/listing?type=hospitals" },
         { title: "Dialysis Centres" },
-        { title: "Blood / Skin Banks"  },
+        { title: "Blood / Skin Banks", path: "/listing?type=bank"  },
         { title: "Clinics", path: "/listing?type=clinics" },
-        { title: "Home Care Services" },
-        { title: "Patient Transports" },
-        { title: "Diagnostics" },
-        { title: "Orthotic & Prosthetics" },
+        { title: "Home Care Services", path: "/listing?type=homecare" },
+        { title: "Patient Transports", path: "/listing?type=transport" },
+        { title: "Diagnostics", path: "/listing?type=diagnostics" },
+        { title: "Orthotic & Prosthetics", path: "/listing?type=orthotics" },
         { title: "Medical Equipment on rent" },
         { title: "NGOs" },
         { title: "Startup & Companies" },
@@ -161,7 +161,7 @@ export default function Navbar() {
 
   useEffect(() => {
     getUser();
-    checkIfLogin('');
+    // checkIfLogin('/');
   },[]);
 
   const getUser = async () => {
@@ -206,11 +206,12 @@ export default function Navbar() {
 
   const checkIfLogin = (route: string) => {
     const token = localStorage.getItem("token");
+    console.log("check if login", route , token);
     setNavigateTo(route);
     // console.log(route, toggle, token);
     if (token !== null && !toggle) {
       //user logged in and no popup
-      navigate(route); //
+      navigate(route);
     } else if (token !== null && toggle === true) {
       //user logged in and still popup
       setToggle(false); // toggle not visible

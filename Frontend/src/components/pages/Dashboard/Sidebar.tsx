@@ -88,7 +88,7 @@ function Sidebar() {
 
   return (
     <div
-      className={`flex flex-col h-screen bg-white text-gray-800 border-r transition-all duration-300 ${
+      className={`flex flex-col bg-white text-gray-800 border-r transition-all duration-300 ${
         isOpen ? "w-64" : "w-16"
       } ${isMobile ? "w-16" : ""}`}
     >
