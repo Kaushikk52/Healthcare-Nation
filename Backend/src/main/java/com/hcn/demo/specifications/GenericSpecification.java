@@ -58,8 +58,8 @@ public class GenericSpecification<T>  {
                 }
             }
 
-            if(filters.containsKey("accrediations")){
-                List<String> accreditations = (List<String>) filters.get("accrediations");
+            if(filters.containsKey("accreditations")){
+                List<String> accreditations = (List<String>) filters.get("accreditations");
                 for (String acc : accreditations) {
                     predicates.add(criteriaBuilder.like(root.get("accreditations"), "%" + acc + "%"));
                 }

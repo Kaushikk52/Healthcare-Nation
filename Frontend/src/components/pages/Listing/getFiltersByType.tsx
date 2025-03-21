@@ -71,7 +71,7 @@ export const getFiltersByType = (type: string | null) => {
       },
       {
           title: "Accreditation",
-          filterType: "accrediation",
+          filterType: "accreditations",
           options: [
             {
               id: "Organizations Accredited by National Accreditation Board for Hospitals & Healthcare Providers",
@@ -142,7 +142,7 @@ export const getFiltersByType = (type: string | null) => {
       return [...baseFilters,
         {
             title: "Accreditation",
-            filterType: "accrediation",
+            filterType: "accreditations",
             options: [
               {
                 id: "Organizations Accredited by National Accreditation Board for Hospitals & Healthcare Providers",
@@ -183,7 +183,7 @@ export const getFiltersByType = (type: string | null) => {
         },
         {
             title: "Accreditation",
-            filterType: "accrediation",
+            filterType: "accreditations",
             options: [
               {
                 id: "Organizations Accredited by National Accreditation Board for Hospitals & Healthcare Providers",

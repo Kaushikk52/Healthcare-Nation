@@ -19,7 +19,7 @@ export interface Diagnostics{
 
         diagnostic: string[]; // Ex: MRI, CT Scan
         thirdPartyAdministrators: string[]; // Ex: Medi Assist, Vidal Health
-        accrediations: string[]; // Ex: NABH, JCI
+        accreditations: string[]; // Ex: NABH, JCI
         insurance:string[];
         tpa:string[];
 }

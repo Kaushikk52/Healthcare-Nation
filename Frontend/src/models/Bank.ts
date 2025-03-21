@@ -17,7 +17,7 @@ export interface Bank {
     ownership:Ownership;
     medicalFacilities:MedicalFacility[];
     brands:string[];
-    accrediations:string[];
+    accreditations:string[];
 }
 
 export enum Ownership {

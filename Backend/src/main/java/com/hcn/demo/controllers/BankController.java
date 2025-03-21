@@ -77,7 +77,7 @@ public class BankController {
 
     @GetMapping(value = "/filter")
     public ResponseEntity<Map<String,Object>> getFilteredBanks(
-                                                                   @RequestParam(required = false) List<String> accrediation,
+                                                                   @RequestParam(required = false) List<String> accreditations,
                                                                    @RequestParam(required = false) String ownership,
                                                                    @RequestParam(required = false) List<String> brands
 
@@ -86,7 +86,7 @@ public class BankController {
         Map<String,Object> response = new HashMap<>();
         try {
             Map<String,Object> filters = new HashMap<>();
-            if (accrediation != null && !accrediation.isEmpty()) filters.put("accrediations", accrediation);
+            if (accreditations != null && !accreditations.isEmpty()) filters.put("accreditations", accreditations);
             if (ownership != null && !ownership.isEmpty()) filters.put("ownership", ownership);
             if (brands != null && !brands.isEmpty()) filters.put("brands", brands);
             List<Bank> filteredBanks;

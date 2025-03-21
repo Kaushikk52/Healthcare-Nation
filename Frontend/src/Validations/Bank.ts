@@ -37,6 +37,6 @@ export const BankSchema = yup.object().shape({
     .oneOf(["PRIVATE", "PUBLIC", "GOVERNMENT"], "Invalid ownership type")
     .required("Ownership type is required"),
   brands: yup.array().of(yup.string()),
-  accrediations: yup.array().of(yup.string()),
+  accreditations: yup.array().of(yup.string()),
   medicalFacilities: yup.array().of(yup.string())
 });

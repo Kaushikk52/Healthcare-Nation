@@ -76,7 +76,7 @@ public class DiagnosticsController {
 
     @GetMapping(value = "/filter")
     public ResponseEntity<Map<String,Object>> getFilteredDiagnostics(
-            @RequestParam(required = false) List<String> accrediation,
+            @RequestParam(required = false) List<String> accreditations,
             @RequestParam(required = false) String ownership,
             @RequestParam(required = false) List<String> diagnostics,
             @RequestParam(required = false) List<String> psu,
@@ -89,7 +89,7 @@ public class DiagnosticsController {
         Map<String,Object> response = new HashMap<>();
         try {
             Map<String,Object> filters = new HashMap<>();
-            if (accrediation != null && !accrediation.isEmpty()) filters.put("accrediations", accrediation);
+            if (accreditations != null && !accreditations.isEmpty()) filters.put("accreditations", accreditations);
             if (ownership != null && !ownership.isEmpty()) filters.put("ownership", ownership);
             if (brands != null && !brands.isEmpty()) filters.put("brands", brands);
             if (diagnostics != null && !diagnostics.isEmpty()) filters.put("diagnostics", diagnostics);

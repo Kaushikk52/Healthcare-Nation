@@ -109,7 +109,7 @@ public class MedicalFacilityController {
     @GetMapping(value = "/filter")
     public ResponseEntity<Map<String,Object>> getFilteredHospitals(@RequestParam(required = false) String type,
                                                                    @RequestParam(required = false) List<String> diagnostics,
-                                                                   @RequestParam(required = false) List<String> accrediation,
+                                                                   @RequestParam(required = false) List<String> accreditations,
                                                                    @RequestParam(required = false) String ownership,
                                                                    @RequestParam(required = false) List<String> specialities,
                                                                    @RequestParam(required = false) List<String> psu,
@@ -125,7 +125,7 @@ public class MedicalFacilityController {
         try{
             Map<String,Object> filters = new HashMap<>();
             if(type != null) filters.put("type",type);
-            if (accrediation != null && !accrediation.isEmpty()) filters.put("accrediations", accrediation);
+            if (accreditations != null && !accreditations.isEmpty()) filters.put("accreditations", accreditations);
             if (ownership != null && !ownership.isEmpty()) filters.put("ownership", ownership);
             if (specialities != null && !specialities.isEmpty()) filters.put("specialities", specialities);
             if (psu != null && !psu.isEmpty()) filters.put("psu", psu);

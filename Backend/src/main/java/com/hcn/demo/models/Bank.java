@@ -68,9 +68,9 @@ public class Bank {
     )
     private List<MedicalFacility> medicalFacilities;
 
-    @Column(name = "accrediations", columnDefinition = "TEXT")
+    @Column(name = "accreditations", columnDefinition = "TEXT")
     @Convert(converter = StringListConverter.class)
-    private List<String> accrediations;
+    private List<String> accreditations;
 
     @Column(name = "brands", columnDefinition = "TEXT")
     @Convert(converter = StringListConverter.class)
