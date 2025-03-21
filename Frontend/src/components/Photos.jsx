@@ -14,7 +14,7 @@ const Photos = (props) => {
           src={props.type === "hospitals-details" ? hospitalImgs+photo :
             props.type === "clinics-details" && clinicImgs+photo}
           alt='ex image'
-          className='!rounded-sm !object-cover !object-top !shadow-lg hover:!opacity-75  aspect-[4.3/3] !transition-all !duration-75 !ease-in-out'
+          className='h-full !rounded-sm !object-cover !object-top !shadow-lg hover:!opacity-75  aspect-[4.3/3] !transition-all !duration-75 !ease-in-out'
           />
         ))}
       </div>

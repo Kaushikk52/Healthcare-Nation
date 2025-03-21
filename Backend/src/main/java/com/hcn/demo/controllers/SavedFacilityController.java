@@ -47,6 +47,12 @@ public class SavedFacilityController {
         return ResponseEntity.ok(savedFacilityServ.getSavedHospitals(currentUser.getId()));
     }
 
+    @GetMapping("/clinics")
+    public ResponseEntity<List<MedicalFacility>> getSavedClinics(Principal principal){
+        User currentUser = userServ.getCurrentUserRole(principal);
+        return ResponseEntity.ok(savedFacilityServ.getSavedClinics(currentUser.getId()));
+    }
+
     @DeleteMapping("/{hospitalId}")
     public ResponseEntity<?> removeSavedHospital(Principal principal, @PathVariable String hospitalId) {
         Map<String, Object> response = new HashMap<>();
