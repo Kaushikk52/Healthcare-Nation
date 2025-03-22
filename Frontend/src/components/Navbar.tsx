@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { User, Menu, X } from "lucide-react";
@@ -7,6 +7,7 @@ import { BiSearchAlt2 } from "react-icons/bi";
 import { FaCaretDown } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import axios from "axios";
+import _ from "lodash";
 
 const DropdownLink = ({
   href,
@@ -37,6 +38,7 @@ export default function Navbar() {
     token:""
   });
 
+  const [query, setQuery] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState("");
   const [navDropdownOpen, setNavDropdownOpen] = useState(null);
@@ -221,6 +223,22 @@ export default function Navbar() {
     }
   };
 
+
+  const handleSearch = useCallback(
+    _.debounce((searchText) => {
+      console.log("Searching for:", searchText);
+      navigate(`/listing?search=${searchText}`);
+    }, 500),
+    []
+  );
+
+    // Handle input change and pass to debounced function
+    const handleChange = (event) => {
+      setQuery(event.target.value);
+      handleSearch(event.target.value);
+    };
+  
+
   return (
     <nav className="w-full bg-white px-3 pt-3">
       <div className="max-w-7xl mx-auto flex items-center justify-between space-x-4">
@@ -268,6 +286,8 @@ export default function Navbar() {
               <BiSearchAlt2 className="h-6 w-6 text-[#9B2482] flex-shrink-0" />
               <input
                 type="text"
+                value={query}
+                onChange={handleChange}
                 placeholder="Search..."
                 className="w-full text-lg py-2 px-2 outline-none bg-[#EDDBE9] h-full"
               />

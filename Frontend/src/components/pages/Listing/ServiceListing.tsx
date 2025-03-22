@@ -1,88 +1,103 @@
-import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaStar, FaFilter } from "react-icons/fa";
-import { Link, useSearchParams } from "react-router-dom";
-import { X, ChevronDown } from "lucide-react";
-import axios from "axios";
+"use client"
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, A11y } from "swiper/modules";
+import React, { useEffect, useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { FaStar, FaFilter } from "react-icons/fa"
+import { Link, useSearchParams } from "react-router-dom"
+import { X, ChevronDown } from "lucide-react"
+import axios from "axios"
 
-import servicesByAccrediations from "@/data/accrediations";
+import { Swiper, SwiperSlide } from "swiper/react"
+import { Navigation, Pagination, A11y } from "swiper/modules"
 
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/autoplay";
-import "@/App.css";
+import servicesByAccrediations from "@/data/accrediations"
+
+import "swiper/css"
+import "swiper/css/navigation"
+import "swiper/css/pagination"
+import "swiper/css/autoplay"
+import "@/App.css"
 
 // Import the getFiltersByType utility at the top of your file
-import { getFiltersByType } from "./getFiltersByType";
+import { getFiltersByType } from "./getFiltersByType"
 
 interface FilterOption {
-  id: string;
-  text: string;
-  count?: number;
+  id: string
+  text: string
+  count?: number
 }
 
 interface FilterSection {
-  title: string;
-  filterType: string;
-  options: FilterOption[];
+  title: string
+  filterType: string
+  options: FilterOption[]
 }
 
 interface Address {
-  street: string;
-  city: string;
-  zipCode: string;
+  street: string
+  city: string
+  zipCode: string
 }
 
 interface Review {
-  id: string;
+  id: string
   // Add other review properties as needed
 }
 
 interface Facility {
-  id: string;
-  name: string;
-  address: Address;
-  openDay: string;
-  closeDay: string;
-  hours: string;
-  avgRating: number;
-  reviews: Review[];
-  accreditations: string[];
-  images: string[];
+  id: string
+  name: string
+  address: Address
+  openDay: string
+  closeDay: string
+  hours: string
+  avgRating: number
+  reviews: Review[]
+  accreditations: string[]
+  images: string[]
   // Add other facility properties as needed
 }
 
 interface SelectedFilters {
-  brands: string[];
-  diagnostics: string[];
-  specialities: string[];
-  psu: string[];
-  accrediation: string[];
-  concern: string[];
-  insurance: string[];
-  tpa: string[];
-  altMed: string[];
-  ownership: string[];
-  sortBy: string[];
-  saved: boolean;
+  brands: string[]
+  diagnostics: string[]
+  specialities: string[]
+  psu: string[]
+  accrediation: string[]
+  concern: string[]
+  insurance: string[]
+  tpa: string[]
+  altMed: string[]
+  ownership: string[]
+  sortBy: string[]
+  saved: boolean
 }
 
-export default function ServiceListing() {
-  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
-  const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS;
-  const clinicImgs = import.meta.env.VITE_APP_CLOUDINARY_CLINICS;
-  const path = import.meta.env.VITE_APP_IMG_URL;
-  const [expandedSections, setExpandedSections] = useState<string[]>([]);
-  const [searchParams] = useSearchParams();
-  const type = searchParams.get("type");
-  const location = searchParams.get("location");
+// Add props interface to accept location and searchQuery
+interface ServiceListingProps {
+  facilityType?: string
+  locationParam?: string
+  searchQuery?: string
+}
 
-  const [facilities, setFacilities] = useState<Facility[]>([]);
-  const [filterOpen, setFilterOpen] = useState<boolean>(false);
+export default function ServiceListing({ facilityType, locationParam, searchQuery }: ServiceListingProps) {
+  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL
+  const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS
+  const clinicImgs = import.meta.env.VITE_APP_CLOUDINARY_CLINICS
+  const path = import.meta.env.VITE_APP_IMG_URL
+  const [expandedSections, setExpandedSections] = useState<string[]>([])
+
+  // Get type and location from URL params as fallback
+  const [searchParams] = useSearchParams()
+  const typeFromUrl = searchParams.get("type")
+  const locationFromUrl = searchParams.get("location")
+
+  // Use props if provided, otherwise fall back to URL params
+  const type = facilityType || typeFromUrl
+  const location = locationParam || locationFromUrl
+
+  const [facilities, setFacilities] = useState<Facility[]>([])
+  const [filterOpen, setFilterOpen] = useState<boolean>(false)
   const [selectedFilters, setSelectedFilters] = useState<SelectedFilters>({
     brands: [],
     diagnostics: [],
@@ -96,75 +111,69 @@ export default function ServiceListing() {
     ownership: [],
     sortBy: [],
     saved: false,
-  });
+  })
 
-  const [filters, setFilters] = useState<FilterSection[]>([]);
+  // Replace the filters constant with a state variable
+  // Add this after your other state variables
+  const [filters, setFilters] = useState<FilterSection[]>([])
 
   const toggleSection = (sectionTitle: string) => {
     setExpandedSections((prev) =>
-      prev.includes(sectionTitle)
-        ? prev.filter((title) => title !== sectionTitle)
-        : [...prev, sectionTitle]
-    );
-  };
+      prev.includes(sectionTitle) ? prev.filter((title) => title !== sectionTitle) : [...prev, sectionTitle],
+    )
+  }
 
-  // Update your useEffect that runs on component mount
+  // Update your useEffect to respond to changes in props
   useEffect(() => {
-    applyFilters();
-    setFilters(getFiltersByType(type));
-  }, [type, selectedFilters]);
+    applyFilters()
+    setFilters(getFiltersByType(type))
+  }, [type, selectedFilters, locationParam, searchQuery])
 
   // Update the handleSavedFilter function to use the type
   const handleSavedFilter = (saved: boolean) => {
-    setSelectedFilters((prev) => ({ ...prev, saved }));
+    setSelectedFilters((prev) => ({ ...prev, saved }))
     try {
       if (saved === true) {
         if (type === "hospitals") {
-          fetchSavedHospitals();
+          fetchSavedHospitals()
         } else if (type === "clinics") {
-          fetchSavedClinics();
+          fetchSavedClinics()
         } else {
-          fetchSavedFacilities(type);
+          fetchSavedFacilities(type)
         }
       }
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
-  };
+  }
 
   const handleFilterToggle = (filterId: string, filterType: string) => {
     setSelectedFilters((prevFilters) => {
-      const newFilters = { ...prevFilters };
+      const newFilters = { ...prevFilters }
       if (filterType === "saved") {
-        newFilters.saved = !newFilters.saved;
+        newFilters.saved = !newFilters.saved
         if (newFilters.saved) {
           if (type === "hospitals") {
-            fetchSavedHospitals();
+            fetchSavedHospitals()
           } else {
-            fetchSavedFacilities(type);
+            fetchSavedFacilities(type)
           }
         }
       } else if (filterType === "sortBy") {
-        newFilters[filterType as keyof SelectedFilters] = [filterId] as any;
+        newFilters[filterType as keyof SelectedFilters] = [filterId] as any
       } else {
-        const filterArray = newFilters[
-          filterType as keyof SelectedFilters
-        ] as string[];
+        const filterArray = newFilters[filterType as keyof SelectedFilters] as string[]
         if (Array.isArray(filterArray)) {
           if (filterArray.includes(filterId)) {
-            (newFilters[filterType as keyof SelectedFilters] as string[]) =
-              filterArray.filter((id) => id !== filterId);
+            ;(newFilters[filterType as keyof SelectedFilters] as string[]) = filterArray.filter((id) => id !== filterId)
           } else {
-            (newFilters[filterType as keyof SelectedFilters] as string[]) = [
-              ...filterArray,
-              filterId,
-            ];
+            ;(newFilters[filterType as keyof SelectedFilters] as string[]) = [...filterArray, filterId]
           }
         }
       }
-      return newFilters;
-    });
-  };
+      return newFilters
+    })
+  }
 
   const clearAllFilters = () => {
     setSelectedFilters({
@@ -180,85 +189,94 @@ export default function ServiceListing() {
       ownership: [],
       sortBy: [],
       saved: false,
-    });
-  };
+    })
+  }
 
   // Build query parameters dynamically with repeated parameters for arrays
   const buildQueryParams = (): string => {
-    const params = new URLSearchParams();
+    const params = new URLSearchParams()
+
+    // Add location and search query if they exist
+    if (location) {
+      params.append("location", location)
+    }
+
+    if (searchQuery) {
+      params.append("search", searchQuery)
+    }
 
     // Don't include saved in the query params as it uses a different API
     Object.entries(selectedFilters).forEach(([key, value]) => {
-      if (key === "saved") return;
+      if (key === "saved") return
 
       if (Array.isArray(value) && value.length > 0) {
         if (key === "sortBy") {
           // sortBy is a single value
-          params.append(key, value[0]);
+          params.append(key, value[0])
         } else {
           // For arrays, join values with commas
-          params.append(key, value.join(","));
+          params.append(key, value.join(","))
         }
       }
-    });
+    })
 
-    return params.toString();
-  };
+    return params.toString()
+  }
 
-  // Update the applyFilters function to use dynamic property access
+  // Update the applyFilters function to use dynamic property access and include location/search
   const applyFilters = async () => {
     try {
       if (selectedFilters.saved === true) {
-        return type === "hospitals"
-          ? fetchSavedHospitals()
-          : fetchSavedClinics();
+        return type === "hospitals" ? fetchSavedHospitals() : fetchSavedClinics()
       }
 
-      const queryString = buildQueryParams();
-      let url = ``;
+      const queryString = buildQueryParams()
+      let url = ``
       if (type === "hospitals" || type === "clinics") {
-        url = `${baseURL}/v1/api/facility/filter?type=${type}`;
+        url = `${baseURL}/v1/api/facility/filter?type=${type}`
         if (queryString !== "") {
-          url = `${baseURL}/v1/api/facility/filter?type=${type}&${queryString}`;
+          url = `${baseURL}/v1/api/facility/filter?type=${type}&${queryString}`
         }
       } else {
-        url = `${baseURL}/v1/api/${type}/filter?`;
+        url = `${baseURL}/v1/api/${type}/filter?`
         if (queryString !== "") {
-          url = `${baseURL}/v1/api/${type}/filter?${queryString}`;
+          url = `${baseURL}/v1/api/${type}/filter?${queryString}`
         }
       }
 
-      const response = await axios.get(url);
+      console.log("Filter URL:", url) // For debugging
+
+      const response = await axios.get(url)
 
       // Dynamically access the array based on the facility type
-      let filteredResults = response.data[type] || [];
+      let filteredResults = response.data[type] || []
 
-      console.log(response.data[`${type}`], type);
+      console.log(response.data[`${type}`], type)
 
       // Apply client-side sorting if sortBy is selected
       if (selectedFilters.sortBy.length > 0) {
-        const sortType = selectedFilters.sortBy[0];
+        const sortType = selectedFilters.sortBy[0]
         if (sortType === "rating") {
-          filteredResults = sortByRating(filteredResults);
+          filteredResults = sortByRating(filteredResults)
         } else if (sortType === "reviews") {
-          filteredResults = sortByReviews(filteredResults);
+          filteredResults = sortByReviews(filteredResults)
         }
         // 'relevance' sorting is handled by the API or remains as is
       }
-      setFacilities(filteredResults);
+      setFacilities(filteredResults)
     } catch (error) {
-      console.error("Error applying filters:", error);
+      console.error("Error applying filters:", error)
     }
-  };
+  }
 
   // Add these utility functions for sorting
   const sortByRating = (facilities: Facility[]) => {
-    return [...facilities].sort((a, b) => b.avgRating - a.avgRating);
-  };
+    return [...facilities].sort((a, b) => b.avgRating - a.avgRating)
+  }
 
   const sortByReviews = (facilities: Facility[]) => {
-    return [...facilities].sort((a, b) => b.reviews.length - a.reviews.length);
-  };
+    return [...facilities].sort((a, b) => b.reviews.length - a.reviews.length)
+  }
 
   const fetchSavedHospitals = async () => {
     try {
@@ -266,12 +284,12 @@ export default function ServiceListing() {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      });
-      setFacilities(response.data);
+      })
+      setFacilities(response.data)
     } catch (error) {
-      console.error("Error fetching saved hospitals:", error);
+      console.error("Error fetching saved hospitals:", error)
     }
-  };
+  }
 
   const fetchSavedClinics = async () => {
     try {
@@ -279,31 +297,28 @@ export default function ServiceListing() {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      });
-      setFacilities(response.data);
+      })
+      setFacilities(response.data)
     } catch (error) {
-      console.error("Error fetching saved hospitals:", error);
+      console.error("Error fetching saved hospitals:", error)
     }
-  };
+  }
 
   const fetchSavedFacilities = async (facilityType: string | null) => {
-    if (!facilityType) return;
+    if (!facilityType) return
 
     try {
-      const response = await axios.get(
-        `${baseURL}/v1/api/saved/${facilityType}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      setFacilities(response.data);
+      const response = await axios.get(`${baseURL}/v1/api/saved/${facilityType}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      setFacilities(response.data)
     } catch (error) {
-      console.error(`Error fetching saved ${facilityType}:`, error);
-      setFacilities([]);
+      console.error(`Error fetching saved ${facilityType}:`, error)
+      setFacilities([])
     }
-  };
+  }
 
   return (
     <div className="relative bg-gray-50 min-h-screen">
@@ -313,10 +328,7 @@ export default function ServiceListing() {
           <nav className="flex" aria-label="Breadcrumb">
             <ol className="inline-flex items-center space-x-1 md:space-x-3">
               <li className="inline-flex items-center">
-                <a
-                  href="#"
-                  className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600"
-                >
+                <a href="#" className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
                   Home
                 </a>
               </li>
@@ -337,10 +349,7 @@ export default function ServiceListing() {
                       d="m1 9 4-4-4-4"
                     />
                   </svg>
-                  <a
-                    href="#"
-                    className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 capitalize"
-                  >
+                  <a href="#" className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 capitalize">
                     {location || "Mumbai"}
                   </a>
                 </div>
@@ -392,16 +401,10 @@ export default function ServiceListing() {
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-semibold">Filters</h2>
                 <div className="flex items-center gap-4">
-                  <button
-                    onClick={clearAllFilters}
-                    className="text-blue-500 text-sm hover:text-blue-600"
-                  >
+                  <button onClick={clearAllFilters} className="text-blue-500 text-sm hover:text-blue-600">
                     Clear all
                   </button>
-                  <button
-                    onClick={() => setFilterOpen(false)}
-                    className="text-gray-500 hover:text-gray-700"
-                  >
+                  <button onClick={() => setFilterOpen(false)} className="text-gray-500 hover:text-gray-700">
                     <X className="h-5 w-5" />
                   </button>
                 </div>
@@ -416,43 +419,26 @@ export default function ServiceListing() {
                     {section.title}
                     <ChevronDown
                       className={`h-4 w-4 transition-transform ${
-                        expandedSections.includes(section.title)
-                          ? "transform rotate-180"
-                          : ""
+                        expandedSections.includes(section.title) ? "transform rotate-180" : ""
                       }`}
                     />
                   </h3>
-                  <div
-                    className={`space-y-2 ${
-                      expandedSections.includes(section.title) ? "" : "hidden"
-                    }`}
-                  >
+                  <div className={`space-y-2 ${expandedSections.includes(section.title) ? "" : "hidden"}`}>
                     {section.options.map((option) => (
-                      <label
-                        key={option.id}
-                        className="flex items-center space-x-3 cursor-pointer group"
-                      >
+                      <label key={option.id} className="flex items-center space-x-3 cursor-pointer group">
                         <div
                           className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors
 ${
   Array.isArray(selectedFilters[section.filterType as keyof SelectedFilters]) &&
-  (
-    selectedFilters[section.filterType as keyof SelectedFilters] as string[]
-  ).includes(option.id)
+  (selectedFilters[section.filterType as keyof SelectedFilters] as string[]).includes(option.id)
     ? "border-blue-500 bg-blue-500"
     : "border-gray-300 group-hover:border-blue-500"
 }`}
                         >
-                          {Array.isArray(
-                            selectedFilters[
-                              section.filterType as keyof SelectedFilters
-                            ]
-                          ) &&
-                            (
-                              selectedFilters[
-                                section.filterType as keyof SelectedFilters
-                              ] as string[]
-                            ).includes(option.id) && (
+                          {Array.isArray(selectedFilters[section.filterType as keyof SelectedFilters]) &&
+                            (selectedFilters[section.filterType as keyof SelectedFilters] as string[]).includes(
+                              option.id,
+                            ) && (
                               <motion.svg
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
@@ -470,29 +456,15 @@ ${
                           type="checkbox"
                           className="hidden"
                           checked={
-                            Array.isArray(
-                              selectedFilters[
-                                section.filterType as keyof SelectedFilters
-                              ]
-                            ) &&
-                            (
-                              selectedFilters[
-                                section.filterType as keyof SelectedFilters
-                              ] as string[]
-                            ).includes(option.id)
+                            Array.isArray(selectedFilters[section.filterType as keyof SelectedFilters]) &&
+                            (selectedFilters[section.filterType as keyof SelectedFilters] as string[]).includes(
+                              option.id,
+                            )
                           }
-                          onChange={() =>
-                            handleFilterToggle(option.id, section.filterType)
-                          }
+                          onChange={() => handleFilterToggle(option.id, section.filterType)}
                         />
-                        <span className="flex-1 text-gray-700">
-                          {option.text}
-                        </span>
-                        {option.count && (
-                          <span className="text-gray-400 text-sm">
-                            ({option.count})
-                          </span>
-                        )}
+                        <span className="flex-1 text-gray-700">{option.text}</span>
+                        {option.count && <span className="text-gray-400 text-sm">({option.count})</span>}
                       </label>
                     ))}
                   </div>
@@ -508,6 +480,7 @@ ${
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold capitalize">
             {type || "Health Facilities"} in {location || "Mumbai"}
+            {searchQuery && <span className="ml-2 text-lg font-normal text-gray-600">Search: "{searchQuery}"</span>}
           </h2>
           <button
             onClick={() => setFilterOpen(true)}
@@ -523,10 +496,7 @@ ${
             <div className="bg-white rounded-lg shadow-sm border p-6">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-semibold">Filters</h2>
-                <button
-                  onClick={clearAllFilters}
-                  className="text-blue-500 text-sm hover:text-blue-600"
-                >
+                <button onClick={clearAllFilters} className="text-blue-500 text-sm hover:text-blue-600">
                   Clear all
                 </button>
               </div>
@@ -539,29 +509,18 @@ ${
                     {section.title}
                     <ChevronDown
                       className={`h-4 w-4 transition-transform ${
-                        expandedSections.includes(section.title)
-                          ? "transform rotate-180"
-                          : ""
+                        expandedSections.includes(section.title) ? "transform rotate-180" : ""
                       }`}
                     />
                   </h3>
-                  <div
-                    className={`space-y-2 ${
-                      expandedSections.includes(section.title) ? "" : "hidden"
-                    }`}
-                  >
+                  <div className={`space-y-2 ${expandedSections.includes(section.title) ? "" : "hidden"}`}>
                     {section.options.map((option) => (
-                      <label
-                        key={option.id}
-                        className="flex items-center space-x-3 cursor-pointer group"
-                      >
+                      <label key={option.id} className="flex items-center space-x-3 cursor-pointer group">
                         <div
                           className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors
                                                       ${
                                                         Array.isArray(
-                                                          selectedFilters[
-                                                            section.filterType as keyof SelectedFilters
-                                                          ]
+                                                          selectedFilters[section.filterType as keyof SelectedFilters],
                                                         ) &&
                                                         (
                                                           selectedFilters[
@@ -572,16 +531,10 @@ ${
                                                           : "border-gray-300 group-hover:border-blue-500"
                                                       }`}
                         >
-                          {Array.isArray(
-                            selectedFilters[
-                              section.filterType as keyof SelectedFilters
-                            ]
-                          ) &&
-                            (
-                              selectedFilters[
-                                section.filterType as keyof SelectedFilters
-                              ] as string[]
-                            ).includes(option.id) && (
+                          {Array.isArray(selectedFilters[section.filterType as keyof SelectedFilters]) &&
+                            (selectedFilters[section.filterType as keyof SelectedFilters] as string[]).includes(
+                              option.id,
+                            ) && (
                               <motion.svg
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
@@ -599,29 +552,15 @@ ${
                           type="checkbox"
                           className="hidden"
                           checked={
-                            Array.isArray(
-                              selectedFilters[
-                                section.filterType as keyof SelectedFilters
-                              ]
-                            ) &&
-                            (
-                              selectedFilters[
-                                section.filterType as keyof SelectedFilters
-                              ] as string[]
-                            ).includes(option.id)
+                            Array.isArray(selectedFilters[section.filterType as keyof SelectedFilters]) &&
+                            (selectedFilters[section.filterType as keyof SelectedFilters] as string[]).includes(
+                              option.id,
+                            )
                           }
-                          onChange={() =>
-                            handleFilterToggle(option.id, section.filterType)
-                          }
+                          onChange={() => handleFilterToggle(option.id, section.filterType)}
                         />
-                        <span className="flex-1 text-gray-700">
-                          {option.text}
-                        </span>
-                        {option.count && (
-                          <span className="text-gray-400 text-sm">
-                            ({option.count})
-                          </span>
-                        )}
+                        <span className="flex-1 text-gray-700">{option.text}</span>
+                        {option.count && <span className="text-gray-400 text-sm">({option.count})</span>}
                       </label>
                     ))}
                   </div>
@@ -636,66 +575,56 @@ ${
             <div className="flex justify-between items-center mb-6 sm:px-2">
               {/* Applied Filters */}
               <div className="flex flex-wrap gap-2">
-                {Object.entries(selectedFilters).flatMap(
-                  ([filterType, values]) => {
-                    if (filterType === "saved" && values === true) {
-                      return [
+                {Object.entries(selectedFilters).flatMap(([filterType, values]) => {
+                  if (filterType === "saved" && values === true) {
+                    return [
+                      <motion.div
+                        key="saved"
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        className="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 border border-blue-200 rounded-full text-sm text-blue-700"
+                      >
+                        <span>Saved</span>
+                        <button
+                          onClick={() => handleSavedFilter(!selectedFilters.saved)}
+                          className="w-4 h-4 flex items-center justify-center rounded-full hover:bg-blue-100"
+                        >
+                          ×
+                        </button>
+                      </motion.div>,
+                    ]
+                  }
+
+                  if (Array.isArray(values) && values.length > 0) {
+                    return values.map((filterId) => {
+                      const filterSection = filters.find((section) => section.filterType === filterType)
+                      const filterOption = filterSection?.options.find((option) => option.id === filterId)
+
+                      if (!filterOption) return null
+
+                      return (
                         <motion.div
-                          key="saved"
+                          key={`${filterType}-${filterId}`}
                           initial={{ scale: 0.8, opacity: 0 }}
                           animate={{ scale: 1, opacity: 1 }}
                           exit={{ scale: 0.8, opacity: 0 }}
                           className="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 border border-blue-200 rounded-full text-sm text-blue-700"
                         >
-                          <span>Saved</span>
+                          <span>{filterOption.text}</span>
                           <button
-                            onClick={() =>
-                              handleSavedFilter(!selectedFilters.saved)
-                            }
+                            onClick={() => handleFilterToggle(filterId, filterType)}
                             className="w-4 h-4 flex items-center justify-center rounded-full hover:bg-blue-100"
                           >
                             ×
                           </button>
-                        </motion.div>,
-                      ];
-                    }
-
-                    if (Array.isArray(values) && values.length > 0) {
-                      return values.map((filterId) => {
-                        const filterSection = filters.find(
-                          (section) => section.filterType === filterType
-                        );
-                        const filterOption = filterSection?.options.find(
-                          (option) => option.id === filterId
-                        );
-
-                        if (!filterOption) return null;
-
-                        return (
-                          <motion.div
-                            key={`${filterType}-${filterId}`}
-                            initial={{ scale: 0.8, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.8, opacity: 0 }}
-                            className="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 border border-blue-200 rounded-full text-sm text-blue-700"
-                          >
-                            <span>{filterOption.text}</span>
-                            <button
-                              onClick={() =>
-                                handleFilterToggle(filterId, filterType)
-                              }
-                              className="w-4 h-4 flex items-center justify-center rounded-full hover:bg-blue-100"
-                            >
-                              ×
-                            </button>
-                          </motion.div>
-                        );
-                      });
-                    }
-
-                    return [];
+                        </motion.div>
+                      )
+                    })
                   }
-                )}
+
+                  return []
+                })}
               </div>
             </div>
             <hr />
@@ -729,14 +658,12 @@ ${
                             ) : (
                               <SwiperSlide key={index}>
                                 <img
-                                  src={
-                                    hospitalImgs + image || "/placeholder.svg"
-                                  }
+                                  src={hospitalImgs + image || "/placeholder.svg"}
                                   alt={`${type} Image`}
                                   className="w-full h-auto object-cover aspect-[5/3] rounded-md"
                                 />
                               </SwiperSlide>
-                            )
+                            ),
                           )}
                         </Swiper>
                       </div>
@@ -751,12 +678,10 @@ ${
                               {detail.name}
                             </span>
                             <span className="text-sm min-[425px]:text-base sm:text-lg lg:text-base xl:text-lg font-semibold text-gray-700">
-                              {detail.address.street}, {detail.address.city} -{" "}
-                              {detail.address.zipCode}
+                              {detail.address.street}, {detail.address.city} - {detail.address.zipCode}
                             </span>
                             <span className="text-sm  text-green-700 capitalize">
-                              {`${detail.openDay} - ${detail.closeDay} ${detail.hours} hrs` ||
-                                "Open 24 hours"}
+                              {`${detail.openDay} - ${detail.closeDay} ${detail.hours} hrs` || "Open 24 hours"}
                             </span>
                           </div>
 
@@ -772,9 +697,7 @@ ${
                                 </div>
 
                                 <div className="!text-gray-600">
-                                  <span className="text-sm">
-                                    {detail.reviews?.length} Reviews
-                                  </span>
+                                  <span className="text-sm">{detail.reviews?.length} Reviews</span>
                                 </div>
                               </>
                             )}
@@ -798,11 +721,8 @@ ${
                             {/* ACCREDITATIONS IMAGES*/}
                             <div className="flex items-center space-x-2">
                               {detail.accreditations?.map((acc, index) => {
-                                const accreditation =
-                                  servicesByAccrediations.find(
-                                    (item) => item.title === acc
-                                  );
-                                const accImg = accreditation?.image; // Get the image
+                                const accreditation = servicesByAccrediations.find((item) => item.title === acc)
+                                const accImg = accreditation?.image // Get the image
 
                                 // Only render image if accImg is available
                                 return (
@@ -814,7 +734,7 @@ ${
                                       className="!h-14 !w-14 md:!h-14 md:!w-14 !object-cover !object-center !rounded-full"
                                     />
                                   </>
-                                );
+                                )
                               })}
                             </div>
 
@@ -844,5 +764,5 @@ ${
         </div>
       </div>
     </div>
-  );
+  )
 }
