@@ -201,14 +201,14 @@ const Reviews = ({ id, avgRating, addRating,ratings }) => {
 
               {/* Reviewed and Relative Days */}
               <div className="!flex !space-x-4 !py-2.5">
-                <div className="!flex !justify-center !items-center">
+                {/* <div className="!flex !justify-center !items-center">
                   {starIcon.map((_, index) => (
                     <IoIosStar
                       key={index}
                       className="!h-6 !w-6 !mr-0.5 !text-[#74c365]"
                     />
                   ))}
-                </div>
+                </div> */}
                 <div>
                   <span className="!text-md !font-semibold">
                     {new Date(review.createdAt).toLocaleDateString("en-US", {

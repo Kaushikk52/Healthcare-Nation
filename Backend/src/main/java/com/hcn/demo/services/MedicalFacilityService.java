@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +24,7 @@ public class MedicalFacilityService {
     private final ReviewRepo reviewRepo;
     private final UserDetailsService userDetailsService;
     private final UserRepo userRepo;
+    private List<Rating> existingRating;
 
     @Autowired
     public MedicalFacilityService(MedicalFacilityRepo medicalFacilityRepo, AddressRepo addressRepo, RatingRepo ratingRepo,
@@ -52,11 +50,27 @@ public class MedicalFacilityService {
 
     public void addRatingToMedicalFacility(String id , Rating rating, Principal principal){
         MedicalFacility facility = this.getFacilityById(id);
+        User principalUser = (User)userDetailsService.loadUserByUsername(principal.getName());
+        List<Rating> existingRatings = facility.getRatings();
+        Optional<Rating> existingUserRating = existingRatings.stream()
+                .filter(rating1 -> rating1.getUser().equals(principalUser))
+                .findFirst();
+        if (existingUserRating.isPresent()) {
+            
+        }
         facility.addRating(rating);
         rating.setMedicalFacility(facility);
-        User principalUser = (User)userDetailsService.loadUserByUsername(principal.getName());
+
         rating.setUser(principalUser);
         ratingRepo.save(rating);
+    }
+
+    public void addNewRating(){
+
+    }
+
+    public void editRating(){
+
     }
 
     public MedicalFacility updateAverageRating(String id){
