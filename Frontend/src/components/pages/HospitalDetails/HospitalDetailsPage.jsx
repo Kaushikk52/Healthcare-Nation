@@ -23,7 +23,7 @@ import servicesByAccrediations from "@/data/accrediations";
 import Description from "../../Description";
 import Photos from "../../Photos";
 import Videos from "../../Videos";
-import Reviews from "../../Reviews";
+import Reviews from "../../Reviews.tsx";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -211,6 +211,7 @@ const HospitalDetailsPage = () => {
           id={hospital.id}
           avgRating={hospital.avgRating?.toPrecision(2)}
           addRating={handleAddRating}
+          ratings={hospital.ratings}
         />
       ),
       title: "Reviews",
