@@ -1,5 +1,3 @@
-"use client"
-
 import React, { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { FaStar, FaFilter } from "react-icons/fa"
@@ -88,13 +86,15 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
   const [expandedSections, setExpandedSections] = useState<string[]>([])
 
   // Get type and location from URL params as fallback
-  const [searchParams] = useSearchParams()
-  const typeFromUrl = searchParams.get("type")
-  const locationFromUrl = searchParams.get("location")
+  const [searchParams] = useSearchParams();
+  const typeFromUrl = searchParams.get("type");
+  const locationFromUrl = searchParams.get("location");
+  const searchFromUrl = searchParams.get("search");
 
   // Use props if provided, otherwise fall back to URL params
-  const type = facilityType || typeFromUrl
-  const location = locationParam || locationFromUrl
+  const type = facilityType || typeFromUrl;
+  const location = locationParam || locationFromUrl;
+  const search = searchQuery || searchFromUrl;
 
   const [facilities, setFacilities] = useState<Facility[]>([])
   const [filterOpen, setFilterOpen] = useState<boolean>(false)
@@ -127,7 +127,7 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
   useEffect(() => {
     applyFilters()
     setFilters(getFiltersByType(type))
-  }, [type, selectedFilters, locationParam, searchQuery])
+  }, [type,location, search, selectedFilters])
 
   // Update the handleSavedFilter function to use the type
   const handleSavedFilter = (saved: boolean) => {
@@ -197,13 +197,9 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
     const params = new URLSearchParams()
 
     // Add location and search query if they exist
-    if (location) {
-      params.append("location", location)
-    }
-
-    if (searchQuery) {
-      params.append("search", searchQuery)
-    }
+    location && params.append("location", location);
+    search && params.append("search", search);
+    
 
     // Don't include saved in the query params as it uses a different API
     Object.entries(selectedFilters).forEach(([key, value]) => {

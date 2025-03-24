@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { User, Menu, X } from "lucide-react";
 import AuthPopup from "./Auth/AuthPopup";
@@ -29,6 +29,8 @@ const DropdownLink = ({
 
 export default function Navbar() {
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const newParams = new URLSearchParams(searchParams);
   const location = useLocation();
   const [currentUser, setCurrentUser] = useState({
     firstName: "",
@@ -156,14 +158,37 @@ export default function Navbar() {
   const handleLocationChange = (event) => {
     const location = event.target.value;
     setSelectedLocation(location);
-    if (location) {
-      navigate(`/listing?location=${location.toLowerCase()}`);
+    if (location !== "") {
+      newParams.set("location",location);
+      setSearchParams(newParams, { replace: true });
+      // navigate(`/listing?location=${location.toLowerCase()}`);
+    }else {
+      newParams.delete("location")
+      setSearchParams(newParams, { replace: true });
     }
   };
 
+  const handleSearch = useCallback(
+    _.debounce((searchText) => {
+      if(searchText !== ""){
+        console.log("Searching for:", searchText);
+        newParams.set("search",searchText);
+        setSearchParams(newParams, { replace: true });
+        // navigate(`/listing?search=${searchText}`);
+      }else{
+        newParams.delete("search")
+        setSearchParams(newParams, { replace: true });
+      }
+      
+    }, 500),
+    []
+  );
+
+
   useEffect(() => {
     getUser();
-    // checkIfLogin('/');
+    newParams.delete("location");
+    newParams.delete("search");
   },[]);
 
   const getUser = async () => {
@@ -222,15 +247,6 @@ export default function Navbar() {
       setToggle(true); // toggle visible
     }
   };
-
-
-  const handleSearch = useCallback(
-    _.debounce((searchText) => {
-      console.log("Searching for:", searchText);
-      navigate(`/listing?search=${searchText}`);
-    }, 500),
-    []
-  );
 
     // Handle input change and pass to debounced function
     const handleChange = (event) => {

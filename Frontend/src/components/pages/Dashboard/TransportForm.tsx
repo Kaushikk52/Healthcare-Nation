@@ -6,9 +6,24 @@ import popularBrands from "@/data/brands";
 import { MedicalFacility } from "@/models/MedicalFacility";
 import { TransportSchema } from "@/Validations/Transport";
 import axios from "axios";
-import { ErrorMessage, Field, Form, Formik, FormikErrors, FormikHelpers } from "formik";
+import {
+  ErrorMessage,
+  Field,
+  Form,
+  Formik,
+  FormikErrors,
+  FormikHelpers,
+} from "formik";
 import { AnimatePresence, motion } from "framer-motion";
-import { AlertCircle, Check, ChevronLeft, ChevronRight, Loader2, Plus, X } from "lucide-react";
+import {
+  AlertCircle,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  Loader2,
+  Plus,
+  X,
+} from "lucide-react";
 import React from "react";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
@@ -145,6 +160,14 @@ function TransportForm() {
     { label: "Sunday", value: "sun", index: 6 },
   ];
 
+  const stateOptions = [
+    { label: "Select Location", value: "", index: 0, disable: true },
+    { label: "Mumbai", value: "Mumbai", index: 1, disable: false },
+    { label: "Bangalore", value: "Bangalore", index: 2, disable: false },
+    { label: "Chennai", value: "Chennai", index: 3, disable: false },
+    { label: "Delhi", value: "Delhi", index: 4, disable: false },
+  ];
+
   const facilitiesOptions = [
     ...facilities.map((facility) => ({
       value: facility.id.toString(),
@@ -184,175 +207,175 @@ function TransportForm() {
   function showToast(message: string, type: "success" | "error") {
     toast[type](message, { position: "bottom-right", duration: 3000 });
   }
-  
+
   const getStepFields = (stepNumber: number) => {
-      switch (stepNumber) {
-        case 1:
-          return [
-            "name",
-            "phone",
-            "address.street",
-            "address.city",
-            "address.landmark",
-            "address.zipCode",
-          ];
-        case 2:
-          return [
-            "description",
-            "ownership",
-            "specialities.name",
-            "specialities.image",
-          ];
-        case 3:
-          return ["images"];
-        case 4:
-          return ["departments", "altMeds", "concern", "services"];
-        default:
-          return [];
+    switch (stepNumber) {
+      case 1:
+        return [
+          "name",
+          "phone",
+          "address.street",
+          "address.city",
+          "address.landmark",
+          "address.zipCode",
+        ];
+      case 2:
+        return [
+          "description",
+          "ownership",
+          "specialities.name",
+          "specialities.image",
+        ];
+      case 3:
+        return ["images"];
+      case 4:
+        return ["departments", "altMeds", "concern", "services"];
+      default:
+        return [];
+    }
+  };
+
+  const showErrorsToast = (
+    errors: FormikErrors<typeof initialValues>,
+    stepNumber: number
+  ) => {
+    const stepFields = getStepFields(stepNumber);
+    const errorMessages = stepFields.reduce((acc: string[], field) => {
+      const fieldParts = field.split(".");
+      let fieldError: any = errors;
+      for (const part of fieldParts) {
+        fieldError = fieldError && fieldError[part];
       }
-    };
-  
-    const showErrorsToast = (
-      errors: FormikErrors<typeof initialValues>,
-      stepNumber: number
-    ) => {
+      if (fieldError) {
+        acc.push(`${field}: ${fieldError}`);
+      }
+      return acc;
+    }, []);
+
+    if (errorMessages.length > 0) {
+      toast.error(
+        <div>
+          <strong>Errors on step {stepNumber}:</strong>
+          <ul className="list-disc pl-4 mt-2">
+            {errorMessages.map((message, index) => (
+              <li key={index}>{message}</li>
+            ))}
+          </ul>
+        </div>,
+        { duration: 5000, position: "bottom-right" }
+      );
+    }
+  };
+
+  const hasStepErrors = (
+    errors: FormikErrors<typeof initialValues>,
+    touched: any,
+    stepNumber: number
+  ) => {
+    const stepFields = getStepFields(stepNumber);
+    return stepFields.some((field) => {
+      const fieldParts = field.split(".");
+      let fieldError: any = errors;
+      let fieldTouched: any = touched;
+      for (const part of fieldParts) {
+        fieldError = fieldError && fieldError[part];
+        fieldTouched = fieldTouched && fieldTouched[part];
+      }
+      return fieldError && fieldTouched;
+    });
+  };
+
+  const showAllErrors = (errors: FormikErrors<typeof initialValues>) => {
+    console.log("Errors : ", errors);
+    const allErrorMessages = steps.flatMap((_, index) => {
+      const stepNumber = index + 1;
       const stepFields = getStepFields(stepNumber);
-      const errorMessages = stepFields.reduce((acc: string[], field) => {
+      return stepFields.reduce((acc: string[], field) => {
         const fieldParts = field.split(".");
         let fieldError: any = errors;
         for (const part of fieldParts) {
           fieldError = fieldError && fieldError[part];
         }
         if (fieldError) {
-          acc.push(`${field}: ${fieldError}`);
+          acc.push(`Step ${stepNumber} - ${field}: ${fieldError}`);
         }
         return acc;
       }, []);
-  
-      if (errorMessages.length > 0) {
-        toast.error(
-          <div>
-            <strong>Errors on step {stepNumber}:</strong>
-            <ul className="list-disc pl-4 mt-2">
-              {errorMessages.map((message, index) => (
-                <li key={index}>{message}</li>
-              ))}
-            </ul>
-          </div>,
-          { duration: 5000, position: "bottom-right" }
-        );
-      }
-    };
-  
-    const hasStepErrors = (
-      errors: FormikErrors<typeof initialValues>,
-      touched: any,
-      stepNumber: number
-    ) => {
-      const stepFields = getStepFields(stepNumber);
-      return stepFields.some((field) => {
-        const fieldParts = field.split(".");
-        let fieldError: any = errors;
-        let fieldTouched: any = touched;
-        for (const part of fieldParts) {
-          fieldError = fieldError && fieldError[part];
-          fieldTouched = fieldTouched && fieldTouched[part];
-        }
-        return fieldError && fieldTouched;
-      });
-    };
-  
-    const showAllErrors = (errors: FormikErrors<typeof initialValues>) => {
-      console.log("Errors : ", errors);
-      const allErrorMessages = steps.flatMap((_, index) => {
-        const stepNumber = index + 1;
-        const stepFields = getStepFields(stepNumber);
-        return stepFields.reduce((acc: string[], field) => {
-          const fieldParts = field.split(".");
-          let fieldError: any = errors;
-          for (const part of fieldParts) {
-            fieldError = fieldError && fieldError[part];
-          }
-          if (fieldError) {
-            acc.push(`Step ${stepNumber} - ${field}: ${fieldError}`);
-          }
-          return acc;
-        }, []);
-      });
-  
-      if (allErrorMessages.length > 0) {
-        allErrorMessages.forEach((message) => {
-          toast.error(`${message}`, {
-            duration: 10000,
-            position: "bottom-right",
-          });
-        });
-      }
-    };
+    });
 
-    const getCurrentUserFacilities = async (): Promise<void> => {
-      try {
-        const response = await axios.get(
-          `${baseURL}/v1/api/facility/current-user`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        console.log("Current User facilites : ", response.data);
-        setFacilities(response.data.facilities);
-      } catch (err: any) {
-        console.log(err.message);
-      }
-    };
-  
-    async function handleSubmit(
-      values: typeof initialValues,
-      { setSubmitting, resetForm }: FormikHelpers<typeof initialValues>
-    ) {
-      if (step !== 4) {
-        setSubmitting(false);
-        return;
-      }
-  
-      try {
-        setSubmitting(true);
-        const imageUrls: any = await uploadImages(values.images, "Hospitals");
-        if (imageUrls.length > 0) {
-          values.images = imageUrls || [""];
-        }
-  
-        values.medicalFacilities = values.medicalFacilities?.map((facility) => ({
-          id: facility,
-        }));
-  
-        const token = localStorage.getItem("token");
-        const response = await axios.post(
-          `${baseURL}/v1/api/transport/save`,
-          { ...values, avgRating: 0.0 },
-          { headers: { Authorization: `Bearer ${token}`, timeout: 20000 } }
-        );
-  
-        if (response.status === 201) {
-          showToast("Form submitted successfully!", "success");
-          resetForm();
-          setStep(1);
-        }
-      } catch (err: any) {
-        if (err.response?.status === 401) {
-          showToast("Access denied! Authentication is required", "error");
-        } else {
-          showToast(`An error occurred: ${err.message}`, "error");
-        }
-      } finally {
-        setSubmitting(false);
-      }
+    if (allErrorMessages.length > 0) {
+      allErrorMessages.forEach((message) => {
+        toast.error(`${message}`, {
+          duration: 10000,
+          position: "bottom-right",
+        });
+      });
     }
-  
-    useEffect(() => {
-      getCurrentUserFacilities();
-    }, []);
+  };
+
+  const getCurrentUserFacilities = async (): Promise<void> => {
+    try {
+      const response = await axios.get(
+        `${baseURL}/v1/api/facility/current-user`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log("Current User facilites : ", response.data);
+      setFacilities(response.data.facilities);
+    } catch (err: any) {
+      console.log(err.message);
+    }
+  };
+
+  async function handleSubmit(
+    values: typeof initialValues,
+    { setSubmitting, resetForm }: FormikHelpers<typeof initialValues>
+  ) {
+    if (step !== 4) {
+      setSubmitting(false);
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+      const imageUrls: any = await uploadImages(values.images, "Hospitals");
+      if (imageUrls.length > 0) {
+        values.images = imageUrls || [""];
+      }
+
+      values.medicalFacilities = values.medicalFacilities?.map((facility) => ({
+        id: facility,
+      }));
+
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        `${baseURL}/v1/api/transport/save`,
+        { ...values, avgRating: 0.0 },
+        { headers: { Authorization: `Bearer ${token}`, timeout: 20000 } }
+      );
+
+      if (response.status === 201) {
+        showToast("Form submitted successfully!", "success");
+        resetForm();
+        setStep(1);
+      }
+    } catch (err: any) {
+      if (err.response?.status === 401) {
+        showToast("Access denied! Authentication is required", "error");
+      } else {
+        showToast(`An error occurred: ${err.message}`, "error");
+      }
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  useEffect(() => {
+    getCurrentUserFacilities();
+  }, []);
 
   useEffect(() => {
     if (startDay && endDay) {
@@ -555,19 +578,29 @@ function TransportForm() {
 
                       <div>
                         <label
-                          htmlFor="address.state"
-                          className="block text-sm font-medium text-gray-700"
+                          htmlFor="state"
+                          className="block text-sm font-medium text-gray-700 mb-1"
                         >
                           State
                         </label>
                         <Field
-                          id="address.state"
-                          name="address.state"
-                          type="text"
+                          as="select"
+                          id="state"
+                          name="state"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        />
+                        >
+                          {stateOptions.map((state) => (
+                            <option
+                              disabled={state.disable}
+                              key={state.value}
+                              value={state.value}
+                            >
+                              {state.label}
+                            </option>
+                          ))}
+                        </Field>
                         <ErrorMessage
-                          name="address.state"
+                          name="state"
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />
@@ -1069,7 +1102,7 @@ function TransportForm() {
       </motion.div>
       <Toaster />
     </div>
-  )
+  );
 }
 
 export default TransportForm;

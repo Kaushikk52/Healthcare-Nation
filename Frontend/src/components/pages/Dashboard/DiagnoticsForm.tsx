@@ -118,6 +118,14 @@ const TagInput = ({
   );
 };
 
+const stateOptions = [
+  { label: "Select Location", value: "", index: 0, disable: true },
+  { label: "Mumbai", value: "Mumbai", index: 1, disable: false },
+  { label: "Bangalore", value: "Bangalore", index: 2, disable: false },
+  { label: "Chennai", value: "Chennai", index: 3, disable: false },
+  { label: "Delhi", value: "Delhi", index: 4, disable: false },
+];
+
 const brandsOptions = [
   ...popularBrands.map((brand) => ({ label: brand.title, value: brand.title })),
 ];
@@ -182,10 +190,10 @@ function DiagnosticsForm() {
     ownership: "PRIVATE",
     brands: [""],
     accreditations: [""],
-    psu:[""],
-    diagnostics:[""],
-    insurance:[""],
-    tpa:[""],
+    psu: [""],
+    diagnostics: [""],
+    insurance: [""],
+    tpa: [""],
     medicalFacilities: [],
   };
 
@@ -609,19 +617,29 @@ function DiagnosticsForm() {
 
                       <div>
                         <label
-                          htmlFor="address.state"
-                          className="text-gray-700 text-sm block font-medium"
+                          htmlFor="state"
+                          className="block text-sm font-medium text-gray-700 mb-1"
                         >
                           State
                         </label>
                         <Field
-                          id="address.state"
-                          name="address.state"
-                          type="text"
-                          className="border border-gray-300 rounded-md shadow-sm w-full block focus:border-blue-500 focus:outline-none focus:ring-blue-500 mt-1 px-3 py-2"
-                        />
+                          as="select"
+                          id="state"
+                          name="state"
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        >
+                          {stateOptions.map((state) => (
+                            <option
+                              disabled={state.disable}
+                              key={state.value}
+                              value={state.value}
+                            >
+                              {state.label}
+                            </option>
+                          ))}
+                        </Field>
                         <ErrorMessage
-                          name="address.state"
+                          name="state"
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />

@@ -118,13 +118,17 @@ public class MedicalFacilityController {
                                                                    @RequestParam(required = false) List<String> concerns,
                                                                    @RequestParam(required = false) List<String> insurance,
                                                                    @RequestParam(required = false) List<String> tpa,
-                                                                   @RequestParam(required = false) List<String> altMed
+                                                                   @RequestParam(required = false) List<String> altMed,
+                                                                   @RequestParam(required = false) String location,
+                                                                   @RequestParam(required = false) String search
 
     ){
         Map<String,Object> response = new HashMap<>();
         try{
             Map<String,Object> filters = new HashMap<>();
             if(type != null) filters.put("type",type);
+            if(location != null) filters.put("location",location);
+            if(search != null) filters.put("search",search);
             if (accreditations != null && !accreditations.isEmpty()) filters.put("accreditations", accreditations);
             if (ownership != null && !ownership.isEmpty()) filters.put("ownership", ownership);
             if (specialities != null && !specialities.isEmpty()) filters.put("specialities", specialities);

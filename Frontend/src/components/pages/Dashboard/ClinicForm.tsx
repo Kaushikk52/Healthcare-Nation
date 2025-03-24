@@ -36,7 +36,7 @@ import servicesByAccrediations from "@/data/accrediations";
 import servicesByHealthConcern from "@/data/healthConcern";
 import chooseYourHealthInsurance from "@/data/healthInsurance";
 import chooseYourTPA from "@/data/tpa";
-import alternativeMedicine from "@/data/alternativeMedicine"
+import alternativeMedicine from "@/data/alternativeMedicine";
 
 // Add these option arrays after all the imports
 const specialtiesOptions = [
@@ -44,6 +44,14 @@ const specialtiesOptions = [
     label: speciality.title,
     value: speciality.title,
   })),
+];
+
+const stateOptions = [
+  { label: "Select Location", value: "", index: 0, disable: true },
+  { label: "Mumbai", value: "Mumbai", index: 1, disable: false },
+  { label: "Bangalore", value: "Bangalore", index: 2, disable: false },
+  { label: "Chennai", value: "Chennai", index: 3, disable: false },
+  { label: "Delhi", value: "Delhi", index: 4, disable: false },
 ];
 
 const servicesOptions = [
@@ -99,12 +107,11 @@ const diagnosticsOptions = [
   })),
 ];
 
-
 const altMedOptions = [
-  ...alternativeMedicine.map((med)=> ({
+  ...alternativeMedicine.map((med) => ({
     label: med.title,
-    value: med.title
-  }))
+    value: med.title,
+  })),
 ];
 
 const DatePickerField = ({ field, form }: any) => {
@@ -226,8 +233,8 @@ export default function ClinicForm() {
     hours: "",
     description: "",
     phoneNumbers: [""],
-    facts:[""],
-    achievements:[""],
+    facts: [""],
+    achievements: [""],
     images: [] as File[],
     videos: [""],
     ownership: "PRIVATE",
@@ -696,19 +703,29 @@ export default function ClinicForm() {
 
                       <div>
                         <label
-                          htmlFor="address.state"
-                          className="block text-sm font-medium text-gray-700"
+                          htmlFor="state"
+                          className="block text-sm font-medium text-gray-700 mb-1"
                         >
                           State
                         </label>
                         <Field
-                          id="address.state"
-                          name="address.state"
-                          type="text"
+                          as="select"
+                          id="state"
+                          name="state"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        />
+                        >
+                          {stateOptions.map((state) => (
+                            <option
+                              disabled={state.disable}
+                              key={state.value}
+                              value={state.value}
+                            >
+                              {state.label}
+                            </option>
+                          ))}
+                        </Field>
                         <ErrorMessage
-                          name="address.state"
+                          name="state"
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />
@@ -916,7 +933,6 @@ export default function ClinicForm() {
                     </div>
 
                     <div className="grid grid-cols-2 gap-6">
-                  
                       <div>
                         <label
                           htmlFor="ownership"
@@ -1299,8 +1315,6 @@ export default function ClinicForm() {
                         className="text-red-500 text-sm mt-1"
                       />
                     </div>
-
-                    
 
                     <div className="!mt-6">
                       <label className="block text-xl font-medium text-gray-900 mb-4">

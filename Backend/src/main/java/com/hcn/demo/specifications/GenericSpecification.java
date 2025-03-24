@@ -1,5 +1,7 @@
 package com.hcn.demo.specifications;
 
+import com.hcn.demo.models.Address;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 import java.util.ArrayList;
@@ -17,6 +19,18 @@ public class GenericSpecification<T>  {
                 String type = (String) filters.get("type");
                 predicates.add(criteriaBuilder.equal(root.get("facilityType"),type));
             }
+
+            if(filters.containsKey("location")){
+                String location = (String) filters.get("location");
+                Join<T, Address> addressJoin = root.join("address");
+                predicates.add(criteriaBuilder.equal(addressJoin.get("state"),location));
+            }
+
+            if(filters.containsKey("search")){
+                String search = (String) filters.get("search");
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")),"%" + search.toLowerCase() + "%"));
+            }
+
 
             if(filters.containsKey("ownership")){
                 String ownership = (String) filters.get("ownership");
