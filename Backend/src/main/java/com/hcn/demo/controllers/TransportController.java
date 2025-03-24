@@ -60,7 +60,7 @@ public class TransportController {
             Transport transport = transportServ.getById(id);
             log.info("Retrieved Transport By Id:{}",transport.getId());
             response.put("message","Retrieved Transport By Id : "+transport.getId());
-            response.put("Transport",transport);
+            response.put("transport",transport);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }catch (RuntimeException e) {
             log.warn("A RuntimeException occurred : {}", e.getMessage());

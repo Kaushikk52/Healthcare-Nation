@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
-// Icons
+//Icons
 import { IoIosStar } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
 import { MdOutlineDirections } from "react-icons/md";
@@ -30,27 +30,28 @@ const ServiceDetailsPage = () => {
   const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS;
   const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 425);
   const [activeTabButton, setActiveTabButton] = useState("description");
-  const [clinic, setClinic] = useState({});
+  const [service, setService] = useState<any>({});
   const [saved, setSaved] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { id, type } = useParams();
 
   useEffect(() => {
-    getClinicDetails(id);
+    getServiceDetails(id);
   }, [id]);
 
   const handleAddRating = () => {
     console.log("parent component updated");
-    getClinicDetails(id);
+    getServiceDetails(id);
   };
 
-  const getClinicDetails = async (id) => {
+  const getServiceDetails = async (id) => {
     try {
-      const response = await axios.get(`${baseURL}/v1/api/facility/id/${id}`);
-      const data = response.data.facility;
+      const service = type.replace("-details","")
+      const response = await axios.get(`${baseURL}/v1/api/${service}/id/${id}`);
+      const data = response.data[service];
       // console.log(data);
-      setClinic(data);
+      setService(data);
       setSaved(data.isSaved);
     } catch (error) {
       console.error(error);
@@ -75,7 +76,7 @@ const ServiceDetailsPage = () => {
   };
 
   const handleDirection = () => {
-    const clinicAddress = `${clinic.name} ${clinic.address.street},${clinic.address.landmark} ,${clinic.address.city} - ${clinic.address.zipCode}`;
+    const clinicAddress = `${service.name} ${service.address.street},${service.address.landmark} ,${service.address.city} - ${service.address.zipCode}`;
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -100,10 +101,10 @@ const ServiceDetailsPage = () => {
     }
   };
 
-  const saveClinic = async (clinicId) => {
+  const saveService = async (id) => {
     try {
       const response = await axios.post(
-        `${baseURL}/v1/api/saved/${hospitalId}`,
+        `${baseURL}/v1/api/saved/${id}`,
         {},
         {
           headers: {
@@ -118,8 +119,8 @@ const ServiceDetailsPage = () => {
     }
   };
 
-  const removeSavedClinic= async (clinicId) => {
-    return await axios.delete(`${baseURL}/v1/api/saved/${hospitalId}`, {
+  const removeSavedService= async (id) => {
+    return await axios.delete(`${baseURL}/v1/api/saved/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -128,10 +129,10 @@ const ServiceDetailsPage = () => {
 
   const handleSave = async () => {
     if (saved) {
-      await removeSavedClinic(id);
+      await removeSavedService(id);
       setSaved(false);
     } else {
-      await saveClinic(id);
+      await saveService(id);
       setSaved(true);
     }
     // setSaved(!saved);
@@ -178,7 +179,7 @@ const ServiceDetailsPage = () => {
     {
       id: "description",
       component: (
-        <Description details={hospital} phones={hospital.phoneNumbers} />
+        <Description details={service} phones={service.phoneNumbers} />
       ),
       title: "Description",
       marginX: "!mr-2",
@@ -186,31 +187,31 @@ const ServiceDetailsPage = () => {
     },
     {
       id: "photos",
-      component: <Photos images={hospital.images} type={type} />,
+      component: <Photos images={service.images} type={type} />,
       title: "Photos",
       marginX: "!mx-2",
       paddingX: "!px-1 min-[425px]:!px-2",
     },
     {
       id: "videos",
-      component: <Videos videos={hospital.videos} />,
+      component: <Videos videos={service.videos} />,
       title: "Videos",
       marginX: "!mx-2",
       paddingX: "!px-1 min-[425px]:!px-2",
     },
-    {
-      id: "reviews",
-      component: (
-        <Reviews
-          id={hospital.id}
-          avgRating={hospital.avgRating?.toPrecision(2)}
-          addRating={handleAddRating}
-        />
-      ),
-      title: "Reviews",
-      marginX: "!mx-2",
-      paddingX: "!px-1 min-[425px]:!px-2",
-    },
+    // {
+    //   id: "reviews",
+    //   component: (
+    //     <Reviews
+    //       id={service.id}
+    //       avgRating={service.avgRating?.toPrecision(2)}
+    //       addRating={handleAddRating}
+    //     />
+    //   ),
+    //   title: "Reviews",
+    //   marginX: "!mx-2",
+    //   paddingX: "!px-1 min-[425px]:!px-2",
+    // },
   ];
 
   return (
@@ -285,34 +286,34 @@ const ServiceDetailsPage = () => {
         {/* Main Image */}
         <div
           className={`col-span-12 ${
-            clinic.images?.length === 1 ? "lg:col-span-12" : "lg:col-span-8"
-          }`}
+            service.images?.length === 1 ? "lg:col-span-12" : "lg:col-span-8"
+          } `}
         >
           <img
-            src={hospitalImgs + clinic.images?.[0]}
-            alt="main clinic"
+            src={hospitalImgs + service.images?.[0]}
+            alt="main service"
             className="h-[240px] min-[425px]:h-[280px] sm:h-[380px] lg:h-[510px] w-full rounded-sm object-cover"
           />
         </div>
         {/* Conditional Grid for Other Images */}
-        {clinic.images?.length > 1 && (
-          <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4 lg:gap-0 col-span-12 lg:col-span-4 lg:flex lg:flex-col lg:justify-between lg:space-y-4">
+        {service.images?.length > 1 && (
+          <div className="h-full grid grid-cols-2 gap-2 sm:gap-3 md:gap-4 lg:gap-0 col-span-12 lg:col-span-4 lg:flex lg:flex-col lg:justify-between lg:space-y-4">
             {/* First Additional Image */}
             <div>
               <img
-                src={clinicImgs + clinic.images?.[1]}
+                src={hospitalImgs + service.images?.[1]}
                 alt="Patient Room"
-                className="h-full w-full object-cover object-center rounded-sm"
+                className="min-h-[160px] max-h-[160px] md:min-h-[220px] md:max-h-[220px] lg:min-h-[247px] lg:max-h-[247px] border w-full object-cover object-center rounded-sm"
               />
             </div>
 
             {/* Show the third image only if there are 3 or more images */}
-            <div className="relative h-full w-full">
-              {clinic.images?.length >= 4 ? (
+            <div className="relative min-h-[160px] max-h-[160px] md:min-h-[220px] md:max-h-[220px] lg:min-h-[247px] lg:max-h-[247px] w-full">
+              {service.images?.length >= 4 ? (
                 <div
                   style={{
                     backgroundImage: `url(${
-                        clinicImgs + clinic.images?.[2]
+                        hospitalImgs + service.images?.[2]
                     })`,
                   }}
                   className="relative h-full w-full bg-cover bg-center rounded-sm"
@@ -320,15 +321,15 @@ const ServiceDetailsPage = () => {
                   <div className="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center">
                     <div className="flex flex-col justify-center items-center text-white text-2xl">
                       <p>+</p>
-                      <p>{clinic.images?.length - 3} more</p>
+                      <p>{service.images?.length - 3} more</p>
                     </div>
                   </div>
                 </div>
               ) : (
                 <>
-                  {clinic.images?.length > 2 && (
+                  {service.images?.length > 2 && (
                     <img
-                      src={clinicImgs + clinic.images?.[2]}
+                      src={hospitalImgs + service.images?.[2]}
                       alt="Hallway"
                       className="h-full w-full object-cover object-center rounded-sm"
                     />
@@ -340,6 +341,33 @@ const ServiceDetailsPage = () => {
         )}
       </div>
 
+       {/* Title & Contents */}
+    <div className="!flex !flex-col !items-start sm:!flex-row sm:!justify-between sm:!items-start !py-2 sm:!py-0">
+        {/* Left Side */}
+        <div className="!flex !flex-col !justify-center !space-y-1.5">
+          <span className="!text-2xl lg:!text-4xl !font-medium !text-wrap">
+            {service.name}
+          </span>
+          {/* <span className='!text-md lg:!text-xl !font-medium text-gray-600'>Andheri, Mumbai</span> */}
+          <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 text-balance">
+                  {service.address?.street}, {service.address?.landmark}, {service.address?.city}{" "}
+                  - {service.address?.zipCode}
+                  {/* 
+                  Rao Saheb, Achutrao Patwardhan Marg, Four Bungalows, Andheri
+                  West, Mumbai, Maharashtra 400053 */}
+                </span>
+          <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-md !text-[#74c365] capitalize">
+
+          {service.openDay} - {service.closeDay}{" "}
+          {service.hours} Hrs
+          </span>
+
+        </div>
+
+        {/* Right Side  */}
+        
+      </div>
+
       {/* Buttons & Rounded Images*/}
       <div className="!flex !flex-col sm:!flex-row !items-start sm:!items-center sm:!space-y-0 !space-y-5 !justify-between !pb-4 sm:!py-4">
         {/* Left Side for Buttons */}
@@ -349,7 +377,7 @@ const ServiceDetailsPage = () => {
               <button
                 onClick={btn.onClick}
                 key={index}
-                className={`!flex !justify-center !items-center !gap-x-[5px] !text-xs sm:!text-sm md:!text-base !border-2 !border-gray-300 !py-2 !px-5 min-[425px]:!px-2 md:!px-4 !rounded ${btn.Color} ${btn.Bold} `}
+                className={`!flex !justify-center !items-center !gap-x-[5px] !text-xs sm:!text-sm md:!text-base !border-2 !border-gray-300 !py-2 !px-5 min-[425px]:!px-2 md:!px-4 !rounded  ${btn.Bold} `}
               >
                 {btn.icon} {isWideScreen && btn.title}
               </button>
@@ -359,7 +387,7 @@ const ServiceDetailsPage = () => {
             {isModalOpen && (
               <ReviewModal
                 onClose={() => setIsModalOpen(false)}
-                id={clinic.id}
+                id={service.id}
               />
             )}
           </AnimatePresence>
@@ -367,7 +395,7 @@ const ServiceDetailsPage = () => {
 
         {/* Right Side for Rounded Images */}
         <div className="!flex !space-x-1.5 md:!space-x-2">
-          {clinic.accreditations?.map((acc, index) => {
+          {service.accreditations?.map((acc, index) => {
             const accreditation = servicesByAccrediations.find(
               (item) => item.title === acc
             );

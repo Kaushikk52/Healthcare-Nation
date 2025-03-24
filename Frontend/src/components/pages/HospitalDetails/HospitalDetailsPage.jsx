@@ -43,7 +43,7 @@ const HospitalDetailsPage = () => {
   const { id, type } = useParams();
 
   useEffect(() => {
-    getHospitalDetails(id);
+      getHospitalDetails(id);
   }, [id]);
 
   const handleAddRating = () => {

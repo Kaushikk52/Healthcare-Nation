@@ -7,7 +7,6 @@ import { FaPhone, FaLocationDot, FaClock } from "react-icons/fa6";
 import { FaGlobeAmericas, FaCheck } from "react-icons/fa";
 import { Navigation, Pagination, Autoplay, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import servicesBySpecialities from "@/data/servicesBySpecialities";
 import publicSectorCorporates from "@/data/publicSector";
 
 import "swiper/css";

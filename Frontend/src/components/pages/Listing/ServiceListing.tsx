@@ -269,6 +269,14 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
     }
   }
 
+  const detailsUrl = (id) => {
+    if(type === "hospitals" || type === "clinics") {
+      return `/${type}-details/${id}`
+    }else {
+      return `/services/${type}/${id}`
+    }
+  }
+
   // Add these utility functions for sorting
   const sortByRating = (facilities: Facility[]) => {
     return [...facilities].sort((a, b) => b.avgRating - a.avgRating)
@@ -741,7 +749,8 @@ ${
                             {/* VIEW DETAILS BUTTON */}
                             <div>
                               <Link
-                                to={`/${type}-details/` + detail.id}
+                                // to={`/${type}-details/` + detail.id}
+                                to={detailsUrl(detail.id)}
                                 style={{
                                   textDecoration: "none",
                                 }}
