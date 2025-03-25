@@ -1,6 +1,7 @@
 package com.hcn.demo.controllers;
 
 import com.hcn.demo.models.Bank;
+import com.hcn.demo.models.MedicalFacility;
 import com.hcn.demo.services.BankService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,43 @@ public class BankController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 
         } catch (Exception e) {
+            log.warn("An Error occurred : {}", e.getMessage());
+            response.put("message",e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    @GetMapping(value = "/filter")
+    public ResponseEntity<Map<String,Object>> getFilteredBanks(
+                                                                   @RequestParam(required = false) List<String> accreditations,
+                                                                   @RequestParam(required = false) String ownership,
+                                                                   @RequestParam(required = false) List<String> brands
+
+
+    ){
+        Map<String,Object> response = new HashMap<>();
+        try {
+            Map<String,Object> filters = new HashMap<>();
+            if (accreditations != null && !accreditations.isEmpty()) filters.put("accreditations", accreditations);
+            if (ownership != null && !ownership.isEmpty()) filters.put("ownership", ownership);
+            if (brands != null && !brands.isEmpty()) filters.put("brands", brands);
+            List<Bank> filteredBanks;
+            if(filters.isEmpty()){
+                filteredBanks = bankServ.getAll();
+            }else{
+                filteredBanks = bankServ.getFilteredBanks(filters);
+            }
+
+            if(filteredBanks.isEmpty()){
+                log.warn("No Banks found");
+                response.put("message", "No Banks found");
+            }else{
+                log.info("Retrieved filtered Banks");
+                response.put("message", "Retrieved filtered Banks : "+filteredBanks.size());
+            }
+            response.put("bank",filteredBanks);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }catch (Exception e) {
             log.warn("An Error occurred : {}", e.getMessage());
             response.put("message",e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);

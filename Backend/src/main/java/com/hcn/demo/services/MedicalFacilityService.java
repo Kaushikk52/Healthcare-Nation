@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +24,7 @@ public class MedicalFacilityService {
     private final ReviewRepo reviewRepo;
     private final UserDetailsService userDetailsService;
     private final UserRepo userRepo;
+    private List<Rating> existingRating;
 
     @Autowired
     public MedicalFacilityService(MedicalFacilityRepo medicalFacilityRepo, AddressRepo addressRepo, RatingRepo ratingRepo,
@@ -50,13 +48,26 @@ public class MedicalFacilityService {
         return savedClinic;
     }
 
-    public void addRatingToMedicalFacility(String id , Rating rating, Principal principal){
+    public void addRatingToMedicalFacility(String id, Rating rating, Principal principal) {
         MedicalFacility facility = this.getFacilityById(id);
-        facility.addRating(rating);
-        rating.setMedicalFacility(facility);
-        User principalUser = (User)userDetailsService.loadUserByUsername(principal.getName());
-        rating.setUser(principalUser);
-        ratingRepo.save(rating);
+        User principalUser = (User) userDetailsService.loadUserByUsername(principal.getName());
+
+        List<Rating> existingRatings = facility.getRatings();
+        Optional<Rating> existingUserRating = existingRatings.stream()
+                .filter(r -> r.getUser().equals(principalUser))
+                .findFirst();
+
+        if (existingUserRating.isPresent()) {
+            // Update existing rating
+            existingUserRating.get().setRating(rating.getRating());
+            ratingRepo.save(existingUserRating.get());
+        } else {
+            // Add new rating
+            rating.setMedicalFacility(facility);
+            rating.setUser(principalUser);
+            facility.addRating(rating);
+            ratingRepo.save(rating);
+        }
     }
 
     public MedicalFacility updateAverageRating(String id){
@@ -89,18 +100,18 @@ public class MedicalFacilityService {
     }
 
     public List<MedicalFacility> getAllHospitals(){
-        return medicalFacilityRepo.findByFacilityType(MedicalFacility.FacilityType.HOSPITAL);
+        return medicalFacilityRepo.findByFacilityType(MedicalFacility.FacilityType.hospitals);
     }
 
     public List<MedicalFacility> getAllClinics(){
-        return medicalFacilityRepo.findByFacilityType(MedicalFacility.FacilityType.CLINIC);
+        return medicalFacilityRepo.findByFacilityType(MedicalFacility.FacilityType.clinics);
     }
 
     public MedicalFacility getFacilityById(String id){
         return medicalFacilityRepo.findById(id).orElseThrow(()-> new RuntimeException("Not found ..."));
     }
 
-    public List<MedicalFacility> getFilteredHospitals(Map<String,Object> filters){
+    public List<MedicalFacility> getFilteredFacilities(Map<String,Object> filters){
         Specification<MedicalFacility> spec = GenericSpecification.findByCriteria(filters);
         List<MedicalFacility> filteredHospitals = medicalFacilityRepo.findAll(spec);
         return filteredHospitals;

@@ -1,5 +1,6 @@
 package com.hcn.demo.controllers;
 
+import com.hcn.demo.models.Homecare;
 import com.hcn.demo.models.Orthotics;
 import com.hcn.demo.services.OrthoticsService;
 import lombok.extern.slf4j.Slf4j;
@@ -67,6 +68,41 @@ public class OrthoticsController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 
         } catch (Exception e) {
+            log.warn("An Error occurred : {}", e.getMessage());
+            response.put("message",e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    @GetMapping(value = "/filter")
+    public ResponseEntity<Map<String,Object>> getFilteredOrthotics(
+            @RequestParam(required = false) String ownership,
+            @RequestParam(required = false) List<String> brands
+
+
+    ){
+        Map<String,Object> response = new HashMap<>();
+        try {
+            Map<String,Object> filters = new HashMap<>();
+            if (ownership != null && !ownership.isEmpty()) filters.put("ownership", ownership);
+            if (brands != null && !brands.isEmpty()) filters.put("brands", brands);
+            List<Orthotics> filteredOrthotics;
+            if(filters.isEmpty()){
+                filteredOrthotics = orthoticsServ.getAll();
+            }else{
+                filteredOrthotics = orthoticsServ.getFilteredOrthotics(filters);
+            }
+
+            if(filteredOrthotics.isEmpty()){
+                log.warn("No Orthotics found");
+                response.put("message", "No Orthotics found");
+            }else{
+                log.info("Retrieved filtered Orthotics");
+                response.put("message", "Retrieved filtered Orthotics : "+filteredOrthotics.size());
+            }
+            response.put("orthotics",filteredOrthotics);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }catch (Exception e) {
             log.warn("An Error occurred : {}", e.getMessage());
             response.put("message",e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);

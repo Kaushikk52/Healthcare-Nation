@@ -71,30 +71,28 @@ public class SecurityConfig {
 
                         //Orthotics endpoints
                         .requestMatchers(HttpMethod.GET,
-                                "/v1/api/orthotics/all", "/v1/api/orthotics/id/**").permitAll()
+                                "/v1/api/orthotics/all", "/v1/api/orthotics/id/**","/v1/api/orthotics/filter").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/api/orthotics/**").authenticated()
 
                         //Homecare endpoints
                         .requestMatchers(HttpMethod.GET,
-                                "/v1/api/homecare/all", "/v1/api/homecare/id/**").permitAll()
+                                "/v1/api/homecare/all", "/v1/api/homecare/id/**","/v1/api/homecare/filter").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/api/homecare/**").authenticated()
 
                         //Transport endpoints
                         .requestMatchers(HttpMethod.GET,
-                                "/v1/api/transport/all", "/v1/api/transport/id/**").permitAll()
+                                "/v1/api/transport/all", "/v1/api/transport/id/**","/v1/api/transport/filter").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/api/transport/**").authenticated()
 
-                        //Transport endpoints
+                        //Bank endpoints
                         .requestMatchers(HttpMethod.GET,
-                                "/v1/api/bank/all", "/v1/api/bank/id/**").permitAll()
+                                "/v1/api/bank/all", "/v1/api/bank/id/**","/v1/api/bank/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/api/bank/**").authenticated()
 
                         //Diagnostics endpoints
                         .requestMatchers(HttpMethod.GET,
-                                "/v1/api/diagnostics/all", "/v1/api/diagnostics/id/**").permitAll()
+                                "/v1/api/diagnostics/all", "/v1/api/diagnostics/id/**","/v1/api/diagnostics/filter").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/api/diagnostics/**").authenticated()
-
-
 
 
                         // Images endpoints

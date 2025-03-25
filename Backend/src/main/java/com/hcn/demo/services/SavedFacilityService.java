@@ -52,9 +52,13 @@ public class SavedFacilityService {
     }
 
     public List<MedicalFacility> getSavedHospitals(String userId) {
-        List<SavedFacility> savedFacilities = savedFacilityRepo.findByUserId(userId);
+        List<SavedFacility> savedFacilities = savedFacilityRepo.findByUserIdAndHospital_FacilityType(userId,MedicalFacility.FacilityType.hospitals);
         return savedFacilities.stream().map(SavedFacility::getHospital).collect(Collectors.toList());
+    }
 
+    public List<MedicalFacility> getSavedClinics(String userId){
+        List<SavedFacility> savedFacilities = savedFacilityRepo.findByUserIdAndHospital_FacilityType(userId,MedicalFacility.FacilityType.clinics);
+        return savedFacilities.stream().map(SavedFacility::getHospital).collect(Collectors.toList());
     }
 
     @Transactional

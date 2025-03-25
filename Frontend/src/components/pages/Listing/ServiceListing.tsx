@@ -9,16 +9,15 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation, Pagination, A11y } from "swiper/modules"
 
 import servicesByAccrediations from "@/data/accrediations"
-import servicesBySpecialities from "@/data/servicesBySpecialities";
-import publicSectorCorporates from "@/data/publicSector";
-import popularBrands from "@/data/brands";
-import diagnosticCentres from "@/data/diagnostic"
 
 import "swiper/css"
 import "swiper/css/navigation"
 import "swiper/css/pagination"
 import "swiper/css/autoplay"
 import "@/App.css"
+
+// Import the getFiltersByType utility at the top of your file
+import { getFiltersByType } from "./getFiltersByType"
 
 interface FilterOption {
   id: string
@@ -72,106 +71,33 @@ interface SelectedFilters {
   saved: boolean
 }
 
-const filters: FilterSection[] = [
-  {
-    title: "Saved",
-    filterType: "saved",
-    options: [{ id: "Saved", text: "Saved" }],
-  },
-  {
-    title: "Sort By",
-    filterType: "sortBy",
-    options: [
-      { id: "relevance", text: "Relevance" },
-      { id: "rating", text: "Ratings : High to Low" },
-      { id: "reviews", text: "Reviews : High to Low" },
-    ],
-  },
-  {
-    title: "Accreditation",
-    filterType: "accrediation",
-    options: [
-      { id: "Organizations Accredited by National Accreditation Board for Hospitals & Healthcare Providers", text: "NABH", count: 34 },
-      { id: "Organizations accredited by National Accreditation Board for Laboratories", text: "NABL", count: 20 },
-      { id: "Organizations Accredited by Joint Commission International", text: "JCI", count: 16 },
-    ],
-  },
-  {
-    title: "Ownership",
-    filterType: "ownership",
-    options: [
-      { id: "PRIVATE", text: "Private" },
-      { id: "GOVERNMENT", text: "Government" },
-    ],
-  },
-  {
-    title: "Specialities",
-    filterType: "specialities",
-    options: [
-      ...servicesBySpecialities.map((spec) => ({id : spec.title, text: spec.title}))
-    ],
-  },
-  {
-    title: "Corporates",
-    filterType: "psu",
-    options: [
-      ...publicSectorCorporates.map((psu)=> ({id: psu.title , text: psu.title}))
-    ],
-  },
-  {
-    title: "Brands",
-    filterType: "brands",
-    options: [
-      ...popularBrands.map((brand) => ({id: brand.title, text: brand.title}))
-    ],
-  },
-  {
-    title: "Diagnostics",
-    filterType: "diagnostics",
-    options: [
-      ...diagnosticCentres.map((diag) => ({id: diag.title, text:diag.title}))
-    ],
-  },
-  {
-    title: "Insurance",
-    filterType: "insurance",
-    options: [
-      { id: "ICICI", text: "ICICI" },
-      { id: "HDFC", text: "HDFC" },
-      { id: "LIC", text: "LIC" },
-    ],
-  },
-  {
-    title: "TPA",
-    filterType: "tpa",
-    options: [
-      { id: "Medi Assist", text: "Medi Assist" },
-      { id: "MD India", text: "MD India" },
-    ],
-  },
-  {
-    title: "Alternative Medicine",
-    filterType: "altMed",
-    options: [
-      { id: "Ayurveda", text: "Ayurveda" },
-      { id: "Homeopathy", text: "Homeopathy" },
-      { id: "Yoga", text: "Yoga" },
-    ],
-  },
-]
+// Add props interface to accept location and searchQuery
+interface ServiceListingProps {
+  facilityType?: string
+  locationParam?: string
+  searchQuery?: string
+}
 
-export default function ServiceListing() {
+export default function ServiceListing({ facilityType, locationParam, searchQuery }: ServiceListingProps) {
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
   const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS;
   const clinicImgs = import.meta.env.VITE_APP_CLOUDINARY_CLINICS;
   const path = import.meta.env.VITE_APP_IMG_URL;
-  const [expandedSections, setExpandedSections] = useState<string[]>(filters.map((filter) => filter.title));
-  const [searchParams] = useSearchParams();
-  const type = searchParams.get("type");
-  const location = searchParams.get("location");
+  const [expandedSections, setExpandedSections] = useState<string[]>([])
 
-  const [facilities, setFacilities] = useState<Facility[]>([]);
-  const [filterOpen, setFilterOpen] = useState<boolean>(false);
+  // Get type and location from URL params as fallback
+  const [searchParams] = useSearchParams();
+  const typeFromUrl = searchParams.get("type");
+  const locationFromUrl = searchParams.get("location");
+  const searchFromUrl = searchParams.get("search");
+
+  // Use props if provided, otherwise fall back to URL params
+  const type = typeFromUrl || "hospitals";
+  const location = locationParam || locationFromUrl;
+  const search = searchQuery || searchFromUrl;
+
+  const [facilities, setFacilities] = useState<Facility[]>([])
+  const [filterOpen, setFilterOpen] = useState<boolean>(false)
   const [selectedFilters, setSelectedFilters] = useState<SelectedFilters>({
     brands: [],
     diagnostics: [],
@@ -187,42 +113,37 @@ export default function ServiceListing() {
     saved: false,
   })
 
+  // Replace the filters constant with a state variable
+  // Add this after your other state variables
+  const [filters, setFilters] = useState<FilterSection[]>([])
+
   const toggleSection = (sectionTitle: string) => {
     setExpandedSections((prev) =>
       prev.includes(sectionTitle) ? prev.filter((title) => title !== sectionTitle) : [...prev, sectionTitle],
     )
   }
 
+  // Update your useEffect to respond to changes in props
   useEffect(() => {
-    type === "hospitals" ? fetchHospitals() : fetchClinics()
-  }, [type])
+    applyFilters()
+    setFilters(getFiltersByType(type))
+  }, [type,location, search, selectedFilters])
 
+  // Update the handleSavedFilter function to use the type
   const handleSavedFilter = (saved: boolean) => {
     setSelectedFilters((prev) => ({ ...prev, saved }))
     try {
       if (saved === true) {
-        type === "hospitals" ? fetchSavedHospitals() : fetchSavedClinics()
+        if (type === "hospitals") {
+          fetchSavedHospitals()
+        } else if (type === "clinics") {
+          fetchSavedClinics()
+        } else {
+          fetchSavedFacilities(type)
+        }
       }
     } catch (err) {
       console.log(err)
-    }
-  }
-
-  const fetchHospitals = async () => {
-    try {
-      const response = await axios.get(`${baseURL}/v1/api/facility/type/hospitals`)
-      setFacilities(response.data.hospitals)
-    } catch (error) {
-      console.error("Error fetching hospitals:", error)
-    }
-  }
-
-  const fetchClinics = async () => {
-    try {
-      const response = await axios.get(`${baseURL}/v1/api/facility/type/clinics`)
-      setFacilities(response.data.clinics)
-    } catch (error) {
-      console.error("Error fetching clinics:", error)
     }
   }
 
@@ -232,7 +153,11 @@ export default function ServiceListing() {
       if (filterType === "saved") {
         newFilters.saved = !newFilters.saved
         if (newFilters.saved) {
-          fetchSavedHospitals()
+          if (type === "hospitals") {
+            fetchSavedHospitals()
+          } else {
+            fetchSavedFacilities(type)
+          }
         }
       } else if (filterType === "sortBy") {
         newFilters[filterType as keyof SelectedFilters] = [filterId] as any
@@ -267,13 +192,14 @@ export default function ServiceListing() {
     })
   }
 
-  useEffect(() => {
-    applyFilters()
-  }, [selectedFilters])
-
   // Build query parameters dynamically with repeated parameters for arrays
   const buildQueryParams = (): string => {
     const params = new URLSearchParams()
+
+    // Add location and search query if they exist
+    location && params.append("location", location);
+    search && params.append("search", search);
+    
 
     // Don't include saved in the query params as it uses a different API
     Object.entries(selectedFilters).forEach(([key, value]) => {
@@ -293,6 +219,7 @@ export default function ServiceListing() {
     return params.toString()
   }
 
+  // Update the applyFilters function to use dynamic property access and include location/search
   const applyFilters = async () => {
     try {
       if (selectedFilters.saved === true) {
@@ -300,15 +227,59 @@ export default function ServiceListing() {
       }
 
       const queryString = buildQueryParams()
-      const url = `${baseURL}/v1/api/facility/filter?${queryString}`
+      let url = ``
+      if (type === "hospitals" || type === "clinics") {
+        url = `${baseURL}/v1/api/facility/filter?type=${type}`
+        if (queryString !== "") {
+          url = `${baseURL}/v1/api/facility/filter?type=${type}&${queryString}`
+        }
+      } else {
+        url = `${baseURL}/v1/api/${type}/filter?`
+        if (queryString !== "") {
+          url = `${baseURL}/v1/api/${type}/filter?${queryString}`
+        }
+      }
 
       console.log("Filter URL:", url) // For debugging
 
       const response = await axios.get(url)
-      setFacilities(type === "hospitals" ? response.data?.hospitals : response.data.clinics)
+
+      // Dynamically access the array based on the facility type
+      let filteredResults = response.data[type] || []
+
+      console.log(response.data[`${type}`], type)
+
+      // Apply client-side sorting if sortBy is selected
+      if (selectedFilters.sortBy.length > 0) {
+        const sortType = selectedFilters.sortBy[0]
+        if (sortType === "rating") {
+          filteredResults = sortByRating(filteredResults)
+        } else if (sortType === "reviews") {
+          filteredResults = sortByReviews(filteredResults)
+        }
+        // 'relevance' sorting is handled by the API or remains as is
+      }
+      setFacilities(filteredResults)
     } catch (error) {
       console.error("Error applying filters:", error)
     }
+  }
+
+  const detailsUrl = (id) => {
+    if(type === "hospitals" || type === "clinics") {
+      return `/${type}-details/${id}`
+    }else {
+      return `/services/${type}/${id}`
+    }
+  }
+
+  // Add these utility functions for sorting
+  const sortByRating = (facilities: Facility[]) => {
+    return [...facilities].sort((a, b) => b.avgRating - a.avgRating)
+  }
+
+  const sortByReviews = (facilities: Facility[]) => {
+    return [...facilities].sort((a, b) => b.reviews.length - a.reviews.length)
   }
 
   const fetchSavedHospitals = async () => {
@@ -325,7 +296,32 @@ export default function ServiceListing() {
   }
 
   const fetchSavedClinics = async () => {
-    setFacilities([])
+    try {
+      const response = await axios.get(`${baseURL}/v1/api/saved/clinics`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      setFacilities(response.data)
+    } catch (error) {
+      console.error("Error fetching saved hospitals:", error)
+    }
+  }
+
+  const fetchSavedFacilities = async (facilityType: string | null) => {
+    if (!facilityType) return
+
+    try {
+      const response = await axios.get(`${baseURL}/v1/api/saved/${facilityType}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      setFacilities(response.data)
+    } catch (error) {
+      console.error(`Error fetching saved ${facilityType}:`, error)
+      setFacilities([])
+    }
   }
 
   return (
@@ -379,7 +375,9 @@ export default function ServiceListing() {
                       d="m1 9 4-4-4-4"
                     />
                   </svg>
-                  <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2 capitalize">{type}</span>
+                  <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2 capitalize">
+                    {type || "Health Facilities"}
+                  </span>
                 </div>
               </li>
             </ol>
@@ -485,7 +483,8 @@ ${
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold capitalize">
-            {type} in {location || "Mumbai"}
+            {type || "Health Facilities"} in {location || "Mumbai"}
+            {searchQuery && <span className="ml-2 text-lg font-normal text-gray-600">Search: "{searchQuery}"</span>}
           </h2>
           <button
             onClick={() => setFilterOpen(true)}
@@ -652,7 +651,7 @@ ${
                           onSlideChange={() => console.log("slide change")}
                         >
                           {detail.images.map((image, index) =>
-                            type === "hospitals" ? (
+                            type === "clinics" ? (
                               <SwiperSlide key={index}>
                                 <img
                                   src={hospitalImgs + image || "/placeholder.svg"}
@@ -663,7 +662,7 @@ ${
                             ) : (
                               <SwiperSlide key={index}>
                                 <img
-                                  src={clinicImgs + image || "/placeholder.svg"}
+                                  src={hospitalImgs + image || "/placeholder.svg"}
                                   alt={`${type} Image`}
                                   className="w-full h-auto object-cover aspect-[5/3] rounded-md"
                                 />
@@ -678,7 +677,7 @@ ${
                         {/* HOSPITAL NAME, LOCATION, RATING & REVIEWS COUNT*/}
                         <div className="flex justify-between items-start space-x-2">
                           {/* NAME AND LOCATION */}
-                          <div className="flex flex-col">
+                          <div className="flex flex-col w-10/12">
                             <span className="line-clamp-1 text-lg min-[425px]:text-2xl sm:text-2xl lg:text-2xl xl:text-2xl font-bold text-gray-700">
                               {detail.name}
                             </span>
@@ -691,16 +690,21 @@ ${
                           </div>
 
                           {/* RATING AND REVIEW COUNT */}
-                          <div className="!flex !flex-col !justify-center !text-white !my-1 sm:!my-0 !space-y-0.5 sm:!space-y-1.5 !text-left sm:!text-right">
-                            <div className="!flex !justify-center !items-center !bg-[#267e3e] !rounded !py-0.5 !px-0">
-                              <span className="!text-base !font-semibold !mr-1 !px-0">
-                                {detail.avgRating.toPrecision(2)}
-                              </span>
-                              <FaStar className="!h-4 !w-4 !mb-0.5 !px-0 !mx-0" />
-                            </div>
-                            <div className="!text-gray-600">
-                              <span className="text-sm">{detail.reviews.length} Reviews</span>
-                            </div>
+                          <div className="w-2/12 !flex !flex-col !justify-center !text-white !my-1 sm:!my-0 !space-y-0.5 sm:!space-y-1.5 !text-left sm:!text-right">
+                            {detail.reviews && (
+                              <>
+                                <div className="!flex !justify-center !items-center !bg-[#267e3e] !rounded !py-0.5 !px-0">
+                                  <span className="!text-base !font-semibold !mr-1 !px-0">
+                                    {detail.avgRating?.toPrecision(2)}
+                                  </span>
+                                  <FaStar className="!h-4 !w-4 !mb-0.5 !px-0 !mx-0" />
+                                </div>
+
+                                <div className="!text-gray-600">
+                                  <span className="text-sm">{detail.reviews?.length} Reviews</span>
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
 
@@ -741,7 +745,8 @@ ${
                             {/* VIEW DETAILS BUTTON */}
                             <div>
                               <Link
-                                to={`/${type}-details/` + detail.id}
+                                // to={`/${type}-details/` + detail.id}
+                                to={detailsUrl(detail.id)}
                                 style={{
                                   textDecoration: "none",
                                 }}

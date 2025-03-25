@@ -1,5 +1,10 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import {
+  Link,
+  useNavigate,
+  useLocation,
+  useSearchParams,
+} from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { User, Menu, X } from "lucide-react";
 import AuthPopup from "./Auth/AuthPopup";
@@ -7,6 +12,7 @@ import { BiSearchAlt2 } from "react-icons/bi";
 import { FaCaretDown } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import axios from "axios";
+import _ from "lodash";
 
 const DropdownLink = ({
   href,
@@ -28,20 +34,23 @@ const DropdownLink = ({
 
 export default function Navbar() {
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const newParams = new URLSearchParams(searchParams);
   const location = useLocation();
+  const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState({
     firstName: "",
     lastName: "",
     email: "",
     role: "",
-    token:""
+    token: "",
   });
 
+  const [query, setQuery] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState("");
   const [navDropdownOpen, setNavDropdownOpen] = useState(null);
   const [toggle, setToggle] = useState(false);
-  const navigate = useNavigate();
   const path = import.meta.env.VITE_APP_IMG_URL;
   const [navigateTo, setNavigateTo] = useState("");
 
@@ -58,12 +67,12 @@ export default function Navbar() {
       items: [
         { title: "Hospitals", path: "/listing?type=hospitals" },
         { title: "Dialysis Centres" },
-        { title: "Blood / Skin Banks"  },
+        { title: "Blood / Skin Banks", path: "/listing?type=bank" },
         { title: "Clinics", path: "/listing?type=clinics" },
-        { title: "Home Care Services" },
-        { title: "Patient Transports" },
-        { title: "Diagnostics" },
-        { title: "Orthotic & Prosthetics" },
+        { title: "Home Care Services", path: "/listing?type=homecare" },
+        { title: "Patient Transports", path: "/listing?type=transport" },
+        { title: "Diagnostics", path: "/listing?type=diagnostics" },
+        { title: "Orthotic & Prosthetics", path: "/listing?type=orthotics" },
         { title: "Medical Equipment on rent" },
         { title: "NGOs" },
         { title: "Startup & Companies" },
@@ -98,8 +107,6 @@ export default function Navbar() {
         { title: "Sleep Study" },
         { title: "Mammography" },
         { title: "Pulmonary Function Test" },
-
-
       ],
     },
     {
@@ -116,21 +123,19 @@ export default function Navbar() {
         { title: "Persistent Coughing ?" },
         { title: "Urinary Problems ?" },
         { title: "Eye Problems ?" },
-
-
       ],
     },
     {
       id: 7,
       title: "Insurance",
       icon: FaCaretDown,
-      items:[
-        { title: "ICICI Lombard"},
-        { title: "IFFFCO Tokio"},
-        { title: "HDFC Ergo"},
-        { title: "Bajaj Allianz"},
-        { title: "Care"},
-        { title: "Kotak"}
+      items: [
+        { title: "ICICI Lombard" },
+        { title: "IFFFCO Tokio" },
+        { title: "HDFC Ergo" },
+        { title: "Bajaj Allianz" },
+        { title: "Care" },
+        { title: "Kotak" },
       ],
       path: "#",
     },
@@ -138,49 +143,89 @@ export default function Navbar() {
       id: 8,
       title: "TPA",
       icon: FaCaretDown,
-      items:[
-        { title: "Health India"},
-        { title: "Vidal Health"},
-        { title: "Raksha TPA"},
-        { title: "MD India"},
-        { title: "Medi Assist"},
-        { title: "Med Save India"}
+      items: [
+        { title: "Health India" },
+        { title: "Vidal Health" },
+        { title: "Raksha TPA" },
+        { title: "MD India" },
+        { title: "Medi Assist" },
+        { title: "Med Save India" },
       ],
       path: "#",
     },
   ];
 
-  // Handle location change
   const handleLocationChange = (event) => {
-    const location = event.target.value;
-    setSelectedLocation(location);
-    if (location) {
-      navigate(`/listing?location=${location.toLowerCase()}`);
+    const locationValue = event.target.value;
+    setSelectedLocation(locationValue);
+  
+    const newParams = new URLSearchParams(searchParams);
+    if (locationValue !== "") {
+      newParams.set("location", locationValue);
+    } else {
+      newParams.delete("location");
+    }
+  
+    // Combine navigation and search params in one call
+    if (location.pathname !== "/listing") {
+      navigate({
+        pathname: "/listing",
+        search: newParams.toString()
+      }, { replace: true });
+      console.log("navigated to listing page ...");
+    } else {
+      // Only update search params if already on listing page
+      setSearchParams(newParams, { replace: true });
     }
   };
+  
+  // Handle search input
+  const handleSearch = useCallback(
+    _.debounce((searchText) => {
+      const newParams = new URLSearchParams(searchParams);
+      if (searchText !== "") {
+        newParams.set("search", searchText);
+      } else {
+        newParams.delete("search");
+      }
+  
+      if (location.pathname !== "/listing") {
+        navigate({
+          pathname: "/listing",
+          search: newParams.toString()
+        }, { replace: true });
+        console.log("navigated to listing page ...");
+      } else {
+        setSearchParams(newParams, { replace: true });
+      }
+    }, 500),
+    [searchParams, location.pathname, navigate]
+  );
 
   useEffect(() => {
     getUser();
-    checkIfLogin('');
-  },[]);
+    newParams.delete("location");
+    newParams.delete("search");
+  }, []);
 
   const getUser = async () => {
-    try{
-      const response = await axios.get(`${baseURL}/v1/api/user/principal`,
-        {headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}});
-      if(response.status === 401){
+    try {
+      const response = await axios.get(`${baseURL}/v1/api/user/principal`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      if (response.status === 401) {
         setCurrentUser(null);
-        localStorage.removeItem('token');
+        localStorage.removeItem("token");
       }
       setCurrentUser(response.data.users);
-    }catch(err){
+    } catch (err) {
       console.log(err);
       // if(err.response.status === 400){
       //   localStorage.removeItem('token');
       //   navigate('/');
       // }
     }
-  }
+  };
 
   const locations = ["Mumbai", "Bangalore", "Chennai", "Delhi"];
 
@@ -206,11 +251,12 @@ export default function Navbar() {
 
   const checkIfLogin = (route: string) => {
     const token = localStorage.getItem("token");
+    // console.log("check if login", route, token);
     setNavigateTo(route);
     // console.log(route, toggle, token);
     if (token !== null && !toggle) {
       //user logged in and no popup
-      navigate(route); //
+      navigate(route);
     } else if (token !== null && toggle === true) {
       //user logged in and still popup
       setToggle(false); // toggle not visible
@@ -218,6 +264,12 @@ export default function Navbar() {
       //user not logged in
       setToggle(true); // toggle visible
     }
+  };
+
+  // Handle input change and pass to debounced function
+  const handleChange = (event) => {
+    setQuery(event.target.value);
+    handleSearch(event.target.value);
   };
 
   return (
@@ -248,7 +300,9 @@ export default function Navbar() {
             <div className="px-3 bg-[#EDDBE9] md:w-1/3 lg:w-3/12 xl:w-4/12 flex items-center h-full rounded-l-md">
               <FaLocationDot className="w-5 h-5 text-[#9B2482] flex-shrink-0 absolute left-3 top-1/2 transform -translate-y-1/2" />
               <select
-                className={`w-full bg-transparent py-2 pl-10 h-full text-base font-semibold ${selectedLocation ? 'text-black' : 'text-gray-400'} cursor-pointer outline-none`}
+                className={`w-full bg-transparent py-2 pl-10 h-full text-base font-semibold ${
+                  selectedLocation ? "text-black" : "text-gray-400"
+                } cursor-pointer outline-none`}
                 value={selectedLocation}
                 onChange={handleLocationChange}
               >
@@ -267,6 +321,8 @@ export default function Navbar() {
               <BiSearchAlt2 className="h-6 w-6 text-[#9B2482] flex-shrink-0" />
               <input
                 type="text"
+                value={query}
+                onChange={handleChange}
                 placeholder="Search..."
                 className="w-full text-lg py-2 px-2 outline-none bg-[#EDDBE9] h-full"
               />
@@ -279,14 +335,22 @@ export default function Navbar() {
           <AuthPopup popup={toggle} navigateTo={navigateTo} />
           <button
             className="!flex !items-center space-x-2"
-            onClick={() => checkIfLogin("/dashboard/hospital")}
+            onClick={() =>
+              currentUser.role == "ROLE_USER"
+                ? checkIfLogin("/")
+                : currentUser.role == "ROLE_ADMIN"
+                ? checkIfLogin("/dashboard/hospital") : checkIfLogin("/")
+            }
           >
             <User className="h-6 w-6" />
-            {(localStorage.getItem('token')) && currentUser ? <span>Welcome {currentUser?.firstName} !</span> : <span>Sign in</span>}
+            {localStorage.getItem("token") && currentUser ? (
+              <span>Welcome {currentUser?.firstName} !</span>
+            ) : (
+              <span>Sign in</span>
+            )}
           </button>
         </div>
       </div>
-
 
       {/* Desktop navigation */}
       <div className="hidden md:flex justify-center items-center my-0 mb-0 border-t border-b border-gray-200 py-0">
@@ -349,7 +413,6 @@ export default function Navbar() {
           })}
         </ul>
       </div>
-
 
       {/* Mobile menu */}
       <AnimatePresence>

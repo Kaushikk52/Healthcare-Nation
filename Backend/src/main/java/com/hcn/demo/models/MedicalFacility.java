@@ -132,7 +132,7 @@ public class MedicalFacility{
     }
 
     public enum FacilityType{
-        HOSPITAL,CLINIC
+        hospitals,clinics
     }
 
     @PrePersist

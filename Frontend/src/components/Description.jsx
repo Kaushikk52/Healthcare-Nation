@@ -7,7 +7,6 @@ import { FaPhone, FaLocationDot, FaClock } from "react-icons/fa6";
 import { FaGlobeAmericas, FaCheck } from "react-icons/fa";
 import { Navigation, Pagination, Autoplay, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import servicesBySpecialities from "@/data/servicesBySpecialities";
 import publicSectorCorporates from "@/data/publicSector";
 
 import "swiper/css";
@@ -106,123 +105,131 @@ const Description = (props) => {
           </div>
 
           {/* Achievements */}
-          <div className="mb-5 border border-gray-200 !p-4 rounded-md bg-slate-50">
-            <h1 className="!text-2xl !font-semibold">Achievements</h1>
-            <div className="!py-4 sm:!py-2 ">
-              {props.details.achievements?.map((item, index) => (
-                <div
-                  key={index}
-                  className="!flex !flex-col !justify-center !items-center !text-center !mb-6 !space-y-0 sm:!text-left sm:!space-y-0 sm:!flex-row sm:!justify-start sm:!items-center sm:!space-x-5 sm:!mb-4"
-                >
-                  <img
-                    src={Throphy}
-                    alt={item}
-                    className="!rounded-full !h-15 !w-15 sm:!h-10 sm:!w-10"
-                  />
-                  <h1 className="!text-sm !font-medium uppercase">{item}</h1>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Facts */}
-          <div className="border border-gray-200 !p-4 rounded-md bg-slate-50">
-            <h1 className="!text-2xl !font-semibold">Facts</h1>
-            <div className="!py-4 sm:!py-2">
-              <div className="grid grid-cols-2 gap-y-4">
-                {props.details.facts?.map((fact) => {
-                  return (
-                    <span className="!flex !items-center !text-sm !font-medium uppercase">
-                    <CircleCheckBig className="!h-8 !w-8 !mr-3 sm:!mr-5 !flex-shrink-0" />
-                    {fact}
-                  </span>
-                  )
-                })}
+          {props.details?.achievements && (
+            <div className="mb-5 border border-gray-200 !p-4 rounded-md bg-slate-50">
+              <h1 className="!text-2xl !font-semibold">Achievements</h1>
+              <div className="!py-4 sm:!py-2 ">
+                {props.details.achievements?.map((item, index) => (
+                  <div
+                    key={index}
+                    className="!flex !flex-col !justify-center !items-center !text-center !mb-6 !space-y-0 sm:!text-left sm:!space-y-0 sm:!flex-row sm:!justify-start sm:!items-center sm:!space-x-5 sm:!mb-4"
+                  >
+                    <img
+                      src={Throphy}
+                      alt={item}
+                      className="!rounded-full !h-15 !w-15 sm:!h-10 sm:!w-10"
+                    />
+                    <h1 className="!text-sm !font-medium uppercase">{item}</h1>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
+          )}
+
+          {/* Facts */}
+          {props.details?.facts && (
+            <div className="border border-gray-200 !p-4 rounded-md bg-slate-50">
+              <h1 className="!text-2xl !font-semibold">Facts</h1>
+              <div className="!py-4 sm:!py-2">
+                <div className="grid grid-cols-2 gap-y-4">
+                  {props.details.facts?.map((fact) => {
+                    return (
+                      <span className="!flex !items-center !text-sm !font-medium uppercase">
+                        <CircleCheckBig className="!h-8 !w-8 !mr-3 sm:!mr-5 !flex-shrink-0" />
+                        {fact}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Specialities Section */}
-          <div className="!py-4 border border-gray-200 !p-4 rounded-md bg-slate-50 mt-5">
-            <h1 className="!text-2xl !font-semibold">Specialities</h1>
-            <div className="!flex !flex-wrap !gap-3 !py-5">
-              {props.details.specialities?.map((speciality, index) => (
-                <button
-                  key={index}
-                  className="!bg-gray-200 !px-4 !py-2 !rounded-full !text-sm !text-gray-700 hover:!bg-gray-200 !transition"
-                >
-                  {speciality}
-                </button>
-              ))}
+          {props.details?.specialities && (
+            <div className="!py-4 border border-gray-200 !p-4 rounded-md bg-slate-50 mt-5">
+              <h1 className="!text-2xl !font-semibold">Specialities</h1>
+              <div className="!flex !flex-wrap !gap-3 !py-5">
+                {props.details.specialities?.map((speciality, index) => (
+                  <button
+                    key={index}
+                    className="!bg-gray-200 !px-4 !py-2 !rounded-full !text-sm !text-gray-700 hover:!bg-gray-200 !transition"
+                  >
+                    {speciality}
+                  </button>
+                ))}
 
-              {!showAll && (
-                <button
-                  className="!bg-cyan-600 !px-4 !py-2 !rounded-full !text-white !text-sm !font-medium hover:!bg-cyan-700 !transition"
-                  onClick={() => setShowAll(true)}
-                >
-                  More
-                </button>
-              )}
-              {showAll && (
-                <button
-                  className="!bg-cyan-600 !px-4 !py-2 !rounded-full !text-white !text-sm !font-medium hover:!bg-cyan-700 !transition"
-                  onClick={() => setShowAll(false)}
-                >
-                  Show Less
-                </button>
-              )}
+                {!showAll && (
+                  <button
+                    className="!bg-cyan-600 !px-4 !py-2 !rounded-full !text-white !text-sm !font-medium hover:!bg-cyan-700 !transition"
+                    onClick={() => setShowAll(true)}
+                  >
+                    More
+                  </button>
+                )}
+                {showAll && (
+                  <button
+                    className="!bg-cyan-600 !px-4 !py-2 !rounded-full !text-white !text-sm !font-medium hover:!bg-cyan-700 !transition"
+                    onClick={() => setShowAll(false)}
+                  >
+                    Show Less
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Corporates Section */}
-          <div className="!py-4 border border-gray-200 !p-4 rounded-md bg-slate-50 my-5">
-            <h1 className="!text-2xl !font-semibold">Corporates</h1>
+          {props.details?.psu && (
+            <div className="!py-4 border border-gray-200 !p-4 rounded-md bg-slate-50 my-5">
+              <h1 className="!text-2xl !font-semibold">Corporates</h1>
 
-            <Swiper
-              modules={[Navigation, Pagination, Autoplay, A11y]}
-              slidesPerView={6}
-              loop={true}
-              navigation
-              autoplay={{ delay: 10000 }}
-              breakpoints={{
-                0: {
-                  slidesPerView: 1,
-                },
-                520: {
-                  slidesPerView: 2,
-                },
-                768: {
-                  slidesPerView: 2,
-                },
-                1024: {
-                  slidesPerView: 5,
-                },
-              }}
-              className="!mt-0 "
-            >
-              {props.details.psu?.map((item, index) => {
-                const corp = corporates.find((corp) => corp.title === item); // Find instead of filter
-                const corpImg = corp?.image; // Get the image
+              <Swiper
+                modules={[Navigation, Pagination, Autoplay, A11y]}
+                slidesPerView={6}
+                loop={true}
+                navigation
+                autoplay={{ delay: 10000 }}
+                breakpoints={{
+                  0: {
+                    slidesPerView: 1,
+                  },
+                  520: {
+                    slidesPerView: 2,
+                  },
+                  768: {
+                    slidesPerView: 2,
+                  },
+                  1024: {
+                    slidesPerView: 5,
+                  },
+                }}
+                className="!mt-0 "
+              >
+                {props.details.psu?.map((item, index) => {
+                  const corp = corporates.find((corp) => corp.title === item); // Find instead of filter
+                  const corpImg = corp?.image; // Get the image
 
-                return (
-                  <SwiperSlide key={index} className="!mt-4">
-                    <div className="group">
-                      <div className="!flex !flex-col !justify-center !items-center !text-center h-full">
-                        <img
-                          src={corpImg}
-                          alt={item}
-                          className={`rounded-full h-full aspect-square w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-20 xl:max-w-20`}
-                        />
-                        <h1 className="!py-2 !text-gray-700 !font-medium !text-sm sm:!text-base">
-                          {item}
-                        </h1>
+                  return (
+                    <SwiperSlide key={index} className="!mt-4">
+                      <div className="group">
+                        <div className="!flex !flex-col !justify-center !items-center !text-center h-full">
+                          <img
+                            src={corpImg}
+                            alt={item}
+                            className={`rounded-full h-full aspect-square w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-20 xl:max-w-20`}
+                          />
+                          <h1 className="!py-2 !text-gray-700 !font-medium !text-sm sm:!text-base">
+                            {item}
+                          </h1>
+                        </div>
                       </div>
-                    </div>
-                  </SwiperSlide>
-                );
-              })}
-            </Swiper>
-          </div>
+                    </SwiperSlide>
+                  );
+                })}
+              </Swiper>
+            </div>
+          )}
         </div>
 
         {/* Right Side */}
@@ -244,8 +251,10 @@ const Description = (props) => {
               <div className="!grid !grid-cols-12 !items-start">
                 <FaLocationDot className="!col-span-2 sm:!col-span-1 lg:!col-span-2 !h-6 !w-6 !mt-0.5 !text-red-600" />
                 <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 text-balance">
-                  {props.details.address?.street}, {props.details.address?.landmark}, {props.details.address?.city}{" "}
-                  - {props.details.address?.zipCode}
+                  {props.details.address?.street},{" "}
+                  {props.details.address?.landmark},{" "}
+                  {props.details.address?.city} -{" "}
+                  {props.details.address?.zipCode}
                   {/* 
                   Rao Saheb, Achutrao Patwardhan Marg, Four Bungalows, Andheri
                   West, Mumbai, Maharashtra 400053 */}

@@ -6,7 +6,7 @@ import Services from './components/pages/Listing/Services';
 import ServiceListing from './components/pages/Listing/ServiceListing.tsx';
 import BrandsInIndia from './components/pages/BrandsInIndia';
 import HospitalDetailsPage from './components/pages/HospitalDetails/HospitalDetailsPage';
-import ClinicDetailsPage from './components/pages/ClinicDetails/ClinicDetailsPage';
+import ServiceDetailsPage from './components/pages/ServicesDetails/ServiceDetailsPage';
 import DashboardLayout from './components/pages/Dashboard/DashboardLayout';
 import HospitalForm from './components/pages/Dashboard/HospitalForm';
 import ClinicForm from './components/pages/Dashboard/ClinicForm';
@@ -46,7 +46,7 @@ function App() {
           <Route path="listing" element={<ServiceListing />} />
           <Route path="brands-in-india" element={<BrandsInIndia />} />
           <Route path=":type/:id" element={<HospitalDetailsPage />} />
-          <Route path="clinic-details-page" element={<ClinicDetailsPage />} />
+          <Route path="/services/:type/:id" element={<ServiceDetailsPage />} />
 
           <Route path="/dashboard" element={<DashboardLayout />} >
             <Route path='/dashboard/hospital' element={<HospitalForm />} />

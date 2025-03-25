@@ -65,8 +65,8 @@ const TagInput = ({
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center justify-between">
-        <label className="block text-sm font-medium">{label}</label>
+      <div className="flex justify-between items-center">
+        <label className="text-sm block font-medium">{label}</label>
       </div>
 
       <div className="flex items-center space-x-2">
@@ -99,11 +99,11 @@ const TagInput = ({
               <Badge
                 key={index}
                 variant="secondary"
-                className="text-sm py-1 px-2"
+                className="text-sm px-2 py-1"
               >
                 {tag}
                 <X
-                  className="h-3 w-3 ml-1 cursor-pointer"
+                  className="h-3 w-3 cursor-pointer ml-1"
                   onClick={() => onRemoveTag(index)}
                 />
               </Badge>
@@ -117,6 +117,14 @@ const TagInput = ({
     </div>
   );
 };
+
+const stateOptions = [
+  { label: "Select Location", value: "", index: 0, disable: true },
+  { label: "Mumbai", value: "Mumbai", index: 1, disable: false },
+  { label: "Bangalore", value: "Bangalore", index: 2, disable: false },
+  { label: "Chennai", value: "Chennai", index: 3, disable: false },
+  { label: "Delhi", value: "Delhi", index: 4, disable: false },
+];
 
 const brandsOptions = [
   ...popularBrands.map((brand) => ({ label: brand.title, value: brand.title })),
@@ -181,11 +189,11 @@ function DiagnosticsForm() {
     videos: [""],
     ownership: "PRIVATE",
     brands: [""],
-    accrediations: [""],
-    psu:[""],
-    diagnostics:[""],
-    insurance:[""],
-    tpa:[""],
+    accreditations: [""],
+    psu: [""],
+    diagnostics: [""],
+    insurance: [""],
+    tpa: [""],
     medicalFacilities: [],
   };
 
@@ -287,7 +295,7 @@ function DiagnosticsForm() {
       toast.error(
         <div>
           <strong>Errors on step {stepNumber}:</strong>
-          <ul className="list-disc pl-4 mt-2">
+          <ul className="list-disc mt-2 pl-4">
             {errorMessages.map((message, index) => (
               <li key={index}>{message}</li>
             ))}
@@ -435,23 +443,23 @@ function DiagnosticsForm() {
   }, [startDay, endDay, hoursPerDay]);
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center py-1 px-2 sm:px-3 lg:px-8">
+    <div className="flex bg-gray-100 justify-center items-center lg:px-8 min-h-screen px-2 py-1 sm:px-3">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-4xl w-full space-y-8 bg-white p-[1.70rem]  rounded-xl shadow-lg"
+        className="bg-white p-[1.70rem] rounded-xl shadow-lg w-full max-w-4xl space-y-8"
       >
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          <h2 className="text-3xl text-center text-gray-900 font-extrabold mt-6">
             Add Diagnostics
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
+          <p className="text-center text-gray-600 text-sm mt-2">
             Please fill the details of your Diagnostics
           </p>
         </div>
 
-        <div className="flex justify-start items-center mb-8 flex-wrap">
+        <div className="flex flex-wrap justify-start items-center mb-8">
           {steps.map((s, index) => (
             <React.Fragment key={s}>
               <div className="flex flex-col items-center">
@@ -464,13 +472,13 @@ function DiagnosticsForm() {
                 >
                   {index + 1}
                 </div>
-                <div className="mt-2 text-xs font-medium text-gray-500">
+                <div className="text-gray-500 text-xs font-medium mt-2">
                   {s}
                 </div>
               </div>
               {index < steps.length - 1 && (
                 <motion.div
-                  className="flex-1 h-px bg-gray-300 mx-4 relative"
+                  className="flex-1 bg-gray-300 h-px mx-4 relative"
                   initial={{
                     background:
                       "repeating-linear-gradient(to right, #CBD5E0 0%, #CBD5E0 50%, transparent 50%, transparent 100%)",
@@ -486,7 +494,7 @@ function DiagnosticsForm() {
                   transition={{ duration: 0.5 }}
                 >
                   <motion.div
-                    className="absolute top-1/2 right-0 transform -translate-y-1/2 translate-x-1/2 w-3 h-3 rotate-45 border-t-2 border-r-2"
+                    className="border-r-2 border-t-2 h-3 w-3 -translate-y-1/2 absolute right-0 rotate-45 top-1/2 transform translate-x-1/2"
                     initial={{ borderColor: "#CBD5E0" }}
                     animate={{
                       borderColor: index + 1 < step ? "#3B82F6" : "#CBD5E0",
@@ -527,7 +535,7 @@ function DiagnosticsForm() {
                       <div>
                         <label
                           htmlFor="name"
-                          className="block text-sm font-medium text-gray-700"
+                          className="text-gray-700 text-sm block font-medium"
                         >
                           Name
                         </label>
@@ -535,7 +543,7 @@ function DiagnosticsForm() {
                           id="name"
                           name="name"
                           type="text"
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          className="border border-gray-300 rounded-md shadow-sm w-full block focus:border-blue-500 focus:outline-none focus:ring-blue-500 mt-1 px-3 py-2"
                         />
                         <ErrorMessage
                           name="name"
@@ -547,7 +555,7 @@ function DiagnosticsForm() {
                       <div>
                         <label
                           htmlFor="website"
-                          className="block text-sm font-medium text-gray-700"
+                          className="text-gray-700 text-sm block font-medium"
                         >
                           Website
                         </label>
@@ -555,7 +563,7 @@ function DiagnosticsForm() {
                           id="website"
                           name="website"
                           type="url"
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          className="border border-gray-300 rounded-md shadow-sm w-full block focus:border-blue-500 focus:outline-none focus:ring-blue-500 mt-1 px-3 py-2"
                           placeholder="https://example.com"
                         />
                         <ErrorMessage
@@ -568,7 +576,7 @@ function DiagnosticsForm() {
                       <div>
                         <label
                           htmlFor="address.street"
-                          className="block text-sm font-medium text-gray-700"
+                          className="text-gray-700 text-sm block font-medium"
                         >
                           Street
                         </label>
@@ -576,7 +584,7 @@ function DiagnosticsForm() {
                           id="address.street"
                           name="address.street"
                           type="text"
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          className="border border-gray-300 rounded-md shadow-sm w-full block focus:border-blue-500 focus:outline-none focus:ring-blue-500 mt-1 px-3 py-2"
                         />
                         <ErrorMessage
                           name="address.street"
@@ -590,7 +598,7 @@ function DiagnosticsForm() {
                       <div>
                         <label
                           htmlFor="address.city"
-                          className="block text-sm font-medium text-gray-700"
+                          className="text-gray-700 text-sm block font-medium"
                         >
                           City
                         </label>
@@ -598,7 +606,7 @@ function DiagnosticsForm() {
                           id="address.city"
                           name="address.city"
                           type="text"
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          className="border border-gray-300 rounded-md shadow-sm w-full block focus:border-blue-500 focus:outline-none focus:ring-blue-500 mt-1 px-3 py-2"
                         />
                         <ErrorMessage
                           name="address.city"
@@ -610,16 +618,26 @@ function DiagnosticsForm() {
                       <div>
                         <label
                           htmlFor="address.state"
-                          className="block text-sm font-medium text-gray-700"
+                          className="block text-sm font-medium text-gray-700 mb-1"
                         >
                           State
                         </label>
                         <Field
+                          as="select"
                           id="address.state"
                           name="address.state"
-                          type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        />
+                        >
+                          {stateOptions.map((state) => (
+                            <option
+                              disabled={state.disable}
+                              key={state.value}
+                              value={state.value}
+                            >
+                              {state.label}
+                            </option>
+                          ))}
+                        </Field>
                         <ErrorMessage
                           name="address.state"
                           component="div"
@@ -632,7 +650,7 @@ function DiagnosticsForm() {
                       <div className="mt-2">
                         <label
                           htmlFor="address.zipCode"
-                          className="block text-sm font-medium text-gray-700"
+                          className="text-gray-700 text-sm block font-medium"
                         >
                           Zip Code
                         </label>
@@ -640,7 +658,7 @@ function DiagnosticsForm() {
                           id="address.zipCode"
                           name="address.zipCode"
                           type="text"
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          className="border border-gray-300 rounded-md shadow-sm w-full block focus:border-blue-500 focus:outline-none focus:ring-blue-500 mt-1 px-3 py-2"
                         />
                         <ErrorMessage
                           name="address.zipCode"
@@ -652,7 +670,7 @@ function DiagnosticsForm() {
                       <div>
                         <label
                           htmlFor="address.landmark"
-                          className="block text-sm font-medium text-gray-700"
+                          className="text-gray-700 text-sm block font-medium"
                         >
                           Landmark
                         </label>
@@ -660,7 +678,7 @@ function DiagnosticsForm() {
                           id="address.landmark"
                           name="address.landmark"
                           type="text"
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          className="border border-gray-300 rounded-md shadow-sm w-full block focus:border-blue-500 focus:outline-none focus:ring-blue-500 mt-1 px-3 py-2"
                         />
                         <ErrorMessage
                           name="address.landmark"
@@ -671,15 +689,15 @@ function DiagnosticsForm() {
                     </div>
 
                     <div className="grid grid-cols-2 gap-6">
-                      <h2 className="text-base font-bold tracking-tight col-span-2">
+                      <h2 className="col-span-2 text-base font-bold tracking-tight">
                         Weekly Working Days
                       </h2>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 col-span-2">
+                      <div className="col-span-2 grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div>
                           <label
                             htmlFor="openDay"
-                            className="block text-sm font-medium text-gray-700 mb-1"
+                            className="text-gray-700 text-sm block font-medium mb-1"
                           >
                             From
                           </label>
@@ -687,7 +705,7 @@ function DiagnosticsForm() {
                             as="select"
                             id="openDay"
                             name="openDay"
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            className="border border-gray-300 rounded-md shadow-sm w-full block focus:border-blue-500 focus:outline-none focus:ring-blue-500 mt-1 px-3 py-2"
                           >
                             {daysOfWeek.map((day) => (
                               <option key={day.value} value={day.value}>
@@ -705,7 +723,7 @@ function DiagnosticsForm() {
                         <div>
                           <label
                             htmlFor="closeDay"
-                            className="block text-sm font-medium text-gray-700 mb-1"
+                            className="text-gray-700 text-sm block font-medium mb-1"
                           >
                             To
                           </label>
@@ -713,7 +731,7 @@ function DiagnosticsForm() {
                             as="select"
                             id="closeDay"
                             name="closeDay"
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            className="border border-gray-300 rounded-md shadow-sm w-full block focus:border-blue-500 focus:outline-none focus:ring-blue-500 mt-1 px-3 py-2"
                           >
                             {daysOfWeek.map((day) => (
                               <option key={day.value} value={day.value}>
@@ -732,7 +750,7 @@ function DiagnosticsForm() {
                       <div>
                         <label
                           htmlFor="hours"
-                          className="block text-sm font-medium text-gray-700 mt-4"
+                          className="text-gray-700 text-sm block font-medium mt-4"
                         >
                           Hours per day
                         </label>
@@ -744,7 +762,7 @@ function DiagnosticsForm() {
                           max="24"
                           value={values.hours} // Formik state
                           onChange={handleChange} // Formik's handleChange
-                          className="w-full border border-gray-300 rounded px-3 py-2 outline-none focus:ring-blue-500 focus:border-blue-500"
+                          className="border border-gray-300 rounded w-full focus:border-blue-500 focus:ring-blue-500 outline-none px-3 py-2"
                         />
                         <ErrorMessage
                           name="hours"
@@ -810,7 +828,7 @@ function DiagnosticsForm() {
                     <div>
                       <label
                         htmlFor="description"
-                        className="block text-sm font-medium text-gray-700 mb-1"
+                        className="text-gray-700 text-sm block font-medium mb-1"
                       >
                         Description
                       </label>
@@ -819,7 +837,7 @@ function DiagnosticsForm() {
                         id="description"
                         name="description"
                         rows={4}
-                        className="mt-1 block w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 touch-manipulation"
+                        className="border border-gray-300 rounded-md shadow-sm text-sm w-full block focus:border-blue-500 focus:outline-none focus:ring-blue-500 mt-1 px-3 py-2 sm:text-base touch-manipulation"
                       />
                       <ErrorMessage
                         name="description"
@@ -832,7 +850,7 @@ function DiagnosticsForm() {
                       <div>
                         <label
                           htmlFor="ownership"
-                          className="block text-sm font-medium text-gray-700"
+                          className="text-gray-700 text-sm block font-medium"
                         >
                           Ownership
                         </label>
@@ -840,7 +858,7 @@ function DiagnosticsForm() {
                           as="select"
                           id="ownership"
                           name="ownership"
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          className="border border-gray-300 rounded-md shadow-sm w-full block focus:border-blue-500 focus:outline-none focus:ring-blue-500 mt-1 px-3 py-2"
                         >
                           <option value="">Select Ownership</option>
                           <option value="PRIVATE">Private</option>
@@ -866,13 +884,13 @@ function DiagnosticsForm() {
                     className="space-y-6"
                   >
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="text-gray-700 text-sm block font-medium">
                         Upload Images
                       </label>
-                      <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                        <div className="space-y-1 text-center">
+                      <div className="flex border-2 border-dashed border-gray-300 justify-center rounded-md mt-1 pb-6 pt-5 px-6">
+                        <div className="text-center space-y-1">
                           <svg
-                            className="mx-auto h-12 w-12 text-gray-400"
+                            className="h-12 text-gray-400 w-12 mx-auto"
                             stroke="currentColor"
                             fill="none"
                             viewBox="0 0 48 48"
@@ -885,10 +903,10 @@ function DiagnosticsForm() {
                               strokeLinejoin="round"
                             />
                           </svg>
-                          <div className="flex text-sm text-gray-600">
+                          <div className="flex text-gray-600 text-sm">
                             <label
                               htmlFor="file-upload"
-                              className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
+                              className="bg-white rounded-md text-blue-600 cursor-pointer focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 font-medium hover:text-blue-500 relative"
                             >
                               <span>Upload a file</span>
                               <input
@@ -911,7 +929,7 @@ function DiagnosticsForm() {
                             </label>
                             <p className="pl-1">or drag and drop</p>
                           </div>
-                          <p className="text-xs text-gray-500">
+                          <p className="text-gray-500 text-xs">
                             PNG, JPG, GIF up to 10MB
                           </p>
                         </div>
@@ -924,10 +942,10 @@ function DiagnosticsForm() {
                     </div>
                     {values.images.length > 0 && (
                       <div>
-                        <h4 className="text-sm font-medium text-gray-700 mb-2">
+                        <h4 className="text-gray-700 text-sm font-medium mb-2">
                           Uploaded Images:
                         </h4>
-                        <ul className="list-disc pl-5 text-sm text-gray-600">
+                        <ul className="list-disc text-gray-600 text-sm pl-5">
                           {values.images.map((file: File, index: number) => (
                             <li key={index}>{file.name}</li>
                           ))}
@@ -994,7 +1012,7 @@ function DiagnosticsForm() {
                     className="space-y-6"
                   >
                     <div>
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                      <label className="text-gray-900 text-xl block font-medium mb-4">
                         Brands
                       </label>
                       <MultipleSelector
@@ -1019,7 +1037,7 @@ function DiagnosticsForm() {
                     </div>
 
                     <div className="!mt-6">
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                      <label className="text-gray-900 text-xl block font-medium mb-4">
                         PSU (Public Sector Undertaking)
                       </label>
                       <MultipleSelector
@@ -1044,32 +1062,32 @@ function DiagnosticsForm() {
                     </div>
 
                     <div className="!mt-6">
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                      <label className="text-gray-900 text-xl block font-medium mb-4">
                         Accrediations
                       </label>
                       <MultipleSelector
-                        value={values.accrediations
+                        value={values.accreditations
                           .filter((a) => a.trim())
                           .map((a) => ({ label: a, value: a }))}
                         onChange={(newValue) => {
                           setFieldValue(
-                            "accrediations",
+                            "accreditations",
                             newValue.map((item) => item.value)
                           );
                         }}
                         options={accrediationsOptions}
-                        placeholder="Select accrediations"
+                        placeholder="Select accreditations"
                         className="w-full"
                       />
                       <ErrorMessage
-                        name="accrediations"
+                        name="accreditations"
                         component="div"
                         className="text-red-500 text-sm mt-1"
                       />
                     </div>
 
                     <div className="!mt-6">
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                      <label className="text-gray-900 text-xl block font-medium mb-4">
                         Diagnostics
                       </label>
                       <MultipleSelector
@@ -1094,7 +1112,7 @@ function DiagnosticsForm() {
                     </div>
 
                     <div className="!mt-6">
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                      <label className="text-gray-900 text-xl block font-medium mb-4">
                         Insurance Accepted
                       </label>
                       <MultipleSelector
@@ -1119,7 +1137,7 @@ function DiagnosticsForm() {
                     </div>
 
                     <div className="!mt-6">
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                      <label className="text-gray-900 text-xl block font-medium mb-4">
                         TPA (Third Party Administrators)
                       </label>
                       <MultipleSelector
@@ -1144,7 +1162,7 @@ function DiagnosticsForm() {
                     </div>
 
                     <div>
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                      <label className="text-gray-900 text-xl block font-medium mb-4">
                         Medical Facilities
                       </label>
                       <MultipleSelector
@@ -1177,9 +1195,9 @@ function DiagnosticsForm() {
                   <button
                     type="button"
                     onClick={() => setStep((prev) => prev - 1)}
-                    className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 flex items-center"
+                    className="flex bg-white border border-gray-300 rounded-md shadow-sm text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-medium hover:bg-gray-50 items-center px-4 py-2"
                   >
-                    <ChevronLeft className="w-5 h-5 mr-1" />
+                    <ChevronLeft className="h-5 w-5 mr-1" />
                     Previous
                   </button>
                 )}
@@ -1193,10 +1211,10 @@ function DiagnosticsForm() {
                         showErrorsToast(errors, step);
                       }
                     }}
-                    className="ml-auto bg-blue-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 items-center"
+                    className="bg-blue-600 border border-transparent justify-center rounded-md shadow-sm text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-medium hover:bg-blue-700 inline-flex items-center ml-auto px-4 py-2"
                   >
                     Next
-                    <ChevronRight className="w-5 h-5 ml-1" />
+                    <ChevronRight className="h-5 w-5 ml-1" />
                   </button>
                 ) : (
                   <Button
@@ -1207,17 +1225,17 @@ function DiagnosticsForm() {
                       }
                     }}
                     disabled={isSubmitting}
-                    className="ml-auto bg-green-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 items-center"
+                    className="bg-green-600 border border-transparent justify-center rounded-md shadow-sm text-sm text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 font-medium hover:bg-green-700 inline-flex items-center ml-auto px-4 py-2"
                   >
                     {isSubmitting ? (
                       <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        <Loader2 className="h-4 w-4 animate-spin mr-2" />
                         Submitting...
                       </>
                     ) : (
                       <>
                         Submit Listing
-                        <Check className="w-5 h-5 ml-1" />
+                        <Check className="h-5 w-5 ml-1" />
                       </>
                     )}
                   </Button>
@@ -1225,9 +1243,9 @@ function DiagnosticsForm() {
               </div>
 
               {step === 4 && Object.keys(errors).length > 0 && (
-                <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-md">
+                <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-md mt-4">
                   <div className="flex items-center">
-                    <AlertCircle className="h-5 w-5 text-yellow-400 mr-2" />
+                    <AlertCircle className="h-5 text-yellow-400 w-5 mr-2" />
                     <p className="text-sm text-yellow-700">
                       There are errors in your form. Please review all steps
                       before submitting.
@@ -1236,7 +1254,7 @@ function DiagnosticsForm() {
                   <button
                     type="button"
                     onClick={() => showAllErrors(errors)}
-                    className="mt-2 text-sm text-blue-600 hover:text-blue-500 focus:outline-none focus:underline"
+                    className="text-blue-600 text-sm focus:outline-none focus:underline hover:text-blue-500 mt-2"
                   >
                     View all errors
                   </button>

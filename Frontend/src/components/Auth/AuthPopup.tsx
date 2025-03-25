@@ -108,7 +108,12 @@ export default function AuthPopup(props: any) {
           localStorage.setItem("token", response.data.jwtToken);
         }
         setIsOpen(false);
-        navigate("/dashboard/hospital");
+        const data = response.data;
+        if(data.role === "ROLE_USER"){
+          navigate("/");
+        } else {
+          navigate("/dashboard/hospital");
+        }
         // console.log("User Logged in Successfully");
       }
     } catch (err) {

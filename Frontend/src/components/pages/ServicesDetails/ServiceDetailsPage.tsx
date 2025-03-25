@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
-// Icons
+//Icons
 import { IoIosStar } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
 import { MdOutlineDirections } from "react-icons/md";
@@ -12,52 +12,46 @@ import { BsBookmarkCheck, BsBookmark } from "react-icons/bs";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 
-// Main Images
-import Main_Hospital_Image from "/Images/hospital-details/main-images/main-hospital-image.png";
-import Patint_Room from "/Images/hospital-details/main-images/patient-room.jpg";
-import Hallway from "/Images/hospital-details/main-images/hallway.jpg";
-
 import servicesByAccrediations from "@/data/accrediations";
 
 // Dynamic Content Components imports
 import Description from "../../Description";
 import Photos from "../../Photos";
 import Videos from "../../Videos";
-import Reviews from "../../Reviews.tsx";
+import Reviews from "../../Reviews";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
 import ReviewModal from "../../ReviewModal";
 import { motion, AnimatePresence } from "framer-motion";
 
-const HospitalDetailsPage = () => {
+const ServiceDetailsPage = () => {
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
   const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS;
-  const clinicImgs = import.meta.env.VITE_APP_CLOUDINARY_CLINICS;
   const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 425);
   const [activeTabButton, setActiveTabButton] = useState("description");
-  const [hospital, setHospital] = useState({});
+  const [service, setService] = useState<any>({});
   const [saved, setSaved] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const token = localStorage.getItem("token");
 
   const { id, type } = useParams();
 
   useEffect(() => {
-      getHospitalDetails(id);
+    getServiceDetails(id);
   }, [id]);
 
   const handleAddRating = () => {
     console.log("parent component updated");
-    getHospitalDetails(id);
+    getServiceDetails(id);
   };
 
-  const getHospitalDetails = async (id) => {
+  const getServiceDetails = async (id) => {
     try {
-      const response = await axios.get(`${baseURL}/v1/api/facility/id/${id}`);
-      const data = response.data.facility;
+      const service = type.replace("-details","")
+      const response = await axios.get(`${baseURL}/v1/api/${service}/id/${id}`);
+      const data = response.data[service];
       // console.log(data);
-      setHospital(data);
+      setService(data);
       setSaved(data.isSaved);
     } catch (error) {
       console.error(error);
@@ -82,13 +76,13 @@ const HospitalDetailsPage = () => {
   };
 
   const handleDirection = () => {
-    const hospitalAddress = `${hospital.name} ${hospital.address.street},${hospital.address.landmark} ,${hospital.address.city} - ${hospital.address.zipCode}`;
+    const clinicAddress = `${service.name} ${service.address.street},${service.address.landmark} ,${service.address.city} - ${service.address.zipCode}`;
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
           const start = `${latitude},${longitude}`; // User's current location
-          const end = encodeURIComponent(hospitalAddress); // Destination
+          const end = encodeURIComponent(clinicAddress); // Destination
           const mapsUrl = `https://www.google.com/maps/dir/${start}/${end}`;
           window.open(mapsUrl, "_blank");
         },
@@ -107,10 +101,10 @@ const HospitalDetailsPage = () => {
     }
   };
 
-  const saveHospital = async (hospitalId) => {
+  const saveService = async (id) => {
     try {
       const response = await axios.post(
-        `${baseURL}/v1/api/saved/${hospitalId}`,
+        `${baseURL}/v1/api/saved/${id}`,
         {},
         {
           headers: {
@@ -125,8 +119,8 @@ const HospitalDetailsPage = () => {
     }
   };
 
-  const removeSavedHospital = async (hospitalId) => {
-    return await axios.delete(`${baseURL}/v1/api/saved/${hospitalId}`, {
+  const removeSavedService= async (id) => {
+    return await axios.delete(`${baseURL}/v1/api/saved/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -135,10 +129,10 @@ const HospitalDetailsPage = () => {
 
   const handleSave = async () => {
     if (saved) {
-      await removeSavedHospital(id);
+      await removeSavedService(id);
       setSaved(false);
     } else {
-      await saveHospital(id);
+      await saveService(id);
       setSaved(true);
     }
     // setSaved(!saved);
@@ -155,11 +149,8 @@ const HospitalDetailsPage = () => {
     {
       title: "Add Review",
       icon: <MdEdit className="!text-pink-400 !h-5 !w-5" />,
-      onClick: () => { 
-        token ? setIsModalOpen(true) :  toast.error(`Login is Required`, {
-          position: "bottom-right",
-          duration: 3000,
-        });
+      onClick: () => {
+        setIsModalOpen(true);
       },
     },
     {
@@ -188,7 +179,7 @@ const HospitalDetailsPage = () => {
     {
       id: "description",
       component: (
-        <Description details={hospital} phones={hospital.phoneNumbers} />
+        <Description details={service} phones={service.phoneNumbers} />
       ),
       title: "Description",
       marginX: "!mr-2",
@@ -196,32 +187,31 @@ const HospitalDetailsPage = () => {
     },
     {
       id: "photos",
-      component: <Photos images={hospital.images} type={type} />,
+      component: <Photos images={service.images} type={type} />,
       title: "Photos",
       marginX: "!mx-2",
       paddingX: "!px-1 min-[425px]:!px-2",
     },
     {
       id: "videos",
-      component: <Videos videos={hospital.videos} />,
+      component: <Videos videos={service.videos} />,
       title: "Videos",
       marginX: "!mx-2",
       paddingX: "!px-1 min-[425px]:!px-2",
     },
-    {
-      id: "reviews",
-      component: (
-        <Reviews
-          id={hospital.id}
-          avgRating={hospital.avgRating?.toPrecision(2)}
-          addRating={handleAddRating}
-          ratings={hospital.ratings}
-        />
-      ),
-      title: "Reviews",
-      marginX: "!mx-2",
-      paddingX: "!px-1 min-[425px]:!px-2",
-    },
+    // {
+    //   id: "reviews",
+    //   component: (
+    //     <Reviews
+    //       id={service.id}
+    //       avgRating={service.avgRating?.toPrecision(2)}
+    //       addRating={handleAddRating}
+    //     />
+    //   ),
+    //   title: "Reviews",
+    //   marginX: "!mx-2",
+    //   paddingX: "!px-1 min-[425px]:!px-2",
+    // },
   ];
 
   return (
@@ -296,34 +286,34 @@ const HospitalDetailsPage = () => {
         {/* Main Image */}
         <div
           className={`col-span-12 ${
-            hospital.images?.length === 1 ? "lg:col-span-12" : "lg:col-span-8"
-          }`}
+            service.images?.length === 1 ? "lg:col-span-12" : "lg:col-span-8"
+          } `}
         >
           <img
-            src={type !== "hospitals-details"? hospitalImgs + hospital.images?.[0]  : hospitalImgs + hospital.images?.[0]}
-            alt="main hospital"
+            src={hospitalImgs + service.images?.[0]}
+            alt="main service"
             className="h-[240px] min-[425px]:h-[280px] sm:h-[380px] lg:h-[510px] w-full rounded-sm object-cover"
           />
         </div>
         {/* Conditional Grid for Other Images */}
-        {hospital.images?.length > 1 && (
-          <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4 lg:gap-0 col-span-12 lg:col-span-4 lg:flex lg:flex-col lg:justify-between lg:space-y-4">
+        {service.images?.length > 1 && (
+          <div className="h-full grid grid-cols-2 gap-2 sm:gap-3 md:gap-4 lg:gap-0 col-span-12 lg:col-span-4 lg:flex lg:flex-col lg:justify-between lg:space-y-4">
             {/* First Additional Image */}
             <div>
               <img
-                 src={type !== "hospitals-details"? hospitalImgs + hospital.images?.[1]  : hospitalImgs + hospital.images?.[1]}
+                src={hospitalImgs + service.images?.[1]}
                 alt="Patient Room"
-                className="h-full w-full object-cover object-center rounded-sm"
+                className="min-h-[160px] max-h-[160px] md:min-h-[220px] md:max-h-[220px] lg:min-h-[247px] lg:max-h-[247px] border w-full object-cover object-center rounded-sm"
               />
             </div>
 
             {/* Show the third image only if there are 3 or more images */}
-            <div className="relative h-full w-full">
-              {hospital.images?.length >= 4 ? (
+            <div className="relative min-h-[160px] max-h-[160px] md:min-h-[220px] md:max-h-[220px] lg:min-h-[247px] lg:max-h-[247px] w-full">
+              {service.images?.length >= 4 ? (
                 <div
                   style={{
                     backgroundImage: `url(${
-                      type !== "hospitals-details"? hospitalImgs + hospital.images?.[2]  : hospitalImgs + hospital.images?.[2]
+                        hospitalImgs + service.images?.[2]
                     })`,
                   }}
                   className="relative h-full w-full bg-cover bg-center rounded-sm"
@@ -331,15 +321,15 @@ const HospitalDetailsPage = () => {
                   <div className="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center">
                     <div className="flex flex-col justify-center items-center text-white text-2xl">
                       <p>+</p>
-                      <p>{hospital.images?.length - 3} more</p>
+                      <p>{service.images?.length - 3} more</p>
                     </div>
                   </div>
                 </div>
               ) : (
                 <>
-                  {hospital.images?.length > 2 && (
+                  {service.images?.length > 2 && (
                     <img
-                    src={type !== "hospitals-details"? hospitalImgs + hospital.images?.[2]  : hospitalImgs + hospital.images?.[2]}
+                      src={hospitalImgs + service.images?.[2]}
                       alt="Hallway"
                       className="h-full w-full object-cover object-center rounded-sm"
                     />
@@ -349,47 +339,34 @@ const HospitalDetailsPage = () => {
             </div>
           </div>
         )}
-
       </div>
 
-      
-    {/* Title & Contents */}
+       {/* Title & Contents */}
     <div className="!flex !flex-col !items-start sm:!flex-row sm:!justify-between sm:!items-start !py-2 sm:!py-0">
         {/* Left Side */}
         <div className="!flex !flex-col !justify-center !space-y-1.5">
           <span className="!text-2xl lg:!text-4xl !font-medium !text-wrap">
-            {hospital.name}
+            {service.name}
           </span>
           {/* <span className='!text-md lg:!text-xl !font-medium text-gray-600'>Andheri, Mumbai</span> */}
           <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 text-balance">
-                  {hospital.address?.street}, {hospital.address?.landmark}, {hospital.address?.city}{" "}
-                  - {hospital.address?.zipCode}
+                  {service.address?.street}, {service.address?.landmark}, {service.address?.city}{" "}
+                  - {service.address?.zipCode}
                   {/* 
                   Rao Saheb, Achutrao Patwardhan Marg, Four Bungalows, Andheri
                   West, Mumbai, Maharashtra 400053 */}
                 </span>
           <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-md !text-[#74c365] capitalize">
 
-          {hospital.openDay} - {hospital.closeDay}{" "}
-          {hospital.hours} Hrs
+          {service.openDay} - {service.closeDay}{" "}
+          {service.hours} Hrs
           </span>
 
         </div>
 
         {/* Right Side  */}
-        <div className="!flex !flex-col !justify-center !text-white !my-2 sm:!my-0 !space-y-0.5 sm:!space-y-1.5 !text-left sm:!text-right">
-          <div className="!flex !justify-center !items-center !bg-[#267e3e] !rounded !py-0.5 !px-0">
-            <span className="!text-xl !font-semibold !mr-1 !px-0">
-              {hospital.avgRating?.toPrecision(2)}
-            </span>
-            <IoIosStar className="!h-5 !w-5 !mb-0.5 !px-0 !mx-0" />
-          </div>
-          <div className="!text-gray-600">
-            <span>{hospital.reviews?.length} Reviews</span>
-          </div>
-        </div>
+        
       </div>
-
 
       {/* Buttons & Rounded Images*/}
       <div className="!flex !flex-col sm:!flex-row !items-start sm:!items-center sm:!space-y-0 !space-y-5 !justify-between !pb-4 sm:!py-4">
@@ -400,7 +377,7 @@ const HospitalDetailsPage = () => {
               <button
                 onClick={btn.onClick}
                 key={index}
-                className={`!flex !justify-center !items-center !gap-x-[5px] !text-xs sm:!text-sm md:!text-base !border-2 !border-gray-300 !py-2 !px-5 min-[425px]:!px-2 md:!px-4 !rounded ${btn.Color} ${btn.Bold} `}
+                className={`!flex !justify-center !items-center !gap-x-[5px] !text-xs sm:!text-sm md:!text-base !border-2 !border-gray-300 !py-2 !px-5 min-[425px]:!px-2 md:!px-4 !rounded  ${btn.Bold} `}
               >
                 {btn.icon} {isWideScreen && btn.title}
               </button>
@@ -410,7 +387,7 @@ const HospitalDetailsPage = () => {
             {isModalOpen && (
               <ReviewModal
                 onClose={() => setIsModalOpen(false)}
-                id={hospital.id}
+                id={service.id}
               />
             )}
           </AnimatePresence>
@@ -418,7 +395,7 @@ const HospitalDetailsPage = () => {
 
         {/* Right Side for Rounded Images */}
         <div className="!flex !space-x-1.5 md:!space-x-2">
-          {hospital.accreditations?.map((acc, index) => {
+          {service.accreditations?.map((acc, index) => {
             const accreditation = servicesByAccrediations.find(
               (item) => item.title === acc
             );
@@ -472,4 +449,4 @@ const HospitalDetailsPage = () => {
   );
 };
 
-export default HospitalDetailsPage;
+export default ServiceDetailsPage;

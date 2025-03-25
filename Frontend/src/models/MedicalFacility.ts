@@ -35,8 +35,8 @@ export interface MedicalFacility {
   }
   
   export enum FacilityType {
-    HOSPITAL = "HOSPITAL",
-    CLINIC = "CLINIC",
+    HOSPITAL = "hospitals",
+    CLINIC = "clinics",
   }
 
   export enum Ownership {

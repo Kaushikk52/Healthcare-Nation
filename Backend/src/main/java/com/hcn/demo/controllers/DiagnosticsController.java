@@ -1,5 +1,6 @@
 package com.hcn.demo.controllers;
 
+import com.hcn.demo.models.Bank;
 import com.hcn.demo.models.Diagnostics;
 import com.hcn.demo.services.DiagnosticsService;
 import lombok.extern.slf4j.Slf4j;
@@ -67,6 +68,51 @@ public class DiagnosticsController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 
         } catch (Exception e) {
+            log.warn("An Error occurred : {}", e.getMessage());
+            response.put("message",e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    @GetMapping(value = "/filter")
+    public ResponseEntity<Map<String,Object>> getFilteredDiagnostics(
+            @RequestParam(required = false) List<String> accreditations,
+            @RequestParam(required = false) String ownership,
+            @RequestParam(required = false) List<String> diagnostics,
+            @RequestParam(required = false) List<String> psu,
+            @RequestParam(required = false) List<String> insurance,
+            @RequestParam(required = false) List<String> tpa,
+            @RequestParam(required = false) List<String> brands
+
+
+    ){
+        Map<String,Object> response = new HashMap<>();
+        try {
+            Map<String,Object> filters = new HashMap<>();
+            if (accreditations != null && !accreditations.isEmpty()) filters.put("accreditations", accreditations);
+            if (ownership != null && !ownership.isEmpty()) filters.put("ownership", ownership);
+            if (brands != null && !brands.isEmpty()) filters.put("brands", brands);
+            if (diagnostics != null && !diagnostics.isEmpty()) filters.put("diagnostics", diagnostics);
+            if (insurance != null && !insurance.isEmpty()) filters.put("insurance", insurance);
+            if (tpa != null && !tpa.isEmpty()) filters.put("tpa", tpa);
+            if (psu != null && !psu.isEmpty()) filters.put("psu", psu);
+            List<Diagnostics> filteredDiagnostics;
+            if(filters.isEmpty()){
+                filteredDiagnostics = diagnosticsServ.getAll();
+            }else{
+                filteredDiagnostics = diagnosticsServ.getFilteredDiagnostics(filters);
+            }
+
+            if(filteredDiagnostics.isEmpty()){
+                log.warn("No Diagnostics found");
+                response.put("message", "No Diagnostics found");
+            }else{
+                log.info("Retrieved filtered Diagnostics");
+                response.put("message", "Retrieved filtered Diagnostics : "+filteredDiagnostics.size());
+            }
+            response.put("diagnostics",filteredDiagnostics);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }catch (Exception e) {
             log.warn("An Error occurred : {}", e.getMessage());
             response.put("message",e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);

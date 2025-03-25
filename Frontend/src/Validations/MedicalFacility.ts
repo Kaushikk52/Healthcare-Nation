@@ -27,7 +27,7 @@ export const MedicalFacilitySchema = yup.object().shape({
 
 
     ownership: yup.string().oneOf(["PRIVATE", "PUBLIC", "GOVERNMENT"], "Invalid ownership type").required("Ownership type is required"),
-    facilityType: yup.string().oneOf(["HOSPITAL", "CLINIC", "DIAGNOSTIC_CENTER"], "Invalid facility type").required("Facility type is required"),
+    facilityType: yup.string().oneOf(["hospitals", "clinics", "DIAGNOSTIC_CENTER"], "Invalid facility type").required("Facility type is required"),
   
     brands: yup.array().of(yup.string()),
     diagnostics: yup.array().of(yup.string()),

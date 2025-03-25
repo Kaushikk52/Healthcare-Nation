@@ -23,6 +23,7 @@ public class Address {
     private String street;
     private String city;
     private String landmark;
+    private String state;
     private String zipCode;
 
     @PrePersist
