@@ -78,11 +78,11 @@ interface ServiceListingProps {
   searchQuery?: string
 }
 
-export default function ServiceListing({ facilityType="hospitals", locationParam, searchQuery }: ServiceListingProps) {
-  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL
-  const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS
-  const clinicImgs = import.meta.env.VITE_APP_CLOUDINARY_CLINICS
-  const path = import.meta.env.VITE_APP_IMG_URL
+export default function ServiceListing({ facilityType, locationParam, searchQuery }: ServiceListingProps) {
+  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
+  const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS;
+  const clinicImgs = import.meta.env.VITE_APP_CLOUDINARY_CLINICS;
+  const path = import.meta.env.VITE_APP_IMG_URL;
   const [expandedSections, setExpandedSections] = useState<string[]>([])
 
   // Get type and location from URL params as fallback
@@ -92,7 +92,7 @@ export default function ServiceListing({ facilityType="hospitals", locationParam
   const searchFromUrl = searchParams.get("search");
 
   // Use props if provided, otherwise fall back to URL params
-  const type = facilityType || typeFromUrl;
+  const type = typeFromUrl || "hospitals";
   const location = locationParam || locationFromUrl;
   const search = searchQuery || searchFromUrl;
 
@@ -654,7 +654,7 @@ ${
                             type === "clinics" ? (
                               <SwiperSlide key={index}>
                                 <img
-                                  src={clinicImgs + image || "/placeholder.svg"}
+                                  src={hospitalImgs + image || "/placeholder.svg"}
                                   alt={`${type} Image`}
                                   className="w-full h-auto object-cover aspect-[5/3] rounded-md"
                                 />

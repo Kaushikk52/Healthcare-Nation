@@ -347,11 +347,11 @@ export default function HospitalForm() {
   ];
 
   const stateOptions = [
-    { label: "Select Location", value: "", index: 0, disable:true },
-    { label: "Mumbai", value: "Mumbai", index: 1, disable:false },
-    { label: "Bangalore", value: "Bangalore", index: 2, disable:false },
-    { label: "Chennai", value: "Chennai", index: 3, disable:false },
-    { label: "Delhi", value: "Delhi", index: 4, disable:false },
+    { label: "Select Location", value: "", index: 0, disable: true },
+    { label: "Mumbai", value: "Mumbai", index: 1, disable: false },
+    { label: "Bangalore", value: "Bangalore", index: 2, disable: false },
+    { label: "Chennai", value: "Chennai", index: 3, disable: false },
+    { label: "Delhi", value: "Delhi", index: 4, disable: false },
   ];
 
   useEffect(() => {
@@ -703,25 +703,29 @@ export default function HospitalForm() {
 
                       <div>
                         <label
-                          htmlFor="state"
+                          htmlFor="address.state"
                           className="block text-sm font-medium text-gray-700 mb-1"
                         >
                           State
                         </label>
                         <Field
                           as="select"
-                          id="state"
-                          name="state"
+                          id="address.state"
+                          name="address.state"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         >
                           {stateOptions.map((state) => (
-                            <option disabled={state.disable} key={state.value} value={state.value}>
+                            <option
+                              disabled={state.disable}
+                              key={state.value}
+                              value={state.value}
+                            >
                               {state.label}
                             </option>
                           ))}
                         </Field>
                         <ErrorMessage
-                          name="state"
+                          name="address.state"
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />

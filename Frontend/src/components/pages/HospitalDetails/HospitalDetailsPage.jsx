@@ -300,7 +300,7 @@ const HospitalDetailsPage = () => {
           }`}
         >
           <img
-            src={type !== "hospitals-details"? clinicImgs + hospital.images?.[0]  : hospitalImgs + hospital.images?.[0]}
+            src={type !== "hospitals-details"? hospitalImgs + hospital.images?.[0]  : hospitalImgs + hospital.images?.[0]}
             alt="main hospital"
             className="h-[240px] min-[425px]:h-[280px] sm:h-[380px] lg:h-[510px] w-full rounded-sm object-cover"
           />
@@ -311,7 +311,7 @@ const HospitalDetailsPage = () => {
             {/* First Additional Image */}
             <div>
               <img
-                 src={type !== "hospitals-details"? clinicImgs + hospital.images?.[1]  : hospitalImgs + hospital.images?.[1]}
+                 src={type !== "hospitals-details"? hospitalImgs + hospital.images?.[1]  : hospitalImgs + hospital.images?.[1]}
                 alt="Patient Room"
                 className="h-full w-full object-cover object-center rounded-sm"
               />
@@ -323,7 +323,7 @@ const HospitalDetailsPage = () => {
                 <div
                   style={{
                     backgroundImage: `url(${
-                      type !== "hospitals-details"? clinicImgs + hospital.images?.[2]  : hospitalImgs + hospital.images?.[2]
+                      type !== "hospitals-details"? hospitalImgs + hospital.images?.[2]  : hospitalImgs + hospital.images?.[2]
                     })`,
                   }}
                   className="relative h-full w-full bg-cover bg-center rounded-sm"
@@ -339,7 +339,7 @@ const HospitalDetailsPage = () => {
                 <>
                   {hospital.images?.length > 2 && (
                     <img
-                    src={type !== "hospitals-details"? clinicImgs + hospital.images?.[2]  : hospitalImgs + hospital.images?.[2]}
+                    src={type !== "hospitals-details"? hospitalImgs + hospital.images?.[2]  : hospitalImgs + hospital.images?.[2]}
                       alt="Hallway"
                       className="h-full w-full object-cover object-center rounded-sm"
                     />

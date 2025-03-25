@@ -575,17 +575,18 @@ function HomecareForm() {
                           className="text-red-500 text-sm mt-1"
                         />
                       </div>
+
                       <div>
                         <label
-                          htmlFor="state"
+                          htmlFor="address.state"
                           className="block text-sm font-medium text-gray-700 mb-1"
                         >
                           State
                         </label>
                         <Field
                           as="select"
-                          id="state"
-                          name="state"
+                          id="address.state"
+                          name="address.state"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         >
                           {stateOptions.map((state) => (
@@ -599,7 +600,7 @@ function HomecareForm() {
                           ))}
                         </Field>
                         <ErrorMessage
-                          name="state"
+                          name="address.state"
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />
