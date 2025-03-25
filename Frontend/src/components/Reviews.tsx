@@ -12,9 +12,11 @@ import ReviewModal from "./ReviewModal";
 import First_Reviewer from "/Images/hospital-details/dynamic-content-images/review-images/second-reviewer-image.jpg";
 import axios from "axios";
 import { User } from "lucide-react";
+import toast from "react-hot-toast";
 
 const Reviews = ({ id, avgRating, addRating,ratings }) => {
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
+  const token = localStorage.getItem("token");
   const [reviews, setReviews] = useState([]);
   const [sort, setSort] = useState("newest");
   const [rating, setRating] = useState(avgRating);
@@ -68,6 +70,17 @@ const Reviews = ({ id, avgRating, addRating,ratings }) => {
     }
   };
 
+  const getRatings = async (id : string) => {
+    try {
+      const response = await axios.get(`${baseURL}/v1/api/rating/facility/${id}`
+      );
+      const data = response.data.ratings;
+      ratings = data;
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
   const handleRatingSubmission = async (selectedRating) => {
     setRating(selectedRating);
 
@@ -87,6 +100,7 @@ const Reviews = ({ id, avgRating, addRating,ratings }) => {
       console.log("Rating submitted successfully");
       if (addRating) {
         addRating(); // Trigger the parent component update
+        await getRatings(id);
       }
       return response.data.avgRating;
     } catch (error) {
@@ -271,7 +285,10 @@ const Reviews = ({ id, avgRating, addRating,ratings }) => {
                 key={star}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => handleRatingSubmission(star)}
+                onClick={() => token ? handleRatingSubmission(star) : 
+                  toast.error("Log In is required.")
+
+                }
                 onMouseEnter={() => setHoveredRating(star)}
                 onMouseLeave={() => setHoveredRating(null)}
                 className="focus:outline-none"
@@ -307,7 +324,9 @@ const Reviews = ({ id, avgRating, addRating,ratings }) => {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               className="px-6 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-md font-medium transition-colors"
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => token ? setIsModalOpen(true) : 
+                toast.error("Log In is required.")
+              }
             >
               Write a Review
             </motion.button>

@@ -39,6 +39,7 @@ const HospitalDetailsPage = () => {
   const [hospital, setHospital] = useState({});
   const [saved, setSaved] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const token = localStorage.getItem("token");
 
   const { id, type } = useParams();
 
@@ -154,8 +155,11 @@ const HospitalDetailsPage = () => {
     {
       title: "Add Review",
       icon: <MdEdit className="!text-pink-400 !h-5 !w-5" />,
-      onClick: () => {
-        setIsModalOpen(true);
+      onClick: () => { 
+        token ? setIsModalOpen(true) :  toast.error(`Login is Required`, {
+          position: "bottom-right",
+          duration: 3000,
+        });
       },
     },
     {

@@ -48,29 +48,26 @@ public class MedicalFacilityService {
         return savedClinic;
     }
 
-    public void addRatingToMedicalFacility(String id , Rating rating, Principal principal){
+    public void addRatingToMedicalFacility(String id, Rating rating, Principal principal) {
         MedicalFacility facility = this.getFacilityById(id);
-        User principalUser = (User)userDetailsService.loadUserByUsername(principal.getName());
+        User principalUser = (User) userDetailsService.loadUserByUsername(principal.getName());
+
         List<Rating> existingRatings = facility.getRatings();
         Optional<Rating> existingUserRating = existingRatings.stream()
-                .filter(rating1 -> rating1.getUser().equals(principalUser))
+                .filter(r -> r.getUser().equals(principalUser))
                 .findFirst();
+
         if (existingUserRating.isPresent()) {
-            
+            // Update existing rating
+            existingUserRating.get().setRating(rating.getRating());
+            ratingRepo.save(existingUserRating.get());
+        } else {
+            // Add new rating
+            rating.setMedicalFacility(facility);
+            rating.setUser(principalUser);
+            facility.addRating(rating);
+            ratingRepo.save(rating);
         }
-        facility.addRating(rating);
-        rating.setMedicalFacility(facility);
-
-        rating.setUser(principalUser);
-        ratingRepo.save(rating);
-    }
-
-    public void addNewRating(){
-
-    }
-
-    public void editRating(){
-
     }
 
     public MedicalFacility updateAverageRating(String id){

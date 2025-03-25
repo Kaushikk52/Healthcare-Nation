@@ -78,7 +78,7 @@ interface ServiceListingProps {
   searchQuery?: string
 }
 
-export default function ServiceListing({ facilityType, locationParam, searchQuery }: ServiceListingProps) {
+export default function ServiceListing({ facilityType="hospitals", locationParam, searchQuery }: ServiceListingProps) {
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL
   const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS
   const clinicImgs = import.meta.env.VITE_APP_CLOUDINARY_CLINICS
