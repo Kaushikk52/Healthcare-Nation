@@ -40,5 +40,5 @@ jobs:
           npm install
           npm run build
           rm -rf /home/deployer/dist
-          cp -r build /home/deployer/dist
+          cp -r dist /home/deployer/dist
           sudo systemctl restart nginx
