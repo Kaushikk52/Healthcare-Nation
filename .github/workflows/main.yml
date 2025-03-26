@@ -18,8 +18,8 @@ jobs:
 
       - name: Build and Deploy Backend
         run: |
-          if [ -d "backend" ]; then
-            cd backend
+          if [ -d "Backend" ]; then
+            cd Backend
             ./mvnw clean package -DskipTests
             sudo systemctl stop myapp
             cp target/demo-0.0.1-SNAPSHOT.jar /home/deployer/demo-0.0.1-SNAPSHOT.jar
