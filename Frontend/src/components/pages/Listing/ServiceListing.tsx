@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { FaStar, FaFilter } from "react-icons/fa"
-import { Link, useSearchParams } from "react-router-dom"
+import { Link, useSearchParams, useNavigate, useLocation } from "react-router-dom"
 import { X, ChevronDown } from "lucide-react"
 import axios from "axios"
+
 
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation, Pagination, A11y } from "swiper/modules"
@@ -61,8 +62,8 @@ interface SelectedFilters {
   diagnostics: string[]
   specialities: string[]
   psu: string[]
-  accrediation: string[]
-  concern: string[]
+  accreditations: string[]
+  concerns: string[]
   insurance: string[]
   tpa: string[]
   altMed: string[]
@@ -79,22 +80,31 @@ interface ServiceListingProps {
 }
 
 export default function ServiceListing({ facilityType, locationParam, searchQuery }: ServiceListingProps) {
-  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
-  const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS;
-  const clinicImgs = import.meta.env.VITE_APP_CLOUDINARY_CLINICS;
-  const path = import.meta.env.VITE_APP_IMG_URL;
+  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL
+  const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS
+  const clinicImgs = import.meta.env.VITE_APP_CLOUDINARY_CLINICS
+  const path = import.meta.env.VITE_APP_IMG_URL
   const [expandedSections, setExpandedSections] = useState<string[]>([])
+  const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const prevlocation = useLocation();
+  const prevSearchParams = new URLSearchParams(prevlocation.search);
 
   // Get type and location from URL params as fallback
-  const [searchParams] = useSearchParams();
-  const typeFromUrl = searchParams.get("type");
-  const locationFromUrl = searchParams.get("location");
-  const searchFromUrl = searchParams.get("search");
+  const typeFromUrl = searchParams.get("type")
+  const locationFromUrl = searchParams.get("location")
+  const searchFromUrl = searchParams.get("search")
+
+  const insuranceFromUrl = searchParams.get("insurance")
+  const psuFromUrl = searchParams.get("psu")
+  const diagnosticsFromUrl = searchParams.get("diagnostics");
 
   // Use props if provided, otherwise fall back to URL params
-  const type = typeFromUrl || "hospitals";
-  const location = locationParam || locationFromUrl;
-  const search = searchQuery || searchFromUrl;
+  const type = typeFromUrl || prevSearchParams.get("type")
+  // const type = typeFromUrl || ""
+  const location = locationParam || locationFromUrl
+  const search = searchQuery || searchFromUrl
 
   const [facilities, setFacilities] = useState<Facility[]>([])
   const [filterOpen, setFilterOpen] = useState<boolean>(false)
@@ -103,8 +113,8 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
     diagnostics: [],
     specialities: [],
     psu: [],
-    accrediation: [],
-    concern: [],
+    accreditations: [],
+    concerns: [],
     insurance: [],
     tpa: [],
     altMed: [],
@@ -114,7 +124,6 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
   })
 
   // Replace the filters constant with a state variable
-  // Add this after your other state variables
   const [filters, setFilters] = useState<FilterSection[]>([])
 
   const toggleSection = (sectionTitle: string) => {
@@ -123,11 +132,38 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
     )
   }
 
-  // Update your useEffect to respond to changes in props
+  // Update filters when URL parameters change
+  useEffect(() => {
+    // Check if insurance or PSU parameters exist in the URL
+    if (insuranceFromUrl || psuFromUrl || diagnosticsFromUrl) {
+      setSelectedFilters((prev) => {
+        // Create a new object to avoid mutation
+        const newFilters = { ...prev }
+
+        // Update insurance filter if it exists in URL
+        if (insuranceFromUrl) {
+          newFilters.insurance = [insuranceFromUrl]
+        }
+
+        // Update PSU filter if it exists in URL
+        if (psuFromUrl) {
+          newFilters.psu = [psuFromUrl]
+        }
+
+        if (diagnosticsFromUrl) {
+          newFilters.diagnostics = [diagnosticsFromUrl]
+        }
+
+        return newFilters
+      })
+    }
+  }, [insuranceFromUrl, psuFromUrl,diagnosticsFromUrl, searchParams])
+
+  // Separate useEffect for applying filters and setting filter options
   useEffect(() => {
     applyFilters()
     setFilters(getFiltersByType(type))
-  }, [type,location, search, selectedFilters])
+  }, [type, location, search, selectedFilters])
 
   // Update the handleSavedFilter function to use the type
   const handleSavedFilter = (saved: boolean) => {
@@ -176,13 +212,14 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
   }
 
   const clearAllFilters = () => {
+    // Reset selected filters
     setSelectedFilters({
       brands: [],
       diagnostics: [],
       specialities: [],
       psu: [],
-      accrediation: [],
-      concern: [],
+      accreditations: [],
+      concerns: [],
       insurance: [],
       tpa: [],
       altMed: [],
@@ -190,6 +227,15 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
       sortBy: [],
       saved: false,
     })
+
+    // Update URL params - keep only the type parameter
+    const newParams = new URLSearchParams()
+    if (typeFromUrl) {
+      newParams.append("type", typeFromUrl)
+    }
+
+    // Use setSearchParams to update the URL
+    setSearchParams(newParams)
   }
 
   // Build query parameters dynamically with repeated parameters for arrays
@@ -197,9 +243,8 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
     const params = new URLSearchParams()
 
     // Add location and search query if they exist
-    location && params.append("location", location);
-    search && params.append("search", search);
-    
+    location && params.append("location", location)
+    search && params.append("search", search)
 
     // Don't include saved in the query params as it uses a different API
     Object.entries(selectedFilters).forEach(([key, value]) => {
@@ -266,9 +311,9 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
   }
 
   const detailsUrl = (id) => {
-    if(type === "hospitals" || type === "clinics") {
+    if (type === "hospitals" || type === "clinics") {
       return `/${type}-details/${id}`
-    }else {
+    } else {
       return `/services/${type}/${id}`
     }
   }
@@ -590,12 +635,12 @@ ${
                         className="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 border border-blue-200 rounded-full text-sm text-blue-700"
                       >
                         <span>Saved</span>
-                        <button
+                        {/* <button
                           onClick={() => handleSavedFilter(!selectedFilters.saved)}
                           className="w-4 h-4 flex items-center justify-center rounded-full hover:bg-blue-100"
                         >
                           ×
-                        </button>
+                        </button> */}
                       </motion.div>,
                     ]
                   }

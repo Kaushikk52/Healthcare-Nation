@@ -8,7 +8,6 @@ import chooseYourTPA from "@/data/tpa";
 import alternativeMedicine from "@/data/alternativeMedicine";
 import servicesByHealthConcern from "@/data/healthConcern";
 
-
 export const getFiltersByType = (type: string | null) => {
   // Base filters that appear for all facility types
   const baseFilters = [
@@ -46,30 +45,94 @@ export const getFiltersByType = (type: string | null) => {
 
   const hospitalFilters = [
     {
-        title: "Specialities",
-        filterType: "specialities",
-        options: servicesBySpecialities.map((spec) => ({
-          id: spec.title,
-          text: spec.title,
-        })),
-      },
-      {
-        title: "Diagnostics",
-        filterType: "diagnostics",
-        options: diagnosticCentres.map((diag) => ({
-          id: diag.title,
-          text: diag.title,
-        })),
-      },
-      {
-          title: "Corporates",
-          filterType: "psu",
-          options: publicSectorCorporates.map((psu) => ({
-            id: psu.title,
-            text: psu.title,
+      title: "Specialities",
+      filterType: "specialities",
+      options: servicesBySpecialities.map((spec) => ({
+        id: spec.title,
+        text: spec.title,
+      })),
+    },
+    {
+      title: "Diagnostics",
+      filterType: "diagnostics",
+      options: diagnosticCentres.map((diag) => ({
+        id: diag.title,
+        text: diag.title,
+      })),
+    },
+    {
+      title: "Corporates",
+      filterType: "psu",
+      options: publicSectorCorporates.map((psu) => ({
+        id: psu.title,
+        text: psu.title,
+      })),
+    },
+    {
+      title: "Accreditation",
+      filterType: "accreditations",
+      options: [
+        {
+          id: "Organizations Accredited by National Accreditation Board for Hospitals & Healthcare Providers",
+          text: "NABH"
+        },
+        {
+          id: "Organizations accredited by National Accreditation Board for Laboratories",
+          text: "NABL"
+        },
+        {
+          id: "Organizations Accredited by Joint Commission International",
+          text: "JCI"
+        },
+      ],
+    },
+    {
+      title: "Health Concern",
+      filterType: "concerns",
+      options: servicesByHealthConcern.map((hc) => ({
+        id: hc.title,
+        text: hc.title,
+      })),
+    },
+    {
+      title: "Insurance",
+      filterType: "insurance",
+      options: chooseYourHealthInsurance.map((hi) => ({
+        id: hi.title,
+        text: hi.title,
+      })),
+    },
+    {
+      title: "TPA",
+      filterType: "tpa",
+      options: chooseYourTPA.map((tpa) => ({
+        id: tpa.title,
+        text: tpa.title,
+      })),
+    },
+  ];
+
+  // Type-specific filters
+  switch (type) {
+    case "hospitals":
+      return [...baseFilters, ...hospitalFilters];
+    case "clinics":
+      return [
+        ...baseFilters,
+        ...hospitalFilters,
+        {
+          title: "Alternative Medicine",
+          filterType: "altMed",
+          options: alternativeMedicine.map((altMed) => ({
+            id: altMed.title,
+            text: altMed.title,
           })),
-      },
-      {
+        },
+      ];
+    case "banks":
+      return [
+        ...baseFilters,
+        {
           title: "Accreditation",
           filterType: "accreditations",
           options: [
@@ -89,138 +152,72 @@ export const getFiltersByType = (type: string | null) => {
               count: 16,
             },
           ],
-      },
-      {
-          title:"Health Concern",
-          filterType:"healthConcern",
-          options: servicesByHealthConcern.map((hc) => ({
-              id: hc.title,
-              text: hc.title,
-              })),
-      },
-      {
-          title:"Insurance",
-          filterType:"insurance",
-          options: chooseYourHealthInsurance.map((hc) => ({
-              id: hc.title,
-              text: hc.title,
-              })),
-      },
-      {
-          title:"TPA",
-          filterType:"tpa",
-          options: chooseYourTPA.map((tpa) => ({
-              id: tpa.title,
-              text: tpa.title,
-              })),
-      }
-  ];
-
-  // Type-specific filters
-  switch (type) {
-    case "hospitals":
+        },
+      ];
+    case "homecare":
+      return [...baseFilters];
+    case "transport":
+      return [...baseFilters];
+    case "diagnostics":
       return [
         ...baseFilters,
-        ...hospitalFilters
-
-
-      ];
-    case "clinics":
-      return [...baseFilters,
-        ...hospitalFilters,
         {
-            title: "Alternative Medicine",
-            filterType: "altMed",
-            options: alternativeMedicine.map((altMed) => ({
-              id: altMed.title,
-              text: altMed.title,
-            })),
-          },
-
-      ];
-    case "banks":
-      return [...baseFilters,
+          title: "Diagnostics",
+          filterType: "diagnostics",
+          options: diagnosticCentres.map((diag) => ({
+            id: diag.title,
+            text: diag.title,
+          })),
+        },
         {
-            title: "Accreditation",
-            filterType: "accreditations",
-            options: [
-              {
-                id: "Organizations Accredited by National Accreditation Board for Hospitals & Healthcare Providers",
-                text: "NABH",
-                count: 34,
-              },
-              {
-                id: "Organizations accredited by National Accreditation Board for Laboratories",
-                text: "NABL",
-                count: 20,
-              },
-              {
-                id: "Organizations Accredited by Joint Commission International",
-                text: "JCI",
-                count: 16,
-              },
-            ],
+          title: "Corporates",
+          filterType: "psu",
+          options: publicSectorCorporates.map((psu) => ({
+            id: psu.title,
+            text: psu.title,
+          })),
+        },
+        {
+          title: "Accreditation",
+          filterType: "accreditations",
+          options: [
+            {
+              id: "Organizations Accredited by National Accreditation Board for Hospitals & Healthcare Providers",
+              text: "NABH",
+              count: 34,
+            },
+            {
+              id: "Organizations accredited by National Accreditation Board for Laboratories",
+              text: "NABL",
+              count: 20,
+            },
+            {
+              id: "Organizations Accredited by Joint Commission International",
+              text: "JCI",
+              count: 16,
+            },
+          ],
+        },
+        {
+          title: "Insurance",
+          filterType: "insurance",
+          options: chooseYourHealthInsurance.map((hc) => ({
+            id: hc.title,
+            text: hc.title,
+          })),
+        },
+        {
+          title: "TPA",
+          filterType: "tpa",
+          options: chooseYourTPA.map((tpa) => ({
+            id: tpa.title,
+            text: tpa.title,
+          })),
         },
       ];
-    case "homecare": return [...baseFilters,];
-    case "transport": return [...baseFilters,];
-    case "diagnostics": return [...baseFilters,
-        {
-            title: "Diagnostics",
-            filterType: "diagnostics",
-            options: diagnosticCentres.map((diag) => ({
-              id: diag.title,
-              text: diag.title,
-            })),
-        },
-        {
-            title: "Corporates",
-            filterType: "psu",
-            options: publicSectorCorporates.map((psu) => ({
-              id: psu.title,
-              text: psu.title,
-            })),
-        },
-        {
-            title: "Accreditation",
-            filterType: "accreditations",
-            options: [
-              {
-                id: "Organizations Accredited by National Accreditation Board for Hospitals & Healthcare Providers",
-                text: "NABH",
-                count: 34,
-              },
-              {
-                id: "Organizations accredited by National Accreditation Board for Laboratories",
-                text: "NABL",
-                count: 20,
-              },
-              {
-                id: "Organizations Accredited by Joint Commission International",
-                text: "JCI",
-                count: 16,
-              },
-            ],
-        },
-        {
-            title:"Insurance",
-            filterType:"insurance",
-            options: chooseYourHealthInsurance.map((hc) => ({
-                id: hc.title,
-                text: hc.title,
-                })),
-        },
-        {
-            title:"TPA",
-            filterType:"tpa",
-            options: chooseYourTPA.map((tpa) => ({
-                id: tpa.title,
-                text: tpa.title,
-                })),
-        }
-    ];
-    case "op": return [...baseFilters,];
-    }
+    case "op":
+      return [...baseFilters];
+  }
 
   return baseFilters;
 };
