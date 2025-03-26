@@ -22,7 +22,7 @@ jobs:
             cd Backend
             chmod +x mvnw  # Add this line to give execution permissions to mvnw
             ./mvnw clean package -DskipTests
-            sudo systemctl stop myapp
+            sudo systemctl stop springboot
             cp target/demo-0.0.1-SNAPSHOT.jar /home/deployer/demo-0.0.1-SNAPSHOT.jar
             sudo systemctl start springboot
           else
