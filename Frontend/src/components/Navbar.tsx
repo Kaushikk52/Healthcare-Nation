@@ -307,7 +307,7 @@ export default function Navbar() {
                 onChange={handleLocationChange}
               >
                 <option value="" disabled>
-                  Select Location ...
+                  Select Location
                 </option>
                 {locations.map((location, index) => (
                   <option key={index} value={location}>
