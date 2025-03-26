@@ -1,0 +1,38 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Backup Database Before Deployment
+        run: |
+          mysqldump -u root -p'root' hcndb > /home/deployer/db_backup.sql
+
+      - name: Build and Deploy Backend
+        run: |
+          cd backend
+          ./mvnw clean package -DskipTests
+          sudo systemctl stop myapp
+          cp target/demo-0.0.1-SNAPSHOT.jar  /home/deployer/demo-0.0.1-SNAPSHOT.jar 
+          sudo systemctl start springboot
+
+      - name: Apply Database Migrations
+        run: |
+          mysql -u root -p'root' hcndb < /home/deployer/db_backup.sql
+
+      - name: Build and Deploy Frontend
+        run: |
+          cd frontend
+          npm install
+          npm run build
+          rm -rf /home/deployer/dist
+          cp -r build /home/deployer/dist
+          sudo systemctl restart nginx
