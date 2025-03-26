@@ -1,0 +1,44 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Backup Database Before Deployment
+        run: |
+          mysqldump -u root -p'root' HCNDB > /home/deployer/db_backup.sql
+
+      - name: Build and Deploy Backend
+        run: |
+          if [ -d "Backend" ]; then
+            cd Backend
+            chmod +x mvnw  # Add this line to give execution permissions to mvnw
+            ./mvnw clean package -DskipTests
+            sudo systemctl stop springboot
+            cp target/demo-0.0.1-SNAPSHOT.jar /home/deployer/demo-0.0.1-SNAPSHOT.jar
+            sudo systemctl start springboot
+          else
+            echo "Backend directory does not exist."
+            exit 1
+          fi
+
+      - name: Apply Database Migrations
+        run: |
+          mysql -u root -p'root' HCNDB < /home/deployer/db_backup.sql
+
+      - name: Build and Deploy Frontend
+        run: |
+          cd Frontend
+          npm install
+          npm run build
+          rm -rf /home/deployer/dist
+          cp -r dist /home/deployer/dist
+          sudo systemctl restart nginx
