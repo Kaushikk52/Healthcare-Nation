@@ -14,7 +14,7 @@ jobs:
 
       - name: Backup Database Before Deployment
         run: |
-          mysqldump -u root -p'root' hcndb > /home/deployer/db_backup.sql
+          mysqldump -u root -p'root' HCNDB > /home/deployer/db_backup.sql
 
       - name: Build and Deploy Backend
         run: |
@@ -26,7 +26,7 @@ jobs:
 
       - name: Apply Database Migrations
         run: |
-          mysql -u root -p'root' hcndb < /home/deployer/db_backup.sql
+          mysql -u root -p'root' HCNDB < /home/deployer/db_backup.sql
 
       - name: Build and Deploy Frontend
         run: |
