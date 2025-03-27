@@ -44,7 +44,7 @@ public class TransportController {
             List<Transport> transportList = transportServ.getAll();
             log.info("Retrieved Transport List :{}",transportList.size());
             response.put("message","Retrieved Transport list : "+transportList.size());
-            response.put("TransportList",transportList);
+            response.put("transportList",transportList);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
             log.warn("An Error occurred : {}", e.getMessage());

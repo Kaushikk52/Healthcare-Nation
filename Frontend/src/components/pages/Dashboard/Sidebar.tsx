@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   Menu,
   LogOut,
@@ -8,14 +7,26 @@ import {
   Accessibility,
   Ambulance,
   Activity,
+  ChevronDown,
+  ChevronUp,
+  PlusCircle,
+  Edit,
 } from "lucide-react";
 import { FaClinicMedical } from "react-icons/fa";
 import { MdOutlineMedicalInformation } from "react-icons/md";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 
 function Sidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
+  
+  const [isOpen, setIsOpen] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isPostingOpen, setIsPostingOpen] = useState(false);
+  const [isEditingOpen, setIsEditingOpen] = useState(false);
+  
+  const [currentUser, setCurrentUser] = useState({ userId: "", role: "" });
 
   const navItems = [
     { icon: HospitalIcon, label: "Hospital", href: "/dashboard/hospital" },
@@ -23,47 +34,11 @@ function Sidebar() {
     { icon: ShieldPlus, label: "Bank", href: "/dashboard/bank" },
     { icon: Accessibility, label: "Homecare", href: "/dashboard/homecare" },
     { icon: Ambulance, label: "Transport", href: "/dashboard/transport" },
-    {
-      icon: MdOutlineMedicalInformation,
-      label: "Orthotics & Prosthetics",
-      href: "/dashboard/op",
-    },
+    { icon: MdOutlineMedicalInformation, label: "Orthotics & Prosthetics", href: "/dashboard/op" },
     { icon: Activity, label: "Diagnostics", href: "/dashboard/diagnostics" },
   ];
 
-  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
-  const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(true);
-  const [isMobile, setIsMobile] = useState(false);
-  const [currentUser, setCurrentUser] = useState({
-    userId: "",
-    role: "",
-  });
-
-  // const getCurrentUser = async () => {
-  //   try {
-  //     const token = localStorage.getItem("token");
-  //     const response = await axios.get(
-  //       `${baseURL}/v1/api/users/getCurrentUser`,
-  //       { headers: { Authorization: `Bearer ${token}` } }
-  //     );
-  //     if (response.status === 201 || response.status === 200) {
-  //       setCurrentUser({
-  //         userId: response.data.userId,
-  //         role: response.data.role,
-  //       });
-  //     }
-  //   } catch (err: any) {
-  //     console.log("An error occured : ", err);
-  //     if (err.status === 401) {
-  //       localStorage.removeItem("token");
-  //       navigate("/");
-  //     }
-  //   }
-  // };
-
   useEffect(() => {
-    // getCurrentUser();
     const checkScreenSize = () => {
       setIsMobile(window.innerWidth < 768);
       setIsOpen(window.innerWidth >= 768);
@@ -75,15 +50,13 @@ function Sidebar() {
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
-  async function handleLogout() {
+  function handleLogout() {
     localStorage.removeItem("token");
     navigate("/");
   }
 
   const toggleSidebar = () => {
-    if (!isMobile) {
-      setIsOpen(!isOpen);
-    }
+    if (!isMobile) setIsOpen(!isOpen);
   };
 
   return (
@@ -92,6 +65,7 @@ function Sidebar() {
         isOpen ? "w-64" : "w-16"
       } ${isMobile ? "w-16" : ""}`}
     >
+      {/* Sidebar Toggle Button */}
       <div className="p-4">
         <button
           className={`text-gray-800 hover:bg-gray-100 p-2 rounded-md ${
@@ -103,29 +77,73 @@ function Sidebar() {
           <span className="sr-only">Toggle sidebar</span>
         </button>
       </div>
+
+      {/* Navigation */}
       <nav className="flex-grow overflow-y-auto">
         <ul className="space-y-2 p-4">
-          {navItems.map((item, index) => (
-            <li key={index}>
-              <Link
-                to={item.href}
-                className={`flex items-center text-gray-800 hover:bg-gray-100 rounded-md p-2 ${
-                  (!isOpen || isMobile) && "justify-center"
-                }`}
-              >
-                <item.icon className="h-5 w-5 flex-shrink-0" />
-                {isOpen && !isMobile && (
-                  <span className="ml-2">{item.label}</span>
-                )}
-                {(!isOpen || isMobile) && (
-                  <span className="sr-only">{item.label}</span>
-                )}
-              </Link>
-            </li>
-          ))}
+          {/* Posting Section */}
+          <li>
+            <button
+              className="flex items-center justify-between text-gray-800 hover:bg-gray-100 rounded-md p-2 w-full"
+              onClick={() => setIsPostingOpen(!isPostingOpen)}
+            >
+              <div className="flex items-center">
+                <PlusCircle className="h-5 w-5 flex-shrink-0" />
+                {isOpen && !isMobile && <span className="ml-2">Posting</span>}
+              </div>
+              {isPostingOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+            </button>
+            {isPostingOpen && (
+              <ul className="pl-6 space-y-2">
+                {navItems.map((item, index) => (
+                  <li key={index}>
+                    <Link
+                      // to={`${item.href}/add`}
+                      to={`${item.href}/add`}
+                      className="flex items-center text-gray-800 hover:bg-gray-100 rounded-md p-2"
+                    >
+                      <item.icon className="h-5 w-5 flex-shrink-0" />
+                      {isOpen && !isMobile && <span className="ml-2">Add {item.label}</span>}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+
+          {/* Editing Section */}
+          {/* <li>
+            <button
+              className="flex items-center justify-between text-gray-800 hover:bg-gray-100 rounded-md p-2 w-full"
+              onClick={() => setIsEditingOpen(!isEditingOpen)}
+            >
+              <div className="flex items-center">
+                <Edit className="h-5 w-5 flex-shrink-0" />
+                {isOpen && !isMobile && <span className="ml-2">Listing</span>}
+              </div>
+              {isEditingOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+            </button>
+            {isEditingOpen && (
+              <ul className="pl-6 space-y-2">
+                {navItems.map((item, index) => (
+                  <li key={index}>
+                    <Link
+                      // to={`${item.href}/edit`}
+                      to={`${item.href}/all`}
+                      className="flex items-center text-gray-800 hover:bg-gray-100 rounded-md p-2"
+                    >
+                      <item.icon className="h-5 w-5 flex-shrink-0" />
+                      {isOpen && !isMobile && <span className="ml-2">{item.label}</span>}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li> */}
         </ul>
       </nav>
 
+      {/* Logout & Account Section */}
       <div className="p-4 space-y-2">
         <button
           onClick={handleLogout}
@@ -135,7 +153,6 @@ function Sidebar() {
         >
           <LogOut className="h-5 w-5 flex-shrink-0" />
           {isOpen && !isMobile && <span className="ml-2">Logout</span>}
-          {(!isOpen || isMobile) && <span className="sr-only">Logout</span>}
         </button>
         <Link
           to={`/user/${currentUser.userId}`}
@@ -145,7 +162,6 @@ function Sidebar() {
         >
           <User className="h-5 w-5 flex-shrink-0" />
           {isOpen && !isMobile && <span className="ml-2">Account</span>}
-          {(!isOpen || isMobile) && <span className="sr-only">Account</span>}
         </Link>
       </div>
     </div>

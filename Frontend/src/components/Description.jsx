@@ -52,6 +52,12 @@ const Description = (props) => {
     },
   ];
 
+  if (!props.details?.specialities || props.details?.specialities.length === 0) return null;
+
+  const specialitiesToShow = showAll
+    ? props.details?.specialities
+    : props.details?.specialities.slice(0, 4);
+
   return (
     <>
       <div className="!grid !grid-cols-1 lg:!grid-cols-12 !gap-6">
@@ -109,7 +115,7 @@ const Description = (props) => {
             <div className="mb-5 border border-gray-200 !p-4 rounded-md bg-slate-50">
               <h1 className="!text-2xl !font-semibold">Achievements</h1>
               <div className="!py-4 sm:!py-2 ">
-                {props.details.achievements?.map((item, index) => (
+                {props.details?.achievements?.map((item, index) => (
                   <div
                     key={index}
                     className="!flex !flex-col !justify-center !items-center !text-center !mb-6 !space-y-0 sm:!text-left sm:!space-y-0 sm:!flex-row sm:!justify-start sm:!items-center sm:!space-x-5 sm:!mb-4"
@@ -132,7 +138,7 @@ const Description = (props) => {
               <h1 className="!text-2xl !font-semibold">Facts</h1>
               <div className="!py-4 sm:!py-2">
                 <div className="grid grid-cols-2 gap-y-4">
-                  {props.details.facts?.map((fact) => {
+                  {props.details?.facts?.map((fact) => {
                     return (
                       <span className="!flex !items-center !text-sm !font-medium uppercase">
                         <CircleCheckBig className="!h-8 !w-8 !mr-3 sm:!mr-5 !flex-shrink-0" />
@@ -150,29 +156,21 @@ const Description = (props) => {
             <div className="!py-4 border border-gray-200 !p-4 rounded-md bg-slate-50 mt-5">
               <h1 className="!text-2xl !font-semibold">Specialities</h1>
               <div className="!flex !flex-wrap !gap-3 !py-5">
-                {props.details.specialities?.map((speciality, index) => (
+                {specialitiesToShow.map((speciality, index) => (
                   <button
                     key={index}
-                    className="!bg-gray-200 !px-4 !py-2 !rounded-full !text-sm !text-gray-700 hover:!bg-gray-200 !transition"
+                    className="!bg-gray-200 !px-4 !py-2 !rounded-full !text-sm !text-gray-700 hover:!bg-gray-300 !transition"
                   >
                     {speciality}
                   </button>
                 ))}
 
-                {!showAll && (
+                {props.details.specialities.length > 4 && (
                   <button
                     className="!bg-cyan-600 !px-4 !py-2 !rounded-full !text-white !text-sm !font-medium hover:!bg-cyan-700 !transition"
-                    onClick={() => setShowAll(true)}
+                    onClick={() => setShowAll(!showAll)}
                   >
-                    More
-                  </button>
-                )}
-                {showAll && (
-                  <button
-                    className="!bg-cyan-600 !px-4 !py-2 !rounded-full !text-white !text-sm !font-medium hover:!bg-cyan-700 !transition"
-                    onClick={() => setShowAll(false)}
-                  >
-                    Show Less
+                    {showAll ? "Show Less" : "More"}
                   </button>
                 )}
               </div>

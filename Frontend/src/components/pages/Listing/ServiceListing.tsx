@@ -5,7 +5,6 @@ import { Link, useSearchParams, useNavigate, useLocation } from "react-router-do
 import { X, ChevronDown } from "lucide-react"
 import axios from "axios"
 
-
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation, Pagination, A11y } from "swiper/modules"
 
@@ -86,10 +85,10 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
   const path = import.meta.env.VITE_APP_IMG_URL
   const [expandedSections, setExpandedSections] = useState<string[]>([])
   const navigate = useNavigate()
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams()
 
-  const prevlocation = useLocation();
-  const prevSearchParams = new URLSearchParams(prevlocation.search);
+  const prevlocation = useLocation()
+  const prevSearchParams = new URLSearchParams(prevlocation.search)
 
   // Get type and location from URL params as fallback
   const typeFromUrl = searchParams.get("type")
@@ -98,7 +97,9 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
 
   const insuranceFromUrl = searchParams.get("insurance")
   const psuFromUrl = searchParams.get("psu")
-  const diagnosticsFromUrl = searchParams.get("diagnostics");
+  const diagnosticsFromUrl = searchParams.get("diagnostics")
+  const concernsFromUrl = searchParams.get("concerns")
+  const tpaFromUrl = searchParams.get("tpa")
 
   // Use props if provided, otherwise fall back to URL params
   const type = typeFromUrl || prevSearchParams.get("type")
@@ -134,30 +135,38 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
 
   // Update filters when URL parameters change
   useEffect(() => {
-    // Check if insurance or PSU parameters exist in the URL
-    if (insuranceFromUrl || psuFromUrl || diagnosticsFromUrl) {
-      setSelectedFilters((prev) => {
-        // Create a new object to avoid mutation
-        const newFilters = { ...prev }
+    // Create a new filters object
+    const newFilters = { ...selectedFilters }
+    let filtersChanged = false
 
-        // Update insurance filter if it exists in URL
-        if (insuranceFromUrl) {
-          newFilters.insurance = [insuranceFromUrl]
-        }
+    // Check all possible filter parameters in the URL
+    const filterTypes = [
+      "insurance",
+      "psu",
+      "diagnostics",
+      "concerns",
+      "tpa",
+      "brands",
+      "specialities",
+      "accreditations",
+      "altMed",
+      "ownership",
+      "sortBy",
+    ]
 
-        // Update PSU filter if it exists in URL
-        if (psuFromUrl) {
-          newFilters.psu = [psuFromUrl]
-        }
+    filterTypes.forEach((filterType) => {
+      const paramValue = searchParams.get(filterType)
+      if (paramValue) {
+        newFilters[filterType as keyof SelectedFilters] = [paramValue] as any
+        filtersChanged = true
+      }
+    })
 
-        if (diagnosticsFromUrl) {
-          newFilters.diagnostics = [diagnosticsFromUrl]
-        }
-
-        return newFilters
-      })
+    // Only update state if filters have changed
+    if (filtersChanged) {
+      setSelectedFilters(newFilters)
     }
-  }, [insuranceFromUrl, psuFromUrl,diagnosticsFromUrl, searchParams])
+  }, [searchParams])
 
   // Separate useEffect for applying filters and setting filter options
   useEffect(() => {
@@ -209,6 +218,9 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
       }
       return newFilters
     })
+
+    // Update URL params after state update
+    setTimeout(updateUrlParams, 0)
   }
 
   const clearAllFilters = () => {
@@ -305,9 +317,37 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
         // 'relevance' sorting is handled by the API or remains as is
       }
       setFacilities(filteredResults)
+
+      // Update URL params to reflect current filters
+      updateUrlParams()
     } catch (error) {
       console.error("Error applying filters:", error)
     }
+  }
+
+  // Function to update URL parameters based on selected filters
+  const updateUrlParams = () => {
+    const newParams = new URLSearchParams()
+
+    // Always keep the type parameter if it exists
+    if (typeFromUrl) {
+      newParams.append("type", typeFromUrl)
+    }
+
+    // Add other filter parameters
+    Object.entries(selectedFilters).forEach(([key, value]) => {
+      if (key === "saved") return
+
+      if (Array.isArray(value) && value.length > 0) {
+        // For each filter value, add it as a separate parameter
+        value.forEach((val) => {
+          if (val) newParams.append(key, val)
+        })
+      }
+    })
+
+    // Update the URL without reloading the page
+    setSearchParams(newParams)
   }
 
   const detailsUrl = (id) => {

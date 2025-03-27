@@ -15,6 +15,7 @@ import HomecareForm from './components/pages/Dashboard/HomecareForm';
 import TransportForm from './components/pages/Dashboard/TransportForm';
 import OrthoticsForm from './components/pages/Dashboard/OrthoticsForm';
 import DiagnosticsForm from './components/pages/Dashboard/DiagnoticsForm';
+import ListingTable from './components/pages/Dashboard/ListingTable';
 import DiagnosticCenters from './components/pages/DiagnosticCenters';
 import AlternativeMedicine from './components/pages/AlternativeMedicine';
 import OnlineServices from './components/pages/OnlineServices';
@@ -44,19 +45,26 @@ function App() {
           <Route index element={<Main />} />
           <Route path="services/" element={<Services />} />
           <Route path="listing" element={<ServiceListing />} />
+          <Route path="/dashboard" element={<DashboardLayout />} >
+            <Route index path='/dashboard/hospital/add' element={<HospitalForm />} />
+            <Route path='/dashboard/clinic/add' element={<ClinicForm />} />
+            <Route path='/dashboard/bank/add' element={<BankForm />} />
+            <Route path='/dashboard/homecare/add' element={<HomecareForm />} />
+            <Route path='/dashboard/transport/add' element={<TransportForm />} />
+            <Route path='/dashboard/op/add' element={<OrthoticsForm />} />
+            <Route path='/dashboard/diagnostics/add' element={<DiagnosticsForm />} />
+
+            <Route path='/dashboard/:type/all' element={<ListingTable />} />
+
+
+
+
+          </Route>
           <Route path="brands-in-india" element={<BrandsInIndia />} />
           <Route path=":type/:id" element={<HospitalDetailsPage />} />
           <Route path="/services/:type/:id" element={<ServiceDetailsPage />} />
 
-          <Route path="/dashboard" element={<DashboardLayout />} >
-            <Route path='/dashboard/hospital' element={<HospitalForm />} />
-            <Route path='/dashboard/clinic' element={<ClinicForm />} />
-            <Route path='/dashboard/bank' element={<BankForm />} />
-            <Route path='/dashboard/homecare' element={<HomecareForm />} />
-            <Route path='/dashboard/transport' element={<TransportForm />} />
-            <Route path='/dashboard/op' element={<OrthoticsForm />} />
-            <Route path='/dashboard/diagnostics' element={<DiagnosticsForm />} />
-          </Route>
+  
 
           <Route path='/healthcare-services' element={< HealthcareServices />} />
           <Route path='/diagnostic-centers' element={< DiagnosticCenters />} />

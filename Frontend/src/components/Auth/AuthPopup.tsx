@@ -112,7 +112,7 @@ export default function AuthPopup(props: any) {
         if(data.role === "ROLE_USER"){
           navigate("/");
         } else {
-          navigate("/dashboard/hospital");
+          navigate("/dashboard/hospital/add");
         }
         // console.log("User Logged in Successfully");
       }

@@ -1,59 +1,85 @@
-import { useCallback, useEffect, useState } from "react";
-import {
-  Link,
-  useNavigate,
-  useLocation,
-  useSearchParams,
-} from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { User, Menu, X } from "lucide-react";
-import AuthPopup from "./Auth/AuthPopup";
-import { BiSearchAlt2 } from "react-icons/bi";
-import { FaCaretDown } from "react-icons/fa";
-import { FaLocationDot } from "react-icons/fa6";
-import axios from "axios";
-import _ from "lodash";
+import { useCallback, useEffect, useState } from "react"
+import { Link, useNavigate, useLocation, useSearchParams } from "react-router-dom"
+import { motion, AnimatePresence } from "framer-motion"
+import { User, Menu, X } from "lucide-react"
+import AuthPopup from "./Auth/AuthPopup"
+import { BiSearchAlt2 } from "react-icons/bi"
+import { FaCaretDown } from "react-icons/fa"
+import { FaLocationDot } from "react-icons/fa6"
+import axios from "axios"
+import _ from "lodash"
 
 const DropdownLink = ({
   href,
   title,
   onClick,
+  filterType,
+  filterValue,
 }: {
-  href: string;
-  title: string;
-  onClick?: () => void;
-}) => (
-  <Link
-    to={href}
-    className={`text-gray-800 block py-2 px-4 rounded w-full text-left`}
-    onClick={onClick}
-  >
-    {title}
-  </Link>
-);
+  href: string
+  title: string
+  onClick?: () => void
+  filterType?: string
+  filterValue?: string
+}) => {
+  const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  const handleClick = (e) => {
+    if (filterType && filterValue) {
+      e.preventDefault()
+
+      // Get current type from URL or use a default
+      const currentType = searchParams.get("type") || "hospitals"
+
+      // Create new params with current type and the new filter
+      const newParams = new URLSearchParams()
+      newParams.set("type", currentType)
+      newParams.set(filterType, filterValue)
+
+      // Navigate to listing page with the new params
+      navigate({
+        pathname: "/listing",
+        search: newParams.toString(),
+      })
+
+      if (onClick) onClick()
+    } else if (onClick) {
+      onClick()
+    }
+  }
+
+  return (
+    <Link to={href} className={`text-gray-800 block py-2 px-4 rounded w-full text-left`} onClick={handleClick}>
+      {title}
+    </Link>
+  )
+}
 
 export default function Navbar() {
-  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
-  const [searchParams, setSearchParams] = useSearchParams();
-  const newParams = new URLSearchParams(searchParams);
-  const location = useLocation();
-  const navigate = useNavigate();
+  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL
+  const [searchParams, setSearchParams] = useSearchParams()
+  const newParams = new URLSearchParams(searchParams)
+  const location = useLocation()
+  const navigate = useNavigate()
   const [currentUser, setCurrentUser] = useState({
     firstName: "",
     lastName: "",
     email: "",
     role: "",
     token: "",
-  });
+  })
 
-  const [query, setQuery] = useState("");
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState("");
-  const [navDropdownOpen, setNavDropdownOpen] = useState(null);
-  const [toggle, setToggle] = useState(false);
-  const path = import.meta.env.VITE_APP_IMG_URL;
-  const [navigateTo, setNavigateTo] = useState("");
+  const [query, setQuery] = useState("")
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [selectedLocation, setSelectedLocation] = useState("")
+  const [navDropdownOpen, setNavDropdownOpen] = useState(null)
+  const [toggle, setToggle] = useState(false)
+  const path = import.meta.env.VITE_APP_IMG_URL
+  const [navigateTo, setNavigateTo] = useState("")
 
+  // Update the navigation array to use dynamic type parameters
   const navigation = [
     {
       id: 1,
@@ -66,16 +92,16 @@ export default function Navbar() {
       icon: FaCaretDown,
       items: [
         { title: "Hospitals", path: "/listing?type=hospitals" },
-        { title: "Dialysis Centres" },
+        { title: "Dialysis Centres", path: "/listing?type=dialysis" },
         { title: "Blood / Skin Banks", path: "/listing?type=bank" },
         { title: "Clinics", path: "/listing?type=clinics" },
         { title: "Home Care Services", path: "/listing?type=homecare" },
         { title: "Patient Transports", path: "/listing?type=transport" },
         { title: "Diagnostics", path: "/listing?type=diagnostics" },
         { title: "Orthotic & Prosthetics", path: "/listing?type=orthotics" },
-        { title: "Medical Equipment on rent" },
-        { title: "NGOs" },
-        { title: "Startup & Companies" },
+        { title: "Medical Equipment on rent", path: "/listing?type=equipment" },
+        { title: "NGOs", path: "/listing?type=ngo" },
+        { title: "Startup & Companies", path: "/listing?type=startup" },
       ],
     },
     {
@@ -83,12 +109,12 @@ export default function Navbar() {
       title: "Corporates",
       icon: FaCaretDown,
       items: [
-        { title: "MPT",path:"/listing?psu=MPT" },
-        { title: "CGHS",path:"/listing?psu=CGHS" },
-        { title: "MJPJAY",path:"/listing?psu=MJPJAY" },
-        { title: "ESIC",path:"/listing?psu=ESIC" },
-        { title: "PMJAY",path:"/listing?psu=PMJAY" },
-        { title: "Railway",path:"/listing?psu=Railway" },
+        { title: "MPT", filterType: "psu", filterValue: "MPT" },
+        { title: "CGHS", filterType: "psu", filterValue: "CGHS" },
+        { title: "MJPJAY", filterType: "psu", filterValue: "MJPJAY" },
+        { title: "ESIC", filterType: "psu", filterValue: "ESIC" },
+        { title: "PMJAY", filterType: "psu", filterValue: "PMJAY" },
+        { title: "Railway", filterType: "psu", filterValue: "Railway" },
       ],
     },
     {
@@ -96,17 +122,17 @@ export default function Navbar() {
       title: "Diagnostics",
       icon: FaCaretDown,
       items: [
-        { title: "Xray",path:"/listing?diagnostics=Xray" },
-        { title: "MRI",path:"/listing?diagnostics=MRI" },
-        { title: "Sonography",path:"/listing?diagnostics=Sonography" },
-        { title: "Lab/Pathology",path:"/listing?diagnostics=Lab/Pathology" },
-        { title: "CT Scan",path:"/listing?diagnostics=CT Scan" },
-        { title: "2D Echo",path:"/listing?diagnostics=2D Echo" },
-        { title: "EEG/EMG/NCV",path:"/listing?diagnostics=EEG/EMG/NCV" },
-        { title: "Holter Monitor",path:"/listing?diagnostics=Holter Monitor" },
-        { title: "Sleep Study",path:"/listing?diagnostics=Sleep Study" },
-        { title: "Mammography",path:"/listing?diagnostics=Mammography" },
-        { title: "Pulmonary Function Test",path:"/listing?diagnostics=Pulmonary Function Test" },
+        { title: "Xray", filterType: "diagnostics", filterValue: "Xray" },
+        { title: "MRI", filterType: "diagnostics", filterValue: "MRI" },
+        { title: "Sonography", filterType: "diagnostics", filterValue: "Sonography" },
+        { title: "Lab/Pathology", filterType: "diagnostics", filterValue: "Lab/Pathology" },
+        { title: "CT Scan", filterType: "diagnostics", filterValue: "CT Scan" },
+        { title: "2D Echo", filterType: "diagnostics", filterValue: "2D Echo" },
+        { title: "EEG/EMG/NCV", filterType: "diagnostics", filterValue: "EEG/EMG/NCV" },
+        { title: "Holter Monitor", filterType: "diagnostics", filterValue: "Holter Monitor" },
+        { title: "Sleep Study", filterType: "diagnostics", filterValue: "Sleep Study" },
+        { title: "Mammography", filterType: "diagnostics", filterValue: "Mammography" },
+        { title: "Pulmonary Function Test", filterType: "diagnostics", filterValue: "Pulmonary Function Test" },
       ],
     },
     {
@@ -114,15 +140,15 @@ export default function Navbar() {
       title: "Health Concerns",
       icon: FaCaretDown,
       items: [
-        { title: "Depression or Anxiety ?",path:"/listing?concerns=Depression or Anxiety ?" },
-        { title: "Pregnant ?",path:"/listing?concerns=Pregnant ?" },
-        { title: "Joint Pains ?",path:"/listing?concerns=Joint Pains ?" },
-        { title: "Ear Problems ?",path:"/listing?concerns=Ear Problems ?" },
-        { title: "Digestion Issues ?",path:"/listing?concerns=Digestion Issues ?" },
-        { title: "Tooth Ache ?",path:"/listing?concerns=Tooth Ache ?" },
-        { title: "Persistent Coughing ?",path:"/listing?concerns=Persistent Coughing ?" },
-        { title: "Urinary Problems ?",path:"/listing?concerns=Urinary Problems ?" },
-        { title: "Eye Problems ?",path:"/listing?concerns=Eye Problems ?" },
+        { title: "Depression or Anxiety ?", filterType: "concerns", filterValue: "Depression or Anxiety ?" },
+        { title: "Pregnant ?", filterType: "concerns", filterValue: "Pregnant ?" },
+        { title: "Joint Pains ?", filterType: "concerns", filterValue: "Joint Pains ?" },
+        { title: "Ear Problems ?", filterType: "concerns", filterValue: "Ear Problems ?" },
+        { title: "Digestion Issues ?", filterType: "concerns", filterValue: "Digestion Issues ?" },
+        { title: "Tooth Ache ?", filterType: "concerns", filterValue: "Tooth Ache ?" },
+        { title: "Persistent Coughing ?", filterType: "concerns", filterValue: "Persistent Coughing ?" },
+        { title: "Urinary Problems ?", filterType: "concerns", filterValue: "Urinary Problems ?" },
+        { title: "Eye Problems ?", filterType: "concerns", filterValue: "Eye Problems ?" },
       ],
     },
     {
@@ -130,12 +156,12 @@ export default function Navbar() {
       title: "Insurance",
       icon: FaCaretDown,
       items: [
-        { title: "ICICI Lombard",path:"/listing?insurance=ICICI Lombard" },
-        { title: "IFFFCO Tokio",path:"/listing?insurance=IFFCO-TOKIO" },
-        { title: "HDFC Ergo",path:"/listing?insurance=HDFC Ergo" },
-        { title: "Bajaj Allianz",path:"/listing?insurance=Bajaj Allianz" },
-        { title: "Care",path:"/listing?insurance=Care" },
-        { title: "Kotak",path:"/listing?insurance=Kotak" },
+        { title: "ICICI Lombard", filterType: "insurance", filterValue: "ICICI Lombard" },
+        { title: "IFFFCO Tokio", filterType: "insurance", filterValue: "IFFCO-TOKIO" },
+        { title: "HDFC Ergo", filterType: "insurance", filterValue: "HDFC Ergo" },
+        { title: "Bajaj Allianz", filterType: "insurance", filterValue: "Bajaj Allianz" },
+        { title: "Care", filterType: "insurance", filterValue: "Care" },
+        { title: "Kotak", filterType: "insurance", filterValue: "Kotak" },
       ],
     },
     {
@@ -143,132 +169,138 @@ export default function Navbar() {
       title: "TPA",
       icon: FaCaretDown,
       items: [
-        { title: "Health India",path:"/listing?tpa=Health India" },
-        { title: "Vidal Health",path:"/listing?tpa=Vidal Health" },
-        { title: "Raksha TPA",path:"/listing?tpa=Raksha TPA" },
-        { title: "MD India",path:"/listing?tpa=MD India" },
-        { title: "Medi Assist",path:"/listing?tpa=Medi Assist" },
-        { title: "Med Save India",path:"/listing?tpa=Med Save India" },
+        { title: "Health India", filterType: "tpa", filterValue: "Health India" },
+        { title: "Vidal Health", filterType: "tpa", filterValue: "Vidal Health" },
+        { title: "Raksha TPA", filterType: "tpa", filterValue: "Raksha TPA" },
+        { title: "MD India", filterType: "tpa", filterValue: "MD India" },
+        { title: "Medi Assist", filterType: "tpa", filterValue: "Medi Assist" },
+        { title: "Med Save India", filterType: "tpa", filterValue: "Med Save India" },
       ],
     },
-  ];
+  ]
 
   const handleLocationChange = (event) => {
-    const locationValue = event.target.value;
-    setSelectedLocation(locationValue);
-  
-    const newParams = new URLSearchParams(searchParams);
+    const locationValue = event.target.value
+    setSelectedLocation(locationValue)
+
+    const newParams = new URLSearchParams(searchParams)
     if (locationValue !== "") {
-      newParams.set("location", locationValue);
+      newParams.set("location", locationValue)
     } else {
-      newParams.delete("location");
+      newParams.delete("location")
     }
-  
+
     // Combine navigation and search params in one call
     if (location.pathname !== "/listing") {
-      navigate({
-        pathname: "/listing",
-        search: newParams.toString()
-      }, { replace: true });
-      console.log("navigated to listing page ...");
+      navigate(
+        {
+          pathname: "/listing",
+          search: newParams.toString(),
+        },
+        { replace: true },
+      )
+      console.log("navigated to listing page ...")
     } else {
       // Only update search params if already on listing page
-      setSearchParams(newParams, { replace: true });
+      setSearchParams(newParams, { replace: true })
     }
-  };
-  
+  }
+
   // Handle search input
   const handleSearch = useCallback(
     _.debounce((searchText) => {
-      const newParams = new URLSearchParams(searchParams);
+      const newParams = new URLSearchParams(searchParams)
       if (searchText !== "") {
-        newParams.set("search", searchText);
+        newParams.set("search", searchText)
       } else {
-        newParams.delete("search");
+        newParams.delete("search")
       }
-  
+
       if (location.pathname !== "/listing") {
-        navigate({
-          pathname: "/listing",
-          search: newParams.toString()
-        }, { replace: true });
-        console.log("navigated to listing page ...");
+        navigate(
+          {
+            pathname: "/listing",
+            search: newParams.toString(),
+          },
+          { replace: true },
+        )
+        console.log("navigated to listing page ...")
       } else {
-        setSearchParams(newParams, { replace: true });
+        setSearchParams(newParams, { replace: true })
       }
     }, 500),
-    [searchParams, location.pathname, navigate]
-  );
+    [searchParams, location.pathname, navigate],
+  )
 
   useEffect(() => {
-    getUser();
-    newParams.delete("location");
-    newParams.delete("search");
-  }, []);
+    getUser()
+    newParams.delete("location")
+    newParams.delete("search")
+  }, [])
 
   const getUser = async () => {
     try {
       const response = await axios.get(`${baseURL}/v1/api/user/principal`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
+      })
       if (response.status === 401) {
-        setCurrentUser(null);
-        localStorage.removeItem("token");
+        setCurrentUser(null)
+        localStorage.removeItem("token")
       }
-      setCurrentUser(response.data.users);
+      setCurrentUser(response.data.users)
     } catch (err) {
-      console.log(err);
+      console.log(err)
       // if(err.response.status === 400){
       //   localStorage.removeItem('token');
       //   navigate('/');
       // }
     }
-  };
+  }
 
-  const locations = ["Mumbai", "Bangalore", "Chennai", "Delhi"];
+  const locations = ["Mumbai", "Bangalore", "Chennai", "Delhi"]
 
-  const [mobileDropdowns, setMobileDropdowns] = useState({});
-  const [hoveredItem, setHoveredItem] = useState(null);
+  const [mobileDropdowns, setMobileDropdowns] = useState({})
+  const [hoveredItem, setHoveredItem] = useState(null)
 
   useEffect(() => {
-    setToggle(false);
-  });
+    setToggle(false)
+  })
 
   const toggleNavDropdown = (id) => {
     if (window.innerWidth <= 768) {
-      setMobileDropdowns((prev) => ({ ...prev, [id]: !prev[id] }));
+      setMobileDropdowns((prev) => ({ ...prev, [id]: !prev[id] }))
     } else {
-      setNavDropdownOpen((prev) => (prev === id ? null : id));
+      setNavDropdownOpen((prev) => (prev === id ? null : id))
     }
-  };
+  }
 
   const dropdownVariants = {
     open: { opacity: 1, y: 0, height: "auto", transition: { duration: 0.3 } },
     closed: { opacity: 0, y: -10, height: 0, transition: { duration: 0.3 } },
-  };
+  }
 
   const checkIfLogin = (route: string) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token")
     // console.log("check if login", route, token);
-    setNavigateTo(route);
+    setNavigateTo(route)
     // console.log(route, toggle, token);
     if (token !== null && !toggle) {
       //user logged in and no popup
-      navigate(route);
+      navigate(route)
     } else if (token !== null && toggle === true) {
       //user logged in and still popup
-      setToggle(false); // toggle not visible
+      setToggle(false) // toggle not visible
     } else if (token === null) {
       //user not logged in
-      setToggle(true); // toggle visible
+      setToggle(true) // toggle visible
     }
-  };
+  }
 
   // Handle input change and pass to debounced function
   const handleChange = (event) => {
-    setQuery(event.target.value);
-    handleSearch(event.target.value);
-  };
+    setQuery(event.target.value)
+    handleSearch(event.target.value)
+  }
 
   return (
     <nav className="w-full bg-white px-3 pt-3">
@@ -284,11 +316,7 @@ export default function Navbar() {
           </button>
 
           <Link to="/" className="flex items-center">
-            <img
-              src={path + "HealthCare Nation 2.png" || "/placeholder.svg"}
-              alt="Logo"
-              className="h-12 w-auto"
-            />
+            <img src={path + "HealthCare Nation 2.png" || "/placeholder.svg"} alt="Logo" className="h-12 w-auto" />
           </Link>
         </div>
 
@@ -337,7 +365,8 @@ export default function Navbar() {
               currentUser.role == "ROLE_USER"
                 ? checkIfLogin("/")
                 : currentUser.role == "ROLE_ADMIN"
-                ? checkIfLogin("/dashboard/hospital") : checkIfLogin("/")
+                  ? checkIfLogin("/dashboard/hospital/add")
+                  : checkIfLogin("/")
             }
           >
             <User className="h-6 w-6" />
@@ -354,19 +383,17 @@ export default function Navbar() {
       <div className="hidden md:flex justify-center items-center my-0 mb-0 border-t border-b border-gray-200 py-0">
         <ul className="flex justify-center items-start space-x-4">
           {navigation.map((item) => {
-            const Icon = item.icon;
+            const Icon = item.icon
             return (
               <li key={item.id} className="relative group">
                 <button
                   onMouseEnter={() => setHoveredItem(item.id)}
                   onMouseLeave={() => setHoveredItem(null)}
                   onClick={() => {
-                    if (item.path) navigate(item.path);
+                    if (item.path) navigate(item.path)
                   }}
                   className={`${
-                    location.pathname === item.path
-                      ? "text-[#9B2482]"
-                      : "text-gray-700"
+                    location.pathname === item.path ? "text-[#9B2482]" : "text-gray-700"
                   } flex items-center font-semibold cursor-pointer relative py-3`}
                 >
                   {item.title}
@@ -401,13 +428,15 @@ export default function Navbar() {
                         key={index}
                         href={i.path || "#"}
                         title={i.title}
+                        filterType={i.filterType}
+                        filterValue={i.filterValue}
                         onClick={() => setHoveredItem(null)}
                       />
                     ))}
                   </motion.div>
                 )}
               </li>
-            );
+            )
           })}
         </ul>
       </div>
@@ -424,23 +453,16 @@ export default function Navbar() {
           >
             <div className="flex justify-between items-center p-4 border-b">
               <Link to="/" className="flex items-center">
-                <img
-                  src={path + "HealthCare Nation 2.png" || "/placeholder.svg"}
-                  alt="Logo"
-                  className="h-10 w-auto"
-                />
+                <img src={path + "HealthCare Nation 2.png" || "/placeholder.svg"} alt="Logo" className="h-10 w-auto" />
               </Link>
-              <button
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="text-gray-600 hover:text-gray-800"
-              >
+              <button onClick={() => setIsMobileMenuOpen(false)} className="text-gray-600 hover:text-gray-800">
                 <X size={24} />
               </button>
             </div>
 
             <div className="p-4">
               {navigation.map((item) => {
-                const Icon = item.icon;
+                const Icon = item.icon
                 return (
                   <div key={item.id} className="mb-4">
                     <button
@@ -468,18 +490,20 @@ export default function Navbar() {
                             key={i.title}
                             href={i.path || "#"}
                             title={i.title}
+                            filterType={i.filterType}
+                            filterValue={i.filterValue}
                             onClick={() => setIsMobileMenuOpen(false)}
                           />
                         ))}
                       </motion.div>
                     )}
                   </div>
-                );
+                )
               })}
             </div>
           </motion.div>
         )}
       </AnimatePresence>
     </nav>
-  );
+  )
 }
