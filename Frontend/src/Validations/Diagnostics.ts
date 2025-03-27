@@ -21,18 +21,25 @@ export const DiagnosticsSchema = yup.object().shape({
     .required("Website is required"),
   openDay: yup.string().required("Opening day is required"),
   closeDay: yup.string().required("Closing day is required"),
-  hours: yup.string().required("Hours are required"),
-  description: yup.string().required("Description is required"),
-  phoneNumbers: yup
-    .array()
-    .of(
-      yup.string().matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
-    )
-    .min(1, "At least one phone number is required")
-    .required("Phone numbers are required"),
+  hours: yup
+  .number()
+  .typeError("Hours must be a number")
+  .required("Hours are required")
+  .min(1, "Hours must be at least 1")
+  .max(24, "Hours cannot exceed 24")
+  .integer("Hours must be a whole number"),
 
+  description: yup.string().required("Description is required"),
+ phoneNumbers: yup.array()
+     .of(
+       yup.string().matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
+       .min(1, "At least one phone number is required")
+     .required("Phone numbers are required")
+     ),
   images: yup.array().of(yup.string()).required("Images are required"),
-  videos: yup.array().of(yup.string()),
+   videos: yup.array().of(yup.string() .matches(
+      /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|embed\/|shorts\/)|youtu\.be\/)[a-zA-Z0-9_-]+/,
+       "Invalid YouTube URL").required("Video URL is required")),
   ownership: yup
     .string()
     .oneOf(["PRIVATE", "PUBLIC", "GOVERNMENT"], "Invalid ownership type")

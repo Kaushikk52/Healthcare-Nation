@@ -160,13 +160,14 @@ function BankForm() {
   };
 
   const daysOfWeek = [
-    { label: "Monday", value: "mon", index: 0 },
-    { label: "Tuesday", value: "tue", index: 1 },
-    { label: "Wednesday", value: "wed", index: 2 },
-    { label: "Thursday", value: "thu", index: 3 },
-    { label: "Friday", value: "fri", index: 4 },
-    { label: "Saturday", value: "sat", index: 5 },
-    { label: "Sunday", value: "sun", index: 6 },
+    { label: "Select day", value: "", index: 0, disable: true },
+    { label: "Monday", value: "mon", index: 1, disable: false },
+    { label: "Tuesday", value: "tue", index: 2, disable: false },
+    { label: "Wednesday", value: "wed", index: 3, disable: false },
+    { label: "Thursday", value: "thu", index: 4, disable: false },
+    { label: "Friday", value: "fri", index: 5, disable: false },
+    { label: "Saturday", value: "sat", index: 6, disable: false },
+    { label: "Sunday", value: "sun", index: 7, disable: false },
   ];
 
   const stateOptions = [
@@ -678,7 +679,7 @@ function BankForm() {
                             className="border border-gray-300 rounded-md shadow-sm w-full block focus:border-blue-500 focus:outline-none focus:ring-blue-500 mt-1 px-3 py-2"
                           >
                             {daysOfWeek.map((day) => (
-                              <option key={day.value} value={day.value}>
+                              <option key={day.value} value={day.value} disabled={day.disable}>
                                 {day.label}
                               </option>
                             ))}
@@ -704,7 +705,7 @@ function BankForm() {
                             className="border border-gray-300 rounded-md shadow-sm w-full block focus:border-blue-500 focus:outline-none focus:ring-blue-500 mt-1 px-3 py-2"
                           >
                             {daysOfWeek.map((day) => (
-                              <option key={day.value} value={day.value}>
+                              <option key={day.value} value={day.value} disabled={day.disable}>
                                 {day.label}
                               </option>
                             ))}
@@ -745,30 +746,37 @@ function BankForm() {
                         {/* Tag-based Phone input */}
                         <TagInput
                           values={values.phoneNumbers}
-                          fieldName="phone"
+                          fieldName="phoneNumbers"
                           placeholder="Enter phone number"
                           label="Phone Numbers"
                           onAddTag={(tag) => {
-                            // Validate phone number if needed
+                            // Validate phone number (only allow 10-digit numbers)
                             const phoneRegex = /^\d{10}$/;
-                            if (phoneRegex.test(tag) || true) {
-                              // Remove || true for validation
+                            if (phoneRegex.test(tag)) {
                               const newPhones = [...values.phoneNumbers];
-                              // Replace empty string at the end or add a new one
                               const emptyIndex = newPhones.findIndex(
                                 (p) => !p.trim()
                               );
+
                               if (emptyIndex >= 0) {
                                 newPhones[emptyIndex] = tag;
                               } else {
                                 newPhones.push(tag);
                               }
                               setFieldValue("phoneNumbers", newPhones);
+                            } else {
+                              toast.error(
+                                "Please enter a valid 10-digit phone number",
+                                {
+                                  duration: 3000,
+                                }
+                              );
                             }
                           }}
                           onRemoveTag={(index) => {
                             const newPhones = [...values.phoneNumbers];
                             newPhones.splice(index, 1);
+
                             // Ensure there's always at least one empty slot
                             if (
                               newPhones.length === 0 ||
