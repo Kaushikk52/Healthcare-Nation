@@ -27,7 +27,7 @@ const AlternativeMedicine = () => {
       <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 xl:!grid-cols-4 !gap-x-3.5 !gap-y-3 !mt-4">
         {alternativeMedicine.map((item, index) => (
           <div key={index} className="group">
-            <Link to={"/"}
+            <Link to={`/listing?type=clinics&altMed=${item.title}`}
               style={{ textDecoration: "none" }}
               className="!cursor-pointer"
             >

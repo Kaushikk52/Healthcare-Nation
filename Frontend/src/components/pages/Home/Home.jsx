@@ -136,7 +136,7 @@ function Home() {
                 <SwiperSlide key={index}>
                   <div className="group text-center">
                     <Link
-                      to="/"
+                      to={`/listing?type=hospitals&brands=${brand.title}`}
                       className="cursor-pointer flex flex-col items-center"
                     >
                       <div className="!text-center !border-2 border-gray-300 !rounded-full">
@@ -208,7 +208,7 @@ function Home() {
                 <div className="group">
                   <Link
                     style={{ textDecoration: "none" }}
-                    to={"/"}
+                    to={`/listing?type=hospitals&specialities=${service.title}`}
                     className=""
                   >
                     <div className="!text-center">
@@ -257,7 +257,7 @@ function Home() {
                 <div className="group">
                   <Link
                     style={{ textDecoration: "none" }}
-                    to={"/"}
+                    to={`/listing?type=hospitals&specialities=${service.title}`}
                     className=""
                   >
                     <div className="user-image text-center">
@@ -315,7 +315,7 @@ function Home() {
                 <SwiperSlide key={index}>
                   <div className="group text-center">
                     <Link
-                      to="/"
+                      to={`/listing?type=hospitals&diagnostics=${center.title}`}
                       className="cursor-pointer flex flex-col items-center"
                     >
                       <div className="rounded-full transition-all group-hover:shadow-xl">
@@ -378,7 +378,7 @@ function Home() {
                 <SwiperSlide key={index}>
                   <div className="group">
                     <Link
-                      to={`${service.path}`}
+                      to={`/listing?type=clinics&altMed=${service.title}`}
                       aria-label={service.title}
                       className="!cursor-pointer"
                     >
@@ -494,7 +494,7 @@ function Home() {
                 <SwiperSlide key={index}>
                   <div className="group text-center">
                     <Link
-                      to="/"
+                      to={`/listing?type=hospitals&psu=${center.title}`}
                       className="cursor-pointer flex flex-col items-center"
                     >
                       <div
@@ -600,6 +600,9 @@ function Home() {
           {/* SERVICES BY ACCREDITATIONS GRID IMAGES AND TITLE */}
           <div className="!grid !grid-cols-1 sm:!grid-cols-1 md:!grid-cols-2 lg:!grid-cols-3 xl:!grid-cols-3 !gap-x-3.5 !gap-y-3 !mt-4">
             {servicesByAccrediations.map((service, index) => (
+              <Link
+              to={`/listing?type=hospitals&accreditations=${service.title}`}
+              >
               <div
                 key={index}
                 className="group !grid !grid-cols-12 !gap-x-2.5 border !items-center !rounded-xl !py-2 sm:!py-4 lg:!py-2 xl:!py-2.5 !px-2"
@@ -617,6 +620,7 @@ function Home() {
                   </p>
                 </div>
               </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -669,7 +673,7 @@ function Home() {
                 <SwiperSlide key={index} className="!mt-4">
                   <div key={index} className="group">
                     <Link
-                      to={"/"}
+                      to={`/listing?type=hospitals&concerns=${service.title}`}
                       style={{ textDecoration: "none" }}
                       className="cursor-pointer"
                     >
@@ -727,7 +731,7 @@ function Home() {
                 <SwiperSlide key={index}>
                   <div className="group">
                     <Link
-                      to={`${service.path}`}
+                      to={`/listing?type=hospitals&search=${service.title}`}
                       aria-label={service.title}
                       className="!cursor-pointer"
                     >
@@ -785,7 +789,7 @@ function Home() {
                 <SwiperSlide key={index}>
                   <div className="group">
                     <Link
-                      to={`${service.path}`}
+                      to={`/listing?type=hospitals&insurance=${service.title}`}
                       aria-label={service.title}
                       className={`${service.bgColor} !rounded-lg`}
                     >
@@ -843,7 +847,7 @@ function Home() {
                 <SwiperSlide key={index}>
                   <div className="group">
                     <Link
-                      to={`${service.path}`}
+                      to={`/listing?type=hospitals&tpa=${service.title}`}
                       aria-label={service.title}
                       className={`${service.bgColor} !rounded-lg`}
                     >

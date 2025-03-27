@@ -24,7 +24,7 @@ import Description from "../../Description";
 import Photos from "../../Photos";
 import Videos from "../../Videos";
 import Reviews from "../../Reviews.tsx";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 import ReviewModal from "../../ReviewModal";
@@ -423,17 +423,18 @@ const HospitalDetailsPage = () => {
               (item) => item.title === acc
             );
             const accImg = accreditation?.image; // Get the image
+            const accTitle = accreditation?.title;
 
             // Only render image if accImg is available
             return (
-              <>
+              <Link to={`/listing?type=${type.replace("-details","")}&accreditations=${accTitle}`}>
                 <img
                   key={index}
                   src={`/Images/${accImg}`}
                   alt={accImg}
                   className="!h-14 !w-14 md:!h-14 md:!w-14 !object-cover !object-center !rounded-full"
                 />
-              </>
+              </Link>
             );
           })}
         </div>

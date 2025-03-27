@@ -1,4 +1,4 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
 //Icons
@@ -19,7 +19,7 @@ import Description from "../../Description";
 import Photos from "../../Photos";
 import Videos from "../../Videos";
 import Reviews from "../../Reviews";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 import ReviewModal from "../../ReviewModal";
@@ -47,7 +47,7 @@ const ServiceDetailsPage = () => {
 
   const getServiceDetails = async (id) => {
     try {
-      const service = type.replace("-details","")
+      const service = type.replace("-details", "");
       const response = await axios.get(`${baseURL}/v1/api/${service}/id/${id}`);
       const data = response.data[service];
       // console.log(data);
@@ -119,7 +119,7 @@ const ServiceDetailsPage = () => {
     }
   };
 
-  const removeSavedService= async (id) => {
+  const removeSavedService = async (id) => {
     return await axios.delete(`${baseURL}/v1/api/saved/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -313,7 +313,7 @@ const ServiceDetailsPage = () => {
                 <div
                   style={{
                     backgroundImage: `url(${
-                        hospitalImgs + service.images?.[2]
+                      hospitalImgs + service.images?.[2]
                     })`,
                   }}
                   className="relative h-full w-full bg-cover bg-center rounded-sm"
@@ -341,8 +341,8 @@ const ServiceDetailsPage = () => {
         )}
       </div>
 
-       {/* Title & Contents */}
-    <div className="!flex !flex-col !items-start sm:!flex-row sm:!justify-between sm:!items-start !py-2 sm:!py-0">
+      {/* Title & Contents */}
+      <div className="!flex !flex-col !items-start sm:!flex-row sm:!justify-between sm:!items-start !py-2 sm:!py-0">
         {/* Left Side */}
         <div className="!flex !flex-col !justify-center !space-y-1.5">
           <span className="!text-2xl lg:!text-4xl !font-medium !text-wrap">
@@ -350,22 +350,18 @@ const ServiceDetailsPage = () => {
           </span>
           {/* <span className='!text-md lg:!text-xl !font-medium text-gray-600'>Andheri, Mumbai</span> */}
           <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 text-balance">
-                  {service.address?.street}, {service.address?.landmark}, {service.address?.city}{" "}
-                  - {service.address?.zipCode}
-                  {/* 
+            {service.address?.street}, {service.address?.landmark},{" "}
+            {service.address?.city} - {service.address?.zipCode}
+            {/* 
                   Rao Saheb, Achutrao Patwardhan Marg, Four Bungalows, Andheri
                   West, Mumbai, Maharashtra 400053 */}
-                </span>
-          <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-md !text-[#74c365] capitalize">
-
-          {service.openDay} - {service.closeDay}{" "}
-          {service.hours} Hrs
           </span>
-
+          <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-md !text-[#74c365] capitalize">
+            {service.openDay} - {service.closeDay} {service.hours} Hrs
+          </span>
         </div>
 
         {/* Right Side  */}
-        
       </div>
 
       {/* Buttons & Rounded Images*/}
@@ -399,18 +395,23 @@ const ServiceDetailsPage = () => {
             const accreditation = servicesByAccrediations.find(
               (item) => item.title === acc
             );
-            const accImg = accreditation?.image; // Get the image
 
-            // Only render image if accImg is available
+            if (!accreditation || !accreditation.image) return null; // Skip if no accreditation or image
+
             return (
-              <>
+              <Link
+                key={index} // Moved key to the correct element
+                to={`/listing?type=${type.replace(
+                  "-details",
+                  ""
+                )}&accreditations=${encodeURIComponent(accreditation.title)}`}
+              >
                 <img
-                  key={index}
-                  src={`/Images/${accImg}`}
-                  alt={accImg}
+                  src={`/Images/${accreditation.image}`} // Corrected to use accreditation.image
+                  alt={accreditation.title || "Accreditation"}
                   className="!h-14 !w-14 md:!h-14 md:!w-14 !object-cover !object-center !rounded-full"
                 />
-              </>
+              </Link>
             );
           })}
         </div>

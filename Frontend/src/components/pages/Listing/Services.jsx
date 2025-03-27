@@ -67,7 +67,7 @@ export default function Services() {
               className='group'
             >
               <Link
-                to={'/services'}
+                to={`/listing?type=hospitals&specialities=${service.title}`}
                 style={{ textDecoration: 'none' }}
                 className='!cursor-pointer'
               >

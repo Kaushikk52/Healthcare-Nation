@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link, useParams } from "react-router-dom";
 
 import { FaPhone, FaLocationDot, FaClock } from "react-icons/fa6";
 import { FaGlobeAmericas, FaCheck } from "react-icons/fa";
@@ -23,6 +24,8 @@ const Description = (props) => {
   const [showAll, setShowAll] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [phones, setPhones] = useState([]);
+
+  const {type} = useParams();
 
   useEffect(() => {
     setPhones(props.phones);
@@ -157,12 +160,15 @@ const Description = (props) => {
               <h1 className="!text-2xl !font-semibold">Specialities</h1>
               <div className="!flex !flex-wrap !gap-3 !py-5">
                 {specialitiesToShow.map((speciality, index) => (
-                  <button
+                  <Link to={`/listing?type=${type.replace("-details","")}&specialities=${speciality}`}>
+                   <button
                     key={index}
                     className="!bg-gray-200 !px-4 !py-2 !rounded-full !text-sm !text-gray-700 hover:!bg-gray-300 !transition"
                   >
                     {speciality}
                   </button>
+                  </Link>
+                 
                 ))}
 
                 {props.details.specialities.length > 4 && (
@@ -211,16 +217,20 @@ const Description = (props) => {
                   return (
                     <SwiperSlide key={index} className="!mt-4">
                       <div className="group">
-                        <div className="!flex !flex-col !justify-center !items-center !text-center h-full">
-                          <img
-                            src={corpImg}
-                            alt={item}
-                            className={`rounded-full h-full aspect-square w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-20 xl:max-w-20`}
-                          />
-                          <h1 className="!py-2 !text-gray-700 !font-medium !text-sm sm:!text-base">
-                            {item}
-                          </h1>
-                        </div>
+                      <Link to={`/listing?type=${type.replace("-details","")}&psu=${corp.title}`}>
+                      <div className="!flex !flex-col !justify-center !items-center !text-center h-full">
+                         
+                         <img
+                           src={corpImg}
+                           alt={item}
+                           className={`rounded-full h-full aspect-square w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-20 xl:max-w-20`}
+                         />
+                         <h1 className="!py-2 !text-gray-700 !font-medium !text-sm sm:!text-base">
+                           {item}
+                         </h1>
+                       </div>
+                      </Link>
+                       
                       </div>
                     </SwiperSlide>
                   );

@@ -31,7 +31,7 @@ const HealthInsurance = () => {
                         key={index}
 
                     >
-                        <Link to={"/"} className={`${insurance.bgColor} !flex !justify-center !items-center !rounded-lg`}>
+                        <Link to={`/listing?type=hospitals&insurance=${insurance.title}`} className={`${insurance.bgColor} !flex !justify-center !items-center !rounded-lg`}>
                             <img
                                 src={path + insurance.image}
                                 alt="insurance images"

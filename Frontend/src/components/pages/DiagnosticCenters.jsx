@@ -28,7 +28,7 @@ const DiagnosticCenters = () => {
         {diagnosticCentres.map((center, index) => (
           <div key={index} className="group">
             <Link
-              to={"/"}
+              to={`/listing?type=hospitals&diagnostics=${center.title}`}
               style={{ textDecoration: "none" }}
               className="!cursor-pointer !mx-auto !flex !flex-col !items-center"
             >

@@ -207,7 +207,7 @@ export default function Navbar() {
       setSearchParams(newParams, { replace: true })
     }
   }
-
+  
   // Handle search input
   const handleSearch = useCallback(
     _.debounce((searchText) => {
@@ -226,7 +226,7 @@ export default function Navbar() {
           },
           { replace: true },
         )
-        console.log("navigated to listing page ...")
+        // console.log("navigated to listing page ...")
       } else {
         setSearchParams(newParams, { replace: true })
       }

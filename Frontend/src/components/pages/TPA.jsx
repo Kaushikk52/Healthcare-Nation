@@ -30,7 +30,7 @@ const TPA = () => {
                         key={index}
 
                     >
-                        <Link to={"/"} className={`${tpa.bgColor} !flex !justify-center !items-center !rounded-lg`}>
+                        <Link to={`/listing?type=hospitals&tpa=${tpa.title}`} className={`${tpa.bgColor} !flex !justify-center !items-center !rounded-lg`}>
                             <img
                                 src={path + tpa.image}
                                 alt="tpa images"

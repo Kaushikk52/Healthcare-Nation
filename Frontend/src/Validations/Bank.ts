@@ -37,9 +37,7 @@ export const BankSchema = yup.object().shape({
      .required("Phone numbers are required")
      ),
   images: yup.array().of(yup.string()).required("Images are required"),
-  videos: yup.array().of(yup.string() .matches(
-    /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|embed\/|shorts\/)|youtu\.be\/)[a-zA-Z0-9_-]+/,
-     "Invalid YouTube URL").required("Video URL is required")),
+  videos: yup.array().of(yup.string()).required("Videos are required"),
   ownership: yup
     .string()
     .oneOf(["PRIVATE", "PUBLIC", "GOVERNMENT"], "Invalid ownership type")
