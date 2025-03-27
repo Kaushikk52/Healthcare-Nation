@@ -8,6 +8,8 @@ import { FaCaretDown } from "react-icons/fa"
 import { FaLocationDot } from "react-icons/fa6"
 import axios from "axios"
 import _ from "lodash"
+import { jwtDecode } from "jwt-decode"
+import toast from "react-hot-toast"
 
 const DropdownLink = ({
   href,
@@ -233,9 +235,9 @@ export default function Navbar() {
   )
 
   useEffect(() => {
-    getUser()
     newParams.delete("location")
     newParams.delete("search")
+    getUser();
   }, [])
 
   const getUser = async () => {
@@ -250,10 +252,6 @@ export default function Navbar() {
       setCurrentUser(response.data.users)
     } catch (err) {
       console.log(err)
-      // if(err.response.status === 400){
-      //   localStorage.removeItem('token');
-      //   navigate('/');
-      // }
     }
   }
 
@@ -279,8 +277,28 @@ export default function Navbar() {
     closed: { opacity: 0, y: -10, height: 0, transition: { duration: 0.3 } },
   }
 
+    const isTokenExpired = (token) => {
+      if(!token) return true; // Treat missing token as expired
+      try {
+        const decoded = jwtDecode(token);
+        return decoded.exp * 1000 < Date.now(); // Convert exp to milliseconds
+      }catch(err){
+        console.log(err.message);
+        return true;
+      }
+    }
+
   const checkIfLogin = (route: string) => {
-    const token = localStorage.getItem("token")
+
+    const token = localStorage.getItem("token");
+    const isExpired = isTokenExpired(token);
+    if(isExpired) {
+      localStorage.removeItem("token");
+      toast.error("Login is required");
+    }else {
+      getUser();
+    }
+
     // console.log("check if login", route, token);
     setNavigateTo(route)
     // console.log(route, toggle, token);
