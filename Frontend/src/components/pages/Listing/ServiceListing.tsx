@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { FaStar, FaFilter } from "react-icons/fa"
 import { Link, useSearchParams, useNavigate, useLocation } from "react-router-dom"
@@ -86,6 +86,11 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
   const [expandedSections, setExpandedSections] = useState<string[]>([])
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
+  // Create a global URLSearchParams object
+  const newParams = useRef(new URLSearchParams()).current
+
+  // Add a ref to track the last API URL to prevent duplicate calls
+  const lastApiUrl = useRef<string>("")
 
   const prevlocation = useLocation()
   const prevSearchParams = new URLSearchParams(prevlocation.search)
@@ -161,10 +166,14 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
     }
   }, [searchParams])
 
-  // Separate useEffect for applying filters and setting filter options
+  // Set filters when type changes
   useEffect(() => {
-    applyFilters()
     setFilters(getFiltersByType(type))
+  }, [type])
+
+  // Separate useEffect for applying filters
+  useEffect(() => {
+      applyFilters()
   }, [type, location, search, selectedFilters])
 
   // Update the handleSavedFilter function to use the type
@@ -234,7 +243,8 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
     })
 
     // Update URL params - keep only the type parameter
-    const newParams = new URLSearchParams()
+    newParams.forEach((value, key) => newParams.delete(key));
+
     if (typeFromUrl) {
       newParams.append("type", typeFromUrl)
     }
@@ -276,8 +286,12 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
         return type === "hospitals" ? fetchSavedHospitals() : fetchSavedClinics()
       }
 
+      if (!type) return
+
       const queryString = buildQueryParams()
       let url = ``
+
+      // Always include location and search if they exist
       if (type === "hospitals" || type === "clinics") {
         url = `${baseURL}/v1/api/facility/filter?type=${type}`
         if (queryString !== "") {
@@ -290,14 +304,22 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
         }
       }
 
-      console.log("Filter URL:", url) // For debugging
+      // Skip if this is the same URL we just called
+      if (url === lastApiUrl.current) {
+        return
+      }
+
+      // Update the last API URL
+      lastApiUrl.current = url
+
+      // console.log("Filter URL:", url) // For debugging
 
       const response = await axios.get(url)
 
       // Dynamically access the array based on the facility type
       let filteredResults = response.data[type] || []
 
-      console.log(response.data[`${type}`], type)
+      // console.log(response.data[`${type}`], type)
 
       // Apply client-side sorting if sortBy is selected
       if (selectedFilters.sortBy.length > 0) {
@@ -320,11 +342,20 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
 
   // Function to update URL parameters based on selected filters
   const updateUrlParams = () => {
-    const newParams = new URLSearchParams()
+    newParams.forEach((value, key) => newParams.delete(key));
+
 
     // Always keep the type parameter if it exists
-    if (typeFromUrl) {
-      newParams.append("type", typeFromUrl)
+    if (type) {
+      newParams.append("type", type)
+    }
+
+    // Always include location and search if they exist
+    if (location){
+      newParams.append("location", location)
+    }
+    if (search) {
+      newParams.append("search", search)
     }
 
     // Add other filter parameters
