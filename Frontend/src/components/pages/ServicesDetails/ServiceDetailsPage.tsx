@@ -47,10 +47,9 @@ const ServiceDetailsPage = () => {
 
   const getServiceDetails = async (id) => {
     try {
-      const service = type.replace("-details", "");
-      const response = await axios.get(`${baseURL}/v1/api/${service}/id/${id}`);
-      const data = response.data[service];
-      // console.log(data);
+      const response = await axios.get(`${baseURL}/v1/api/${type}/id/${id}`);
+      const data = response.data[type];
+      console.log("type & resData serv",  type, data);
       setService(data);
       setSaved(data.isSaved);
     } catch (error) {
