@@ -201,7 +201,7 @@ export default function Navbar() {
         },
         { replace: true },
       )
-      console.log("navigated to listing page ...")
+      // console.log("navigated to listing page ...")
     } else {
       // Only update search params if already on listing page
       setSearchParams(newParams, { replace: true })

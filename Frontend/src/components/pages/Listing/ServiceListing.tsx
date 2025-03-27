@@ -95,15 +95,8 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
   const locationFromUrl = searchParams.get("location")
   const searchFromUrl = searchParams.get("search")
 
-  const insuranceFromUrl = searchParams.get("insurance")
-  const psuFromUrl = searchParams.get("psu")
-  const diagnosticsFromUrl = searchParams.get("diagnostics")
-  const concernsFromUrl = searchParams.get("concerns")
-  const tpaFromUrl = searchParams.get("tpa")
-
   // Use props if provided, otherwise fall back to URL params
   const type = typeFromUrl || prevSearchParams.get("type")
-  // const type = typeFromUrl || ""
   const location = locationParam || locationFromUrl
   const search = searchQuery || searchFromUrl
 
