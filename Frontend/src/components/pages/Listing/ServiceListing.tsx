@@ -306,11 +306,11 @@ function ServiceListing() {
   }
 
   // Add these utility functions for sorting
-  const sortByRating = () => {
+  const sortByRating = (facilities: any[]) => {
     return [...facilities].sort((a, b) => b.avgRating - a.avgRating)
   }
 
-  const sortByReviews = () => {
+  const sortByReviews = (facilities: any[]) => {
     return [...facilities].sort((a, b) => b.reviews.length - a.reviews.length)
   }
 
@@ -390,9 +390,9 @@ function ServiceListing() {
     if (selectedFilters.sortBy.length > 0) {
       const sortType = selectedFilters.sortBy[0]
       if (sortType === "rating") {
-        setFacilities(sortByRating())
+        setFacilities((prev) => sortByRating([...prev]))
       } else if (sortType === "reviews") {
-        setFacilities(sortByReviews());
+        setFacilities((prev) => sortByReviews([...prev]))
       }
     }
 
