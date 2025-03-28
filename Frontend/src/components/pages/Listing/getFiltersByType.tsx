@@ -129,7 +129,7 @@ export const getFiltersByType = (type: string | null) => {
           })),
         },
       ];
-    case "banks":
+    case "bank":
       return [
         ...baseFilters,
         {

@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useRef } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 import { FaStar, FaFilter } from "react-icons/fa"
-import { Link, useSearchParams, useNavigate, useLocation } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import { X, ChevronDown } from "lucide-react"
+import React, { useEffect } from "react"
+import { useState } from "react"
 import axios from "axios"
 
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -78,36 +79,14 @@ interface ServiceListingProps {
   searchQuery?: string
 }
 
-export default function ServiceListing({ facilityType, locationParam, searchQuery }: ServiceListingProps) {
+function ServiceListing() {
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL
   const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS
-  const clinicImgs = import.meta.env.VITE_APP_CLOUDINARY_CLINICS
-  const path = import.meta.env.VITE_APP_IMG_URL
   const [expandedSections, setExpandedSections] = useState<string[]>([])
-  const navigate = useNavigate()
-  const [searchParams, setSearchParams] = useSearchParams()
-  // Create a global URLSearchParams object
-  const newParams = useRef(new URLSearchParams()).current
-
-  // Add a ref to track the last API URL to prevent duplicate calls
-  const lastApiUrl = useRef<string>("")
-
-  const prevlocation = useLocation()
-  const prevSearchParams = new URLSearchParams(prevlocation.search)
-
-  // Get type and location from URL params as fallback
-  const typeFromUrl = searchParams.get("type")
-  const locationFromUrl = searchParams.get("location")
-  const searchFromUrl = searchParams.get("search")
-
-  // Use props if provided, otherwise fall back to URL params
-  const type = typeFromUrl || prevSearchParams.get("type")
-  const location = locationParam || locationFromUrl
-  const search = searchQuery || searchFromUrl
-
-  const [facilities, setFacilities] = useState<Facility[]>([])
+  const [facilities, setFacilities] = useState<any[]>([])
   const [filterOpen, setFilterOpen] = useState<boolean>(false)
-  const [selectedFilters, setSelectedFilters] = useState<SelectedFilters>({
+  const [filters, setFilters] = useState<FilterSection[]>([])
+  const initialSelectedFilters = {
     brands: [],
     diagnostics: [],
     specialities: [],
@@ -120,42 +99,71 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
     ownership: [],
     sortBy: [],
     saved: false,
-  })
+  }
+  const [selectedFilters, setSelectedFilters] = useState<SelectedFilters>(initialSelectedFilters)
 
-  // Replace the filters constant with a state variable
-  const [filters, setFilters] = useState<FilterSection[]>([])
+  const [params, setParams] = useSearchParams()
+  const location = params.get("location")
+  const search = params.get("search")
+  const type = params.get("type")
 
-  const toggleSection = (sectionTitle: string) => {
-    setExpandedSections((prev) =>
-      prev.includes(sectionTitle) ? prev.filter((title) => title !== sectionTitle) : [...prev, sectionTitle],
-    )
+  // Function to update URL parameters based on selected filters
+  const updateUrlParams = () => {
+    const newParams = new URLSearchParams()
+
+    // Always keep the type parameter
+    if (type) {
+      newParams.set("type", type)
+    }
+
+    // Keep location and search if they exist
+    if (location) {
+      newParams.set("location", location)
+    }
+
+    if (search) {
+      newParams.set("search", search)
+    }
+
+    // Add all selected filters to URL parameters
+    Object.entries(selectedFilters).forEach(([key, value]) => {
+      if (key === "saved") return // Skip saved filter
+
+      if (Array.isArray(value) && value.length > 0) {
+        // For arrays with multiple values, join with commas
+        newParams.set(key, value.join(","))
+      }
+    })
+
+    // Update URL without reloading the page
+    setParams(newParams)
   }
 
-  // Update filters when URL parameters change
-  useEffect(() => {
-    // Create a new filters object
-    const newFilters = { ...selectedFilters }
+  // Function to parse URL parameters and set selected filters
+  const setFiltersFromParams = () => {
+    const newFilters = { ...initialSelectedFilters }
     let filtersChanged = false
 
     // Check all possible filter parameters in the URL
     const filterTypes = [
-      "insurance",
-      "psu",
-      "diagnostics",
-      "concerns",
-      "tpa",
       "brands",
+      "diagnostics",
       "specialities",
+      "psu",
       "accreditations",
+      "concerns",
+      "insurance",
+      "tpa",
       "altMed",
       "ownership",
       "sortBy",
     ]
 
     filterTypes.forEach((filterType) => {
-      const paramValue = searchParams.get(filterType)
+      const paramValue = params.get(filterType)
       if (paramValue) {
-        newFilters[filterType as keyof SelectedFilters] = [paramValue] as any
+        // Split comma-separated values into array
+        newFilters[filterType as keyof SelectedFilters] = paramValue.split(",") as any
         filtersChanged = true
       }
     })
@@ -164,34 +172,26 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
     if (filtersChanged) {
       setSelectedFilters(newFilters)
     }
-  }, [searchParams])
+  }
 
-  // Set filters when type changes
-  useEffect(() => {
-    setFilters(getFiltersByType(type))
-  }, [type])
+  const clearAllFilters = () => {
+    // Reset selected filters
+    setSelectedFilters(initialSelectedFilters)
 
-  // Separate useEffect for applying filters
-  useEffect(() => {
-      applyFilters()
-  }, [type, location, search, selectedFilters])
-
-  // Update the handleSavedFilter function to use the type
-  const handleSavedFilter = (saved: boolean) => {
-    setSelectedFilters((prev) => ({ ...prev, saved }))
-    try {
-      if (saved === true) {
-        if (type === "hospitals") {
-          fetchSavedHospitals()
-        } else if (type === "clinics") {
-          fetchSavedClinics()
-        } else {
-          fetchSavedFacilities(type)
-        }
-      }
-    } catch (err) {
-      console.log(err)
+    // Update URL params - keep only the type parameter
+    const newParams = new URLSearchParams()
+    if (type) {
+      newParams.set("type", type)
     }
+
+    // Update URL
+    setParams(newParams)
+  }
+
+  const toggleSection = (sectionTitle: string) => {
+    setExpandedSections((prev) =>
+      prev.includes(sectionTitle) ? prev.filter((title) => title !== sectionTitle) : [...prev, sectionTitle],
+    )
   }
 
   const handleFilterToggle = (filterId: string, filterType: string) => {
@@ -201,9 +201,9 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
         newFilters.saved = !newFilters.saved
         if (newFilters.saved) {
           if (type === "hospitals") {
-            fetchSavedHospitals()
+            // fetchSavedHospitals()
           } else {
-            fetchSavedFacilities(type)
+            // fetchSavedFacilities(type)
           }
         }
       } else if (filterType === "sortBy") {
@@ -221,157 +221,8 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
       return newFilters
     })
 
-    // Update URL params after state update
+    // Update URL parameters after state update
     setTimeout(updateUrlParams, 0)
-  }
-
-  const clearAllFilters = () => {
-    // Reset selected filters
-    setSelectedFilters({
-      brands: [],
-      diagnostics: [],
-      specialities: [],
-      psu: [],
-      accreditations: [],
-      concerns: [],
-      insurance: [],
-      tpa: [],
-      altMed: [],
-      ownership: [],
-      sortBy: [],
-      saved: false,
-    })
-
-    // Update URL params - keep only the type parameter
-    newParams.forEach((value, key) => newParams.delete(key));
-
-    if (typeFromUrl) {
-      newParams.append("type", typeFromUrl)
-    }
-
-    // Use setSearchParams to update the URL
-    setSearchParams(newParams)
-  }
-
-  // Build query parameters dynamically with repeated parameters for arrays
-  const buildQueryParams = (): string => {
-    const params = new URLSearchParams()
-
-    // Add location and search query if they exist
-    location && params.append("location", location)
-    search && params.append("search", search)
-
-    // Don't include saved in the query params as it uses a different API
-    Object.entries(selectedFilters).forEach(([key, value]) => {
-      if (key === "saved") return
-
-      if (Array.isArray(value) && value.length > 0) {
-        if (key === "sortBy") {
-          // sortBy is a single value
-          params.append(key, value[0])
-        } else {
-          // For arrays, join values with commas
-          params.append(key, value.join(","))
-        }
-      }
-    })
-
-    return params.toString()
-  }
-
-  // Update the applyFilters function to use dynamic property access and include location/search
-  const applyFilters = async () => {
-    try {
-      if (selectedFilters.saved === true) {
-        return type === "hospitals" ? fetchSavedHospitals() : fetchSavedClinics()
-      }
-
-      if (!type) return
-
-      const queryString = buildQueryParams()
-      let url = ``
-
-      // Always include location and search if they exist
-      if (type === "hospitals" || type === "clinics") {
-        url = `${baseURL}/v1/api/facility/filter?type=${type}`
-        if (queryString !== "") {
-          url = `${baseURL}/v1/api/facility/filter?type=${type}&${queryString}`
-        }
-      } else {
-        url = `${baseURL}/v1/api/${type}/filter?`
-        if (queryString !== "") {
-          url = `${baseURL}/v1/api/${type}/filter?${queryString}`
-        }
-      }
-
-      // Skip if this is the same URL we just called
-      if (url === lastApiUrl.current) {
-        return
-      }
-
-      // Update the last API URL
-      lastApiUrl.current = url
-
-      // console.log("Filter URL:", url) // For debugging
-
-      const response = await axios.get(url)
-
-      // Dynamically access the array based on the facility type
-      let filteredResults = response.data[type] || []
-
-      // console.log(response.data[`${type}`], type)
-
-      // Apply client-side sorting if sortBy is selected
-      if (selectedFilters.sortBy.length > 0) {
-        const sortType = selectedFilters.sortBy[0]
-        if (sortType === "rating") {
-          filteredResults = sortByRating(filteredResults)
-        } else if (sortType === "reviews") {
-          filteredResults = sortByReviews(filteredResults)
-        }
-        // 'relevance' sorting is handled by the API or remains as is
-      }
-      setFacilities(filteredResults)
-
-      // Update URL params to reflect current filters
-      updateUrlParams()
-    } catch (error) {
-      console.error("Error applying filters:", error)
-    }
-  }
-
-  // Function to update URL parameters based on selected filters
-  const updateUrlParams = () => {
-    newParams.forEach((value, key) => newParams.delete(key));
-
-
-    // Always keep the type parameter if it exists
-    if (type) {
-      newParams.append("type", type)
-    }
-
-    // Always include location and search if they exist
-    if (location){
-      newParams.append("location", location)
-    }
-    if (search) {
-      newParams.append("search", search)
-    }
-
-    // Add other filter parameters
-    Object.entries(selectedFilters).forEach(([key, value]) => {
-      if (key === "saved") return
-
-      if (Array.isArray(value) && value.length > 0) {
-        // For each filter value, add it as a separate parameter
-        value.forEach((val) => {
-          if (val) newParams.append(key, val)
-        })
-      }
-    })
-
-    // Update the URL without reloading the page
-    setSearchParams(newParams)
   }
 
   const detailsUrl = (id) => {
@@ -382,13 +233,75 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
     }
   }
 
+  const buildQuery = () => {
+    const query = new URLSearchParams()
+
+    // Add location and search if they exist
+    location && query.append("location", location)
+    search && query.append("search", search)
+
+    // Add all selected filters to the query
+    Object.entries(selectedFilters).forEach(([key, value]) => {
+      if (key === "saved") return
+
+      if (Array.isArray(value) && value.length > 0) {
+        // For arrays with multiple values, join with commas
+        query.append(key, value.join(","))
+      }
+    })
+
+    return query
+  }
+
+  const getFacilities = async () => {
+    try {
+      let url = ``
+      const queryString = buildQuery()
+      if (type === "hospitals" || type === "clinics") {
+        if (queryString.size > 0) {
+          url = `${baseURL}/v1/api/facility/filter?type=${type}&${queryString}`
+        } else {
+          url = `${baseURL}/v1/api/facility/filter?type=${type}`
+        }
+      } else {
+        if (queryString.size > 0) {
+          url = `${baseURL}/v1/api/${type}/filter?${queryString}`
+        } else {
+          url = `${baseURL}/v1/api/${type}/filter`
+        }
+      }
+
+      const response = await axios.get(url)
+      const data = response.data[type] || []
+      setFacilities(data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   // Add these utility functions for sorting
-  const sortByRating = (facilities: Facility[]) => {
+  const sortByRating = (facilities: any[]) => {
     return [...facilities].sort((a, b) => b.avgRating - a.avgRating)
   }
 
-  const sortByReviews = (facilities: Facility[]) => {
+  const sortByReviews = (facilities: any[]) => {
     return [...facilities].sort((a, b) => b.reviews.length - a.reviews.length)
+  }
+
+  const handleSavedFilter = (saved: boolean) => {
+    try {
+      if (saved === true) {
+        if (type === "hospitals") {
+          fetchSavedHospitals()
+        } else if (type === "clinics") {
+          fetchSavedClinics()
+        } else {
+          fetchSavedFacilities(type)
+        }
+      }
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   const fetchSavedHospitals = async () => {
@@ -432,6 +345,33 @@ export default function ServiceListing({ facilityType, locationParam, searchQuer
       setFacilities([])
     }
   }
+
+  // Set filters from URL parameters when component mounts or params change
+  useEffect(() => {
+    setFiltersFromParams()
+    setFilters(getFiltersByType(type))
+  }, [params])
+
+  // Fetch facilities when selected filters change
+  useEffect(() => {
+    getFacilities()
+  }, [params, type])
+
+  // Apply client-side sorting and saved filter
+  useEffect(() => {
+    if (selectedFilters.sortBy.length > 0) {
+      const sortType = selectedFilters.sortBy[0]
+      if (sortType === "rating") {
+        setFacilities(sortByRating(facilities))
+      } else if (sortType === "reviews") {
+        setFacilities(sortByReviews(facilities))
+      }
+    }
+
+    if (selectedFilters.saved) {
+      handleSavedFilter(selectedFilters.saved)
+    }
+  }, [selectedFilters])
 
   return (
     <div className="relative bg-gray-50 min-h-screen">
@@ -593,7 +533,7 @@ ${
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold capitalize">
             {type || "Health Facilities"} in {location || "Mumbai"}
-            {searchQuery && <span className="ml-2 text-lg font-normal text-gray-600">Search: "{searchQuery}"</span>}
+            {/* {searchQuery && <span className="ml-2 text-lg font-normal text-gray-600">Search: "{searchQuery}"</span>} */}
           </h2>
           <button
             onClick={() => setFilterOpen(true)}
@@ -631,18 +571,18 @@ ${
                       <label key={option.id} className="flex items-center space-x-3 cursor-pointer group">
                         <div
                           className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors
-                                                      ${
-                                                        Array.isArray(
-                                                          selectedFilters[section.filterType as keyof SelectedFilters],
-                                                        ) &&
-                                                        (
-                                                          selectedFilters[
-                                                            section.filterType as keyof SelectedFilters
-                                                          ] as string[]
-                                                        ).includes(option.id)
-                                                          ? "border-blue-500 bg-blue-500"
-                                                          : "border-gray-300 group-hover:border-blue-500"
-                                                      }`}
+                                                    ${
+                                                      Array.isArray(
+                                                        selectedFilters[section.filterType as keyof SelectedFilters],
+                                                      ) &&
+                                                      (
+                                                        selectedFilters[
+                                                          section.filterType as keyof SelectedFilters
+                                                        ] as string[]
+                                                      ).includes(option.id)
+                                                        ? "border-blue-500 bg-blue-500"
+                                                        : "border-gray-300 group-hover:border-blue-500"
+                                                    }`}
                         >
                           {Array.isArray(selectedFilters[section.filterType as keyof SelectedFilters]) &&
                             (selectedFilters[section.filterType as keyof SelectedFilters] as string[]).includes(
@@ -700,11 +640,11 @@ ${
                       >
                         <span>Saved</span>
                         {/* <button
-                          onClick={() => handleSavedFilter(!selectedFilters.saved)}
-                          className="w-4 h-4 flex items-center justify-center rounded-full hover:bg-blue-100"
-                        >
-                          ×
-                        </button> */}
+                        onClick={() => handleSavedFilter(!selectedFilters.saved)}
+                        className="w-4 h-4 flex items-center justify-center rounded-full hover:bg-blue-100"
+                      >
+                        ×
+                      </button> */}
                       </motion.div>,
                     ]
                   }
@@ -824,8 +764,8 @@ ${
                             {/* BEDS COUNT AND TYPE */}
                             <div className="flex flex-col">
                               {/* <span className="text-sm min-[425px]:text-base sm:text-lg lg:text-base xl:text-lg font-semibold text-gray-700">
-                              {detail.beds} Beds
-                            </span> */}
+                            {detail.beds} Beds
+                          </span> */}
                             </div>
                           </div>
 
@@ -880,3 +820,5 @@ ${
     </div>
   )
 }
+
+export default ServiceListing
