@@ -79,9 +79,7 @@ function ServiceListing() {
   const [filterOpen, setFilterOpen] = useState<boolean>(false)
   const [filters, setFilters] = useState<FilterSection[]>([])
 
-  // Flag to prevent infinite loops when updating state
-  const isUpdatingFilters = useRef(false)
-  const isUpdatingParams = useRef(false)
+
 
   const initialSelectedFilters: SelectedFilters = {
     brands: [],
@@ -107,12 +105,6 @@ function ServiceListing() {
 
   // Function to update URL parameters based on selected filters
   const updateUrlParams = () => {
-    // Skip if we're currently updating filters from params
-    if (isUpdatingFilters.current) return
-
-    // Set flag to prevent infinite loop
-    isUpdatingParams.current = true
-
     const newParams = new URLSearchParams()
 
     // Always keep the type parameter
@@ -143,19 +135,10 @@ function ServiceListing() {
     // Update URL without reloading the page
     setParams(newParams)
 
-    // Reset flag after a short delay to ensure state updates have completed
-    setTimeout(() => {
-      isUpdatingParams.current = false
-    }, 0)
   }
 
   // Function to parse URL parameters and set selected filters
   const setFiltersFromParams = () => {
-    // Skip if we're currently updating params from filters
-    if (isUpdatingParams.current) return
-
-    // Set flag to prevent infinite loop
-    isUpdatingFilters.current = true
 
     const newFilters = { ...initialSelectedFilters }
     let filtersChanged = false
@@ -188,11 +171,6 @@ function ServiceListing() {
     if (filtersChanged) {
       setSelectedFilters(newFilters)
     }
-
-    // Reset flag after a short delay to ensure state updates have completed
-    setTimeout(() => {
-      isUpdatingFilters.current = false
-    }, 0)
   }
 
   const clearAllFilters = () => {
@@ -379,6 +357,7 @@ function ServiceListing() {
 
   // Set filters from URL parameters when params change
   useEffect(() => {
+
     setFiltersFromParams()
   }, [params])
 
