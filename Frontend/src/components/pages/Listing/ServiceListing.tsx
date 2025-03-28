@@ -132,7 +132,7 @@ function ServiceListing() {
     // Add all selected filters to URL parameters
     Object.entries(selectedFilters).forEach(([key, value]) => {
       if (key === "saved") return // Skip saved filter
-      if(key === "sortBy") return
+      if(key === "sortBy") return // Skip sortBy filter
 
       if (Array.isArray(value) && value.length > 0) {
         // For arrays with multiple values, join with commas
@@ -295,6 +295,10 @@ function ServiceListing() {
 
       const response = await axios.get(url)
       const data = response.data[type] || []
+      if (data.length === 0) {
+        setFacilities([])
+        return
+      }
       setFacilities(data)
     } catch (err) {
       console.log(err)
