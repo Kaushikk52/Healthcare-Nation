@@ -359,6 +359,7 @@ function ServiceListing() {
   useEffect(() => {
 
     setFiltersFromParams()
+    getFacilities()
   }, [params])
 
   // Update URL parameters when selected filters change
@@ -384,11 +385,6 @@ function ServiceListing() {
       getFacilities()
     }
   }, [selectedFilters])
-
-  // Fetch facilities when params change
-  useEffect(() => {
-    getFacilities()
-  }, [params, type])
 
   return (
     <div className="relative bg-gray-50 min-h-screen">
