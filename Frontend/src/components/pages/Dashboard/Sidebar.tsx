@@ -112,7 +112,7 @@ function Sidebar() {
           </li>
 
           {/* Editing Section */}
-          <li>
+          {/* <li>
             <button
               className="flex items-center justify-between text-gray-800 hover:bg-gray-100 rounded-md p-2 w-full"
               onClick={() => setIsEditingOpen(!isEditingOpen)}
@@ -139,7 +139,7 @@ function Sidebar() {
                 ))}
               </ul>
             )}
-          </li>
+          </li> */}
         </ul>
       </nav>
 
