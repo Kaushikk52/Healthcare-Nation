@@ -23,6 +23,9 @@ public class HomecareService {
     @Autowired
     private MedicalFacilityRepo facilityRepo;
 
+    @Autowired
+    private ImageService imageServ;
+
     public Homecare addHomecare(Homecare homecare){
         List<String> ids = homecare.getMedicalFacilities().stream()
                 .map(MedicalFacility::getId)
@@ -55,6 +58,7 @@ public class HomecareService {
 
     public String delete(String id){
         Homecare existingHomecare = this.getById(id);
+        List<String> results = imageServ.deleteFiles(List.of(existingHomecare.getImages()),"Hospitals");
         homecareRepo.delete(existingHomecare);
         return "Deleted Homecare by ID : " + id;
     }

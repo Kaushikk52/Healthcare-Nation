@@ -23,6 +23,9 @@ public class TransportService {
     @Autowired
     private MedicalFacilityRepo facilityRepo;
 
+    @Autowired
+    private ImageService imageServ;
+
 
     public Transport addTransport(Transport transport){
         List<String> ids = transport.getMedicalFacilities().stream()
@@ -56,6 +59,7 @@ public class TransportService {
 
     public String delete(String id){
         Transport existingTransport = this.getById(id);
+        List<String> results = imageServ.deleteFiles(List.of(existingTransport.getImages()),"Hospitals");
         transportRepo.delete(existingTransport);
         return "Deleted Transport by ID : " + id;
     }

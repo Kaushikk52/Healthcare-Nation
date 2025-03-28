@@ -22,6 +22,9 @@ public class BankService {
     @Autowired
     private MedicalFacilityRepo facilityRepo;
 
+    @Autowired
+    private ImageService imageServ;
+
 
     public Bank addBank(Bank bank){
         List<String> ids = bank.getMedicalFacilities().stream()
@@ -55,6 +58,7 @@ public class BankService {
 
     public String delete(String id){
         Bank existingBank = this.getById(id);
+        List<String> results = imageServ.deleteFiles(List.of(existingBank.getImages()),"Hospitals");
         bankRepo.delete(existingBank);
         return "Deleted Bank by ID : " + id;
     }

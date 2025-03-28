@@ -77,13 +77,17 @@ public class TransportController {
     @GetMapping(value = "/filter")
     public ResponseEntity<Map<String,Object>> getFilteredTransport(
             @RequestParam(required = false) String ownership,
-            @RequestParam(required = false) List<String> brands
+            @RequestParam(required = false) List<String> brands,
+            @RequestParam(required = false) String location,
+            @RequestParam(required = false) String search
 
 
     ){
         Map<String,Object> response = new HashMap<>();
         try {
             Map<String,Object> filters = new HashMap<>();
+            if(location != null) filters.put("location",location);
+            if(search != null) filters.put("search",search);
             if (ownership != null && !ownership.isEmpty()) filters.put("ownership", ownership);
             if (brands != null && !brands.isEmpty()) filters.put("brands", brands);
             List<Transport> filteredTransport;

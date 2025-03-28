@@ -24,6 +24,9 @@ public class OrthoticsService {
     @Autowired
     private MedicalFacilityRepo facilityRepo;
 
+    @Autowired
+    private ImageService imageServ;
+
 
     public Orthotics addOP(Orthotics op){
         List<String> ids = op.getMedicalFacilities().stream().map(MedicalFacility::getId) .collect(Collectors.toList());
@@ -55,6 +58,7 @@ public class OrthoticsService {
 
     public String delete(String id){
         Orthotics existingOrthotics = this.getById(id);
+        List<String> results = imageServ.deleteFiles(List.of(existingOrthotics.getImages()),"Hospitals");
         orthoticsRepo.delete(existingOrthotics);
         return "Deleted OP by ID : " + id;
     }

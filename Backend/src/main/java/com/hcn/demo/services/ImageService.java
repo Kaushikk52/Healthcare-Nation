@@ -3,6 +3,7 @@ package com.hcn.demo.services;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,14 +15,15 @@ import java.util.stream.Collectors;
 @Service
 public class ImageService {
 
+    @Value("${spring.profiles.active}")
+    private String env;
 
     @Autowired
     private Cloudinary cloudinary;
 
 
     public String uploadImage(MultipartFile file, String type) throws IOException {
-        String environment =  "LOCAL";
-        String folderPath = "hcn/" + environment.toUpperCase() + "/" + type;
+        String folderPath = "hcn/" + env.toUpperCase() + "/" + type;
         Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.asMap("folder",folderPath));
         return uploadResult.get("display_name").toString();
     }
@@ -46,16 +48,14 @@ public class ImageService {
     }
 
     public String deleteImage(String publicId,String type) throws IOException {
-        String environment =  "LOCAL";
-        String folderPath = "hcn/" + environment.toUpperCase() + "/"+type+"/";
+        String folderPath = "hcn/" + env.toUpperCase() + "/"+type+"/";
         String fullPublicId = folderPath + publicId;
         Map result = cloudinary.uploader().destroy(fullPublicId, ObjectUtils.emptyMap());
         return result.get("result").toString();
     }
 
     public List<String> deleteFiles(List<String> publicIds, String type) {
-        String environment =  "LOCAL";
-        String folderPath = "hcn/" + environment.toUpperCase() + "/"+type+"/";
+        String folderPath = "hcn/" + env.toUpperCase() + "/"+type+"/";
 
         return publicIds.stream()
                 .map(publicId -> {

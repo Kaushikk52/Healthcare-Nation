@@ -23,6 +23,9 @@ public class DiagnosticsService {
     @Autowired
     private MedicalFacilityRepo facilityRepo;
 
+    @Autowired
+    private ImageService imageServ;
+
     public Diagnostics addDiagnostics(Diagnostics diagnostics){
         List<String> ids = diagnostics.getMedicalFacilities().stream()
                 .map(MedicalFacility::getId)
@@ -55,6 +58,7 @@ public class DiagnosticsService {
 
     public String delete(String id){
         Diagnostics existingDiagnostics = this.getById(id);
+        List<String> results = imageServ.deleteFiles(List.of(existingDiagnostics.getImages()),"Hospitals");
         diagnosticsRepo.delete(existingDiagnostics);
         return "Deleted Diagnostics by ID : " + id;
     }

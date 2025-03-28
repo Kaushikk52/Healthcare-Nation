@@ -237,7 +237,7 @@ public class MedicalFacilityController {
         }
     }
 
-    @DeleteMapping(value = "/delete/{id}")
+    @PostMapping(value = "/delete/{id}")
     public ResponseEntity<Map<String,Object>> removeFacility(@PathVariable String id){
         Map<String,Object> response = new HashMap<>();
         try{

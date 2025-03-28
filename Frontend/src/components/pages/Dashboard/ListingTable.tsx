@@ -21,48 +21,78 @@ function ListingTable() {
     switch (type) {
       case "hospital":
         return {
-          url: `${baseURL}/v1/api/facility/type/hospitals`,
+          getAllUrl: `${baseURL}/v1/api/facility/type/hospitals`,
+          deleteUrl: `${baseURL}/v1/api/facility/delete`,
           name: "hospitals",
         };
       case "clinic":
         return {
-          url: `${baseURL}/v1/api/facility/type/clinics`,
+          getAllUrl: `${baseURL}/v1/api/facility/type/clinics`,
+          deleteUrl: `${baseURL}/v1/api/facility/delete`,
           name: "clinics",
         };
       case "bank":
-        return { url: `${baseURL}/v1/api/bank/all`, name: "bankList" };
+        return {
+           getAllUrl: `${baseURL}/v1/api/bank/all`,
+           deleteUrl: `${baseURL}/v1/api/bank/delete`,
+            name: "bankList" 
+          };
       case "homecare":
-        return { url: `${baseURL}/v1/api/homecare/all`, name: "homecareList" };
+        return { getAllUrl: `${baseURL}/v1/api/homecare/all`,
+        deleteUrl: `${baseURL}/v1/api/homecare/delete`,
+         name: "homecareList" };
       case "transport":
         return {
-          url: `${baseURL}/v1/api/transport/all`,
+          getAllUrl: `${baseURL}/v1/api/transport/all`,
+          deleteUrl: `${baseURL}/v1/api/transport/delete`,
           name: "transportList",
         };
       case "op":
         return {
-          url: `${baseURL}/v1/api/orthotics/all`,
+          getAllUrl: `${baseURL}/v1/api/orthotics/all`,
+          deleteUrl: `${baseURL}/v1/api/orthotics/delete`,
           name: "orthoticsList",
         };
       case "diagnostics":
         return {
-          url: `${baseURL}/v1/api/diagnostics/all`,
+          getAllUrl: `${baseURL}/v1/api/diagnostics/all`,
+          deleteUrl: `${baseURL}/v1/api/diagnostics/delete`,
           name: "diagnosticsList",
         };
       default:
         return {
-          url: `${baseURL}/v1/api/facility/type/hospitals`,
+          getAllUrl: `${baseURL}/v1/api/facility/type/hospitals`,
+          deleteUrl: `${baseURL}/v1/api/facility/delete`,
           name: "hospitals",
         };
     }
   };
 
   const getItems = async () => {
-    const { url, name } = buildUrl();
-    const response = await axios.get(url);
+    const { getAllUrl, name } = buildUrl();
+    const response = await axios.get(getAllUrl);
     const data = response.data[name];
     setItems(data);
     console.log("response data", data);
   };
+
+  const handleDelete = async(id : string) =>{
+    try {
+      const { deleteUrl } = buildUrl();
+      console.log("delete : ", id)
+      const token = localStorage.getItem("token");
+      const response = await axios.post(`${deleteUrl}/${id}`,{},
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        });
+      const data = response.data;
+      console.log(data, "deleted...");
+      getItems();
+    }catch(err){
+      console.log(err.message);
+    }
+    
+  }
 
   useEffect(() => {
     getItems();
@@ -104,7 +134,7 @@ function ListingTable() {
                     </button>
                     <button
                       className="p-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800"
-                      onClick={() => console.log("delete : ", item.id)}
+                      onClick={() => handleDelete(item.id)}
                     >
                       <Trash2 size={20} />
                     </button>

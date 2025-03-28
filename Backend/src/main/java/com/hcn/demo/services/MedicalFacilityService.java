@@ -10,9 +10,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import java.awt.*;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,17 +26,20 @@ public class MedicalFacilityService {
     private final ReviewRepo reviewRepo;
     private final UserDetailsService userDetailsService;
     private final UserRepo userRepo;
+    private final ImageService imageServ;
     private List<Rating> existingRating;
 
     @Autowired
     public MedicalFacilityService(MedicalFacilityRepo medicalFacilityRepo, AddressRepo addressRepo, RatingRepo ratingRepo,
-                                  ReviewRepo reviewRepo, UserRepo userRepo,UserDetailsService userDetailsService){
+                                  ReviewRepo reviewRepo, UserRepo userRepo, UserDetailsService userDetailsService,
+                                  ImageService imageServ){
         this.medicalFacilityRepo = medicalFacilityRepo;
         this.addressRepo = addressRepo;
         this.ratingRepo = ratingRepo;
         this.reviewRepo = reviewRepo;
         this.userRepo = userRepo;
         this.userDetailsService = userDetailsService;
+        this.imageServ = imageServ;
     }
 
     public MedicalFacility addHospital(MedicalFacility hospital,User principalUser) {
@@ -127,6 +132,7 @@ public class MedicalFacilityService {
 
     public void removeFacility(String id){
         MedicalFacility existingFacility = medicalFacilityRepo.findById(id).orElseThrow(()-> new RuntimeException("Not Found..."));
+        List<String> results = imageServ.deleteFiles(List.of(existingFacility.getImages()),"Hospitals");
         medicalFacilityRepo.delete(existingFacility);
     }
 
