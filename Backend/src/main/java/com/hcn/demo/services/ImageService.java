@@ -29,8 +29,7 @@ public class ImageService {
     }
 
     public List<String> multipleUpload(List<MultipartFile> files, String type) throws IOException {
-        String environment =  "LOCAL";
-        String folderPath = "hcn/" + environment.toUpperCase() + "/" + type;
+        String folderPath = "hcn/" + env.toUpperCase() + "/" + type;
         return files.stream()
                 .map(file -> {
                     try {
