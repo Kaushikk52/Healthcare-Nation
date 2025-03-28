@@ -32,30 +32,6 @@ interface FilterSection {
   options: FilterOption[]
 }
 
-interface Address {
-  street: string
-  city: string
-  zipCode: string
-}
-
-interface Review {
-  id: string
-  // Add other review properties as needed
-}
-
-interface Facility {
-  id: string
-  name: string
-  address: Address
-  openDay: string
-  closeDay: string
-  hours: string
-  avgRating: number
-  reviews: Review[]
-  accreditations: string[]
-  images: string[]
-}
-
 interface SelectedFilters {
   brands: string[]
   diagnostics: string[]
@@ -78,8 +54,6 @@ function ServiceListing() {
   const [facilities, setFacilities] = useState<any[]>([])
   const [filterOpen, setFilterOpen] = useState<boolean>(false)
   const [filters, setFilters] = useState<FilterSection[]>([])
-
-
 
   const initialSelectedFilters: SelectedFilters = {
     brands: [],
