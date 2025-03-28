@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { FaStar, FaFilter } from "react-icons/fa"
 import { Link, useSearchParams } from "react-router-dom"
 import { X, ChevronDown } from "lucide-react"
-import React, { useEffect } from "react"
+import React, { useEffect, useRef } from "react"
 import { useState } from "react"
 import axios from "axios"
 
@@ -54,7 +54,6 @@ interface Facility {
   reviews: Review[]
   accreditations: string[]
   images: string[]
-  // Add other facility properties as needed
 }
 
 interface SelectedFilters {
@@ -72,13 +71,6 @@ interface SelectedFilters {
   saved: boolean
 }
 
-// Add props interface to accept location and searchQuery
-interface ServiceListingProps {
-  facilityType?: string
-  locationParam?: string
-  searchQuery?: string
-}
-
 function ServiceListing() {
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL
   const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS
@@ -86,7 +78,12 @@ function ServiceListing() {
   const [facilities, setFacilities] = useState<any[]>([])
   const [filterOpen, setFilterOpen] = useState<boolean>(false)
   const [filters, setFilters] = useState<FilterSection[]>([])
-  const initialSelectedFilters = {
+
+  // Flag to prevent infinite loops when updating state
+  const isUpdatingFilters = useRef(false)
+  const isUpdatingParams = useRef(false)
+
+  const initialSelectedFilters: SelectedFilters = {
     brands: [],
     diagnostics: [],
     specialities: [],
@@ -100,15 +97,22 @@ function ServiceListing() {
     sortBy: [],
     saved: false,
   }
-  const [selectedFilters, setSelectedFilters] = useState<SelectedFilters>(initialSelectedFilters)
 
+  const [selectedFilters, setSelectedFilters] = useState<SelectedFilters>(initialSelectedFilters)
   const [params, setParams] = useSearchParams()
+
   const location = params.get("location")
   const search = params.get("search")
   const type = params.get("type")
 
   // Function to update URL parameters based on selected filters
   const updateUrlParams = () => {
+    // Skip if we're currently updating filters from params
+    if (isUpdatingFilters.current) return
+
+    // Set flag to prevent infinite loop
+    isUpdatingParams.current = true
+
     const newParams = new URLSearchParams()
 
     // Always keep the type parameter
@@ -137,10 +141,21 @@ function ServiceListing() {
 
     // Update URL without reloading the page
     setParams(newParams)
+
+    // Reset flag after a short delay to ensure state updates have completed
+    setTimeout(() => {
+      isUpdatingParams.current = false
+    }, 0)
   }
 
   // Function to parse URL parameters and set selected filters
   const setFiltersFromParams = () => {
+    // Skip if we're currently updating params from filters
+    if (isUpdatingParams.current) return
+
+    // Set flag to prevent infinite loop
+    isUpdatingFilters.current = true
+
     const newFilters = { ...initialSelectedFilters }
     let filtersChanged = false
 
@@ -172,6 +187,11 @@ function ServiceListing() {
     if (filtersChanged) {
       setSelectedFilters(newFilters)
     }
+
+    // Reset flag after a short delay to ensure state updates have completed
+    setTimeout(() => {
+      isUpdatingFilters.current = false
+    }, 0)
   }
 
   const clearAllFilters = () => {
@@ -200,11 +220,7 @@ function ServiceListing() {
       if (filterType === "saved") {
         newFilters.saved = !newFilters.saved
         if (newFilters.saved) {
-          if (type === "hospitals") {
-            // fetchSavedHospitals()
-          } else {
-            // fetchSavedFacilities(type)
-          }
+          handleSavedFilter(true)
         }
       } else if (filterType === "sortBy") {
         newFilters[filterType as keyof SelectedFilters] = [filterId] as any
@@ -220,12 +236,9 @@ function ServiceListing() {
       }
       return newFilters
     })
-
-    // Update URL parameters after state update
-    setTimeout(updateUrlParams, 0)
   }
 
-  const detailsUrl = (id) => {
+  const detailsUrl = (id: string) => {
     if (type === "hospitals" || type === "clinics") {
       return `/${type}-details/${id}`
     } else {
@@ -346,19 +359,21 @@ function ServiceListing() {
     }
   }
 
-  // Set filters from URL parameters when component mounts or params change
+  // Initialize filters based on facility type
+  useEffect(() => {
+    setFilters(getFiltersByType(type))
+  }, [type])
+
+  // Set filters from URL parameters when params change
   useEffect(() => {
     setFiltersFromParams()
-    setFilters(getFiltersByType(type))
   }, [params])
 
-  // Fetch facilities when selected filters change
+  // Update URL parameters when selected filters change
   useEffect(() => {
-    getFacilities()
-  }, [params, type])
+    updateUrlParams()
 
-  // Apply client-side sorting and saved filter
-  useEffect(() => {
+    // Apply client-side sorting
     if (selectedFilters.sortBy.length > 0) {
       const sortType = selectedFilters.sortBy[0]
       if (sortType === "rating") {
@@ -368,10 +383,16 @@ function ServiceListing() {
       }
     }
 
+    // Handle saved filter
     if (selectedFilters.saved) {
       handleSavedFilter(selectedFilters.saved)
     }
   }, [selectedFilters])
+
+  // Fetch facilities when params change
+  useEffect(() => {
+    getFacilities()
+  }, [params, type])
 
   return (
     <div className="relative bg-gray-50 min-h-screen">
@@ -533,7 +554,7 @@ ${
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold capitalize">
             {type || "Health Facilities"} in {location || "Mumbai"}
-            {/* {searchQuery && <span className="ml-2 text-lg font-normal text-gray-600">Search: "{searchQuery}"</span>} */}
+            {search && <span className="ml-2 text-lg font-normal text-gray-600">Search: "{search}"</span>}
           </h2>
           <button
             onClick={() => setFilterOpen(true)}
@@ -639,12 +660,12 @@ ${
                         className="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 border border-blue-200 rounded-full text-sm text-blue-700"
                       >
                         <span>Saved</span>
-                        {/* <button
-                        onClick={() => handleSavedFilter(!selectedFilters.saved)}
-                        className="w-4 h-4 flex items-center justify-center rounded-full hover:bg-blue-100"
-                      >
-                        ×
-                      </button> */}
+                        <button
+                          onClick={() => handleFilterToggle("saved", "saved")}
+                          className="w-4 h-4 flex items-center justify-center rounded-full hover:bg-blue-100"
+                        >
+                          ×
+                        </button>
                       </motion.div>,
                     ]
                   }
@@ -686,7 +707,7 @@ ${
             <div>
               {facilities?.map((detail) => (
                 <React.Fragment key={detail.id}>
-                  <Link to={`/${type}-details/${detail.id}`}>
+                  <Link to={detailsUrl(detail.id)}>
                     <div className="grid grid-cols-1 lg:grid-cols-10 gap-x-4 gap-y-2 mt-6 mb-6 sm:px-2">
                       {/* HOSPITAL IMAGE */}
                       <div className="lg:col-span-4">
@@ -733,7 +754,7 @@ ${
                             <span className="text-sm min-[425px]:text-base sm:text-lg lg:text-base xl:text-lg font-semibold text-gray-700">
                               {detail.address.street}, {detail.address.city} - {detail.address.zipCode}
                             </span>
-                            <span className="text-sm  text-green-700 capitalize">
+                            <span className="text-sm text-green-700 capitalize">
                               {`${detail.openDay} - ${detail.closeDay} ${detail.hours} hrs` || "Open 24 hours"}
                             </span>
                           </div>
@@ -794,7 +815,6 @@ ${
                             {/* VIEW DETAILS BUTTON */}
                             <div>
                               <Link
-                                // to={`/${type}-details/` + detail.id}
                                 to={detailsUrl(detail.id)}
                                 style={{
                                   textDecoration: "none",
