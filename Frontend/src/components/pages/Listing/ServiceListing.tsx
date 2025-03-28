@@ -132,6 +132,7 @@ function ServiceListing() {
     // Add all selected filters to URL parameters
     Object.entries(selectedFilters).forEach(([key, value]) => {
       if (key === "saved") return // Skip saved filter
+      if(key === "sortBy") return
 
       if (Array.isArray(value) && value.length > 0) {
         // For arrays with multiple values, join with commas
@@ -223,7 +224,15 @@ function ServiceListing() {
           handleSavedFilter(true)
         }
       } else if (filterType === "sortBy") {
-        newFilters[filterType as keyof SelectedFilters] = [filterId] as any
+        // Handle sortBy as radio buttons - either select the new option or clear if clicking the same one
+        const currentSortBy = newFilters.sortBy[0]
+        if (currentSortBy === filterId) {
+          // If clicking the same option, clear it
+          newFilters.sortBy = []
+        } else {
+          // Otherwise select the new option
+          newFilters.sortBy = [filterId]
+        }
       } else {
         const filterArray = newFilters[filterType as keyof SelectedFilters] as string[]
         if (Array.isArray(filterArray)) {
@@ -293,11 +302,11 @@ function ServiceListing() {
   }
 
   // Add these utility functions for sorting
-  const sortByRating = (facilities: any[]) => {
+  const sortByRating = () => {
     return [...facilities].sort((a, b) => b.avgRating - a.avgRating)
   }
 
-  const sortByReviews = (facilities: any[]) => {
+  const sortByReviews = () => {
     return [...facilities].sort((a, b) => b.reviews.length - a.reviews.length)
   }
 
@@ -377,15 +386,19 @@ function ServiceListing() {
     if (selectedFilters.sortBy.length > 0) {
       const sortType = selectedFilters.sortBy[0]
       if (sortType === "rating") {
-        setFacilities(sortByRating(facilities))
+        setFacilities(sortByRating())
       } else if (sortType === "reviews") {
-        setFacilities(sortByReviews(facilities))
+        setFacilities(sortByReviews());
       }
     }
 
     // Handle saved filter
     if (selectedFilters.saved) {
       handleSavedFilter(selectedFilters.saved)
+    }
+
+    if (selectedFilters.saved === false && selectedFilters.sortBy.length === 0) {
+      getFacilities()
     }
   }, [selectedFilters])
 
@@ -498,49 +511,76 @@ function ServiceListing() {
                     />
                   </h3>
                   <div className={`space-y-2 ${expandedSections.includes(section.title) ? "" : "hidden"}`}>
-                    {section.options.map((option) => (
-                      <label key={option.id} className="flex items-center space-x-3 cursor-pointer group">
-                        <div
-                          className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors
+                    {section.filterType === "sortBy"
+                      ? // Radio button style for sortBy
+                        section.options.map((option) => (
+                          <label key={option.id} className="flex items-center space-x-3 cursor-pointer group">
+                            <div
+                              className={`w-5 h-5 border-2 rounded-full flex items-center justify-center transition-colors
+      ${selectedFilters.sortBy[0] === option.id ? "border-blue-500" : "border-gray-300 group-hover:border-blue-500"}`}
+                            >
+                              {selectedFilters.sortBy[0] === option.id && (
+                                <motion.div
+                                  initial={{ scale: 0 }}
+                                  animate={{ scale: 1 }}
+                                  className="w-2.5 h-2.5 bg-blue-500 rounded-full"
+                                />
+                              )}
+                            </div>
+                            <input
+                              type="radio"
+                              className="hidden"
+                              checked={selectedFilters.sortBy[0] === option.id}
+                              onChange={() => handleFilterToggle(option.id, section.filterType)}
+                            />
+                            <span className="flex-1 text-gray-700">{option.text}</span>
+                            {option.count && <span className="text-gray-400 text-sm">({option.count})</span>}
+                          </label>
+                        ))
+                      : // Regular checkbox for other filters
+                        section.options.map((option) => (
+                          <label key={option.id} className="flex items-center space-x-3 cursor-pointer group">
+                            <div
+                              className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors
 ${
   Array.isArray(selectedFilters[section.filterType as keyof SelectedFilters]) &&
   (selectedFilters[section.filterType as keyof SelectedFilters] as string[]).includes(option.id)
     ? "border-blue-500 bg-blue-500"
     : "border-gray-300 group-hover:border-blue-500"
 }`}
-                        >
-                          {Array.isArray(selectedFilters[section.filterType as keyof SelectedFilters]) &&
-                            (selectedFilters[section.filterType as keyof SelectedFilters] as string[]).includes(
-                              option.id,
-                            ) && (
-                              <motion.svg
-                                initial={{ scale: 0 }}
-                                animate={{ scale: 1 }}
-                                className="w-3 h-3 text-white"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  fill="currentColor"
-                                  d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"
-                                />
-                              </motion.svg>
-                            )}
-                        </div>
-                        <input
-                          type="checkbox"
-                          className="hidden"
-                          checked={
-                            Array.isArray(selectedFilters[section.filterType as keyof SelectedFilters]) &&
-                            (selectedFilters[section.filterType as keyof SelectedFilters] as string[]).includes(
-                              option.id,
-                            )
-                          }
-                          onChange={() => handleFilterToggle(option.id, section.filterType)}
-                        />
-                        <span className="flex-1 text-gray-700">{option.text}</span>
-                        {option.count && <span className="text-gray-400 text-sm">({option.count})</span>}
-                      </label>
-                    ))}
+                            >
+                              {Array.isArray(selectedFilters[section.filterType as keyof SelectedFilters]) &&
+                                (selectedFilters[section.filterType as keyof SelectedFilters] as string[]).includes(
+                                  option.id,
+                                ) && (
+                                  <motion.svg
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    className="w-3 h-3 text-white"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      fill="currentColor"
+                                      d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"
+                                    />
+                                  </motion.svg>
+                                )}
+                            </div>
+                            <input
+                              type="checkbox"
+                              className="hidden"
+                              checked={
+                                Array.isArray(selectedFilters[section.filterType as keyof SelectedFilters]) &&
+                                (selectedFilters[section.filterType as keyof SelectedFilters] as string[]).includes(
+                                  option.id,
+                                )
+                              }
+                              onChange={() => handleFilterToggle(option.id, section.filterType)}
+                            />
+                            <span className="flex-1 text-gray-700">{option.text}</span>
+                            {option.count && <span className="text-gray-400 text-sm">({option.count})</span>}
+                          </label>
+                        ))}
                   </div>
                 </div>
               ))}
@@ -588,10 +628,37 @@ ${
                     />
                   </h3>
                   <div className={`space-y-2 ${expandedSections.includes(section.title) ? "" : "hidden"}`}>
-                    {section.options.map((option) => (
-                      <label key={option.id} className="flex items-center space-x-3 cursor-pointer group">
-                        <div
-                          className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors
+                    {section.filterType === "sortBy"
+                      ? // Radio button style for sortBy
+                        section.options.map((option) => (
+                          <label key={option.id} className="flex items-center space-x-3 cursor-pointer group">
+                            <div
+                              className={`w-5 h-5 border-2 rounded-full flex items-center justify-center transition-colors
+      ${selectedFilters.sortBy[0] === option.id ? "border-blue-500" : "border-gray-300 group-hover:border-blue-500"}`}
+                            >
+                              {selectedFilters.sortBy[0] === option.id && (
+                                <motion.div
+                                  initial={{ scale: 0 }}
+                                  animate={{ scale: 1 }}
+                                  className="w-2.5 h-2.5 bg-blue-500 rounded-full"
+                                />
+                              )}
+                            </div>
+                            <input
+                              type="radio"
+                              className="hidden"
+                              checked={selectedFilters.sortBy[0] === option.id}
+                              onChange={() => handleFilterToggle(option.id, section.filterType)}
+                            />
+                            <span className="flex-1 text-gray-700">{option.text}</span>
+                            {option.count && <span className="text-gray-400 text-sm">({option.count})</span>}
+                          </label>
+                        ))
+                      : // Regular checkbox for other filters
+                        section.options.map((option) => (
+                          <label key={option.id} className="flex items-center space-x-3 cursor-pointer group">
+                            <div
+                              className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors
                                                     ${
                                                       Array.isArray(
                                                         selectedFilters[section.filterType as keyof SelectedFilters],
@@ -604,39 +671,39 @@ ${
                                                         ? "border-blue-500 bg-blue-500"
                                                         : "border-gray-300 group-hover:border-blue-500"
                                                     }`}
-                        >
-                          {Array.isArray(selectedFilters[section.filterType as keyof SelectedFilters]) &&
-                            (selectedFilters[section.filterType as keyof SelectedFilters] as string[]).includes(
-                              option.id,
-                            ) && (
-                              <motion.svg
-                                initial={{ scale: 0 }}
-                                animate={{ scale: 1 }}
-                                className="w-3 h-3 text-white"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  fill="currentColor"
-                                  d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"
-                                />
-                              </motion.svg>
-                            )}
-                        </div>
-                        <input
-                          type="checkbox"
-                          className="hidden"
-                          checked={
-                            Array.isArray(selectedFilters[section.filterType as keyof SelectedFilters]) &&
-                            (selectedFilters[section.filterType as keyof SelectedFilters] as string[]).includes(
-                              option.id,
-                            )
-                          }
-                          onChange={() => handleFilterToggle(option.id, section.filterType)}
-                        />
-                        <span className="flex-1 text-gray-700">{option.text}</span>
-                        {option.count && <span className="text-gray-400 text-sm">({option.count})</span>}
-                      </label>
-                    ))}
+                            >
+                              {Array.isArray(selectedFilters[section.filterType as keyof SelectedFilters]) &&
+                                (selectedFilters[section.filterType as keyof SelectedFilters] as string[]).includes(
+                                  option.id,
+                                ) && (
+                                  <motion.svg
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    className="w-3 h-3 text-white"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      fill="currentColor"
+                                      d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"
+                                    />
+                                  </motion.svg>
+                                )}
+                            </div>
+                            <input
+                              type="checkbox"
+                              className="hidden"
+                              checked={
+                                Array.isArray(selectedFilters[section.filterType as keyof SelectedFilters]) &&
+                                (selectedFilters[section.filterType as keyof SelectedFilters] as string[]).includes(
+                                  option.id,
+                                )
+                              }
+                              onChange={() => handleFilterToggle(option.id, section.filterType)}
+                            />
+                            <span className="flex-1 text-gray-700">{option.text}</span>
+                            {option.count && <span className="text-gray-400 text-sm">({option.count})</span>}
+                          </label>
+                        ))}
                   </div>
                 </div>
               ))}
