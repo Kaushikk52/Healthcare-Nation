@@ -13,6 +13,7 @@ import EditHospitalForm from './components/pages/Dashboard/EditHospitalForm';
 import ClinicForm from './components/pages/Dashboard/ClinicForm';
 import EditClinicForm from './components/pages/Dashboard/EditClinicForm';
 import BankForm from './components/pages/Dashboard/BankForm';
+import EditBankForm from './components/pages/Dashboard/EditBankForm.tsx'
 import HomecareForm from './components/pages/Dashboard/HomecareForm';
 import TransportForm from './components/pages/Dashboard/TransportForm';
 import OrthoticsForm from './components/pages/Dashboard/OrthoticsForm';
@@ -55,6 +56,8 @@ function App() {
             <Route path='/dashboard/clinic/edit/:id' element={<EditClinicForm />} />
 
             <Route path='/dashboard/bank/add' element={<BankForm />} />
+            <Route path='/dashboard/bank/edit/:id' element={<EditBankForm />} />
+
             <Route path='/dashboard/homecare/add' element={<HomecareForm />} />
             <Route path='/dashboard/transport/add' element={<TransportForm />} />
             <Route path='/dashboard/op/add' element={<OrthoticsForm />} />

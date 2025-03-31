@@ -5,10 +5,12 @@ import com.hcn.demo.models.MedicalFacility;
 import com.hcn.demo.repositories.BankRepo;
 import com.hcn.demo.repositories.MedicalFacilityRepo;
 import com.hcn.demo.specifications.GenericSpecification;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -51,8 +53,11 @@ public class BankService {
         return filteredBanks;
     }
 
-    public Bank edit(Bank bank){
+    public Bank edit(Bank bank,List<String> deleteImages){
         Bank existingBank = this.getById(bank.getId());
+        List<String> results = imageServ.deleteFiles(deleteImages,"Hospitals");
+        BeanUtils.copyProperties(bank,existingBank,"createdAt");
+        existingBank.setUpdatedAt(LocalDateTime.now());
         return existingBank;
     }
 
