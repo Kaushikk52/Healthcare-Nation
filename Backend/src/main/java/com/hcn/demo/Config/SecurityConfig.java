@@ -54,8 +54,10 @@ public class SecurityConfig {
                         // Facilities endpoints
                         .requestMatchers(HttpMethod.GET, "/v1/api/facility/type/**",
                         "/v1/api/facility/id/**","/v1/api/facility/filter","/v1/api/facility/current-user").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/api/facility/**","/v1/api/facility/delete/**").authenticated()
-                        .requestMatchers(HttpMethod.PUT ,"/v1/api/facility/edit/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/v1/api/facility/**",
+                                "/v1/api/facility/delete/**",
+                                "/v1/api/facility/edit").authenticated()
+
 
                         //Saved Facility endpoints
                         .requestMatchers(HttpMethod.GET,"/v1/api/saved/**").authenticated()

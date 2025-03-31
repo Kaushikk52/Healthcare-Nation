@@ -9,6 +9,7 @@ import HospitalDetailsPage from './components/pages/HospitalDetails/HospitalDeta
 import ServiceDetailsPage from './components/pages/ServicesDetails/ServiceDetailsPage';
 import DashboardLayout from './components/pages/Dashboard/DashboardLayout';
 import HospitalForm from './components/pages/Dashboard/HospitalForm';
+import EditHospitalForm from './components/pages/Dashboard/EditHospitalForm';
 import ClinicForm from './components/pages/Dashboard/ClinicForm';
 import BankForm from './components/pages/Dashboard/BankForm';
 import HomecareForm from './components/pages/Dashboard/HomecareForm';
@@ -47,6 +48,8 @@ function App() {
           <Route path="listing" element={<ServiceListing />} />
           <Route path="/dashboard" element={<DashboardLayout />} >
             <Route index path='/dashboard/hospital/add' element={<HospitalForm />} />
+            <Route index path='/dashboard/hospital/edit/:id' element={<EditHospitalForm />} />
+
             <Route path='/dashboard/clinic/add' element={<ClinicForm />} />
             <Route path='/dashboard/bank/add' element={<BankForm />} />
             <Route path='/dashboard/homecare/add' element={<HomecareForm />} />

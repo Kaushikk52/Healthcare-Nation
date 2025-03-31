@@ -4,6 +4,7 @@ import com.hcn.demo.models.*;
 import com.hcn.demo.repositories.*;
 import com.hcn.demo.specifications.GenericSpecification;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -122,10 +123,10 @@ public class MedicalFacilityService {
         return filteredHospitals;
     }
 
-    public MedicalFacility updateFacility(String id ,MedicalFacility facility){
+    public MedicalFacility updateFacility(String id ,MedicalFacility facility,List<String> deleteImages){
         MedicalFacility existingFacility = medicalFacilityRepo.findById(id).orElseThrow(()-> new RuntimeException("Not Found..."));
-        existingFacility.setName(facility.getName());
-        existingFacility.setBed(facility.getBed());
+        List<String> results = imageServ.deleteFiles(deleteImages,"Hospitals");
+        BeanUtils.copyProperties(facility,existingFacility,"createdAt","ratings","reviews");
         existingFacility.setUpdatedAt(LocalDateTime.now());
         return medicalFacilityRepo.save(existingFacility);
     }

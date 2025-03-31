@@ -8,14 +8,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Pencil, Trash2 } from "lucide-react";
 
 function ListingTable() {
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
+  const navigate = useNavigate();
   const { type } = useParams();
   const [items, setItems] = useState<any[]>([]);
+
 
   const buildUrl = () => {
     switch (type) {
@@ -128,7 +130,7 @@ function ListingTable() {
                   <TableCell className="flex items-center space-x-2">
                     <button
                       className="p-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-amber-500"
-                      onClick={() => console.log("edit : ", item.id)}
+                      onClick={() => navigate(`/dashboard/${type}/edit/${item.id}`)}
                     >
                       <Pencil size={20} />
                     </button>

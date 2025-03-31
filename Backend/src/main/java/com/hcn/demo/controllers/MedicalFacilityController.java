@@ -1,5 +1,6 @@
 package com.hcn.demo.controllers;
 
+import com.hcn.demo.dto.FacilityUpdateRequest;
 import com.hcn.demo.models.MedicalFacility;
 import com.hcn.demo.models.Rating;
 import com.hcn.demo.models.Review;
@@ -221,13 +222,13 @@ public class MedicalFacilityController {
         }
     }
 
-    @PutMapping(value = "/edit/{id}")
-    public ResponseEntity<Map<String,Object>> editFacility(@PathVariable String id ,@RequestBody MedicalFacility facility){
+    @PostMapping(value = "/edit")
+    public ResponseEntity<Map<String,Object>> editFacility(@RequestBody FacilityUpdateRequest request){
         Map<String,Object> response = new HashMap<>();
         try {
-            facilityServ.updateFacility(id ,facility);
+            facilityServ.updateFacility(request.getFacility().getId(),request.getFacility(),request.getImagesToDelete());
             response.put("message","Facility updated successfully");
-            log.info("Facility updated successfully : {}", facility.getId());
+            log.info("Facility updated successfully : {}", request.getFacility().getId());
             return ResponseEntity.status(HttpStatus.OK).body(response);
 
         } catch (Exception e) {
