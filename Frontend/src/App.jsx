@@ -11,6 +11,7 @@ import DashboardLayout from './components/pages/Dashboard/DashboardLayout';
 import HospitalForm from './components/pages/Dashboard/HospitalForm';
 import EditHospitalForm from './components/pages/Dashboard/EditHospitalForm';
 import ClinicForm from './components/pages/Dashboard/ClinicForm';
+import EditClinicForm from './components/pages/Dashboard/EditClinicForm';
 import BankForm from './components/pages/Dashboard/BankForm';
 import HomecareForm from './components/pages/Dashboard/HomecareForm';
 import TransportForm from './components/pages/Dashboard/TransportForm';
@@ -51,6 +52,8 @@ function App() {
             <Route index path='/dashboard/hospital/edit/:id' element={<EditHospitalForm />} />
 
             <Route path='/dashboard/clinic/add' element={<ClinicForm />} />
+            <Route path='/dashboard/clinic/edit/:id' element={<EditClinicForm />} />
+
             <Route path='/dashboard/bank/add' element={<BankForm />} />
             <Route path='/dashboard/homecare/add' element={<HomecareForm />} />
             <Route path='/dashboard/transport/add' element={<TransportForm />} />

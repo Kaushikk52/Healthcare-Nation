@@ -8,7 +8,6 @@ const Photos = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS
-  const clinicImgs = import.meta.env.VITE_APP_CLOUDINARY_CLINICS
 
   const openImage = (index) => {
     setCurrentIndex(index)
@@ -44,7 +43,7 @@ const Photos = (props) => {
         {props.images.map((photo, index) => (
           <img
             key={index}
-            src={props.type === "clinics-details" ? clinicImgs + photo : hospitalImgs + photo}
+            src={hospitalImgs + photo}
             alt='ex image'
             className='h-full !rounded-sm !object-cover !object-top !shadow-lg hover:!opacity-75 aspect-[4.3/3] !transition-all !duration-75 !ease-in-out cursor-pointer'
             onClick={() => openImage(index)} // Add click handler
@@ -73,7 +72,7 @@ const Photos = (props) => {
 
             <div className="max-h-[80vh] overflow-hidden">
               <img
-                src={props.type === "clinics-details" ? clinicImgs + props.images[currentIndex] : hospitalImgs + props.images[currentIndex]}
+                src={hospitalImgs + props.images[currentIndex]}
                 alt="ex image"
                 className="h-auto max-h-[80vh] w-auto max-w-full object-contain"
               />
