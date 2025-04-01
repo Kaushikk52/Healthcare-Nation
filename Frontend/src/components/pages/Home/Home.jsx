@@ -868,7 +868,7 @@ function Home() {
         </div>
       </div>
       <div>
-        <img src="Footer Banner 123.jpg" alt="" />
+        <img src="Footer Banner 123.jpg" alt="" className="w-full" />
       </div>
     </>
   );
