@@ -6,10 +6,12 @@ import com.hcn.demo.models.Orthotics;
 import com.hcn.demo.repositories.MedicalFacilityRepo;
 import com.hcn.demo.repositories.OrthoticsRepo;
 import com.hcn.demo.specifications.GenericSpecification;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -50,9 +52,12 @@ public class OrthoticsService {
         return filteredOrthotics;
     }
 
-    public Orthotics edit(Orthotics op){
+    public Orthotics edit(Orthotics op,List<String> deleteImages){
         Orthotics existingOrthotics = this.getById(op.getId());
-        return  existingOrthotics;
+        List<String> results = imageServ.deleteFiles(deleteImages,"Hospitals");
+        BeanUtils.copyProperties(op,existingOrthotics,"createdAt");
+        existingOrthotics.setUpdatedAt(LocalDateTime.now());
+        return orthoticsRepo.save(existingOrthotics);
     }
 
 

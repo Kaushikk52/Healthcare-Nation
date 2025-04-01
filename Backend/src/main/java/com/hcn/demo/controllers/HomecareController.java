@@ -1,5 +1,6 @@
 package com.hcn.demo.controllers;
 
+import com.hcn.demo.dto.HomecareUpdateRequest;
 import com.hcn.demo.models.Bank;
 import com.hcn.demo.models.Homecare;
 import com.hcn.demo.services.HomecareService;
@@ -116,10 +117,10 @@ public class HomecareController {
 
 
     @PostMapping(value = "/edit")
-    public ResponseEntity<Map<String,Object>> edit(@RequestBody Homecare homecare){
+    public ResponseEntity<Map<String,Object>> edit(@RequestBody HomecareUpdateRequest request){
         Map<String,Object> response = new HashMap<>();
         try{
-            Homecare updatedHomecare = homecareServ.edit(homecare);
+            Homecare updatedHomecare = homecareServ.edit(request.getHomecare(),request.getImagesToDelete());
             response.put("message","Homecare updated successfully");
             response.put("updatedHomecare", updatedHomecare);
             log.info("Homecare updated successfully : {}", updatedHomecare.getId());

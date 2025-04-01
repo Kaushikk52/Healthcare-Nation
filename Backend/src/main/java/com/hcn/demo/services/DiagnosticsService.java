@@ -6,10 +6,12 @@ import com.hcn.demo.models.MedicalFacility;
 import com.hcn.demo.repositories.DiagnosticsRepo;
 import com.hcn.demo.repositories.MedicalFacilityRepo;
 import com.hcn.demo.specifications.GenericSpecification;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -51,9 +53,12 @@ public class DiagnosticsService {
         return filteredDiagnostics;
     }
 
-    public Diagnostics edit(Diagnostics diagnostics){
+    public Diagnostics edit(Diagnostics diagnostics,List<String> deleteImages){
         Diagnostics existingDiagnostics = this.getById(diagnostics.getId());
-        return existingDiagnostics;
+        List<String> results = imageServ.deleteFiles(deleteImages,"Hospitals");
+        BeanUtils.copyProperties(diagnostics,existingDiagnostics,"createdAt");
+        existingDiagnostics.setUpdatedAt(LocalDateTime.now());
+        return diagnosticsRepo.save(existingDiagnostics);
     }
 
     public String delete(String id){

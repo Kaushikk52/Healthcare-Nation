@@ -1,5 +1,6 @@
 package com.hcn.demo.controllers;
 
+import com.hcn.demo.dto.TransportUpdateRequest;
 import com.hcn.demo.models.Orthotics;
 import com.hcn.demo.models.Transport;
 import com.hcn.demo.services.TransportService;
@@ -115,10 +116,10 @@ public class TransportController {
 
 
     @PostMapping(value = "/edit")
-    public ResponseEntity<Map<String,Object>> edit(@RequestBody Transport transport){
+    public ResponseEntity<Map<String,Object>> edit(@RequestBody TransportUpdateRequest request){
         Map<String,Object> response = new HashMap<>();
         try{
-            Transport updatedTransport = transportServ.edit(transport);
+            Transport updatedTransport = transportServ.edit(request.getTransport(),request.getImagesToDelete());
             response.put("message","Transport updated successfully");
             response.put("updatedTransport", updatedTransport);
             log.info("Transport updated successfully : {}", updatedTransport.getId());
