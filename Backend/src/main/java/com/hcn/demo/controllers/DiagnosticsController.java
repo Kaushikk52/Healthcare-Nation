@@ -1,5 +1,6 @@
 package com.hcn.demo.controllers;
 
+import com.hcn.demo.dto.DiagnosticsUpdateRequest;
 import com.hcn.demo.models.Bank;
 import com.hcn.demo.models.Diagnostics;
 import com.hcn.demo.services.DiagnosticsService;
@@ -125,10 +126,10 @@ public class DiagnosticsController {
 
 
     @PostMapping(value = "/edit")
-    public ResponseEntity<Map<String,Object>> edit(@RequestBody Diagnostics diagnostics){
+    public ResponseEntity<Map<String,Object>> edit(@RequestBody DiagnosticsUpdateRequest request){
         Map<String,Object> response = new HashMap<>();
         try{
-            Diagnostics updatedDiagnostics= diagnosticsServ.edit(diagnostics);
+            Diagnostics updatedDiagnostics= diagnosticsServ.edit(request.getDiagnostics(),request.getImagesToDelete());
             response.put("message","Diagnostics updated successfully");
             response.put("updatedDiagnostics", updatedDiagnostics);
             log.info("Diagnostics updated successfully : {}", updatedDiagnostics.getId());

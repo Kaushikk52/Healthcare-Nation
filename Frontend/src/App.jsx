@@ -15,9 +15,13 @@ import EditClinicForm from './components/pages/Dashboard/EditClinicForm';
 import BankForm from './components/pages/Dashboard/BankForm';
 import EditBankForm from './components/pages/Dashboard/EditBankForm.tsx'
 import HomecareForm from './components/pages/Dashboard/HomecareForm';
+import EditHomecareForm from './components/pages/Dashboard/EditHomecareForm.tsx'
 import TransportForm from './components/pages/Dashboard/TransportForm';
+import EditTranportForm from './components/pages/Dashboard/EditTransport.tsx'
 import OrthoticsForm from './components/pages/Dashboard/OrthoticsForm';
+import EditOrthoticsForm from './components/pages/Dashboard/EditOrthoticsForm.tsx'
 import DiagnosticsForm from './components/pages/Dashboard/DiagnoticsForm';
+import EditDiagnosticsForm from './components/pages/Dashboard/EditDiagnosticsForm.tsx'
 import ListingTable from './components/pages/Dashboard/ListingTable';
 import DiagnosticCenters from './components/pages/DiagnosticCenters';
 import AlternativeMedicine from './components/pages/AlternativeMedicine';
@@ -59,9 +63,16 @@ function App() {
             <Route path='/dashboard/bank/edit/:id' element={<EditBankForm />} />
 
             <Route path='/dashboard/homecare/add' element={<HomecareForm />} />
+            <Route path='/dashboard/homecare/edit/:id' element={<EditHomecareForm />} />
+
             <Route path='/dashboard/transport/add' element={<TransportForm />} />
+            <Route path='/dashboard/transport/edit/:id' element={<EditTranportForm />}/>
+
             <Route path='/dashboard/op/add' element={<OrthoticsForm />} />
+            <Route path='/dashboard/op/edit/:id' element={<EditOrthoticsForm />} />
+
             <Route path='/dashboard/diagnostics/add' element={<DiagnosticsForm />} />
+            <Route path='/dashboard/diagnostics/edit/:id' element={<EditDiagnosticsForm />} />
 
             <Route path='/dashboard/:type/all' element={<ListingTable />} />
 

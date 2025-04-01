@@ -6,10 +6,12 @@ import com.hcn.demo.models.MedicalFacility;
 import com.hcn.demo.repositories.HomecareRepo;
 import com.hcn.demo.repositories.MedicalFacilityRepo;
 import com.hcn.demo.specifications.GenericSpecification;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -51,9 +53,12 @@ public class HomecareService {
         return filteredHomecare;
     }
 
-    public Homecare edit(Homecare homecare){
+    public Homecare edit(Homecare homecare,List<String> deleteImages){
         Homecare existingHomecare = this.getById(homecare.getId());
-        return existingHomecare;
+        List<String> results = imageServ.deleteFiles(deleteImages,"Hospitals");
+        BeanUtils.copyProperties(homecare,existingHomecare,"createdAt");
+        existingHomecare.setUpdatedAt(LocalDateTime.now());
+        return homecareRepo.save(existingHomecare);
     }
 
     public String delete(String id){

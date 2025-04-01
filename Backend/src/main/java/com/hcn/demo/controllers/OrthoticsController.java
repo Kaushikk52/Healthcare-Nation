@@ -1,5 +1,6 @@
 package com.hcn.demo.controllers;
 
+import com.hcn.demo.dto.OrthoticsUpdateRequest;
 import com.hcn.demo.models.Homecare;
 import com.hcn.demo.models.Orthotics;
 import com.hcn.demo.services.OrthoticsService;
@@ -114,10 +115,10 @@ public class OrthoticsController {
     }
 
     @PostMapping(value = "/edit")
-    public ResponseEntity<Map<String,Object>> edit(@RequestBody Orthotics orthotics){
+    public ResponseEntity<Map<String,Object>> edit(@RequestBody OrthoticsUpdateRequest request){
         Map<String,Object> response = new HashMap<>();
         try{
-            Orthotics updatedOP = orthoticsServ.edit(orthotics);
+            Orthotics updatedOP = orthoticsServ.edit(request.getOrthotics(),request.getImagesToDelete());
             response.put("message","Orthotics updated successfully");
             response.put("updatedOrthotics", updatedOP);
             log.info("Orthotics updated successfully : {}", updatedOP.getId());

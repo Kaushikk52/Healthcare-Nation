@@ -6,10 +6,12 @@ import com.hcn.demo.models.Transport;
 import com.hcn.demo.repositories.MedicalFacilityRepo;
 import com.hcn.demo.repositories.TransportRepo;
 import com.hcn.demo.specifications.GenericSpecification;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -52,9 +54,12 @@ public class TransportService {
         return filteredTransport;
     }
 
-    public Transport edit(Transport transport){
+    public Transport edit(Transport transport,List<String> deleteImages){
         Transport existingTransport = this.getById(transport.getId());
-        return existingTransport;
+        List<String> results = imageServ.deleteFiles(deleteImages,"Hospitals");
+        BeanUtils.copyProperties(transport,existingTransport,"createdAt");
+        existingTransport.setUpdatedAt(LocalDateTime.now());
+        return transportRepo.save(existingTransport);
     }
 
     public String delete(String id){
