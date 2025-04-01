@@ -272,8 +272,9 @@ const Description = (props) => {
                 <FaLocationDot className="!col-span-2 sm:!col-span-1 lg:!col-span-2 !h-6 !w-6 !mt-0.5 !text-red-600" />
                 <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 text-balance">
                   {props.details.address?.street},{" "}
-                  {props.details.address?.landmark},{" "}
-                  {props.details.address?.city} -{" "}
+                  {props.details.address?.landmark}{" "}
+                  {props.details.address?.city},{" "}
+                  {props.details.address?.state} -{" "}
                   {props.details.address?.zipCode}
                   {/* 
                   Rao Saheb, Achutrao Patwardhan Marg, Four Bungalows, Andheri

@@ -75,7 +75,7 @@ const ServiceDetailsPage = () => {
   };
 
   const handleDirection = () => {
-    const clinicAddress = `${service.name} ${service.address.street},${service.address.landmark} ,${service.address.city} - ${service.address.zipCode}`;
+    const clinicAddress = `${service.name} ${service.address.street},${service.address.landmark} ${service.address.city}, ${service.address.state} - ${service.address.zipCode}`;
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -349,8 +349,8 @@ const ServiceDetailsPage = () => {
           </span>
           {/* <span className='!text-md lg:!text-xl !font-medium text-gray-600'>Andheri, Mumbai</span> */}
           <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 text-balance">
-            {service.address?.street}, {service.address?.landmark},{" "}
-            {service.address?.city} - {service.address?.zipCode}
+            {service.address?.street}, {service.address?.landmark}{" "}{service.address?.city}{" "}
+            {service.address?.state}- {service.address?.zipCode}
             {/* 
                   Rao Saheb, Achutrao Patwardhan Marg, Four Bungalows, Andheri
                   West, Mumbai, Maharashtra 400053 */}

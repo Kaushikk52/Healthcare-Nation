@@ -333,7 +333,7 @@ export default function EditTransportForm() {
 
       const token = localStorage.getItem("token")
       // Use PUT for updates instead of POST for new records
-      const response = await axios.post(`${baseURL}/v1/api/tranport/edit`, {transport: updatedValues, imagesToDelete : imagesToDelete}, {
+      const response = await axios.post(`${baseURL}/v1/api/transport/edit`,{transport: updatedValues, imagesToDelete : imagesToDelete}, {
         headers: { Authorization: `Bearer ${token}`, timeout: 20000 },
       })
 
