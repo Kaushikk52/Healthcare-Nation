@@ -123,7 +123,7 @@ export default function EditBankForm() {
     ownership: "PRIVATE",
     brands: [""],
     accreditations: [""],
-    medicalFacilities: [],
+    medicalFacilities: [""],
   })
   const [phones, setPhones] = useState<string[]>([""])
   const [facilities, setFacilities] = useState<MedicalFacility[]>([])
@@ -311,7 +311,7 @@ export default function EditBankForm() {
           position: "bottom-right",
           duration: 2000,
         })
-        uploadedImageUrls = await uploadImages(values.newImages, "Banks")
+        uploadedImageUrls = await uploadImages(values.newImages, "Hospitals")
       }
 
       // Combine existing images (that weren't deleted) with newly uploaded ones
@@ -363,11 +363,11 @@ export default function EditBankForm() {
   const getBankDetails = async () => {
     try {
       const response = await axios.get(`${baseURL}/v1/api/bank/id/${id}`)
-      const data = response.data.bank
+      const data = response.data.bank;
 
       // Make sure images is an array of strings
       const formattedData = {
-        ...data,
+        ...data, 
         images: Array.isArray(data.images) ? data.images : [],
         newImages: [], // Initialize empty newImages array
       }
