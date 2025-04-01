@@ -1,5 +1,6 @@
 package com.hcn.demo.controllers;
 
+import com.hcn.demo.dto.BankUpdateRequest;
 import com.hcn.demo.models.Bank;
 import com.hcn.demo.models.MedicalFacility;
 import com.hcn.demo.services.BankService;
@@ -118,10 +119,10 @@ public class BankController {
 
 
     @PostMapping(value = "/edit")
-    public ResponseEntity<Map<String,Object>> edit(@RequestBody Bank bank){
+    public ResponseEntity<Map<String,Object>> edit(@RequestBody BankUpdateRequest request){
         Map<String,Object> response = new HashMap<>();
         try{
-            Bank updatedBank= bankServ.edit(bank);
+            Bank updatedBank= bankServ.edit(request.getBank(),request.getImagesToDelete());
             response.put("message","Bank updated successfully");
             response.put("updatedBank", updatedBank);
             log.info("Bank updated successfully : {}", updatedBank.getId());

@@ -402,10 +402,10 @@ export default function EditClinicForm() {
 
       setClinic(data);
       setInitialValues(formattedData);
-      console.log("Facility data loaded:", formattedData);
+      // console.log("Facility data loaded:", formattedData);
     } catch (error) {
-      console.error("Error fetching hospital details:", error);
-      toast.error("Failed to load hospital data", {
+      console.error("Error fetching clinic details:", error);
+      toast.error("Failed to load clinic data", {
         position: "bottom-right",
         duration: 3000,
       });
