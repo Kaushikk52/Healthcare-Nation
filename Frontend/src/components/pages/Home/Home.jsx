@@ -83,6 +83,7 @@ function Home() {
                       className="!cursor-pointer"
                     >
                       <img
+                        loading="lazy"
                         src={path + service.image}
                         alt={service.title}
                         className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
@@ -141,6 +142,7 @@ function Home() {
                     >
                       <div className="!text-center !border-2 border-gray-300 !rounded-full">
                         <img
+                         loading="lazy"
                           src={
                             brand.image
                               ? path + brand.image
@@ -213,6 +215,7 @@ function Home() {
                   >
                     <div className="!text-center">
                       <img
+                       loading="lazy"
                         src={path + service.image}
                         alt={service.title}
                         className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
@@ -262,6 +265,7 @@ function Home() {
                   >
                     <div className="user-image text-center">
                       <img
+                       loading="lazy"
                         src={path + service.image}
                         alt={service.title}
                         className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
@@ -320,6 +324,7 @@ function Home() {
                     >
                       <div className="rounded-full transition-all group-hover:shadow-xl">
                         <img
+                         loading="lazy"
                           src={
                             center.image
                               ? path + center.image
@@ -371,7 +376,7 @@ function Home() {
                 0: { slidesPerView: 1 },
                 520: { slidesPerView: 2 },
                 768: { slidesPerView: 2 },
-                1024: { slidesPerView: 4,navigation },
+                1024: { slidesPerView: 4, navigation },
               }}
             >
               {alternativeMedicine.map((service, index) => (
@@ -383,6 +388,7 @@ function Home() {
                       className="!cursor-pointer"
                     >
                       <img
+                       loading="lazy"
                         src={path + service.image}
                         alt={service.title}
                         className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
@@ -429,7 +435,7 @@ function Home() {
                 0: { slidesPerView: 1 },
                 520: { slidesPerView: 2 },
                 768: { slidesPerView: 2 },
-                1024: { slidesPerView: 3,navigation },
+                1024: { slidesPerView: 3, navigation },
               }}
             >
               {onlineHealthcareServices.map((service, index) => (
@@ -441,6 +447,7 @@ function Home() {
                       className="!cursor-pointer"
                     >
                       <img
+                       loading="lazy"
                         src={path + service.image}
                         alt={service.title}
                         className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
@@ -487,7 +494,7 @@ function Home() {
                 0: { slidesPerView: 1 },
                 520: { slidesPerView: 2 },
                 768: { slidesPerView: 4 },
-                1024: { slidesPerView: 6,navigation },
+                1024: { slidesPerView: 6, navigation },
               }}
             >
               {publicSectorCorporates.map((center, index) => (
@@ -501,6 +508,7 @@ function Home() {
                         className={`${center.borderColor} !text-center !rounded-full !transition-all !flex !flex-col !items-center`}
                       >
                         <img
+                         loading="lazy"
                           src={
                             center.image
                               ? path + center.image
@@ -552,7 +560,7 @@ function Home() {
                 0: { slidesPerView: 1 },
                 520: { slidesPerView: 2 },
                 768: { slidesPerView: 2 },
-                1024: { slidesPerView: 4,navigation },
+                1024: { slidesPerView: 4, navigation },
               }}
             >
               {moreServices.map((service, index) => (
@@ -564,6 +572,7 @@ function Home() {
                       className="!cursor-pointer"
                     >
                       <img
+                       loading="lazy"
                         src={path + service.image}
                         alt={service.title}
                         className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
@@ -582,6 +591,7 @@ function Home() {
         {/* HEALTH CHECKUP IMAGE */}
         <div className="!mt-10 ">
           <img
+           loading="lazy"
             src={path + "Health-Checkup.jpg"}
             alt="health checkup image"
             className="!rounded-xl !h-36 sm:!h-52 md:!h-56 lg:!h-60 xl:!h-72 !w-full !aspect-[3/2] !object-fit"
@@ -601,25 +611,26 @@ function Home() {
           <div className="!grid !grid-cols-1 sm:!grid-cols-1 md:!grid-cols-2 lg:!grid-cols-3 xl:!grid-cols-3 !gap-x-3.5 !gap-y-3 !mt-4">
             {servicesByAccrediations.map((service, index) => (
               <Link
-              to={`/listing?type=hospitals&accreditations=${service.title}`}
+                to={`/listing?type=hospitals&accreditations=${service.title}`}
               >
-              <div
-                key={index}
-                className="group !grid !grid-cols-12 !gap-x-2.5 border !items-center !rounded-xl !py-2 sm:!py-4 lg:!py-2 xl:!py-2.5 !px-2"
-              >
-                <div className="!col-span-4 md:!col-span-4 !p-1 !h-20 sm:!h-28 md:!h-24 lg:!h-20 xl:!h-[104px] !w-full">
-                  <img
-                    src={path + service.image}
-                    alt={service.title}
-                    className="!rounded-full !object-contain !h-full !w-full"
-                  />
+                <div
+                  key={index}
+                  className="group !grid !grid-cols-12 !gap-x-2.5 border !items-center !rounded-xl !py-2 sm:!py-4 lg:!py-2 xl:!py-2.5 !px-2"
+                >
+                  <div className="!col-span-4 md:!col-span-4 !p-1 !h-20 sm:!h-28 md:!h-24 lg:!h-20 xl:!h-[104px] !w-full">
+                    <img
+                     loading="lazy"
+                      src={path + service.image}
+                      alt={service.title}
+                      className="!rounded-full !object-contain !h-full !w-full"
+                    />
+                  </div>
+                  <div className="!col-span-8 md:!col-span-8 !pr-4">
+                    <p className="!text-xs min-[425px]:!text-lg md:!text-base lg:!text-sm xl:!text-base !font-medium !mt-2 !text-cyan-600">
+                      {service.title}
+                    </p>
+                  </div>
                 </div>
-                <div className="!col-span-8 md:!col-span-8 !pr-4">
-                  <p className="!text-xs min-[425px]:!text-lg md:!text-base lg:!text-sm xl:!text-base !font-medium !mt-2 !text-cyan-600">
-                    {service.title}
-                  </p>
-                </div>
-              </div>
               </Link>
             ))}
           </div>
@@ -678,6 +689,7 @@ function Home() {
                       className="cursor-pointer"
                     >
                       <img
+                       loading="lazy"
                         src={path + service.image}
                         alt={service.title}
                         className="rounded-[10px] aspect-[4.2/3.5] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl object-cover"
@@ -724,7 +736,7 @@ function Home() {
                 0: { slidesPerView: 1 },
                 520: { slidesPerView: 2 },
                 768: { slidesPerView: 2 },
-                1024: { slidesPerView: 4,navigation },
+                1024: { slidesPerView: 4, navigation },
               }}
             >
               {popularHospitals.map((service, index) => (
@@ -736,6 +748,7 @@ function Home() {
                       className="!cursor-pointer"
                     >
                       <img
+                       loading="lazy"
                         src={path + service.image}
                         alt={service.title}
                         className="rounded-[10px] aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
@@ -782,7 +795,7 @@ function Home() {
                 0: { slidesPerView: 1 },
                 520: { slidesPerView: 2 },
                 768: { slidesPerView: 2 },
-                1024: { slidesPerView: 6,navigation },
+                1024: { slidesPerView: 6, navigation },
               }}
             >
               {chooseYourHealthInsurance.map((service, index) => (
@@ -794,6 +807,7 @@ function Home() {
                       className={`${service.bgColor} !rounded-lg`}
                     >
                       <img
+                       loading="lazy"
                         src={path + service.image}
                         alt={service.title}
                         className={`rounded-[10px] ${service.bgColor} aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl`}
@@ -840,7 +854,7 @@ function Home() {
                 0: { slidesPerView: 1 },
                 520: { slidesPerView: 2 },
                 768: { slidesPerView: 2 },
-                1024: { slidesPerView: 6,navigation },
+                1024: { slidesPerView: 6, navigation },
               }}
             >
               {chooseYourTPA.map((service, index) => (
@@ -852,6 +866,7 @@ function Home() {
                       className={`${service.bgColor} !rounded-lg`}
                     >
                       <img
+                       loading="lazy"
                         src={path + service.image}
                         alt={service.title}
                         className={`rounded-[10px] ${service.bgColor} aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl`}
@@ -868,7 +883,7 @@ function Home() {
         </div>
       </div>
       <div>
-        <img src="Footer Banner 123.jpg" alt="" />
+        <img  loading="eager" src="Footer Banner 123.jpg" alt="" />
       </div>
     </>
   );
