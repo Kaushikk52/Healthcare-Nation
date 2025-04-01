@@ -82,7 +82,8 @@ const HospitalDetailsPage = () => {
   };
 
   const handleDirection = () => {
-    const hospitalAddress = `${hospital.name} ${hospital.address.street},${hospital.address.landmark} ,${hospital.address.city} - ${hospital.address.zipCode}`;
+    const hospitalAddress = `${hospital.address?.street}, ${hospital.address?.landmark} ${hospital.address?.city} 
+                  ${hospital.address?.state} - ${hospital.address?.zipCode}`;
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -362,8 +363,8 @@ const HospitalDetailsPage = () => {
           </span>
           {/* <span className='!text-md lg:!text-xl !font-medium text-gray-600'>Andheri, Mumbai</span> */}
           <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 text-balance">
-                  {hospital.address?.street}, {hospital.address?.landmark}, {hospital.address?.city}{" "}
-                  - {hospital.address?.zipCode}
+                  {hospital.address?.street}, {hospital.address?.landmark}{" "}{hospital.address?.city}{" "}
+                  {hospital.address?.state} - {hospital.address?.zipCode}
                   {/* 
                   Rao Saheb, Achutrao Patwardhan Marg, Four Bungalows, Andheri
                   West, Mumbai, Maharashtra 400053 */}
