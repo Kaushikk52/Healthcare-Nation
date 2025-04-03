@@ -19,7 +19,7 @@ export default function ContactPage() {
     name: "",
     phone: "",
     email: "",
-    subject: subject,
+    //subject: subject,
     content: "",
     terms: false,
   };
@@ -28,7 +28,7 @@ export default function ContactPage() {
     name: Yup.string().required("Name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
     phone: Yup.string().required("Phone is required"),
-    subject: Yup.string(),
+    //subject: Yup.string(),
     content: Yup.string().required("Message is required"),
     terms: Yup.boolean().oneOf([true], "You must accept the terms"),
   });
@@ -114,7 +114,7 @@ export default function ContactPage() {
     try {
       const body = {
         userId: currentUser?.userId,
-        subject: values.subject || "CASUAL_ENQUIRY",
+        //subject: values.subject || "CASUAL_ENQUIRY",
         enquiry: {
           content: values.content,
           email: values.email,
@@ -157,14 +157,20 @@ export default function ContactPage() {
         initial="hidden"
         animate="visible"
       >
-        <motion.h1
+        <div className="w-full flex justify-center mb-12">
+          <div>
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">Contact Out Friendly Team</h1>
+            <div className="w-2/3 h-1 bg-blue-500 mx-auto"></div>
+          </div>
+        </div>
+        {/* <motion.h1
           className="text-4xl sm:text-5xl font-extrabold text-center mb-4 text-gray-900"
           variants={itemVariants}
         >
           Contact our friendly team
-        </motion.h1>
+        </motion.h1> */}
         <motion.p
-          className="text-center text-lg sm:text-xl text-gray-600 mb-16"
+          className="text-center text-lg sm:text-lg text-gray-600 mb-16"
           variants={itemVariants}
         >
           At HealthcareNation, we are committed to helping you find the best
@@ -172,7 +178,7 @@ export default function ContactPage() {
           want to partner with us, feel free to reach out at
         </motion.p>
 
-        <motion.div
+        {/* <motion.div
           className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-8 mb-20"
           variants={containerVariants}
         >
@@ -220,7 +226,7 @@ export default function ContactPage() {
               </a>
             </motion.div>
           ))}
-        </motion.div>
+        </motion.div> */}
 
         <motion.div
           className="bg-white shadow-xl rounded-2xl overflow-hidden"
@@ -234,7 +240,7 @@ export default function ContactPage() {
               Get in touch with us
             </motion.h2>
             <motion.p
-              className="text-lg sm:text-xl text-gray-600 mb-12"
+              className="text-lg sm:text-lg text-gray-600 mb-12"
               variants={itemVariants}
             >
               Fill out the form below or schedule a meeting with us at your
@@ -292,7 +298,7 @@ export default function ContactPage() {
                           className="text-red-500 text-sm mt-1"
                         />
                       </div>
-                      <div>
+                      {/* <div>
                         <Field
                           as="select"
                           id="subject"
@@ -311,13 +317,13 @@ export default function ContactPage() {
                           component="div"
                           className="text-red-500 text-sm mt-1"
                         />
-                      </div>
+                      </div> */}
 
                       <div>
                         <Field
                           name="content"
                           as="textarea"
-                          rows="4"
+                          rows="7"
                           placeholder="Hello, I am interested in your property. Please provide more details."
                           className="w-full p-2 border rounded"
                         />
@@ -382,21 +388,43 @@ export default function ContactPage() {
                     ))}
                   </ul>
                 </motion.div>
+
+                <motion.div variants={itemVariants}>
+                  <h3 className="text-2xl font-semibold mb-6 text-gray-900">
+                    You can also Contact Us via
+                  </h3>
+                  <ul className="space-y-4">
+                    {[
+                      { icon: <Mail className="w-6 h-6 mr-3" />, text: 'info.healthcarenation@gmail.com' },
+                      { icon: <Phone className="w-6 h-6 mr-3" />, text: '+91 1234567890' },
+                    ].map((item, index) => (
+                      <motion.li
+                        key={index}
+                        className="flex items-start"
+                        variants={itemVariants}
+                      >
+                        <span>{item.icon}</span>
+                        <span className="text-gray-700">{item.text}</span>
+                      </motion.li>
+                    ))}
+                  </ul>
+                </motion.div>
+
                 <motion.div variants={itemVariants}>
                   <h3 className="text-xl font-semibold mb-3 text-gray-900 text">
                     Address
                   </h3>
-                  <p className="text-gray-600 whitespace-pre-line">
-                    {`A-2, Solitaire Height,\n
-                    Next to Dwarka Hotel, Shimpoli,\n
-                    Borivali-W, Mumbai-92`}
-                  </p>
+                  <ul className="text-gray-600 space-y-1 whitespace-pre-line">
+                    <li>A-2, Solitaire Height,</li>
+                    <li>Next to Dwarka Hotel, Shimpoli,</li>
+                    <li>Borivali-W, Mumbai-92</li>
+                  </ul>
                 </motion.div>
               </motion.div>
             </div>
           </div>
 
-          <motion.div className="bg-gray-100 px-8 py-6" variants={itemVariants}>
+          {/* <motion.div className="bg-gray-100 px-8 py-6" variants={itemVariants}>
             <h3 className="font-semibold mb-4 text-lg text-gray-900">
               You can also Contact Us via
             </h3>
@@ -416,7 +444,8 @@ export default function ContactPage() {
                 +91 1234567890
               </a>
             </div>
-          </motion.div>
+          </motion.div> */}
+
         </motion.div>
       </motion.div>
     </div>

@@ -2,20 +2,26 @@ function ContentPolicy() {
   return (
     <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-blue-900 mb-8">Content Policy</h1>
+
+      <div className="w-full flex justify-center mb-12">
+          <div>
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">Content Policy</h1>
+            <div className="w-2/3 h-1 bg-blue-500 mx-auto"></div>
+          </div>
+        </div>
 
         {/* Section 1: Introduction */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-blue-900 mb-4">1. Introduction</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Introduction</h2>
           <p className="text-gray-700 leading-relaxed">
-            At <span className="font-semibold">HealthcareNation</span>, we are committed to providing accurate, reliable, and up-to-date healthcare information and listings of medical services in various cities in India.  
+            At <span className="font-semibold">HealthcareNation</span>, we are committed to providing accurate, reliable, and up-to-date healthcare information and listings of medical services in various cities in India.
             This Content Policy outlines the guidelines we follow to maintain the quality and integrity of the information on our platform.
           </p>
         </section>
 
         {/* Section 2: Content Accuracy & Reliability */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-blue-900 mb-4">2. Content Accuracy & Reliability</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Content Accuracy & Reliability</h2>
           <ul className="list-disc pl-6 space-y-2 text-gray-700">
             <li>
               All healthcare-related content is based on credible sources, including medical professionals, healthcare institutions, and government guidelines.
@@ -31,7 +37,7 @@ function ContentPolicy() {
 
         {/* Section 3: User-Generated Content */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-blue-900 mb-4">3. User-Generated Content</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">3. User-Generated Content</h2>
           <ul className="list-disc pl-6 space-y-2 text-gray-700">
             <li>
               Users can contribute reviews, ratings, and comments regarding healthcare services listed on our website.
@@ -47,7 +53,7 @@ function ContentPolicy() {
 
         {/* Section 4: Prohibited Content */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-blue-900 mb-4">4. Prohibited Content</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Prohibited Content</h2>
           <p className="text-gray-700 mb-2">
             We do not allow content that:
           </p>
@@ -62,7 +68,7 @@ function ContentPolicy() {
 
         {/* Section 5: Third-Party Links & Advertisements */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-blue-900 mb-4">5. Third-Party Links & Advertisements</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Third-Party Links & Advertisements</h2>
           <ul className="list-disc pl-6 space-y-2 text-gray-700">
             <li>
               HealthcareNation may feature third-party healthcare providers, advertisements, and affiliate links.
@@ -75,7 +81,7 @@ function ContentPolicy() {
 
         {/* Section 6: Reporting & Content Removal */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-blue-900 mb-4">6. Reporting & Content Removal</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">6. Reporting & Content Removal</h2>
           <ul className="list-disc pl-6 space-y-2 text-gray-700">
             <li>
               If you find inaccurate, misleading, or inappropriate content on our website, please contact us.
@@ -88,16 +94,16 @@ function ContentPolicy() {
 
         {/* Section 7: Policy Updates */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-blue-900 mb-4">7. Policy Updates</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">7. Policy Updates</h2>
           <p className="text-gray-700">
-            This Content Policy may be updated periodically to reflect changes in healthcare regulations and industry best practices.  
+            This Content Policy may be updated periodically to reflect changes in healthcare regulations and industry best practices.
             Continued use of HealthcareNation implies acceptance of any policy updates.
           </p>
         </section>
 
         {/* Section 8: Contact Us */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-blue-900 mb-4">8. Contact Us</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">8. Contact Us</h2>
           <p className="text-gray-700 mb-4">
             For any questions regarding our Content Policy, feel free to contact us at:
           </p>
