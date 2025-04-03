@@ -1,59 +1,94 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { FaStar, FaFilter } from "react-icons/fa";
-import { Link, useSearchParams } from "react-router-dom";
-import { X, ChevronDown } from "lucide-react";
-import React, { useEffect, useRef } from "react";
-import { useState } from "react";
-import axios from "axios";
+import { AnimatePresence, motion } from "framer-motion"
+import { FaStar, FaFilter } from "react-icons/fa"
+import { Link, useSearchParams } from "react-router-dom"
+import { X, ChevronDown } from "lucide-react"
+import React, { useEffect, useRef } from "react"
+import { useState } from "react"
+import axios from "axios"
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, A11y } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react"
+import { Navigation, Pagination, A11y } from "swiper/modules"
 
-import servicesByAccrediations from "@/data/accrediations";
+import servicesByAccrediations from "@/data/accrediations"
 
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/autoplay";
-import "@/App.css";
+import "swiper/css"
+import "swiper/css/navigation"
+import "swiper/css/pagination"
+import "swiper/css/autoplay"
+import "@/App.css"
 
 // Import the getFiltersByType utility at the top of your file
-import { getFiltersByType } from "./getFiltersByType";
+import { getFiltersByType } from "./getFiltersByType"
 
 interface FilterOption {
-  id: string;
-  text: string;
-  count?: number;
+  id: string
+  text: string
+  count?: number
 }
 
 interface FilterSection {
-  title: string;
-  filterType: string;
-  options: FilterOption[];
+  title: string
+  filterType: string
+  options: FilterOption[]
+}
+
+interface Address {
+  street: string
+  city: string
+  zipCode: string
+}
+
+interface Review {
+  id: string
+  // Add other review properties as needed
+}
+
+interface Facility {
+  id: string
+  name: string
+  address: Address
+  openDay: string
+  closeDay: string
+  hours: string
+  avgRating: number
+  reviews: Review[]
+  accreditations: string[]
+  images: string[]
 }
 
 interface SelectedFilters {
-  brands: string[];
-  diagnostics: string[];
-  specialities: string[];
-  psu: string[];
-  accreditations: string[];
-  concerns: string[];
-  insurance: string[];
-  tpa: string[];
-  altMed: string[];
-  ownership: string[];
-  sortBy: string[];
-  saved: boolean;
+  brands: string[]
+  diagnostics: string[]
+  specialities: string[]
+  psu: string[]
+  accreditations: string[]
+  concerns: string[]
+  insurance: string[]
+  tpa: string[]
+  altMed: string[]
+  ownership: string[]
+  sortBy: string[]
+  saved: boolean
 }
 
-function ServiceListing() {
-  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
-  const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS;
-  const [expandedSections, setExpandedSections] = useState<string[]>([]);
-  const [facilities, setFacilities] = useState<any[]>([]);
-  const [filterOpen, setFilterOpen] = useState<boolean>(false);
-  const [filters, setFilters] = useState<FilterSection[]>([]);
+export default function ServiceListing() {
+  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL
+  const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS
+  const [expandedSections, setExpandedSections] = useState<string[]>([])
+  const [facilities, setFacilities] = useState<any[]>([])
+  const [filterOpen, setFilterOpen] = useState<boolean>(false)
+  const [filters, setFilters] = useState<FilterSection[]>([])
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
+
+  // Check if user is logged in
+  useEffect(() => {
+    const token = localStorage.getItem("token")
+    setIsLoggedIn(!!token)
+  }, [])
+
+  // Flag to prevent infinite loops when updating state
+  const isUpdatingFilters = useRef(false)
+  const isUpdatingParams = useRef(false)
 
   const initialSelectedFilters: SelectedFilters = {
     brands: [],
@@ -68,56 +103,68 @@ function ServiceListing() {
     ownership: [],
     sortBy: [],
     saved: false,
-  };
+  }
 
-  const [selectedFilters, setSelectedFilters] = useState<SelectedFilters>(
-    initialSelectedFilters
-  );
-  const [params, setParams] = useSearchParams();
+  const [selectedFilters, setSelectedFilters] = useState<SelectedFilters>(initialSelectedFilters)
+  const [params, setParams] = useSearchParams()
 
-  const location = params.get("location");
-  const search = params.get("search");
-  const type = params.get("type");
+  const location = params.get("location")
+  const search = params.get("search")
+  const type = params.get("type")
 
   // Function to update URL parameters based on selected filters
   const updateUrlParams = () => {
+    // Skip if we're currently updating filters from params
+    if (isUpdatingFilters.current) return
+
+    // Set flag to prevent infinite loop
+    isUpdatingParams.current = true
+
     const newParams = new URLSearchParams()
-  
-    // Always keep the type parameter if it exists
+
+    // Always keep the type parameter
     if (type) {
       newParams.set("type", type)
     }
-  
-    // Preserve location parameter if it exists
+
+    // Keep location and search if they exist
     if (location) {
       newParams.set("location", location)
     }
-  
-    // Preserve search parameter if it exists
+
     if (search) {
       newParams.set("search", search)
     }
-  
+
     // Add all selected filters to URL parameters
     Object.entries(selectedFilters).forEach(([key, value]) => {
-      // Skip 'saved' and 'sortBy' filters from URL params
-      if (key === "saved" || key === "sortBy") return
-  
-      // For array-type filters, add to URL if they have values
+      if (key === "saved") return // Skip saved filter
+
       if (Array.isArray(value) && value.length > 0) {
-        // Join array values with comma for URL parameter
+        // For arrays with multiple values, join with commas
         newParams.set(key, value.join(","))
       }
     })
-  
+
     // Update URL without reloading the page
     setParams(newParams)
+
+    // Reset flag after a short delay to ensure state updates have completed
+    setTimeout(() => {
+      isUpdatingParams.current = false
+    }, 0)
   }
 
   // Function to parse URL parameters and set selected filters
   const setFiltersFromParams = () => {
-    const newFilters = { ...initialSelectedFilters };
-    let filtersChanged = false;
+    // Skip if we're currently updating params from filters
+    if (isUpdatingParams.current) return
+
+    // Set flag to prevent infinite loop
+    isUpdatingFilters.current = true
+
+    const newFilters = { ...initialSelectedFilters }
+    let filtersChanged = false
 
     // Check all possible filter parameters in the URL
     const filterTypes = [
@@ -132,205 +179,158 @@ function ServiceListing() {
       "altMed",
       "ownership",
       "sortBy",
-    ];
+    ]
 
     filterTypes.forEach((filterType) => {
-      const paramValue = params.get(filterType);
+      const paramValue = params.get(filterType)
       if (paramValue) {
         // Split comma-separated values into array
-        newFilters[filterType as keyof SelectedFilters] = paramValue.split(
-          ","
-        ) as any;
-        filtersChanged = true;
+        newFilters[filterType as keyof SelectedFilters] = paramValue.split(",") as any
+        filtersChanged = true
       }
-    });
+    })
 
     // Only update state if filters have changed
     if (filtersChanged) {
-      setSelectedFilters(newFilters);
+      setSelectedFilters(newFilters)
     }
-  };
+
+    // Reset flag after a short delay to ensure state updates have completed
+    setTimeout(() => {
+      isUpdatingFilters.current = false
+    }, 0)
+  }
 
   const clearAllFilters = () => {
     // Reset selected filters
-    setSelectedFilters(initialSelectedFilters);
+    setSelectedFilters(initialSelectedFilters)
 
     // Update URL params - keep only the type parameter
-    const newParams = new URLSearchParams();
+    const newParams = new URLSearchParams()
     if (type) {
-      newParams.set("type", type);
+      newParams.set("type", type)
     }
 
     // Update URL
-    setParams(newParams);
-  };
+    setParams(newParams)
+  }
 
   const toggleSection = (sectionTitle: string) => {
     setExpandedSections((prev) =>
-      prev.includes(sectionTitle)
-        ? prev.filter((title) => title !== sectionTitle)
-        : [...prev, sectionTitle]
-    );
-  };
+      prev.includes(sectionTitle) ? prev.filter((title) => title !== sectionTitle) : [...prev, sectionTitle],
+    )
+  }
 
   const handleFilterToggle = (filterId: string, filterType: string) => {
     setSelectedFilters((prevFilters) => {
-      // Create a copy of previous filters to modify
-      const newFilters = { ...prevFilters };
-
-      // Special handling for 'saved' filter (toggle boolean)
+      const newFilters = { ...prevFilters }
       if (filterType === "saved") {
-        newFilters.saved = !newFilters.saved;
-
-        // If saved is being activated, trigger saved filter fetch
+        newFilters.saved = !newFilters.saved
         if (newFilters.saved) {
-          handleSavedFilter(true);
+          handleSavedFilter(true)
         }
-      }
-      // Special handling for 'sortBy' filter (radio-button like behavior)
-      else if (filterType === "sortBy") {
-        const currentSortBy = newFilters.sortBy[0];
-
-        // If clicking the same option, clear it
+      } else if (filterType === "sortBy") {
+        // Handle sortBy as radio buttons - either select the new option or clear if clicking the same one
+        const currentSortBy = newFilters.sortBy[0]
         if (currentSortBy === filterId) {
-          newFilters.sortBy = [];
+          // If clicking the same option, clear it
+          newFilters.sortBy = []
         } else {
-          // Otherwise, select the new option
-          newFilters.sortBy = [filterId];
+          // Otherwise select the new option
+          newFilters.sortBy = [filterId]
         }
-      }
-      // Handling for other multi-select filters
-      else {
-        // Ensure the filter is an array
-        const filterArray = newFilters[
-          filterType as keyof SelectedFilters
-        ] as string[];
-
+      } else {
+        const filterArray = newFilters[filterType as keyof SelectedFilters] as string[]
         if (Array.isArray(filterArray)) {
-          // If filter is already selected, remove it
           if (filterArray.includes(filterId)) {
-            (newFilters[filterType as keyof SelectedFilters] as string[]) =
-              filterArray.filter((id) => id !== filterId);
-          }
-          // If filter is not selected, add it
-          else {
-            (newFilters[filterType as keyof SelectedFilters] as string[]) = [
-              ...filterArray,
-              filterId,
-            ];
+            ;(newFilters[filterType as keyof SelectedFilters] as string[]) = filterArray.filter((id) => id !== filterId)
+          } else {
+            ;(newFilters[filterType as keyof SelectedFilters] as string[]) = [...filterArray, filterId]
           }
         }
       }
-
-      // Trigger URL parameter update
-      updateUrlParams();
-
-      // Return the new filters state
-      return newFilters;
-    });
-
-    // Additional logic for sorting or filtering
-    // Apply client-side sorting if sort filter is present
-    if (selectedFilters.sortBy.length > 0) {
-      const sortType = selectedFilters.sortBy[0];
-      if (sortType === "rating") {
-        setFacilities((prev) => sortByRating([...prev]));
-      } else if (sortType === "reviews") {
-        setFacilities((prev) => sortByReviews([...prev]));
-      }
-    }
-
-    // Fetch facilities if no specific filters are active
-    if (
-      selectedFilters.saved === false &&
-      selectedFilters.sortBy.length === 0
-    ) {
-      getFacilities();
-    }
-  };
+      return newFilters
+    })
+  }
 
   const detailsUrl = (id: string) => {
     if (type === "hospitals" || type === "clinics") {
-      return `/${type}-details/${id}`;
+      return `/${type}-details/${id}`
     } else {
-      return `/services/${type}/${id}`;
+      return `/services/${type}/${id}`
     }
-  };
+  }
 
   const buildQuery = () => {
-    const query = new URLSearchParams();
+    const query = new URLSearchParams()
 
     // Add location and search if they exist
-    location && query.append("location", location);
-    search && query.append("search", search);
+    location && query.append("location", location)
+    search && query.append("search", search)
 
     // Add all selected filters to the query
     Object.entries(selectedFilters).forEach(([key, value]) => {
-      if (key === "saved") return;
+      if (key === "saved") return
 
       if (Array.isArray(value) && value.length > 0) {
         // For arrays with multiple values, join with commas
-        query.append(key, value.join(","));
+        query.append(key, value.join(","))
       }
-    });
+    })
 
-    return query;
-  };
+    return query
+  }
 
   const getFacilities = async () => {
     try {
-      let url = ``;
-      const queryString = buildQuery();
+      let url = ``
+      const queryString = buildQuery()
       if (type === "hospitals" || type === "clinics") {
         if (queryString.size > 0) {
-          url = `${baseURL}/v1/api/facility/filter?type=${type}&${queryString}`;
+          url = `${baseURL}/v1/api/facility/filter?type=${type}&${queryString}`
         } else {
-          url = `${baseURL}/v1/api/facility/filter?type=${type}`;
+          url = `${baseURL}/v1/api/facility/filter?type=${type}`
         }
       } else {
         if (queryString.size > 0) {
-          url = `${baseURL}/v1/api/${type}/filter?${queryString}`;
+          url = `${baseURL}/v1/api/${type}/filter?${queryString}`
         } else {
-          url = `${baseURL}/v1/api/${type}/filter`;
+          url = `${baseURL}/v1/api/${type}/filter`
         }
       }
 
-      const response = await axios.get(url);
-      const data = response.data[type] || [];
-      if (data.length === 0) {
-        setFacilities([]);
-        return;
-      }
-      setFacilities(data);
+      const response = await axios.get(url)
+      const data = response.data[type] || []
+      setFacilities(data)
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
-  };
+  }
 
   // Add these utility functions for sorting
   const sortByRating = (facilities: any[]) => {
-    return [...facilities].sort((a, b) => b.avgRating - a.avgRating);
-  };
+    return [...facilities].sort((a, b) => b.avgRating - a.avgRating)
+  }
 
   const sortByReviews = (facilities: any[]) => {
-    return [...facilities].sort((a, b) => b.reviews.length - a.reviews.length);
-  };
+    return [...facilities].sort((a, b) => b.reviews.length - a.reviews.length)
+  }
 
   const handleSavedFilter = (saved: boolean) => {
     try {
       if (saved === true) {
         if (type === "hospitals") {
-          fetchSavedHospitals();
+          fetchSavedHospitals()
         } else if (type === "clinics") {
-          fetchSavedClinics();
+          fetchSavedClinics()
         } else {
-          fetchSavedFacilities(type);
+          fetchSavedFacilities(type)
         }
       }
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
-  };
+  }
 
   const fetchSavedHospitals = async () => {
     try {
@@ -338,12 +338,12 @@ function ServiceListing() {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      });
-      setFacilities(response.data);
+      })
+      setFacilities(response.data)
     } catch (error) {
-      console.error("Error fetching saved hospitals:", error);
+      console.error("Error fetching saved hospitals:", error)
     }
-  };
+  }
 
   const fetchSavedClinics = async () => {
     try {
@@ -351,104 +351,68 @@ function ServiceListing() {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      });
-      setFacilities(response.data);
+      })
+      setFacilities(response.data)
     } catch (error) {
-      console.error("Error fetching saved hospitals:", error);
+      console.error("Error fetching saved hospitals:", error)
     }
-  };
+  }
 
   const fetchSavedFacilities = async (facilityType: string | null) => {
-    if (!facilityType) return;
+    if (!facilityType) return
 
     try {
-      const response = await axios.get(
-        `${baseURL}/v1/api/saved/${facilityType}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      setFacilities(response.data);
+      const response = await axios.get(`${baseURL}/v1/api/saved/${facilityType}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      setFacilities(response.data)
     } catch (error) {
-      console.error(`Error fetching saved ${facilityType}:`, error);
-      setFacilities([]);
+      console.error(`Error fetching saved ${facilityType}:`, error)
+      setFacilities([])
     }
-  };
+  }
 
   // Initialize filters based on facility type
   useEffect(() => {
-    setFilters(getFiltersByType(type));
-  }, [type]);
+    const baseFilters = getFiltersByType(type)
+    setFilters(baseFilters)
+  }, [type, isLoggedIn])
 
+  // Set filters from URL parameters when params change
+  useEffect(() => {
+    setFiltersFromParams()
+  }, [params])
 
-// First useEffect to sync URL params to selected filters
-useEffect(() => {
-  const newFilters = { ...initialSelectedFilters }
-  let filtersChanged = false
-
-  const filterTypes = [
-    "brands", "diagnostics", "specialities", "psu", 
-    "accreditations", "concerns", "insurance", 
-    "tpa", "altMed", "ownership", "sortBy"
-  ]
-
-  filterTypes.forEach((filterType) => {
-    const paramValue = params.get(filterType)
-    if (paramValue) {
-      // Split comma-separated values into array
-      newFilters[filterType as keyof SelectedFilters] = paramValue.split(",") as any
-      filtersChanged = true
-    }
-  })
-
-  // Only update state if filters have changed
-  if (filtersChanged) {
-    setSelectedFilters(newFilters)
-  }
-
-  // Fetch facilities based on current params
-  getFacilities()
-
-  // Apply client-side sorting if sort filter is present
-  if (newFilters.sortBy.length > 0) {
-    const sortType = newFilters.sortBy[0]
-    if (sortType === "rating") {
-      setFacilities((prev) => sortByRating([...prev]))
-    } else if (sortType === "reviews") {
-      setFacilities((prev) => sortByReviews([...prev]))
-    }
-  }
-
-  // Handle saved filter
-  if (newFilters.saved) {
-    handleSavedFilter(true)
-  }
-}, [params])
-
-// Second useEffect to update URL when selected filters change
-useEffect(() => {
   // Update URL parameters when selected filters change
-  updateUrlParams()
+  useEffect(() => {
+    updateUrlParams()
 
-  // Fetch facilities or apply filters
-  if (selectedFilters.saved) {
-    handleSavedFilter(true)
-  } else {
-    getFacilities()
-  }
-
-  // Apply client-side sorting if sort filter is present
-  if (selectedFilters.sortBy.length > 0) {
-    const sortType = selectedFilters.sortBy[0]
-    if (sortType === "rating") {
-      setFacilities((prev) => sortByRating([...prev]))
-    } else if (sortType === "reviews") {
-      setFacilities((prev) => sortByReviews([...prev]))
+    // Apply client-side sorting
+    if (selectedFilters.sortBy.length > 0) {
+      const sortType = selectedFilters.sortBy[0]
+      if (sortType === "rating") {
+        setFacilities((prev) => sortByRating([...prev]))
+      } else if (sortType === "reviews") {
+        setFacilities((prev) => sortByReviews([...prev]))
+      }
     }
-  }
-}, [selectedFilters])
+
+    // Handle saved filter
+    if (selectedFilters.saved) {
+      handleSavedFilter(selectedFilters.saved)
+    }
+
+    if (selectedFilters.saved === false && selectedFilters.sortBy.length === 0) {
+      getFacilities()
+    }
+  }, [selectedFilters])
+
+  // Fetch facilities when params change
+  useEffect(() => {
+    getFacilities()
+  }, [params, type])
 
   return (
     <div className="relative bg-gray-50 min-h-screen">
@@ -458,10 +422,7 @@ useEffect(() => {
           <nav className="flex" aria-label="Breadcrumb">
             <ol className="inline-flex items-center space-x-1 md:space-x-3">
               <li className="inline-flex items-center">
-                <a
-                  href="#"
-                  className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600"
-                >
+                <a href="#" className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
                   Home
                 </a>
               </li>
@@ -482,10 +443,7 @@ useEffect(() => {
                       d="m1 9 4-4-4-4"
                     />
                   </svg>
-                  <a
-                    href="#"
-                    className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 capitalize"
-                  >
+                  <a href="#" className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 capitalize">
                     {location || "Mumbai"}
                   </a>
                 </div>
@@ -537,16 +495,10 @@ useEffect(() => {
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-semibold">Filters</h2>
                 <div className="flex items-center gap-4">
-                  <button
-                    onClick={clearAllFilters}
-                    className="text-blue-500 text-sm hover:text-blue-600"
-                  >
+                  <button onClick={clearAllFilters} className="text-blue-500 text-sm hover:text-blue-600">
                     Clear all
                   </button>
-                  <button
-                    onClick={() => setFilterOpen(false)}
-                    className="text-gray-500 hover:text-gray-700"
-                  >
+                  <button onClick={() => setFilterOpen(false)} className="text-gray-500 hover:text-gray-700">
                     <X className="h-5 w-5" />
                   </button>
                 </div>
@@ -561,31 +513,18 @@ useEffect(() => {
                     {section.title}
                     <ChevronDown
                       className={`h-4 w-4 transition-transform ${
-                        expandedSections.includes(section.title)
-                          ? "transform rotate-180"
-                          : ""
+                        expandedSections.includes(section.title) ? "transform rotate-180" : ""
                       }`}
                     />
                   </h3>
-                  <div
-                    className={`space-y-2 ${
-                      expandedSections.includes(section.title) ? "" : "hidden"
-                    }`}
-                  >
+                  <div className={`space-y-2 ${expandedSections.includes(section.title) ? "" : "hidden"}`}>
                     {section.filterType === "sortBy"
                       ? // Radio button style for sortBy
                         section.options.map((option) => (
-                          <label
-                            key={option.id}
-                            className="flex items-center space-x-3 cursor-pointer group"
-                          >
+                          <label key={option.id} className="flex items-center space-x-3 cursor-pointer group">
                             <div
                               className={`w-5 h-5 border-2 rounded-full flex items-center justify-center transition-colors
-      ${
-        selectedFilters.sortBy[0] === option.id
-          ? "border-blue-500"
-          : "border-gray-300 group-hover:border-blue-500"
-      }`}
+      ${selectedFilters.sortBy[0] === option.id ? "border-blue-500" : "border-gray-300 group-hover:border-blue-500"}`}
                             >
                               {selectedFilters.sortBy[0] === option.id && (
                                 <motion.div
@@ -599,50 +538,21 @@ useEffect(() => {
                               type="radio"
                               className="hidden"
                               checked={selectedFilters.sortBy[0] === option.id}
-                              onChange={() =>
-                                handleFilterToggle(
-                                  option.id,
-                                  section.filterType
-                                )
-                              }
+                              onChange={() => handleFilterToggle(option.id, section.filterType)}
                             />
-                            <span className="flex-1 text-gray-700">
-                              {option.text}
-                            </span>
-                            {option.count && (
-                              <span className="text-gray-400 text-sm">
-                                ({option.count})
-                              </span>
-                            )}
+                            <span className="flex-1 text-gray-700">{option.text}</span>
+                            {option.count && <span className="text-gray-400 text-sm">({option.count})</span>}
                           </label>
                         ))
-                      : // Regular checkbox for other filters
-                        section.options.map((option) => (
-                          <label
-                            key={option.id}
-                            className="flex items-center space-x-3 cursor-pointer group"
-                          >
-                            <div
-                              className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors
-${
-  Array.isArray(selectedFilters[section.filterType as keyof SelectedFilters]) &&
-  (
-    selectedFilters[section.filterType as keyof SelectedFilters] as string[]
-  ).includes(option.id)
-    ? "border-blue-500 bg-blue-500"
-    : "border-gray-300 group-hover:border-blue-500"
-}`}
-                            >
-                              {Array.isArray(
-                                selectedFilters[
-                                  section.filterType as keyof SelectedFilters
-                                ]
-                              ) &&
-                                (
-                                  selectedFilters[
-                                    section.filterType as keyof SelectedFilters
-                                  ] as string[]
-                                ).includes(option.id) && (
+                      : section.filterType === "saved"
+                        ? // Special handling for saved filter (boolean value)
+                          section.options.map((option) => (
+                            <label key={option.id} className="flex items-center space-x-3 cursor-pointer group">
+                              <div
+                                className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors
+          ${selectedFilters.saved ? "border-blue-500 bg-blue-500" : "border-gray-300 group-hover:border-blue-500"}`}
+                              >
+                                {selectedFilters.saved && (
                                   <motion.svg
                                     initial={{ scale: 0 }}
                                     animate={{ scale: 1 }}
@@ -655,39 +565,60 @@ ${
                                     />
                                   </motion.svg>
                                 )}
-                            </div>
-                            <input
-                              type="checkbox"
-                              className="hidden"
-                              checked={
-                                Array.isArray(
-                                  selectedFilters[
-                                    section.filterType as keyof SelectedFilters
-                                  ]
-                                ) &&
-                                (
-                                  selectedFilters[
-                                    section.filterType as keyof SelectedFilters
-                                  ] as string[]
-                                ).includes(option.id)
-                              }
-                              onChange={() =>
-                                handleFilterToggle(
-                                  option.id,
-                                  section.filterType
-                                )
-                              }
-                            />
-                            <span className="flex-1 text-gray-700">
-                              {option.text}
-                            </span>
-                            {option.count && (
-                              <span className="text-gray-400 text-sm">
-                                ({option.count})
-                              </span>
-                            )}
-                          </label>
-                        ))}
+                              </div>
+                              <input
+                                type="checkbox"
+                                className="hidden"
+                                checked={selectedFilters.saved}
+                                onChange={() => handleFilterToggle(option.id, "saved")}
+                              />
+                              <span className="flex-1 text-gray-700">{option.text}</span>
+                            </label>
+                          ))
+                        : // Regular checkbox for other filters
+                          section.options.map((option) => (
+                            <label key={option.id} className="flex items-center space-x-3 cursor-pointer group">
+                              <div
+                                className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors
+${
+  Array.isArray(selectedFilters[section.filterType as keyof SelectedFilters]) &&
+  (selectedFilters[section.filterType as keyof SelectedFilters] as string[]).includes(option.id)
+    ? "border-blue-500 bg-blue-500"
+    : "border-gray-300 group-hover:border-blue-500"
+}`}
+                              >
+                                {Array.isArray(selectedFilters[section.filterType as keyof SelectedFilters]) &&
+                                  (selectedFilters[section.filterType as keyof SelectedFilters] as string[]).includes(
+                                    option.id,
+                                  ) && (
+                                    <motion.svg
+                                      initial={{ scale: 0 }}
+                                      animate={{ scale: 1 }}
+                                      className="w-3 h-3 text-white"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        fill="currentColor"
+                                        d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"
+                                      />
+                                    </motion.svg>
+                                  )}
+                              </div>
+                              <input
+                                type="checkbox"
+                                className="hidden"
+                                checked={
+                                  Array.isArray(selectedFilters[section.filterType as keyof SelectedFilters]) &&
+                                  (selectedFilters[section.filterType as keyof SelectedFilters] as string[]).includes(
+                                    option.id,
+                                  )
+                                }
+                                onChange={() => handleFilterToggle(option.id, section.filterType)}
+                              />
+                              <span className="flex-1 text-gray-700">{option.text}</span>
+                              {option.count && <span className="text-gray-400 text-sm">({option.count})</span>}
+                            </label>
+                          ))}
                   </div>
                 </div>
               ))}
@@ -701,11 +632,7 @@ ${
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold capitalize">
             {type || "Health Facilities"} in {location || "Mumbai"}
-            {search && (
-              <span className="ml-2 text-lg font-normal text-gray-600">
-                Search: "{search}"
-              </span>
-            )}
+            {search && <span className="ml-2 text-lg font-normal text-gray-600">Search: "{search}"</span>}
           </h2>
           <button
             onClick={() => setFilterOpen(true)}
@@ -721,10 +648,7 @@ ${
             <div className="bg-white rounded-lg shadow-sm border p-6">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-semibold">Filters</h2>
-                <button
-                  onClick={clearAllFilters}
-                  className="text-blue-500 text-sm hover:text-blue-600"
-                >
+                <button onClick={clearAllFilters} className="text-blue-500 text-sm hover:text-blue-600">
                   Clear all
                 </button>
               </div>
@@ -737,31 +661,18 @@ ${
                     {section.title}
                     <ChevronDown
                       className={`h-4 w-4 transition-transform ${
-                        expandedSections.includes(section.title)
-                          ? "transform rotate-180"
-                          : ""
+                        expandedSections.includes(section.title) ? "transform rotate-180" : ""
                       }`}
                     />
                   </h3>
-                  <div
-                    className={`space-y-2 ${
-                      expandedSections.includes(section.title) ? "" : "hidden"
-                    }`}
-                  >
+                  <div className={`space-y-2 ${expandedSections.includes(section.title) ? "" : "hidden"}`}>
                     {section.filterType === "sortBy"
                       ? // Radio button style for sortBy
                         section.options.map((option) => (
-                          <label
-                            key={option.id}
-                            className="flex items-center space-x-3 cursor-pointer group"
-                          >
+                          <label key={option.id} className="flex items-center space-x-3 cursor-pointer group">
                             <div
                               className={`w-5 h-5 border-2 rounded-full flex items-center justify-center transition-colors
-      ${
-        selectedFilters.sortBy[0] === option.id
-          ? "border-blue-500"
-          : "border-gray-300 group-hover:border-blue-500"
-      }`}
+      ${selectedFilters.sortBy[0] === option.id ? "border-blue-500" : "border-gray-300 group-hover:border-blue-500"}`}
                             >
                               {selectedFilters.sortBy[0] === option.id && (
                                 <motion.div
@@ -775,56 +686,21 @@ ${
                               type="radio"
                               className="hidden"
                               checked={selectedFilters.sortBy[0] === option.id}
-                              onChange={() =>
-                                handleFilterToggle(
-                                  option.id,
-                                  section.filterType
-                                )
-                              }
+                              onChange={() => handleFilterToggle(option.id, section.filterType)}
                             />
-                            <span className="flex-1 text-gray-700">
-                              {option.text}
-                            </span>
-                            {option.count && (
-                              <span className="text-gray-400 text-sm">
-                                ({option.count})
-                              </span>
-                            )}
+                            <span className="flex-1 text-gray-700">{option.text}</span>
+                            {option.count && <span className="text-gray-400 text-sm">({option.count})</span>}
                           </label>
                         ))
-                      : // Regular checkbox for other filters
-                        section.options.map((option) => (
-                          <label
-                            key={option.id}
-                            className="flex items-center space-x-3 cursor-pointer group"
-                          >
-                            <div
-                              className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors
-                                                    ${
-                                                      Array.isArray(
-                                                        selectedFilters[
-                                                          section.filterType as keyof SelectedFilters
-                                                        ]
-                                                      ) &&
-                                                      (
-                                                        selectedFilters[
-                                                          section.filterType as keyof SelectedFilters
-                                                        ] as string[]
-                                                      ).includes(option.id)
-                                                        ? "border-blue-500 bg-blue-500"
-                                                        : "border-gray-300 group-hover:border-blue-500"
-                                                    }`}
-                            >
-                              {Array.isArray(
-                                selectedFilters[
-                                  section.filterType as keyof SelectedFilters
-                                ]
-                              ) &&
-                                (
-                                  selectedFilters[
-                                    section.filterType as keyof SelectedFilters
-                                  ] as string[]
-                                ).includes(option.id) && (
+                      : section.filterType === "saved"
+                        ? // Special handling for saved filter (boolean value)
+                          section.options.map((option) => (
+                            <label key={option.id} className="flex items-center space-x-3 cursor-pointer group">
+                              <div
+                                className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors
+          ${selectedFilters.saved ? "border-blue-500 bg-blue-500" : "border-gray-300 group-hover:border-blue-500"}`}
+                              >
+                                {selectedFilters.saved && (
                                   <motion.svg
                                     initial={{ scale: 0 }}
                                     animate={{ scale: 1 }}
@@ -837,39 +713,66 @@ ${
                                     />
                                   </motion.svg>
                                 )}
-                            </div>
-                            <input
-                              type="checkbox"
-                              className="hidden"
-                              checked={
-                                Array.isArray(
-                                  selectedFilters[
-                                    section.filterType as keyof SelectedFilters
-                                  ]
-                                ) &&
-                                (
-                                  selectedFilters[
-                                    section.filterType as keyof SelectedFilters
-                                  ] as string[]
-                                ).includes(option.id)
-                              }
-                              onChange={() =>
-                                handleFilterToggle(
-                                  option.id,
-                                  section.filterType
-                                )
-                              }
-                            />
-                            <span className="flex-1 text-gray-700">
-                              {option.text}
-                            </span>
-                            {option.count && (
-                              <span className="text-gray-400 text-sm">
-                                ({option.count})
-                              </span>
-                            )}
-                          </label>
-                        ))}
+                              </div>
+                              <input
+                                type="checkbox"
+                                className="hidden"
+                                checked={selectedFilters.saved}
+                                onChange={() => handleFilterToggle(option.id, "saved")}
+                              />
+                              <span className="flex-1 text-gray-700">{option.text}</span>
+                            </label>
+                          ))
+                        : // Regular checkbox for other filters
+                          section.options.map((option) => (
+                            <label key={option.id} className="flex items-center space-x-3 cursor-pointer group">
+                              <div
+                                className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors
+                                                    ${
+                                                      Array.isArray(
+                                                        selectedFilters[section.filterType as keyof SelectedFilters],
+                                                      ) &&
+                                                      (
+                                                        selectedFilters[
+                                                          section.filterType as keyof SelectedFilters
+                                                        ] as string[]
+                                                      ).includes(option.id)
+                                                        ? "border-blue-500 bg-blue-500"
+                                                        : "border-gray-300 group-hover:border-blue-500"
+                                                    }`}
+                              >
+                                {Array.isArray(selectedFilters[section.filterType as keyof SelectedFilters]) &&
+                                  (selectedFilters[section.filterType as keyof SelectedFilters] as string[]).includes(
+                                    option.id,
+                                  ) && (
+                                    <motion.svg
+                                      initial={{ scale: 0 }}
+                                      animate={{ scale: 1 }}
+                                      className="w-3 h-3 text-white"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        fill="currentColor"
+                                        d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"
+                                      />
+                                    </motion.svg>
+                                  )}
+                              </div>
+                              <input
+                                type="checkbox"
+                                className="hidden"
+                                checked={
+                                  Array.isArray(selectedFilters[section.filterType as keyof SelectedFilters]) &&
+                                  (selectedFilters[section.filterType as keyof SelectedFilters] as string[]).includes(
+                                    option.id,
+                                  )
+                                }
+                                onChange={() => handleFilterToggle(option.id, section.filterType)}
+                              />
+                              <span className="flex-1 text-gray-700">{option.text}</span>
+                              {option.count && <span className="text-gray-400 text-sm">({option.count})</span>}
+                            </label>
+                          ))}
                   </div>
                 </div>
               ))}
@@ -882,64 +785,56 @@ ${
             <div className="flex justify-between items-center mb-6 sm:px-2">
               {/* Applied Filters */}
               <div className="flex flex-wrap gap-2">
-                {Object.entries(selectedFilters).flatMap(
-                  ([filterType, values]) => {
-                    if (filterType === "saved" && values === true) {
-                      return [
+                {Object.entries(selectedFilters).flatMap(([filterType, values]) => {
+                  if (filterType === "saved" && values === true) {
+                    return [
+                      <motion.div
+                        key="saved"
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        className="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 border border-blue-200 rounded-full text-sm text-blue-700"
+                      >
+                        <span>Saved</span>
+                        <button
+                          onClick={() => handleFilterToggle("saved", "saved")}
+                          className="w-4 h-4 flex items-center justify-center rounded-full hover:bg-blue-100"
+                        >
+                          ×
+                        </button>
+                      </motion.div>,
+                    ]
+                  }
+
+                  if (Array.isArray(values) && values.length > 0) {
+                    return values.map((filterId) => {
+                      const filterSection = filters.find((section) => section.filterType === filterType)
+                      const filterOption = filterSection?.options.find((option) => option.id === filterId)
+
+                      if (!filterOption) return null
+
+                      return (
                         <motion.div
-                          key="saved"
+                          key={`${filterType}-${filterId}`}
                           initial={{ scale: 0.8, opacity: 0 }}
                           animate={{ scale: 1, opacity: 1 }}
                           exit={{ scale: 0.8, opacity: 0 }}
                           className="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 border border-blue-200 rounded-full text-sm text-blue-700"
                         >
-                          <span>Saved</span>
+                          <span>{filterOption.text}</span>
                           <button
-                            onClick={() => handleFilterToggle("saved", "saved")}
+                            onClick={() => handleFilterToggle(filterId, filterType)}
                             className="w-4 h-4 flex items-center justify-center rounded-full hover:bg-blue-100"
                           >
                             ×
                           </button>
-                        </motion.div>,
-                      ];
-                    }
-
-                    if (Array.isArray(values) && values.length > 0) {
-                      return values.map((filterId) => {
-                        const filterSection = filters.find(
-                          (section) => section.filterType === filterType
-                        );
-                        const filterOption = filterSection?.options.find(
-                          (option) => option.id === filterId
-                        );
-
-                        if (!filterOption) return null;
-
-                        return (
-                          <motion.div
-                            key={`${filterType}-${filterId}`}
-                            initial={{ scale: 0.8, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.8, opacity: 0 }}
-                            className="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 border border-blue-200 rounded-full text-sm text-blue-700"
-                          >
-                            <span>{filterOption.text}</span>
-                            <button
-                              onClick={() =>
-                                handleFilterToggle(filterId, filterType)
-                              }
-                              className="w-4 h-4 flex items-center justify-center rounded-full hover:bg-blue-100"
-                            >
-                              ×
-                            </button>
-                          </motion.div>
-                        );
-                      });
-                    }
-
-                    return [];
+                        </motion.div>
+                      )
+                    })
                   }
-                )}
+
+                  return []
+                })}
               </div>
             </div>
             <hr />
@@ -965,9 +860,7 @@ ${
                             type === "clinics" ? (
                               <SwiperSlide key={index}>
                                 <img
-                                  src={
-                                    hospitalImgs + image || "/placeholder.svg"
-                                  }
+                                  src={hospitalImgs + image || "/placeholder.svg"}
                                   alt={`${type} Image`}
                                   className="w-full h-auto object-cover aspect-[5/3] rounded-md"
                                 />
@@ -975,14 +868,12 @@ ${
                             ) : (
                               <SwiperSlide key={index}>
                                 <img
-                                  src={
-                                    hospitalImgs + image || "/placeholder.svg"
-                                  }
+                                  src={hospitalImgs + image || "/placeholder.svg"}
                                   alt={`${type} Image`}
                                   className="w-full h-auto object-cover aspect-[5/3] rounded-md"
                                 />
                               </SwiperSlide>
-                            )
+                            ),
                           )}
                         </Swiper>
                       </div>
@@ -997,12 +888,10 @@ ${
                               {detail.name}
                             </span>
                             <span className="text-sm min-[425px]:text-base sm:text-lg lg:text-base xl:text-lg font-semibold text-gray-700">
-                              {detail.address.street} {detail.address.city}, {detail.address.state} -{" "}
-                              {detail.address.zipCode}
+                              {detail.address.street}, {detail.address.city} - {detail.address.zipCode}
                             </span>
                             <span className="text-sm text-green-700 capitalize">
-                              {`${detail.openDay} - ${detail.closeDay} ${detail.hours} hrs` ||
-                                "Open 24 hours"}
+                              {`${detail.openDay} - ${detail.closeDay} ${detail.hours} hrs` || "Open 24 hours"}
                             </span>
                           </div>
 
@@ -1018,9 +907,7 @@ ${
                                 </div>
 
                                 <div className="!text-gray-600">
-                                  <span className="text-sm">
-                                    {detail.reviews?.length} Reviews
-                                  </span>
+                                  <span className="text-sm">{detail.reviews?.length} Reviews</span>
                                 </div>
                               </>
                             )}
@@ -1044,11 +931,8 @@ ${
                             {/* ACCREDITATIONS IMAGES*/}
                             <div className="flex items-center space-x-2">
                               {detail.accreditations?.map((acc, index) => {
-                                const accreditation =
-                                  servicesByAccrediations.find(
-                                    (item) => item.title === acc
-                                  );
-                                const accImg = accreditation?.image; // Get the image
+                                const accreditation = servicesByAccrediations.find((item) => item.title === acc)
+                                const accImg = accreditation?.image // Get the image
 
                                 // Only render image if accImg is available
                                 return (
@@ -1060,7 +944,7 @@ ${
                                       className="!h-14 !w-14 md:!h-14 md:!w-14 !object-cover !object-center !rounded-full"
                                     />
                                   </>
-                                );
+                                )
                               })}
                             </div>
 
@@ -1090,7 +974,6 @@ ${
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default ServiceListing;

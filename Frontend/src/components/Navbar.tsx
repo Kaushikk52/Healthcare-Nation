@@ -160,8 +160,8 @@ export default function Navbar() {
       items: [
         { title: "ICICI Lombard", filterType: "insurance", filterValue: "ICICI Lombard" },
         { title: "IFFFCO Tokio", filterType: "insurance", filterValue: "IFFCO-TOKIO" },
-        { title: "HDFC Ergo", filterType: "insurance", filterValue: "HDFC Ergo" },
-        { title: "Bajaj Allianz", filterType: "insurance", filterValue: "Bajaj Allianz" },
+        { title: "HDFC Ergo", filterType: "insurance", filterValue: "HDFC ERGO" },
+        { title: "Bajaj Allianz", filterType: "insurance", filterValue: "BAJAJ Allianz" },
         { title: "Care", filterType: "insurance", filterValue: "Care" },
         { title: "Kotak", filterType: "insurance", filterValue: "Kotak" },
       ],
@@ -176,7 +176,7 @@ export default function Navbar() {
         { title: "Raksha TPA", filterType: "tpa", filterValue: "Raksha TPA" },
         { title: "MD India", filterType: "tpa", filterValue: "MD India" },
         { title: "Medi Assist", filterType: "tpa", filterValue: "Medi Assist" },
-        { title: "Med Save India", filterType: "tpa", filterValue: "Med Save India" },
+        { title: "Med Save India", filterType: "tpa", filterValue: "MedSave India" },
       ],
     },
   ]

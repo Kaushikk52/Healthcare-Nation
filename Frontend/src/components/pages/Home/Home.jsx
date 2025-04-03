@@ -883,7 +883,7 @@ function Home() {
         </div>
       </div>
       <div>
-        <img  loading="eager" src="Footer Banner 123.jpg" alt="" />
+        <img  loading="eager" src="Footer Banner 123.jpg" className="w-full" alt="" />
       </div>
     </>
   );
