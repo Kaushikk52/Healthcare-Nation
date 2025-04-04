@@ -380,9 +380,9 @@ export default function Navbar() {
           <button
             className="!flex !items-center space-x-2"
             onClick={() =>
-              currentUser.role == "ROLE_USER"
+              currentUser?.role == "ROLE_USER"
                 ? checkIfLogin("/")
-                : currentUser.role == "ROLE_ADMIN"
+                : currentUser?.role == "ROLE_ADMIN"
                   ? checkIfLogin("/dashboard/hospital/add")
                   : checkIfLogin("/")
             }
