@@ -11,6 +11,7 @@ import {
   ChevronUp,
   PlusCircle,
   Edit,
+  ClipboardPlus,
 } from "lucide-react";
 import { FaClinicMedical } from "react-icons/fa";
 import { MdOutlineMedicalInformation } from "react-icons/md";
@@ -36,6 +37,7 @@ function Sidebar() {
     { icon: Ambulance, label: "Transport", href: "/dashboard/transport" },
     { icon: MdOutlineMedicalInformation, label: "Orthotics & Prosthetics", href: "/dashboard/op" },
     { icon: Activity, label: "Diagnostics", href: "/dashboard/diagnostics" },
+    { icon: ClipboardPlus, label: "Centers", href: "/dashboard/center" },
   ];
 
   useEffect(() => {

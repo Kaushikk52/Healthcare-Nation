@@ -22,6 +22,8 @@ import OrthoticsForm from './components/pages/Dashboard/OrthoticsForm';
 import EditOrthoticsForm from './components/pages/Dashboard/EditOrthoticsForm.tsx'
 import DiagnosticsForm from './components/pages/Dashboard/DiagnoticsForm';
 import EditDiagnosticsForm from './components/pages/Dashboard/EditDiagnosticsForm.tsx'
+import CenterForm from './components/pages/Dashboard/CenterForm.tsx';
+import EditCenterForm from './components/pages/Dashboard/EditCenterForm.tsx'
 import ListingTable from './components/pages/Dashboard/ListingTable';
 import DiagnosticCenters from './components/pages/DiagnosticCenters';
 import AlternativeMedicine from './components/pages/AlternativeMedicine';
@@ -54,7 +56,10 @@ function App() {
           <Route path="listing" element={<ServiceListing />} />
           <Route path="/dashboard" element={<DashboardLayout />} >
             <Route index path='/dashboard/hospital/add' element={<HospitalForm />} />
-            <Route index path='/dashboard/hospital/edit/:id' element={<EditHospitalForm />} />
+            <Route path='/dashboard/hospital/edit/:id' element={<EditHospitalForm />} />
+
+            <Route path='/dashboard/center/add' element={<CenterForm />} />
+            <Route path='/dashboard/center/edit/:id' element={<EditCenterForm/>} />
 
             <Route path='/dashboard/clinic/add' element={<ClinicForm />} />
             <Route path='/dashboard/clinic/edit/:id' element={<EditClinicForm />} />

@@ -37,6 +37,11 @@ public class GenericSpecification<T>  {
                 predicates.add(criteriaBuilder.equal(root.get("ownership"),ownership));
             }
 
+            if(filters.containsKey("centerType")){
+                String centerType = (String) filters.get("centerType");
+                predicates.add(criteriaBuilder.equal(root.get("type"),centerType));
+            }
+
             if(filters.containsKey("specialities")){
                 List<String> specialities = (List<String>) filters.get("specialities");
                 for (String speciality : specialities) {

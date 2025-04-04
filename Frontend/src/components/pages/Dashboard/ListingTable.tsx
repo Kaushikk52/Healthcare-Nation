@@ -61,6 +61,12 @@ function ListingTable() {
           deleteUrl: `${baseURL}/v1/api/diagnostics/delete`,
           name: "diagnosticsList",
         };
+      case "center":
+        return {
+          getAllUrl: `${baseURL}/v1/api/center/all`,
+          deleteUrl: `${baseURL}/v1/api/center/delete`,
+          name:"center"
+        };
       default:
         return {
           getAllUrl: `${baseURL}/v1/api/facility/type/hospitals`,
@@ -109,6 +115,9 @@ function ListingTable() {
             <TableRow>
               <TableHead className="w-[150px]">#</TableHead>
               <TableHead className="w-[150px]">Name</TableHead>
+              {items.some(item => "type" in item) && (
+  <TableHead className="w-[150px]">Type</TableHead>
+)}
               <TableHead className="w-[150px]">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -127,6 +136,10 @@ function ListingTable() {
                 <TableRow key={index}>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{item.name}</TableCell>
+                  {items.some(item => "type" in item) && 
+                  
+                  <TableCell>{item.type}</TableCell>
+                  }
                   <TableCell className="flex items-center space-x-2">
                     <button
                       className="p-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-amber-500"

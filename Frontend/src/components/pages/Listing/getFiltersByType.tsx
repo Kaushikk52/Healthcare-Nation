@@ -217,6 +217,84 @@ export const getFiltersByType = (type: string | null) => {
       ];
     case "op":
       return [...baseFilters];
+    case "dialysis":
+      return [
+        ...baseFilters,
+        ...hospitalFilters,
+        {
+          title: "Alternative Medicine",
+          filterType: "altMed",
+          options: alternativeMedicine.map((altMed) => ({
+            id: altMed.title,
+            text: altMed.title,
+          })),
+        },
+      ];
+    case "ivf":
+      return [
+        ...baseFilters,
+        ...hospitalFilters,
+        {
+          title: "Alternative Medicine",
+          filterType: "altMed",
+          options: alternativeMedicine.map((altMed) => ({
+            id: altMed.title,
+            text: altMed.title,
+          })),
+        },
+      ];
+    case "burns":
+      return [
+        ...baseFilters,
+        ...hospitalFilters,
+        {
+          title: "Alternative Medicine",
+          filterType: "altMed",
+          options: alternativeMedicine.map((altMed) => ({
+            id: altMed.title,
+            text: altMed.title,
+          })),
+        },
+      ];
+    case "hairTransplant":
+      return [
+        ...baseFilters,
+        ...hospitalFilters,
+        {
+          title: "Alternative Medicine",
+          filterType: "altMed",
+          options: alternativeMedicine.map((altMed) => ({
+            id: altMed.title,
+            text: altMed.title,
+          })),
+        },
+      ];
+    case "checkup":
+      return [
+        ...baseFilters,
+        ...hospitalFilters,
+        {
+          title: "Alternative Medicine",
+          filterType: "altMed",
+          options: alternativeMedicine.map((altMed) => ({
+            id: altMed.title,
+            text: altMed.title,
+          })),
+        },
+      ];
+    case "rehabilitation":
+      return [
+        ...baseFilters,
+        ...hospitalFilters,
+        {
+          title: "Alternative Medicine",
+          filterType: "altMed",
+          options: alternativeMedicine.map((altMed) => ({
+            id: altMed.title,
+            text: altMed.title,
+          })),
+        },
+      ];
   }
 
   return baseFilters;

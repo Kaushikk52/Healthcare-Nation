@@ -255,9 +255,11 @@ export default function ServiceListing() {
 
   const detailsUrl = (id: string) => {
     if (type === "hospitals" || type === "clinics") {
-      return `/${type}-details/${id}`
-    } else {
-      return `/services/${type}/${id}`
+      return `/${type}-details/${id}`;
+    }else if(type === "dialysis" || type === "ivf" || type === "burns" || type === "hairTransplant" || type === "checkup" || type === "rehabilitation"){
+      return `/center/${type}/${id}`;
+    }else {
+      return `/services/${type}/${id}`;
     }
   }
 
@@ -290,6 +292,12 @@ export default function ServiceListing() {
           url = `${baseURL}/v1/api/facility/filter?type=${type}&${queryString}`
         } else {
           url = `${baseURL}/v1/api/facility/filter?type=${type}`
+        }
+      }else if(type=== "dialysis" || type === "ivf" || type === "burns" || type === "hairTransplant" || type === "checkup" || type === "rehabilitation"){
+        if(queryString.size > 0){
+          url = `${baseURL}/v1/api/center/filter?type=${type}&${queryString}`
+        }else{
+          url = `${baseURL}/v1/api/center/filter?type=${type}`
         }
       } else {
         if (queryString.size > 0) {
@@ -371,6 +379,34 @@ export default function ServiceListing() {
     } catch (error) {
       console.error(`Error fetching saved ${facilityType}:`, error)
       setFacilities([])
+    }
+  }
+
+  const getTitleName = (type) => {
+    let title = 'Health Facilities'
+    switch(type){
+      case "dialysis":
+        return "dialysis centers"
+      case "ivf":
+        return "Test Tube Baby / IVF Centers"
+      case "rehabilitation":
+        return "Rehabilitation / De Addiction Centers"
+      case "burns":
+        return "Burns Centers"
+      case "hairTransplant":
+        return "Hair Transplant Centers"
+      case "checkup":
+        return "Health Checkup Centers"
+      case "bank":
+        return "Blood/Skin Banks"
+      case "transport":
+        return "Patient Transport"
+      case "orthotics":
+        return "Orthotics & Prosthetics"
+      case type:
+        return type
+      default :
+        return title
     }
   }
 
@@ -631,7 +667,7 @@ ${
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold capitalize">
-            {type || "Health Facilities"} in {location || "Mumbai"}
+            {getTitleName(type) || "Health Facilities"} in {location || "Mumbai"}
             {search && <span className="ml-2 text-lg font-normal text-gray-600">Search: "{search}"</span>}
           </h2>
           <button
