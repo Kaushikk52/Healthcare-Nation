@@ -235,7 +235,7 @@ export default function EditCenterForm() {
     insurance: [""],
     tpa: [""],
     altMed: [""],
-    medicalFacilities: [],
+    medicalFacilities: [""],
   });
   const navigate = useNavigate();
   const { id } = useParams();
@@ -453,9 +453,15 @@ export default function EditCenterForm() {
       // Combine existing images (that weren't deleted) with newly uploaded ones
       const finalImageUrls = [...values.images, ...uploadedImageUrls];
 
+       // Format medical facilities
+       const formattedMedicalFacilities = values.medicalFacilities?.map((facility) => ({
+        id: facility,
+      }))
+
       const updatedValues = {
         ...values,
         images: finalImageUrls,
+        medicalFacilities: formattedMedicalFacilities,
         id: id, // Ensure the ID is included for update
       };
 
