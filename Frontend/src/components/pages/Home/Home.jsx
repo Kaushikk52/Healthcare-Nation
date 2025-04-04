@@ -567,7 +567,7 @@ function Home() {
                 <SwiperSlide key={index}>
                   <div className="group">
                     <Link
-                      to={`${service.path}`}
+                      to={`/listing?type=${service.path}`}
                       aria-label={service.title}
                       className="!cursor-pointer"
                     >
@@ -590,12 +590,14 @@ function Home() {
 
         {/* HEALTH CHECKUP IMAGE */}
         <div className="!mt-10 ">
+          <Link to={`/listing?type=checkup`}>
           <img
            loading="lazy"
             src={path + "Health-Checkup.jpg"}
             alt="health checkup image"
             className="!rounded-xl !h-36 sm:!h-52 md:!h-56 lg:!h-60 xl:!h-72 !w-full !aspect-[3/2] !object-fit"
           />
+          </Link>
         </div>
 
         {/* SERVICES BY ACCREDITATIONS SECTION */}

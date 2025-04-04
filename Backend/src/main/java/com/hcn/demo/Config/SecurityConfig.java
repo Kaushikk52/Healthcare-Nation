@@ -95,6 +95,11 @@ public class SecurityConfig {
                                 "/v1/api/diagnostics/all", "/v1/api/diagnostics/id/**","/v1/api/diagnostics/filter").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/api/diagnostics/**").authenticated()
 
+                        //Centers endpoints
+                        .requestMatchers(HttpMethod.GET,
+                                "/v1/api/center/all","/v1/api/center/id/**","/v1/api/center/filter").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/v1/api/center/**").authenticated()
+
 
                         // Images endpoints
                         .requestMatchers(HttpMethod.POST, "/v1/api/images/upload/single").permitAll()

@@ -1,5 +1,6 @@
 package com.hcn.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hcn.demo.helper.StringListConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIgnoreProperties(value = {"medicalFacilities"}, allowSetters = true)
 public class Center {
 
     @Id
@@ -95,6 +97,14 @@ public class Center {
     @Convert(converter = StringListConverter.class)
     private List<String> altMed;
 
+    @ManyToMany
+    @JoinTable(
+            name = "center_medical_facilities",
+            joinColumns = @JoinColumn(name = "center_id"),
+            inverseJoinColumns = @JoinColumn(name = "medical_facility_id")
+    )
+    private List<MedicalFacility> medicalFacilities;
+
     private Boolean isSaved;
 
     private LocalDateTime createdAt;
@@ -109,10 +119,12 @@ public class Center {
     }
 
     @PrePersist
-    private void prePersist() {
+    private void onCreate() {
         if (id == null) {
             id = UUID.randomUUID().toString();
         }
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
 
