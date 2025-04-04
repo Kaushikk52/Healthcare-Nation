@@ -2,9 +2,11 @@ export default function AboutUs() {
     return (
       <div className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">About Us</h1>
-          <div className="w-20 h-1 bg-blue-500 mx-auto"></div>
+        <div className="w-full flex justify-center mb-12">
+          <div>
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">About Us</h1>
+            <div className="w-2/3 h-1 bg-blue-500 mx-auto"></div>
+          </div>
         </div>
   
         {/* Introduction */}
