@@ -36,6 +36,7 @@ import HealthInurance from './components/pages/HealthInsurance';
 import TPA from './components/pages/TPA';
 import HealthcareServices from './components/pages/HealthcareServices';
 import ScrollToTop from './components/ScrollToTop';
+import CenterDetailsPage from './components/CenterDetails/CenterDetailsPage'
 
 import Contact from './components/pages/Contact';
 import PrivacyPolicy from './components/pages/PrivacyPolicy';
@@ -88,6 +89,7 @@ function App() {
           <Route path="brands-in-india" element={<BrandsInIndia />} />
           <Route path=":type/:id" element={<HospitalDetailsPage />} />
           <Route path="/services/:type/:id" element={<ServiceDetailsPage />} />
+          <Route path='/center/:type/:id' element={<CenterDetailsPage />} />
 
   
 

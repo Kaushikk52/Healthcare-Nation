@@ -15,23 +15,22 @@ import "tippy.js/dist/tippy.css";
 import servicesByAccrediations from "@/data/accrediations";
 
 // Dynamic Content Components imports
-import Description from "../../Description";
-import Photos from "../../Photos";
-import Videos from "../../Videos";
-import Reviews from "../../Reviews.tsx";
+import Description from "@/components/Description.jsx";
+import Photos from "@/components/Photos";
+import Videos from "@/components/Videos";
+import Reviews from "@/components/Reviews";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
-import ReviewModal from "../../ReviewModal";
+import ReviewModal from "@/components/ReviewModal";
 import { motion, AnimatePresence } from "framer-motion";
 
-const HospitalDetailsPage = () => {
+export default function CenterDetailsPage () {
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
   const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS;
-  const clinicImgs = import.meta.env.VITE_APP_CLOUDINARY_CLINICS;
   const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 425);
   const [activeTabButton, setActiveTabButton] = useState("description");
-  const [hospital, setHospital] = useState({});
+  const [center, setCenter] = useState({});
   const [saved, setSaved] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const token = localStorage.getItem("token");
@@ -39,20 +38,20 @@ const HospitalDetailsPage = () => {
   const { id, type } = useParams();
 
   useEffect(() => {
-      getHospitalDetails(id);
+      getCenterDetails(id);
   }, [id]);
 
   const handleAddRating = () => {
     console.log("parent component updated");
-    getHospitalDetails(id);
+    getCenterDetails(id);
   };
 
-  const getHospitalDetails = async (id) => {
+  const getCenterDetails = async (id) => {
     try {
-      const response = await axios.get(`${baseURL}/v1/api/facility/id/${id}`);
-      const data = response.data.facility;
+      const response = await axios.get(`${baseURL}/v1/api/center/id/${id}`);
+      const data = response.data.center;
       // console.log(data);
-      setHospital(data);
+      setCenter(data);
       setSaved(data.isSaved);
     } catch (error) {
       console.error(error);
@@ -77,14 +76,14 @@ const HospitalDetailsPage = () => {
   };
 
   const handleDirection = () => {
-    const hospitalAddress = `${hospital.address?.street}, ${hospital.address?.landmark} ${hospital.address?.city} 
-                  ${hospital.address?.state} - ${hospital.address?.zipCode}`;
+    const address = `${center.address?.street}, ${center.address?.landmark} ${center.address?.city} 
+                  ${center.address?.state} - ${center.address?.zipCode}`;
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
           const start = `${latitude},${longitude}`; // User's current location
-          const end = encodeURIComponent(hospitalAddress); // Destination
+          const end = encodeURIComponent(address); // Destination
           const mapsUrl = `https://www.google.com/maps/dir/${start}/${end}`;
           window.open(mapsUrl, "_blank");
         },
@@ -184,7 +183,7 @@ const HospitalDetailsPage = () => {
     {
       id: "description",
       component: (
-        <Description details={hospital} phones={hospital.phoneNumbers} />
+        <Description details={center} phones={center.phoneNumbers} />
       ),
       title: "Description",
       marginX: "!mr-2",
@@ -192,32 +191,32 @@ const HospitalDetailsPage = () => {
     },
     {
       id: "photos",
-      component: <Photos images={hospital.images} type={type} />,
+      component: <Photos images={center.images} type={type} />,
       title: "Photos",
       marginX: "!mx-2",
       paddingX: "!px-1 min-[425px]:!px-2",
     },
     {
       id: "videos",
-      component: <Videos videos={hospital.videos} />,
+      component: <Videos videos={center.videos} />,
       title: "Videos",
       marginX: "!mx-2",
       paddingX: "!px-1 min-[425px]:!px-2",
     },
-    {
-      id: "reviews",
-      component: (
-        <Reviews
-          id={hospital.id}
-          avgRating={hospital.avgRating?.toPrecision(2)}
-          addRating={handleAddRating}
-          ratings={hospital.ratings}
-        />
-      ),
-      title: "Reviews",
-      marginX: "!mx-2",
-      paddingX: "!px-1 min-[425px]:!px-2",
-    },
+    // {
+    //   id: "reviews",
+    //   component: (
+    //     <Reviews
+    //       id={center.id}
+    //       avgRating={center.avgRating?.toPrecision(2)}
+    //       addRating={handleAddRating}
+    //       ratings={center.ratings}
+    //     />
+    //   ),
+    //   title: "Reviews",
+    //   marginX: "!mx-2",
+    //   paddingX: "!px-1 min-[425px]:!px-2",
+    // },
   ];
 
   return (
@@ -292,22 +291,22 @@ const HospitalDetailsPage = () => {
         {/* Main Image */}
         <div
           className={`col-span-12 ${
-            hospital.images?.length === 1 ? "lg:col-span-12" : "lg:col-span-8"
+            center.images?.length === 1 ? "lg:col-span-12" : "lg:col-span-8"
           }`}
         >
           <img
-            src={type !== "hospitals-details"? hospitalImgs + hospital.images?.[0]  : hospitalImgs + hospital.images?.[0]}
-            alt="main hospital"
+            src={hospitalImgs + center.images?.[0]}
+            alt="main center"
             className="h-[240px] min-[425px]:h-[280px] sm:h-[380px] lg:h-[510px] w-full rounded-sm object-cover"
           />
         </div>
         {/* Conditional Grid for Other Images */}
-        {hospital.images?.length > 1 && (
+        {center.images?.length > 1 && (
           <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4 lg:gap-0 col-span-12 lg:col-span-4 lg:flex lg:flex-col lg:justify-between lg:space-y-4">
             {/* First Additional Image */}
             <div>
               <img
-                 src={type !== "hospitals-details"? hospitalImgs + hospital.images?.[1]  : hospitalImgs + hospital.images?.[1]}
+                 src={hospitalImgs + center.images?.[1]}
                 alt="Patient Room"
                 className="h-full w-full object-cover object-center rounded-sm"
               />
@@ -315,27 +314,25 @@ const HospitalDetailsPage = () => {
 
             {/* Show the third image only if there are 3 or more images */}
             <div className="relative h-full w-full">
-              {hospital.images?.length >= 4 ? (
+              {center.images?.length >= 4 ? (
                 <div
                   style={{
-                    backgroundImage: `url(${
-                      type !== "hospitals-details"? hospitalImgs + hospital.images?.[2]  : hospitalImgs + hospital.images?.[2]
-                    })`,
+                    backgroundImage: `url(${hospitalImgs + center.images?.[2]})`,
                   }}
                   className="relative h-full w-full bg-cover bg-center rounded-sm"
                 >
                   <div className="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center">
                     <div className="flex flex-col justify-center items-center text-white text-2xl">
                       <p>+</p>
-                      <p>{hospital.images?.length - 3} more</p>
+                      <p>{center.images?.length - 3} more</p>
                     </div>
                   </div>
                 </div>
               ) : (
                 <>
-                  {hospital.images?.length > 2 && (
+                  {center.images?.length > 2 && (
                     <img
-                    src={type !== "hospitals-details"? hospitalImgs + hospital.images?.[2]  : hospitalImgs + hospital.images?.[2]}
+                    src={hospitalImgs + center.images?.[2]}
                       alt="Hallway"
                       className="h-full w-full object-cover object-center rounded-sm"
                     />
@@ -354,36 +351,26 @@ const HospitalDetailsPage = () => {
         {/* Left Side */}
         <div className="!flex !flex-col !justify-center !space-y-1.5">
           <span className="!text-2xl lg:!text-4xl !font-medium !text-wrap">
-            {hospital.name}
+            {center.name}
           </span>
           {/* <span className='!text-md lg:!text-xl !font-medium text-gray-600'>Andheri, Mumbai</span> */}
           <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 text-balance">
-                  {hospital.address?.street}, {hospital.address?.landmark}{" "}{hospital.address?.city}{" "}
-                  {hospital.address?.state} - {hospital.address?.zipCode}
+                  {center.address?.street}, {center.address?.landmark}{" "}{center.address?.city}{" "}
+                  {center.address?.state} - {center.address?.zipCode}
                   {/* 
                   Rao Saheb, Achutrao Patwardhan Marg, Four Bungalows, Andheri
                   West, Mumbai, Maharashtra 400053 */}
                 </span>
           <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-md !text-[#74c365] capitalize">
 
-          {hospital.openDay} - {hospital.closeDay}{" "}
-          {hospital.hours} Hrs
+          {center.openDay} - {center.closeDay}{" "}
+          {center.hours} Hrs
           </span>
 
         </div>
 
         {/* Right Side  */}
-        <div className="!flex !flex-col !justify-center !text-white !my-2 sm:!my-0 !space-y-0.5 sm:!space-y-1.5 !text-left sm:!text-right">
-          <div className="!flex !justify-center !items-center !bg-[#267e3e] !rounded !py-0.5 !px-0">
-            <span className="!text-xl !font-semibold !mr-1 !px-0">
-              {hospital.avgRating?.toPrecision(2)}
-            </span>
-            <IoIosStar className="!h-5 !w-5 !mb-0.5 !px-0 !mx-0" />
-          </div>
-          <div className="!text-gray-600">
-            <span>{hospital.reviews?.length} Reviews</span>
-          </div>
-        </div>
+       
       </div>
 
 
@@ -406,7 +393,7 @@ const HospitalDetailsPage = () => {
             {isModalOpen && (
               <ReviewModal
                 onClose={() => setIsModalOpen(false)}
-                id={hospital.id}
+                id={center.id}
               />
             )}
           </AnimatePresence>
@@ -414,7 +401,7 @@ const HospitalDetailsPage = () => {
 
         {/* Right Side for Rounded Images */}
         <div className="!flex !space-x-1.5 md:!space-x-2">
-          {hospital.accreditations?.map((acc, index) => {
+          {center.accreditations?.map((acc, index) => {
             const accreditation = servicesByAccrediations.find(
               (item) => item.title === acc
             );
@@ -469,4 +456,3 @@ const HospitalDetailsPage = () => {
   );
 };
 
-export default HospitalDetailsPage;
