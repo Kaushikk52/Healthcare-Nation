@@ -674,10 +674,10 @@ function Home() {
                   slidesPerView: 2,
                 },
                 768: {
-                  slidesPerView: 2,
+                  slidesPerView: 3,
                 },
                 1024: {
-                  slidesPerView: 4,
+                  slidesPerView: 5,
                 },
               }}
               className="!mt-0"
