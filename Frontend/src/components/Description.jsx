@@ -358,11 +358,11 @@ const Description = (props) => {
                             ""
                           )}&brands=${item}`}
                         >
-                          <div className="!flex !flex-col !justify-center !items-center !text-center h-full">
+                          <div className="!flex !flex-col mx-1 !justify-center !items-center !text-center h-full">
                             <img
                               src={brandImg}
                               alt={item}
-                              className={`rounded-full aspect-square ${bProperty} shadow-md shadow-[rgba(45,45,51,0.08)]  w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl`}
+                              className={`rounded-full aspect-square ${bProperty} shadw-md shadow-[rgba(45,45,51,0.08)]  w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl`}
                             />
                             <h1 className="!py-2 !text-gray-700 !font-medium !text-sm sm:!text-base">
                               {item}
@@ -456,7 +456,7 @@ const Description = (props) => {
                         <Link
                           to={`/listing?type=${type.replace("-details","")}&insurance=${item}`}
                         >
-                          <div className="!flex !flex-col !justify-center !items-center !text-center h-full">
+                          <div className="!flex flex-col mx-1 !justify-center !items-center !text-center h-full">
                             <img
                               src={insImg}
                               alt={item}
@@ -516,7 +516,7 @@ const Description = (props) => {
                             ""
                           )}&tpa=${item}`}
                         >
-                          <div className="!flex !flex-col !justify-center !items-center !text-center h-full">
+                          <div className="!flex !flex-col mx-1 !justify-center !items-center !text-center h-full">
                             <img
                               src={tImg}
                               alt={item}
