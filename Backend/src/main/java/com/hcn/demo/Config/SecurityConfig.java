@@ -100,6 +100,8 @@ public class SecurityConfig {
                                 "/v1/api/center/all","/v1/api/center/id/**","/v1/api/center/filter").permitAll()
                         .requestMatchers(HttpMethod.POST,"/v1/api/center/**").authenticated()
 
+                        //Enquiry endpoints
+                        .requestMatchers(HttpMethod.POST, "/v1/api/enquiry/**").permitAll()
 
                         // Images endpoints
                         .requestMatchers(HttpMethod.POST, "/v1/api/images/upload/single").permitAll()

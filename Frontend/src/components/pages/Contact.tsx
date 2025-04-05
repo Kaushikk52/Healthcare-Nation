@@ -85,7 +85,7 @@ export default function ContactPage() {
         return;
       }
       const response = await axios.get(
-        `${baseURL}/v1/api/users/getCurrentUser`,
+        `${baseURL}/v1/api/user/principal`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       if (response.status === 201 || response.status === 200) {
@@ -114,14 +114,11 @@ export default function ContactPage() {
     try {
       const body = {
         userId: currentUser?.userId,
-        //subject: values.subject || "CASUAL_ENQUIRY",
-        enquiry: {
           content: values.content,
           email: values.email,
           name: values.name,
           phone: values.phone,
           term: values.term,
-        },
       };
 
       const response = await axios.post(
