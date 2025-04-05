@@ -454,10 +454,7 @@ const Description = (props) => {
                     <SwiperSlide key={index} className="!mt-4">
                       <div className="group">
                         <Link
-                          to={`/listing?type=${type.replace(
-                            "-details",
-                            ""
-                          )}&insurance=${item}`}
+                          to={`/listing?type=${type.replace("-details","")}&insurance=${item}`}
                         >
                           <div className="!flex !flex-col !justify-center !items-center !text-center h-full">
                             <img
