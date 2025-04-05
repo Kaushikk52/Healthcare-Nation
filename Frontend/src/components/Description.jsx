@@ -217,6 +217,47 @@ const Description = (props) => {
             </div>
           )}
 
+           {/* Alt Med Section */}
+           {props.details?.altMed && props.details?.altMed.some(item => item.trim() !== "") && (
+            <div className="!py-4 border border-gray-200 !p-4 rounded-md bg-slate-50 mt-5">
+              <h1 className="!text-2xl !font-semibold">Alternative & Complementary Medicine Services</h1>
+              <div className="!flex !flex-wrap !gap-3 !py-5">
+                {props.details.altMed?.map((med, index) => (
+                  <Link
+                    to={`/listing?type=${type.replace(
+                      "-details",
+                      ""
+                    )}&altMed=${med}`}
+                  >
+                    <button
+                      key={index}
+                      className="!bg-gray-200 !px-4 !py-2 !rounded-full !text-sm !text-gray-700 hover:!bg-gray-200 !transition"
+                    >
+                      {med}
+                    </button>
+                  </Link>
+                ))}
+
+                {!showAll && (
+                  <button
+                    className="!bg-cyan-600 !px-4 !py-2 !rounded-full !text-white !text-sm !font-medium hover:!bg-cyan-700 !transition"
+                    onClick={() => setShowAll(true)}
+                  >
+                    More
+                  </button>
+                )}
+                {showAll && (
+                  <button
+                    className="!bg-cyan-600 !px-4 !py-2 !rounded-full !text-white !text-sm !font-medium hover:!bg-cyan-700 !transition"
+                    onClick={() => setShowAll(false)}
+                  >
+                    Show Less
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* Corporates Section */}
           {props.details?.psu && (
             <div className="!py-4 border border-gray-200 !p-4 rounded-md bg-slate-50 my-5">
