@@ -1,5 +1,6 @@
 package com.hcn.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,9 +23,11 @@ public class SavedFacility {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "hospital_id", nullable = false)
-    private MedicalFacility hospital;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "facility_id")
+    @JsonIgnore
+    private BaseFacility facility;
+
 
     @Column(nullable = false)
     private LocalDateTime savedAt;

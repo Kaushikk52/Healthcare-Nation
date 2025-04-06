@@ -39,7 +39,7 @@ public class SavedFacilityService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         MedicalFacility hospital = medicalFacilityRepo.findById(hospitalId)
-                .orElseThrow(() -> new RuntimeException("Hospital not found"));
+                .orElseThrow(() -> new RuntimeException("Medical Facility not found"));
 
         hospital.setIsSaved(true);
         medicalFacilityRepo.save(hospital);
