@@ -21,6 +21,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(value = {"medicalFacilities"}, allowSetters = true)
+@DiscriminatorValue("ORTHOTICS")
 public class Orthotics extends BaseFacility implements FacilityReference{
 
     @ManyToMany
@@ -30,9 +31,5 @@ public class Orthotics extends BaseFacility implements FacilityReference{
             inverseJoinColumns = @JoinColumn(name = "medical_facility_id")
     )
     private List<MedicalFacility> medicalFacilities;
-
-    public enum OwnershipType{
-        PRIVATE,GOVERNMENT
-    }
 
 }

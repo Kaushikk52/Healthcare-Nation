@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @JsonIgnoreProperties(value = {"medicalFacilities"}, allowSetters = true)
+@DiscriminatorValue("BANK")
 public class Bank extends BaseFacility implements FacilityReference {
 
     @Column(name = "accreditations", columnDefinition = "TEXT")

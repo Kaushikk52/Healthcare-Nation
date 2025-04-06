@@ -9,8 +9,11 @@ import java.util.List;
 
 @Repository
 public interface SavedFacilityRepo extends JpaRepository<SavedFacility,String> {
-    List<SavedFacility> findByUserIdAndHospital_FacilityType(String userId, MedicalFacility.FacilityType type);
-    boolean existsByUserIdAndHospitalId(String userId, String hospitalId);
-    void deleteByUserIdAndHospitalId(String userId, String hospitalId);
+//    List<SavedFacility> findByUserIdAndHospital_FacilityType(String userId, MedicalFacility.FacilityType type);
+//    boolean existsByUserIdAndHospitalId(String userId, String hospitalId);
+//    void deleteByUserIdAndHospitalId(String userId, String hospitalId);
 
+    boolean existsByUserIdAndFacilityId(String userId, String facilityId);
+    void deleteByUserIdAndFacilityId(String userId, String facilityId);
+    List<SavedFacility> findByUserId(String userId);
 }

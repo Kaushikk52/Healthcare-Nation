@@ -58,13 +58,12 @@ public class TransportService {
         Transport existingTransport = this.getById(transport.getId());
         List<String> results = imageServ.deleteFiles(deleteImages,"Hospitals");
         BeanUtils.copyProperties(transport,existingTransport,"createdAt");
-        existingTransport.setUpdatedAt(LocalDateTime.now());
         return transportRepo.save(existingTransport);
     }
 
     public String delete(String id){
         Transport existingTransport = this.getById(id);
-        List<String> results = imageServ.deleteFiles(List.of(existingTransport.getImages()),"Hospitals");
+        List<String> results = imageServ.deleteFiles(existingTransport.getImages(),"Hospitals");
         transportRepo.delete(existingTransport);
         return "Deleted Transport by ID : " + id;
     }

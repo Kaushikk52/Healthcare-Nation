@@ -1,7 +1,6 @@
 package com.hcn.demo.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,7 +24,7 @@ public class Rating {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "facility_id")
+    @JoinColumn(name = "facility_id", referencedColumnName = "id") // explicit reference
     @JsonIgnore
     private BaseFacility facility;
 

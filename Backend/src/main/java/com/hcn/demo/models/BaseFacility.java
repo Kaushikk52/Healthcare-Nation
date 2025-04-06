@@ -21,6 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "facilities")
+@DiscriminatorColumn(name = "dtype")
 public abstract class BaseFacility extends Auditable {
 
     @Id
@@ -78,15 +79,19 @@ public abstract class BaseFacility extends Auditable {
 
     private Double avgRating;
 
-    @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties({"facility", "user"})
+
     private List<Rating> ratings;
 
-    @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties({"facility", "user"})
     private List<Review> reviews;
 
     private Boolean isSaved;
+
+    @Enumerated(EnumType.STRING)
+    private MedicalFacility.FacilityType facilityType;
+
+    public enum FacilityType{
+        hospitals,clinics
+    }
 
     public enum OwnershipType {
         PRIVATE, GOVERNMENT

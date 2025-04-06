@@ -1,13 +1,14 @@
 package com.hcn.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -16,8 +17,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 public class User implements UserDetails {
+
     @Id
-    @Column(name = "user_id",nullable = false,updatable = false,length = 36)
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @Column(name = "user_id", nullable = false, updatable = false, length = 36)
     private String id;
 
     @Column(name = "token",unique = true)
@@ -39,14 +43,14 @@ public class User implements UserDetails {
     @Column(name = "role", nullable = false, length = 10)
     private UserRole role;
 
-
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
-    private List<Review> reviews;
-
     private int totalReviews;
 
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Rating> ratings;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews;
+
 
     public enum UserRole {
         ROLE_USER,ROLE_ADMIN;
@@ -54,9 +58,6 @@ public class User implements UserDetails {
 
     @PrePersist
     private void prePersist() {
-        if (this.id == null) {
-            this.id = UUID.randomUUID().toString();
-        }
         if (this.role == null) {
             this.role = UserRole.ROLE_USER;
         }

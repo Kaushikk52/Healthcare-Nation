@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @JsonIgnoreProperties(value = {"medicalFacilities"}, allowSetters = true)
+@DiscriminatorValue("HOMECARE")
 public class Homecare extends BaseFacility implements FacilityReference {
 
     @ManyToMany(mappedBy = "homecare")

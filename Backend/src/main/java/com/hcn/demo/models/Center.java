@@ -18,6 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @JsonIgnoreProperties(value = {"medicalFacilities"}, allowSetters = true)
+@DiscriminatorValue("CENTER")
 public class Center extends BaseFacility implements FacilityReference{
 
     @ManyToOne

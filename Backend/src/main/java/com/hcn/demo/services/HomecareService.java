@@ -57,13 +57,12 @@ public class HomecareService {
         Homecare existingHomecare = this.getById(homecare.getId());
         List<String> results = imageServ.deleteFiles(deleteImages,"Hospitals");
         BeanUtils.copyProperties(homecare,existingHomecare,"createdAt");
-        existingHomecare.setUpdatedAt(LocalDateTime.now());
         return homecareRepo.save(existingHomecare);
     }
 
     public String delete(String id){
         Homecare existingHomecare = this.getById(id);
-        List<String> results = imageServ.deleteFiles(List.of(existingHomecare.getImages()),"Hospitals");
+        List<String> results = imageServ.deleteFiles(existingHomecare.getImages(),"Hospitals");
         homecareRepo.delete(existingHomecare);
         return "Deleted Homecare by ID : " + id;
     }

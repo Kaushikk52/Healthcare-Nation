@@ -57,13 +57,12 @@ public class DiagnosticsService {
         Diagnostics existingDiagnostics = this.getById(diagnostics.getId());
         List<String> results = imageServ.deleteFiles(deleteImages,"Hospitals");
         BeanUtils.copyProperties(diagnostics,existingDiagnostics,"createdAt");
-        existingDiagnostics.setUpdatedAt(LocalDateTime.now());
         return diagnosticsRepo.save(existingDiagnostics);
     }
 
     public String delete(String id){
         Diagnostics existingDiagnostics = this.getById(id);
-        List<String> results = imageServ.deleteFiles(List.of(existingDiagnostics.getImages()),"Hospitals");
+        List<String> results = imageServ.deleteFiles(existingDiagnostics.getImages(),"Hospitals");
         diagnosticsRepo.delete(existingDiagnostics);
         return "Deleted Diagnostics by ID : " + id;
     }

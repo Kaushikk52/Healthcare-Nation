@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @JsonIgnoreProperties(value = {"medicalFacilities"}, allowSetters = true)
+@DiscriminatorValue("DIAGNOSTIC")
 public class Diagnostics extends BaseFacility implements FacilityReference {
 
     @Column(name = "accreditations", columnDefinition = "TEXT")
@@ -39,8 +40,5 @@ public class Diagnostics extends BaseFacility implements FacilityReference {
     @ManyToMany(mappedBy = "diagnosticsList")
     private List<MedicalFacility> medicalFacilities;
 
-    public enum OwnershipType {
-        PRIVATE, GOVERNMENT
-    }
 
 }

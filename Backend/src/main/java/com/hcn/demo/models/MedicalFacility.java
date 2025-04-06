@@ -18,10 +18,12 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@DiscriminatorValue("MEDICAL")
 public class MedicalFacility extends BaseFacility implements FacilityReference{
 
-    @Enumerated(EnumType.STRING)
-    private FacilityType facilityType;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(name = "brands", columnDefinition = "TEXT")
     @Convert(converter = StringListConverter.class)
@@ -72,9 +74,5 @@ public class MedicalFacility extends BaseFacility implements FacilityReference{
     @ManyToMany(mappedBy = "medicalFacilities")
     private List<Center> center;
 
-
-    public enum FacilityType{
-        hospitals,clinics
-    }
 
 }

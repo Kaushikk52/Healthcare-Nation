@@ -56,14 +56,13 @@ public class OrthoticsService {
         Orthotics existingOrthotics = this.getById(op.getId());
         List<String> results = imageServ.deleteFiles(deleteImages,"Hospitals");
         BeanUtils.copyProperties(op,existingOrthotics,"createdAt");
-        existingOrthotics.setUpdatedAt(LocalDateTime.now());
         return orthoticsRepo.save(existingOrthotics);
     }
 
 
     public String delete(String id){
         Orthotics existingOrthotics = this.getById(id);
-        List<String> results = imageServ.deleteFiles(List.of(existingOrthotics.getImages()),"Hospitals");
+        List<String> results = imageServ.deleteFiles(existingOrthotics.getImages(),"Hospitals");
         orthoticsRepo.delete(existingOrthotics);
         return "Deleted OP by ID : " + id;
     }

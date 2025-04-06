@@ -1,74 +1,105 @@
 package com.hcn.demo.services;
 
-import com.hcn.demo.models.MedicalFacility;
-import com.hcn.demo.models.SavedFacility;
-import com.hcn.demo.models.User;
-import com.hcn.demo.repositories.MedicalFacilityRepo;
+import com.hcn.demo.helper.FacilityRepositoryRegistry;
+import com.hcn.demo.models.*;
+import com.hcn.demo.repositories.BaseFacilityRepo;
 import com.hcn.demo.repositories.SavedFacilityRepo;
-import com.hcn.demo.repositories.UserRepo;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
+
 
 @Service
+@RequiredArgsConstructor
 public class SavedFacilityService {
 
-    @Autowired
-    private SavedFacilityRepo savedFacilityRepo;
 
-    @Autowired
-    private UserRepo userRepo;
-
-    @Autowired
-    private MedicalFacilityRepo medicalFacilityRepo;
+    private final FacilityRepositoryRegistry facilityRegistry;
+    private final SavedFacilityRepo savedFacilityRepo;
+    private final UserService userService;
 
 
-    public void saveHospital(String userId, String hospitalId) {
-        if (savedFacilityRepo.existsByUserIdAndHospitalId(userId, hospitalId)) {
-            MedicalFacility hospital = medicalFacilityRepo.findById(hospitalId)
-                    .orElseThrow(() -> new RuntimeException("Hospital not found"));
-            hospital.setIsSaved(true);
-            medicalFacilityRepo.save(hospital);
-            throw new RuntimeException("Hospital already saved");
+    public <T extends BaseFacility> void saveFacility(String facilityId, Class<T> clazz, Principal principal) {
+        String userId = userService.getCurrentUserRole(principal).getId();
+        BaseFacilityRepo<T> repo = facilityRegistry.getRepository(clazz);
+
+        T facility = repo.findById(facilityId)
+                .orElseThrow(() -> new RuntimeException("Facility not found"));
+
+        // Check if already saved
+        if (savedFacilityRepo.existsByUserIdAndFacilityId(userId, facilityId)) {
+            throw new RuntimeException("Already saved");
         }
 
-        User user = userRepo.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        facility.setIsSaved(true);
+        repo.save(facility);
 
-        MedicalFacility hospital = medicalFacilityRepo.findById(hospitalId)
-                .orElseThrow(() -> new RuntimeException("Medical Facility not found"));
+        SavedFacility saved = SavedFacility.builder()
+                .user(User.builder().id(userId).build())
+                .facility(facility)
+                .build();
 
-        hospital.setIsSaved(true);
-        medicalFacilityRepo.save(hospital);
-
-        SavedFacility savedHospital = new SavedFacility();
-        savedHospital.setUser(user);
-        savedHospital.setHospital(hospital);
-
-        savedFacilityRepo.save(savedHospital);
+        savedFacilityRepo.save(saved);
     }
 
-    public List<MedicalFacility> getSavedHospitals(String userId) {
-        List<SavedFacility> savedFacilities = savedFacilityRepo.findByUserIdAndHospital_FacilityType(userId,MedicalFacility.FacilityType.hospitals);
-        return savedFacilities.stream().map(SavedFacility::getHospital).collect(Collectors.toList());
+    public <T extends BaseFacility> void unsaveFacility(String facilityId, Class<T> clazz, Principal principal) {
+        String userId = userService.getCurrentUserRole(principal).getId();
+        BaseFacilityRepo<T> repo = facilityRegistry.getRepository(clazz);
+
+        T facility = repo.findById(facilityId)
+                .orElseThrow(() -> new RuntimeException("Facility not found"));
+
+        facility.setIsSaved(false);
+        repo.save(facility);
+
+        savedFacilityRepo.deleteByUserIdAndFacilityId(userId, facilityId);
     }
 
-    public List<MedicalFacility> getSavedClinics(String userId){
-        List<SavedFacility> savedFacilities = savedFacilityRepo.findByUserIdAndHospital_FacilityType(userId,MedicalFacility.FacilityType.clinics);
-        return savedFacilities.stream().map(SavedFacility::getHospital).collect(Collectors.toList());
-    }
+    public List<SavedFacility> getFilteredSavedFacilities(
+            Principal principal,
+            Optional<String> type,
+            Optional<MedicalFacility.FacilityType> facilityType,
+            Optional<Center.CenterType> centerType
+    ) {
+        String userId = userService.getCurrentUserRole(principal).getId();
+        List<SavedFacility> all = savedFacilityRepo.findByUserId(userId);
 
-    @Transactional
-    public void removeSavedHospital(String userId, String hospitalId) {
-        MedicalFacility hospital = medicalFacilityRepo.findById(hospitalId)
-                .orElseThrow(() -> new RuntimeException("Hospital not found"));
+        return all.stream()
+                .filter(saved -> {
+                    BaseFacility base = saved.getFacility();
 
-        hospital.setIsSaved(false);
-        medicalFacilityRepo.save(hospital);
-        savedFacilityRepo.deleteByUserIdAndHospitalId(userId, hospitalId);
+                    // Filter by type (medical, bank, center, etc.)
+                    if (type.isPresent()) {
+                        String expected = type.get().toLowerCase();
+                        boolean matches = switch (expected) {
+                            case "medical" -> base instanceof MedicalFacility;
+                            case "bank" -> base instanceof Bank;
+                            case "diagnostics" -> base instanceof Diagnostics;
+                            case "center" -> base instanceof Center;
+                            case "homecare" -> base instanceof Homecare;
+                            case "transport" -> base instanceof Transport;
+                            case "orthotics" -> base instanceof Orthotics;
+                            default -> false;
+                        };
+                        if (!matches) return false;
+                    }
+
+                    // If medical facilityType is specified
+                    if (facilityType.isPresent() && base instanceof MedicalFacility med) {
+                        return med.getFacilityType() == facilityType.get();
+                    }
+
+                    // If center centerType is specified
+                    if (centerType.isPresent() && base instanceof Center center) {
+                        return center.getType() == centerType.get();
+                    }
+
+                    return true;
+                })
+                .toList();
     }
 
 }

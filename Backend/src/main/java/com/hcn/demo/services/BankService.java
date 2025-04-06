@@ -57,13 +57,12 @@ public class BankService {
         Bank existingBank = this.getById(bank.getId());
         List<String> results = imageServ.deleteFiles(deleteImages,"Hospitals");
         BeanUtils.copyProperties(bank,existingBank,"createdAt");
-        existingBank.setUpdatedAt(LocalDateTime.now());
         return bankRepo.save(existingBank);
     }
 
     public String delete(String id){
         Bank existingBank = this.getById(id);
-        List<String> results = imageServ.deleteFiles(List.of(existingBank.getImages()),"Hospitals");
+        List<String> results = imageServ.deleteFiles(existingBank.getImages(),"Hospitals");
         bankRepo.delete(existingBank);
         return "Deleted Bank by ID : " + id;
     }

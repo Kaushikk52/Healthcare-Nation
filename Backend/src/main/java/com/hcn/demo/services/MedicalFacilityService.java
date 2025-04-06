@@ -22,20 +22,17 @@ import java.util.stream.Collectors;
 public class MedicalFacilityService {
 
     private final MedicalFacilityRepo medicalFacilityRepo;
-    private final AddressRepo addressRepo;
+
     private final RatingRepo ratingRepo;
     private final ReviewRepo reviewRepo;
     private final UserDetailsService userDetailsService;
     private final UserRepo userRepo;
     private final ImageService imageServ;
-    private List<Rating> existingRating;
 
     @Autowired
-    public MedicalFacilityService(MedicalFacilityRepo medicalFacilityRepo, AddressRepo addressRepo, RatingRepo ratingRepo,
-                                  ReviewRepo reviewRepo, UserRepo userRepo, UserDetailsService userDetailsService,
-                                  ImageService imageServ){
+    public MedicalFacilityService(MedicalFacilityRepo medicalFacilityRepo, RatingRepo ratingRepo, ReviewRepo reviewRepo,
+                                  UserRepo userRepo, UserDetailsService userDetailsService, ImageService imageServ){
         this.medicalFacilityRepo = medicalFacilityRepo;
-        this.addressRepo = addressRepo;
         this.ratingRepo = ratingRepo;
         this.reviewRepo = reviewRepo;
         this.userRepo = userRepo;
@@ -69,7 +66,7 @@ public class MedicalFacilityService {
             ratingRepo.save(existingUserRating.get());
         } else {
             // Add new rating
-            rating.setMedicalFacility(facility);
+            rating.setFacility(facility);
             rating.setUser(principalUser);
             facility.addRating(rating);
             ratingRepo.save(rating);
@@ -87,7 +84,7 @@ public class MedicalFacilityService {
     public void addReviewToMedicalFacility(String id, Review review,Principal principal){
         MedicalFacility facility = this.getFacilityById(id);
         facility.addReview(review);
-        review.setMedicalFacility(facility);
+        review.setFacility(facility);
         User principalUser = (User)userDetailsService.loadUserByUsername(principal.getName());
         review.setUser(principalUser);
         principalUser.setTotalReviews(principalUser.getTotalReviews()+1);
@@ -127,13 +124,12 @@ public class MedicalFacilityService {
         MedicalFacility existingFacility = medicalFacilityRepo.findById(id).orElseThrow(()-> new RuntimeException("Not Found..."));
         List<String> results = imageServ.deleteFiles(deleteImages,"Hospitals");
         BeanUtils.copyProperties(facility,existingFacility,"createdAt","ratings","reviews");
-        existingFacility.setUpdatedAt(LocalDateTime.now());
         return medicalFacilityRepo.save(existingFacility);
     }
 
     public void removeFacility(String id){
         MedicalFacility existingFacility = medicalFacilityRepo.findById(id).orElseThrow(()-> new RuntimeException("Not Found..."));
-        List<String> results = imageServ.deleteFiles(List.of(existingFacility.getImages()),"Hospitals");
+        List<String> results = imageServ.deleteFiles(existingFacility.getImages(),"Hospitals");
         medicalFacilityRepo.delete(existingFacility);
     }
 

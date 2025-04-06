@@ -52,13 +52,12 @@ public class CenterService {
         List<String> results = imageServ.deleteFiles(deleteImages,"Hospitals");
         existingCenter.setMedicalFacilities(center.getMedicalFacilities());
         BeanUtils.copyProperties(center,existingCenter,"createdAt","medicalFacilities");
-        existingCenter.setUpdatedAt(LocalDateTime.now());
         return centerRepo.save(existingCenter);
     }
 
     public void deleteCenter(String id){
         Center existingCenter =  centerRepo.findById(id).orElseThrow(() -> new RuntimeException("Not found ..."));
-        List<String> results = imageServ.deleteFiles(List.of(existingCenter.getImages()),"Hospitals");
+        List<String> results = imageServ.deleteFiles(existingCenter.getImages(),"Hospitals");
         centerRepo.delete(existingCenter);
 
     }

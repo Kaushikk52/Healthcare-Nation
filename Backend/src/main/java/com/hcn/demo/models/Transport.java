@@ -2,15 +2,11 @@ package com.hcn.demo.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.hcn.demo.helper.StringListConverter;
+
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Setter
@@ -19,6 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(value = {"medicalFacilities"}, allowSetters = true)
+@DiscriminatorValue("TRANSPORT")
 public class Transport extends BaseFacility implements FacilityReference{
 
     @ManyToMany
@@ -28,10 +25,5 @@ public class Transport extends BaseFacility implements FacilityReference{
             inverseJoinColumns = @JoinColumn(name = "medical_facility_id")
     )
     private List<MedicalFacility> medicalFacilities;
-
-    public enum OwnershipType{
-        PRIVATE,GOVERNMENT
-    }
-
 
 }
