@@ -79,15 +79,10 @@ public abstract class BaseFacility extends Auditable {
 
     private Double avgRating;
 
-
-    private List<Rating> ratings;
-
-    private List<Review> reviews;
-
     private Boolean isSaved;
 
     @Enumerated(EnumType.STRING)
-    private MedicalFacility.FacilityType facilityType;
+    private FacilityType facilityType;
 
     public enum FacilityType{
         hospitals,clinics
@@ -95,16 +90,6 @@ public abstract class BaseFacility extends Auditable {
 
     public enum OwnershipType {
         PRIVATE, GOVERNMENT
-    }
-
-    public void addRating(Rating rating) {
-        this.ratings.add(rating);
-        rating.setFacility(this);
-    }
-
-    public void addReview(Review review) {
-        this.reviews.add(review);
-        review.setFacility(this);
     }
 
 

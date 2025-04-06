@@ -46,10 +46,12 @@ public class User implements UserDetails {
     private int totalReviews;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Rating> ratings;
+    @JsonIgnore
+    private List<Review> reviews;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> reviews;
+    @JsonIgnore
+    private List<Rating> ratings;
 
 
     public enum UserRole {

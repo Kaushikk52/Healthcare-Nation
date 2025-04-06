@@ -74,5 +74,23 @@ public class MedicalFacility extends BaseFacility implements FacilityReference{
     @ManyToMany(mappedBy = "medicalFacilities")
     private List<Center> center;
 
+    @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({"facility", "user"})
+    private List<Rating> ratings;
+
+    @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({"facility", "user"})
+    private List<Review> reviews;
+
+    public void addRating(Rating rating) {
+        this.ratings.add(rating);
+        rating.setFacility(this);
+    }
+
+    public void addReview(Review review) {
+        this.reviews.add(review);
+        review.setFacility(this);
+    }
+
 
 }

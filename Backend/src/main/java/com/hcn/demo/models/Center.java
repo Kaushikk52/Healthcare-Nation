@@ -56,6 +56,14 @@ public class Center extends BaseFacility implements FacilityReference{
     @Convert(converter = StringListConverter.class)
     private List<String> altMed;
 
+    @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({"facility", "user"})
+    private List<Rating> ratings;
+
+    @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({"facility", "user"})
+    private List<Review> reviews;
+
     @ManyToMany
     @JoinTable(
             name = "center_medical_facilities",
@@ -65,7 +73,17 @@ public class Center extends BaseFacility implements FacilityReference{
     private List<MedicalFacility> medicalFacilities;
 
     public enum CenterType{
-            dialysis,ivf,burns,hairTransplant,checkup,rehabilitation
+        dialysis,ivf,burns,hairTransplant,checkup,rehabilitation
+    }
+
+    public void addRating(Rating rating) {
+        this.ratings.add(rating);
+        rating.setFacility(this);
+    }
+
+    public void addReview(Review review) {
+        this.reviews.add(review);
+        review.setFacility(this);
     }
 
 }
