@@ -123,6 +123,7 @@ public class MedicalFacilityService {
     public MedicalFacility updateFacility(String id ,MedicalFacility facility,List<String> deleteImages){
         MedicalFacility existingFacility = medicalFacilityRepo.findById(id).orElseThrow(()-> new RuntimeException("Not Found..."));
         List<String> results = imageServ.deleteFiles(deleteImages,"Hospitals");
+        existingFacility.setBrands(facility.getBrands());
         BeanUtils.copyProperties(facility,existingFacility,"createdAt","ratings","reviews");
         return medicalFacilityRepo.save(existingFacility);
     }

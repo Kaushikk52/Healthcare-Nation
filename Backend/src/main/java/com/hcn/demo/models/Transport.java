@@ -18,7 +18,12 @@ import java.util.List;
 @DiscriminatorValue("TRANSPORT")
 public class Transport extends BaseFacility implements FacilityReference{
 
-    @ManyToMany(mappedBy = "transport")
+    @ManyToMany
+    @JoinTable(
+            name = "transport_medical_facilities",
+            joinColumns = @JoinColumn(name = "transport_id"),
+            inverseJoinColumns = @JoinColumn(name = "medical_facility_id")
+    )
     private List<MedicalFacility> medicalFacilities;
 
     @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -17,7 +17,12 @@ import java.util.List;
 @DiscriminatorValue("HOMECARE")
 public class Homecare extends BaseFacility implements FacilityReference {
 
-    @ManyToMany(mappedBy = "homecare")
+    @ManyToMany
+    @JoinTable(
+            name = "homecare_medical_facilities",
+            joinColumns = @JoinColumn(name = "homecare_id"),
+            inverseJoinColumns = @JoinColumn(name = "medical_facility_id")
+    )
     private List<MedicalFacility> medicalFacilities;
 
     @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL, orphanRemoval = true)

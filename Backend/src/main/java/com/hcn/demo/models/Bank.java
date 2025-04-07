@@ -5,7 +5,6 @@ import com.hcn.demo.helper.StringListConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,7 +21,12 @@ public class Bank extends BaseFacility implements FacilityReference {
     @Convert(converter = StringListConverter.class)
     private List<String> accreditations;
 
-    @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL)
+    @ManyToMany
+    @JoinTable(
+            name = "bank_medical_facilities",
+            joinColumns = @JoinColumn(name = "bank_id"),
+            inverseJoinColumns = @JoinColumn(name = "medical_facility_id")
+    )
     private List<MedicalFacility> medicalFacilities;
 
     @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL, orphanRemoval = true)

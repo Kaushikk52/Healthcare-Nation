@@ -18,7 +18,7 @@ public class RatingService {
     }
 
     public List<Rating> getRatingsByFacility(String id){
-        List<Rating> ratings = ratingRepo.findByMedicalFacility_Id(id);
+        List<Rating> ratings = ratingRepo.findByFacility_Id(id);
         return ratings;
     }
 }

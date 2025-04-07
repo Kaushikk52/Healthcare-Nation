@@ -136,7 +136,7 @@ const Description = (props) => {
           </div>
 
           {/* Achievements */}
-          {props.details?.achievements && (
+          {props.details?.achievements?.length > 0 && (
             <div className="mb-5 border border-gray-200 !p-4 rounded-md bg-slate-50">
               <h1 className="!text-2xl !font-semibold">Achievements</h1>
               <div className="!py-4 sm:!py-2 ">
@@ -158,7 +158,7 @@ const Description = (props) => {
           )}
 
           {/* Facts */}
-          {props.details?.facts && (
+          {props.details?.facts?.length > 0 && (
             <div className="border border-gray-200 !p-4 rounded-md bg-slate-50">
               <h1 className="!text-2xl !font-semibold">Facts</h1>
               <div className="!py-4 sm:!py-2">

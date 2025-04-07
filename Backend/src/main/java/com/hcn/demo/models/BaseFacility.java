@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -78,8 +77,25 @@ public abstract class BaseFacility extends Auditable {
     private List<String> brands;
 
     private Double avgRating;
+    @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({"facility", "user"})
+    private List<Rating> ratings;
+
+    @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({"facility", "user"})
+    private List<Review> reviews;
 
     private Boolean isSaved;
+
+    public void addRating(Rating rating) {
+        this.ratings.add(rating);
+        rating.setFacility(this);
+    }
+
+    public void addReview(Review review) {
+        this.reviews.add(review);
+        review.setFacility(this);
+    }
 
     @Enumerated(EnumType.STRING)
     private FacilityType facilityType;

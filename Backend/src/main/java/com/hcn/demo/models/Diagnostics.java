@@ -37,7 +37,12 @@ public class Diagnostics extends BaseFacility implements FacilityReference {
     @Convert(converter = StringListConverter.class)
     private List<String> tpa;
 
-    @ManyToMany(mappedBy = "diagnosticsList")
+    @ManyToMany
+    @JoinTable(
+            name = "diagnostics_medical_facilities",
+            joinColumns = @JoinColumn(name = "diagnostic_id"),
+            inverseJoinColumns = @JoinColumn(name = "medical_facility_id")
+    )
     private List<MedicalFacility> medicalFacilities;
 
     @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL, orphanRemoval = true)

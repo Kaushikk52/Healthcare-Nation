@@ -13,7 +13,13 @@ public interface SavedFacilityRepo extends JpaRepository<SavedFacility,String> {
 //    boolean existsByUserIdAndHospitalId(String userId, String hospitalId);
 //    void deleteByUserIdAndHospitalId(String userId, String hospitalId);
 
-    boolean existsByUserIdAndFacilityId(String userId, String facilityId);
-    void deleteByUserIdAndFacilityId(String userId, String facilityId);
-    List<SavedFacility> findByUserId(String userId);
+//    List<SavedFacility> findByUserIdAndFacilityKind(String userId, SavedFacility.FacilityKind kind);
+//    boolean existsByUserIdAndFacilityId(String userId, String facilityId);
+//    void deleteByUserIdAndFacilityId(String userId, String facilityId);
+//    List<SavedFacility> findByUserId(String userId);
+
+    List<SavedFacility> findByUser_Id(String userId);
+    List<SavedFacility> findByUser_IdAndFacilityKind(String userId, SavedFacility.FacilityKind kind);
+    boolean existsByUser_IdAndFacility_Id(String userId, String facilityId);
+    void deleteByUser_IdAndFacility_Id(String userId, String facilityId);
 }

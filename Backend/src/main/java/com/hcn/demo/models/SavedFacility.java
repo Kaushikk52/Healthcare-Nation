@@ -30,6 +30,9 @@ public class SavedFacility {
     @JsonIgnore
     private BaseFacility facility;
 
+    @Enumerated(EnumType.STRING)
+    private FacilityKind facilityKind;
+
     @Column(nullable = false)
     private LocalDateTime savedAt;
 
@@ -37,5 +40,16 @@ public class SavedFacility {
     private void prePersist() {
        this.savedAt = LocalDateTime.now();
     }
+
+    public enum FacilityKind {
+        MEDICAL,
+        BANK,
+        CENTER,
+        DIAGNOSTICS,
+        HOMECARE,
+        TRANSPORT,
+        ORTHOTICS
+    }
+
 
 }

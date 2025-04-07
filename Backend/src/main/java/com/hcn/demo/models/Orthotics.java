@@ -24,7 +24,12 @@ import java.util.UUID;
 @DiscriminatorValue("ORTHOTICS")
 public class Orthotics extends BaseFacility implements FacilityReference{
 
-    @ManyToMany(mappedBy = "orthotics")
+    @ManyToMany
+    @JoinTable(
+            name = "orthotics_medical_facilities",
+            joinColumns = @JoinColumn(name = "orthotic_id"),
+            inverseJoinColumns = @JoinColumn(name = "medical_facility_id")
+    )
     private List<MedicalFacility> medicalFacilities;
 
     @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL, orphanRemoval = true)

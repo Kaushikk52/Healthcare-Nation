@@ -105,7 +105,7 @@ export default function CenterDetailsPage () {
   const saveHospital = async (hospitalId) => {
     try {
       const response = await axios.post(
-        `${baseURL}/v1/api/saved/${hospitalId}`,
+        `${baseURL}/v1/api/saved/center/${hospitalId}`,
         {},
         {
           headers: {
@@ -121,7 +121,7 @@ export default function CenterDetailsPage () {
   };
 
   const removeSavedHospital = async (hospitalId) => {
-    return await axios.delete(`${baseURL}/v1/api/saved/${hospitalId}`, {
+    return await axios.delete(`${baseURL}/v1/api/saved/center/${hospitalId}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

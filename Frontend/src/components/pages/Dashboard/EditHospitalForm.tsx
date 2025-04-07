@@ -1368,8 +1368,7 @@ export default function EditHospitalForm() {
                         Brands
                       </label>
                       <MultipleSelector
-                        value={values.brands
-                          .filter((b) => b.trim())
+                        value={values.brands?.filter((b) => b.trim())
                           .map((b) => ({ label: b, value: b }))}
                         onChange={(newValue) => {
                           setFieldValue(

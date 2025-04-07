@@ -20,7 +20,7 @@ public class ReviewService {
 
 
     public List<Review> getReviewsByHospital(String id){
-        List<Review> reviews = reviewRepo.findByMedicalFacility_Id(id);
+        List<Review> reviews = reviewRepo.findByFacility_Id(id);
         return reviews;
     }
 

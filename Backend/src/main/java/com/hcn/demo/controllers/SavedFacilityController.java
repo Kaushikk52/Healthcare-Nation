@@ -48,7 +48,6 @@ public class SavedFacilityController {
             log.warn("An Error occurred : {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Internal server Error");
         }
-
     }
 
     @GetMapping

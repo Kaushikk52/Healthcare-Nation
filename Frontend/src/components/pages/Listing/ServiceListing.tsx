@@ -110,7 +110,7 @@ export default function ServiceListing() {
 
   const location = params.get("location")
   const search = params.get("search")
-  const type = params.get("type")
+  const type = params.get("type") || "hospitals"
 
   // Function to update URL parameters based on selected filters
   const updateUrlParams = () => {
@@ -286,7 +286,7 @@ export default function ServiceListing() {
   const getFacilities = async () => {
     try {
       let url = ``
-      const queryString = buildQuery()
+      const queryString = buildQuery();
       if (type === "hospitals" || type === "clinics") {
         if (queryString.size > 0) {
           url = `${baseURL}/v1/api/facility/filter?type=${type}&${queryString}`
@@ -309,7 +309,11 @@ export default function ServiceListing() {
 
       const response = await axios.get(url)
       const data = response.data[type] || []
-      setFacilities(data)
+      if(response.data[type].length === 0){
+        setFacilities([]);
+      }else{
+        setFacilities(data)
+      }
     } catch (err) {
       console.log(err)
     }
@@ -342,7 +346,7 @@ export default function ServiceListing() {
 
   const fetchSavedHospitals = async () => {
     try {
-      const response = await axios.get(`${baseURL}/v1/api/saved/hospitals`, {
+      const response = await axios.get(`${baseURL}/v1/api/saved?type=medical&facilityType=hospitals`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -355,7 +359,7 @@ export default function ServiceListing() {
 
   const fetchSavedClinics = async () => {
     try {
-      const response = await axios.get(`${baseURL}/v1/api/saved/clinics`, {
+      const response = await axios.get(`${baseURL}/v1/api/saved?type=medical&facilityType=clinics`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -370,7 +374,7 @@ export default function ServiceListing() {
     if (!facilityType) return
 
     try {
-      const response = await axios.get(`${baseURL}/v1/api/saved/${facilityType}`, {
+      const response = await axios.get(`${baseURL}/v1/api/saved?type=${facilityType}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

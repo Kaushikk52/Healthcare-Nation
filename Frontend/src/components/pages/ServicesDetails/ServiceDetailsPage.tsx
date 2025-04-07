@@ -103,7 +103,7 @@ const ServiceDetailsPage = () => {
   const saveService = async (id) => {
     try {
       const response = await axios.post(
-        `${baseURL}/v1/api/saved/${id}`,
+        `${baseURL}/v1/api/saved/${type}/${id}`,
         {},
         {
           headers: {
@@ -119,7 +119,7 @@ const ServiceDetailsPage = () => {
   };
 
   const removeSavedService = async (id) => {
-    return await axios.delete(`${baseURL}/v1/api/saved/${id}`, {
+    return await axios.delete(`${baseURL}/v1/api/saved/${type}/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
