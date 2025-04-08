@@ -1,9 +1,11 @@
 package com.hcn.demo.services;
 
+import com.hcn.demo.helper.FacilityRepositoryRegistry;
 import com.hcn.demo.models.*;
 import com.hcn.demo.repositories.*;
 import com.hcn.demo.specifications.GenericSpecification;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class MedicalFacilityService {
 
     private final MedicalFacilityRepo medicalFacilityRepo;
@@ -28,17 +31,7 @@ public class MedicalFacilityService {
     private final UserDetailsService userDetailsService;
     private final UserRepo userRepo;
     private final ImageService imageServ;
-
-    @Autowired
-    public MedicalFacilityService(MedicalFacilityRepo medicalFacilityRepo, RatingRepo ratingRepo, ReviewRepo reviewRepo,
-                                  UserRepo userRepo, UserDetailsService userDetailsService, ImageService imageServ){
-        this.medicalFacilityRepo = medicalFacilityRepo;
-        this.ratingRepo = ratingRepo;
-        this.reviewRepo = reviewRepo;
-        this.userRepo = userRepo;
-        this.userDetailsService = userDetailsService;
-        this.imageServ = imageServ;
-    }
+    private final FacilityRepositoryRegistry facilityRegistry;
 
     public MedicalFacility addHospital(MedicalFacility hospital,User principalUser) {
         hospital.setUser(principalUser);
@@ -52,7 +45,10 @@ public class MedicalFacilityService {
     }
 
     public void addRatingToMedicalFacility(String id, Rating rating, Principal principal) {
-        MedicalFacility facility = this.getFacilityById(id);
+        BaseFacilityRepo<MedicalFacility> repo = facilityRegistry.getRepository(MedicalFacility.class);
+        BaseFacility facility =  repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Facility not found with id: " + id));
+
         User principalUser = (User) userDetailsService.loadUserByUsername(principal.getName());
 
         List<Rating> existingRatings = facility.getRatings();
@@ -79,7 +75,6 @@ public class MedicalFacilityService {
         facility.setAvgRating(avgRating);
         return medicalFacilityRepo.save(facility);
     }
-
 
     public void addReviewToMedicalFacility(String id, Review review,Principal principal){
         MedicalFacility facility = this.getFacilityById(id);

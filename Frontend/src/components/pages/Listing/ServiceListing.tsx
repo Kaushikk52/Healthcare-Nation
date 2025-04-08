@@ -272,8 +272,8 @@ export default function ServiceListing() {
 
     // Add all selected filters to the query
     Object.entries(selectedFilters).forEach(([key, value]) => {
-      if (key === "saved") return
-
+      if (key === "saved" || key === "sortBy") return; // Skip saved and sortBy filters
+      
       if (Array.isArray(value) && value.length > 0) {
         // For arrays with multiple values, join with commas
         query.append(key, value.join(","))
@@ -431,12 +431,13 @@ export default function ServiceListing() {
 
     // Apply client-side sorting
     if (selectedFilters.sortBy.length > 0) {
-      const sortType = selectedFilters.sortBy[0]
-      if (sortType === "rating") {
-        setFacilities((prev) => sortByRating([...prev]))
-      } else if (sortType === "reviews") {
-        setFacilities((prev) => sortByReviews([...prev]))
-      }
+      const sortType = selectedFilters.sortBy[0];
+      setFacilities((prev) => {
+        const sorted = [...prev];
+        if (sortType === "rating") return sortByRating(sorted);
+        if (sortType === "reviews") return sortByReviews(sorted);
+        return sorted;
+      });
     }
 
     // Handle saved filter

@@ -71,5 +71,4 @@ public class MedicalFacility extends BaseFacility implements FacilityReference{
     @ManyToMany(mappedBy = "medicalFacilities")
     private List<Center> center;
 
-
 }

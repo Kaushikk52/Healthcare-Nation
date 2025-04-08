@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -79,20 +80,26 @@ public abstract class BaseFacility extends Auditable {
     private Double avgRating;
     @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties({"facility", "user"})
-    private List<Rating> ratings;
+    private List<Rating> ratings= new ArrayList<>();
 
     @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties({"facility", "user"})
-    private List<Review> reviews;
+    private List<Review> reviews= new ArrayList<>();
 
     private Boolean isSaved;
 
     public void addRating(Rating rating) {
+        if (this.ratings == null) {
+            this.ratings = new ArrayList<>();
+        }
         this.ratings.add(rating);
         rating.setFacility(this);
     }
 
     public void addReview(Review review) {
+        if (this.reviews == null) {
+            this.reviews = new ArrayList<>();
+        }
         this.reviews.add(review);
         review.setFacility(this);
     }
