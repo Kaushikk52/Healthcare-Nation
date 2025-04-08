@@ -1,3 +1,5 @@
+"use client"
+
 import { AnimatePresence, motion } from "framer-motion"
 import { FaStar, FaFilter } from "react-icons/fa"
 import { Link, useSearchParams } from "react-router-dom"
@@ -89,6 +91,10 @@ export default function ServiceListing() {
   // Flag to prevent infinite loops when updating state
   const isUpdatingFilters = useRef(false)
   const isUpdatingParams = useRef(false)
+
+  // Track previous location and search values
+  const prevLocationRef = useRef<string | null>(null)
+  const prevSearchRef = useRef<string | null>(null)
 
   const initialSelectedFilters: SelectedFilters = {
     brands: [],
@@ -210,9 +216,9 @@ export default function ServiceListing() {
     if (type) {
       newParams.set("type", type)
     }
-
     // Update URL
     setParams(newParams)
+    getFacilities()
   }
 
   const toggleSection = (sectionTitle: string) => {
@@ -255,11 +261,18 @@ export default function ServiceListing() {
 
   const detailsUrl = (id: string) => {
     if (type === "hospitals" || type === "clinics") {
-      return `/${type}-details/${id}`;
-    }else if(type === "dialysis" || type === "ivf" || type === "burns" || type === "hairTransplant" || type === "checkup" || type === "rehabilitation"){
-      return `/center/${type}/${id}`;
-    }else {
-      return `/services/${type}/${id}`;
+      return `/${type}-details/${id}`
+    } else if (
+      type === "dialysis" ||
+      type === "ivf" ||
+      type === "burns" ||
+      type === "hairTransplant" ||
+      type === "checkup" ||
+      type === "rehabilitation"
+    ) {
+      return `/center/${type}/${id}`
+    } else {
+      return `/services/${type}/${id}`
     }
   }
 
@@ -270,10 +283,10 @@ export default function ServiceListing() {
     location && query.append("location", location)
     search && query.append("search", search)
 
-    // Add all selected filters to the query
+    // Add all selected filters to the query EXCEPT sortBy
     Object.entries(selectedFilters).forEach(([key, value]) => {
-      if (key === "saved" || key === "sortBy") return; // Skip saved and sortBy filters
-      
+      if (key === "saved" || key === "sortBy") return // Skip saved and sortBy filters
+
       if (Array.isArray(value) && value.length > 0) {
         // For arrays with multiple values, join with commas
         query.append(key, value.join(","))
@@ -286,17 +299,24 @@ export default function ServiceListing() {
   const getFacilities = async () => {
     try {
       let url = ``
-      const queryString = buildQuery();
+      const queryString = buildQuery()
       if (type === "hospitals" || type === "clinics") {
         if (queryString.size > 0) {
           url = `${baseURL}/v1/api/facility/filter?type=${type}&${queryString}`
         } else {
           url = `${baseURL}/v1/api/facility/filter?type=${type}`
         }
-      }else if(type=== "dialysis" || type === "ivf" || type === "burns" || type === "hairTransplant" || type === "checkup" || type === "rehabilitation"){
-        if(queryString.size > 0){
+      } else if (
+        type === "dialysis" ||
+        type === "ivf" ||
+        type === "burns" ||
+        type === "hairTransplant" ||
+        type === "checkup" ||
+        type === "rehabilitation"
+      ) {
+        if (queryString.size > 0) {
           url = `${baseURL}/v1/api/center/filter?type=${type}&${queryString}`
-        }else{
+        } else {
           url = `${baseURL}/v1/api/center/filter?type=${type}`
         }
       } else {
@@ -306,12 +326,11 @@ export default function ServiceListing() {
           url = `${baseURL}/v1/api/${type}/filter`
         }
       }
-
       const response = await axios.get(url)
       const data = response.data[type] || []
-      if(response.data[type].length === 0){
-        setFacilities([]);
-      }else{
+      if (response.data[type].length === 0) {
+        setFacilities([])
+      } else {
         setFacilities(data)
       }
     } catch (err) {
@@ -387,8 +406,8 @@ export default function ServiceListing() {
   }
 
   const getTitleName = (type) => {
-    let title = 'Health Facilities'
-    switch(type){
+    const title = "Health Facilities"
+    switch (type) {
       case "dialysis":
         return "dialysis centers"
       case "ivf":
@@ -409,7 +428,7 @@ export default function ServiceListing() {
         return "Orthotics & Prosthetics"
       case type:
         return type
-      default :
+      default:
         return title
     }
   }
@@ -425,35 +444,67 @@ export default function ServiceListing() {
     setFiltersFromParams()
   }, [params])
 
+  // Check if location or search has changed
+  useEffect(() => {
+    // Check if location or search has changed
+    if (location !== prevLocationRef.current || search !== prevSearchRef.current) {
+      // Update refs
+      prevLocationRef.current = location
+      prevSearchRef.current = search
+
+      // Call API if location or search has changed
+      if (!selectedFilters.saved) {
+        getFacilities()
+      }
+    }
+  }, [location, search])
+
   // Update URL parameters when selected filters change
   useEffect(() => {
     updateUrlParams()
 
-    // Apply client-side sorting
+    // Apply client-side sorting if sortBy is selected
     if (selectedFilters.sortBy.length > 0) {
-      const sortType = selectedFilters.sortBy[0];
+      const sortType = selectedFilters.sortBy[0]
       setFacilities((prev) => {
-        const sorted = [...prev];
-        if (sortType === "rating") return sortByRating(sorted);
-        if (sortType === "reviews") return sortByReviews(sorted);
-        return sorted;
-      });
+        const sorted = [...prev]
+        if (sortType === "rating") return sortByRating(sorted)
+        if (sortType === "reviews") return sortByReviews(sorted)
+        return sorted
+      })
     }
 
     // Handle saved filter
     if (selectedFilters.saved) {
       handleSavedFilter(selectedFilters.saved)
+      return
     }
 
-    if (selectedFilters.saved === false && selectedFilters.sortBy.length === 0) {
+    // Only call getFacilities if filters other than sortBy have changed
+    if (
+      selectedFilters.saved === false &&
+      (selectedFilters.brands.length > 0 ||
+        selectedFilters.diagnostics.length > 0 ||
+        selectedFilters.specialities.length > 0 ||
+        selectedFilters.psu.length > 0 ||
+        selectedFilters.accreditations.length > 0 ||
+        selectedFilters.concerns.length > 0 ||
+        selectedFilters.insurance.length > 0 ||
+        selectedFilters.tpa.length > 0 ||
+        selectedFilters.altMed.length > 0 ||
+        selectedFilters.ownership.length > 0)
+    ) {
       getFacilities()
     }
   }, [selectedFilters])
 
-  // Fetch facilities when params change
+  // Fetch facilities on initial load and when type changes
   useEffect(() => {
     getFacilities()
-  }, [params, type])
+    // Reset location and search refs when type changes
+    prevLocationRef.current = location
+    prevSearchRef.current = search
+  }, [type])
 
   return (
     <div className="relative bg-gray-50 min-h-screen">
@@ -929,8 +980,8 @@ ${
                               {detail.name}
                             </span>
                             <span className="text-sm min-[425px]:text-base sm:text-lg lg:text-base xl:text-lg font-semibold text-gray-700">
-                            {detail.address?.street}, {detail.address?.landmark}{" "}{detail.address?.city}{" "}
-                            {detail.address?.state} - {detail.address?.zipCode}
+                              {detail.address?.street}, {detail.address?.landmark} {detail.address?.city}{" "}
+                              {detail.address?.state} - {detail.address?.zipCode}
                             </span>
                             <span className="text-sm text-green-700 capitalize">
                               {`${detail.openDay} - ${detail.closeDay} ${detail.hours} hrs` || "Open 24 hours"}
@@ -1018,4 +1069,3 @@ ${
     </div>
   )
 }
-
