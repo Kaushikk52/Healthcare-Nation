@@ -181,6 +181,27 @@ export default function Navbar() {
     },
   ]
 
+  const handleEmpty = () => {
+    const search = searchParams.get("search")
+    const location = searchParams.get("location");
+    console.log("location", location)
+    if (location === null || location === "") {
+      setSelectedLocation("")
+    } else {
+      setSelectedLocation(location)
+    }
+
+    if (search === null || search === "") {
+      setQuery("")
+    } else {
+      setQuery(search)
+    }
+  }
+
+  useEffect(()=>{
+    handleEmpty();
+  },[searchParams])
+
   const handleLocationChange = (event) => {
     const locationValue = event.target.value
     setSelectedLocation(locationValue)
@@ -188,8 +209,9 @@ export default function Navbar() {
     const newParams = new URLSearchParams(searchParams)
     if (locationValue !== "") {
       newParams.set("location", locationValue)
-    } else {
+    } else if(locationValue === ""){
       newParams.delete("location")
+      setSelectedLocation("")
     }
 
     // Combine navigation and search params in one call
@@ -238,7 +260,7 @@ export default function Navbar() {
     newParams.delete("location")
     newParams.delete("search")
     getUser();
-  }, [])
+  }, []);
 
   const getUser = async () => {
     try {
@@ -255,7 +277,7 @@ export default function Navbar() {
     }
   }
 
-  const locations = ["Mumbai", "Bangalore", "Chennai", "Delhi"]
+  const locations = ["Mumbai", "Ahmedabad","Bangalore", "Chennai","Hyderabad", "Delhi"]
 
   const [mobileDropdowns, setMobileDropdowns] = useState({})
   const [hoveredItem, setHoveredItem] = useState(null)

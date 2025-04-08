@@ -928,7 +928,8 @@ ${
                               {detail.name}
                             </span>
                             <span className="text-sm min-[425px]:text-base sm:text-lg lg:text-base xl:text-lg font-semibold text-gray-700">
-                              {detail.address.street}, {detail.address.city} - {detail.address.zipCode}
+                            {detail.address?.street}, {detail.address?.landmark}{" "}{detail.address?.city}{" "}
+                            {detail.address?.state} - {detail.address?.zipCode}
                             </span>
                             <span className="text-sm text-green-700 capitalize">
                               {`${detail.openDay} - ${detail.closeDay} ${detail.hours} hrs` || "Open 24 hours"}

@@ -360,6 +360,8 @@ export default function EditCenterForm() {
     { label: "Bangalore", value: "Bangalore", index: 2, disable: false },
     { label: "Chennai", value: "Chennai", index: 3, disable: false },
     { label: "Delhi", value: "Delhi", index: 4, disable: false },
+    { label: "Ahmedabad", value: "Ahmedabad", index: 5, disable: false },
+    { label: "Hyderabad", value: "Hyderabad", index: 6, disable: false },
   ];
 
   const facilitiesOptions = [
