@@ -417,32 +417,7 @@ export default function ContactPage() {
                   </ul>
                 </motion.div>
 
-<<<<<<< HEAD
-                <motion.div variants={itemVariants}>
-                  <h3 className="text-2xl font-semibold mb-6 text-gray-900">
-                    You can also Contact Us via
-                  </h3>
-                  <ul className="space-y-4">
-                    {[
-                      { icon: <Mail className="w-6 h-6 mr-3" />, text: 'info.healthcarenation@gmail.com' },
-                      { icon: <Phone className="w-6 h-6 mr-3" />, text: '+91 1234567890' },
-                    ].map((item, index) => (
-                      <motion.li
-                        key={index}
-                        className="flex items-start"
-                        variants={itemVariants}
-                      >
-                        <span>{item.icon}</span>
-                        <span className="text-gray-700">{item.text}</span>
-                      </motion.li>
-                    ))}
-                  </ul>
-                </motion.div>
-
-                <motion.div variants={itemVariants}>
-=======
                 {/* <motion.div variants={itemVariants}>
->>>>>>> 71e5be069046878514f74294bbd4b648fdb00fef
                   <h3 className="text-xl font-semibold mb-3 text-gray-900 text">
                     Address
                   </h3>
