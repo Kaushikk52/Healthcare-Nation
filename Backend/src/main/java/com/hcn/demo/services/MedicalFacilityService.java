@@ -77,7 +77,9 @@ public class MedicalFacilityService {
     }
 
     public void addReviewToMedicalFacility(String id, Review review,Principal principal){
-        MedicalFacility facility = this.getFacilityById(id);
+        BaseFacilityRepo<MedicalFacility> repo = facilityRegistry.getRepository(MedicalFacility.class);
+        BaseFacility facility =  repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Facility not found with id: " + id));
         facility.addReview(review);
         review.setFacility(facility);
         User principalUser = (User)userDetailsService.loadUserByUsername(principal.getName());

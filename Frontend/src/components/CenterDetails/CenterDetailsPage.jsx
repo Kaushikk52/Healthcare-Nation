@@ -203,20 +203,21 @@ export default function CenterDetailsPage () {
       marginX: "!mx-2",
       paddingX: "!px-1 min-[425px]:!px-2",
     },
-    // {
-    //   id: "reviews",
-    //   component: (
-    //     <Reviews
-    //       id={center.id}
-    //       avgRating={center.avgRating?.toPrecision(2)}
-    //       addRating={handleAddRating}
-    //       ratings={center.ratings}
-    //     />
-    //   ),
-    //   title: "Reviews",
-    //   marginX: "!mx-2",
-    //   paddingX: "!px-1 min-[425px]:!px-2",
-    // },
+    {
+      id: "reviews",
+      component: (
+        <Reviews
+          id={center.id}
+          type={type}
+          avgRating={center.avgRating?.toPrecision(2)}
+          addRating={handleAddRating}
+          ratings={center.ratings}
+        />
+      ),
+      title: "Reviews",
+      marginX: "!mx-2",
+      paddingX: "!px-1 min-[425px]:!px-2",
+    },
   ];
 
   return (

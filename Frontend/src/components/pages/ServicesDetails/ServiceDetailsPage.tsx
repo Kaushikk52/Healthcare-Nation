@@ -203,6 +203,7 @@ const ServiceDetailsPage = () => {
       component: (
         <Reviews
           id={service.id}
+          type={type}
           avgRating={service.avgRating?.toPrecision(2)}
           addRating={handleAddRating} ratings={service.ratings} />
       ),

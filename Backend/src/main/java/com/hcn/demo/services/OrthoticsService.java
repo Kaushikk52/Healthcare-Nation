@@ -1,33 +1,37 @@
 package com.hcn.demo.services;
 
-import com.hcn.demo.models.Bank;
-import com.hcn.demo.models.MedicalFacility;
-import com.hcn.demo.models.Orthotics;
+import com.hcn.demo.helper.FacilityRepositoryRegistry;
+import com.hcn.demo.models.*;
+import com.hcn.demo.repositories.BaseFacilityRepo;
 import com.hcn.demo.repositories.MedicalFacilityRepo;
 import com.hcn.demo.repositories.OrthoticsRepo;
+import com.hcn.demo.repositories.RatingRepo;
 import com.hcn.demo.specifications.GenericSpecification;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class OrthoticsService {
 
-    @Autowired
-    private OrthoticsRepo orthoticsRepo;
-
-    @Autowired
-    private MedicalFacilityRepo facilityRepo;
-
-    @Autowired
-    private ImageService imageServ;
+    private final OrthoticsRepo orthoticsRepo;
+    private final MedicalFacilityRepo facilityRepo;
+    private final ImageService imageServ;
+    private final RatingRepo ratingRepo;
+    private final UserDetailsService userDetailsService;
+    private final FacilityRepositoryRegistry facilityRegistry;
 
 
     public Orthotics addOP(Orthotics op){
@@ -50,6 +54,48 @@ public class OrthoticsService {
         Specification<Orthotics> spec = GenericSpecification.findByCriteria(filters);
         List<Orthotics> filteredOrthotics = orthoticsRepo.findAll(spec);
         return filteredOrthotics;
+    }
+
+    public void addRating(String id, Rating rating, Principal principal) {
+        BaseFacilityRepo<Orthotics> repo = facilityRegistry.getRepository(Orthotics.class);
+        BaseFacility facility = repo.findById(id).orElseThrow(() -> new RuntimeException("Facility not found with id: " + id));
+
+        User principalUser = (User) userDetailsService.loadUserByUsername(principal.getName());
+
+        List<Rating> existingRatings = facility.getRatings();
+        if (existingRatings == null || existingRatings.isEmpty()) {
+            // Add new rating
+            rating.setFacility(facility);
+            rating.setUser(principalUser);
+//            if (facility.getRatings() == null) {
+//                facility.setRatings(new ArrayList<>());
+//            }
+            facility.addRating(rating);
+            ratingRepo.save(rating);
+        } else {
+            Optional<Rating> existingUserRating = existingRatings.stream()
+                    .filter(r -> r.getUser().equals(principalUser))
+                    .findFirst();
+
+            if (existingUserRating.isPresent()) {
+                // Update
+                existingUserRating.get().setRating(rating.getRating());
+                ratingRepo.save(existingUserRating.get());
+            } else {
+                // Add new for different user
+                rating.setFacility(facility);
+                rating.setUser(principalUser);
+                facility.addRating(rating);
+                ratingRepo.save(rating);
+            }
+        }
+    }
+
+    public Orthotics updateAverageRating(String id){
+        Orthotics orthotics = this.getById(id);
+        Double avgRating = ratingRepo.calculateAverageRatingByFacilityId(id);
+        orthotics.setAvgRating(avgRating);
+        return orthoticsRepo.save(orthotics);
     }
 
     public Orthotics edit(Orthotics op,List<String> deleteImages){

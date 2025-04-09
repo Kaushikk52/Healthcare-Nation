@@ -2,7 +2,9 @@ package com.hcn.demo.controllers;
 
 import com.hcn.demo.dto.HomecareUpdateRequest;
 import com.hcn.demo.models.Bank;
+import com.hcn.demo.models.Diagnostics;
 import com.hcn.demo.models.Homecare;
+import com.hcn.demo.models.Rating;
 import com.hcn.demo.services.HomecareService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,6 +115,23 @@ public class HomecareController {
             log.warn("An Error occurred : {}", e.getMessage());
             response.put("message",e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    @PostMapping(value = "/{id}/rating")
+    public ResponseEntity<Map<String, Object>> addRating(@PathVariable String id, @RequestBody Rating rating, Principal principal){
+        Map<String, Object> response = new HashMap<>();
+        try {
+            homecareServ.addRating(id,rating,principal);
+            Homecare homecare = homecareServ.updateAverageRating(id);
+            log.info("Rating {} added successfully : {}", rating,id);
+            response.put("message","Rating added successfully");
+            response.put("avgRating",homecare.getAvgRating());
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            log.warn("An Error occurred : {}", e.getMessage());
+            response.put("message",e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
         }
     }
 

@@ -166,14 +166,14 @@ export default function ContactPage() {
         >
           Contact our friendly team
         </motion.h1> */}
-        <motion.p
+        {/* <motion.p
           className="text-center text-lg sm:text-lg text-gray-600 mb-16"
           variants={itemVariants}
         >
           At HealthcareNation, we are committed to helping you find the best
           healthcare services across India. If you have any questions, need assistance, or
           want to partner with us, feel free to reach out at
-        </motion.p>
+        </motion.p> */}
 
         {/* <motion.div
           className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-8 mb-20"
@@ -244,8 +244,8 @@ export default function ContactPage() {
               convenience.
             </motion.p>
 
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="border border-gray-300 rounded-lg shadow-md p-6">
+            <div className="flex flex-row gap-5">
+              <div className="border basis-3/6 border-gray-300 rounded-lg shadow-md p-6 ">
                 <Formik
                   initialValues={initialValues}
                   validationSchema={validationSchema}
@@ -362,7 +362,8 @@ export default function ContactPage() {
                   )}
                 </Formik>
               </div>
-              <motion.div className="space-y-10" variants={containerVariants}>
+
+              <motion.div className="space-y-10 basis-2/6" variants={containerVariants}>
                 {/* <motion.div variants={itemVariants}>
                   <h3 className="text-2xl font-semibold mb-6 text-gray-900">
                     With our services you can
@@ -387,13 +388,14 @@ export default function ContactPage() {
                 </motion.div> */}
 
                 <motion.div variants={itemVariants}>
-                  <h3 className="text-2xl font-semibold mb-6 text-gray-900">
-                    You can also Contact Us via
-                  </h3>
+                  <p className=" mb-6 text-gray-900">
+                  At <b>HealthcareNation</b>, we are committed to helping you find the best
+healthcare services across India. If you have any questions, need assistance, or
+want to partner with us, feel free to reach out at
+                  </p>
                   <ul className="space-y-4">
                     {[
                       { icon: <Mail className="w-6 h-6 mr-3" />, text: 'info.healthcarenation@gmail.com' },
-                      { icon: <Phone className="w-6 h-6 mr-3" />, text: '+91 1234567890' },
                     ].map((item, index) => (
                       <motion.li
                         key={index}
@@ -407,7 +409,7 @@ export default function ContactPage() {
                   </ul>
                 </motion.div>
 
-                <motion.div variants={itemVariants}>
+                {/* <motion.div variants={itemVariants}>
                   <h3 className="text-xl font-semibold mb-3 text-gray-900 text">
                     Address
                   </h3>
@@ -416,7 +418,7 @@ export default function ContactPage() {
                     <li>Next to Dwarka Hotel, Shimpoli,</li>
                     <li>Borivali-W, Mumbai-92</li>
                   </ul>
-                </motion.div>
+                </motion.div> */}
               </motion.div>
             </div>
           </div>

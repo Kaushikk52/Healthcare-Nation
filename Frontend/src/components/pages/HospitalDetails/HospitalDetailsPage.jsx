@@ -209,6 +209,7 @@ const HospitalDetailsPage = () => {
       component: (
         <Reviews
           id={hospital.id}
+          type={type}
           avgRating={hospital.avgRating?.toPrecision(2)}
           addRating={handleAddRating}
           ratings={hospital.ratings}

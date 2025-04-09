@@ -14,7 +14,7 @@ import axios from "axios";
 import { User } from "lucide-react";
 import toast from "react-hot-toast";
 
-const Reviews = ({ id, avgRating, addRating, ratings }) => {
+const Reviews = ({ id, type, avgRating, addRating, ratings }) => {
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
   const token = localStorage.getItem("token");
   const [reviews, setReviews] = useState([]);
@@ -82,14 +82,30 @@ const Reviews = ({ id, avgRating, addRating, ratings }) => {
     }
   };
 
+  const buildUrl = () => {
+     let url = ``;
+     if(type === "hospitals" || type === "clinics"){
+      return url = `${baseURL}/v1/api/facility/${id}/rating`;
+     }else if( type === "dialysis" ||
+      type === "ivf" ||
+      type === "burns" ||
+      type === "hairTransplant" ||
+      type === "checkup" ||
+      type === "rehabilitation"){
+      return url = `${baseURL}/v1/api/center/${id}/rating`;
+     }else {
+        return url = `${baseURL}/v1/api/${type}/${id}/rating`;
+     }
+
+  }
+
   const handleRatingSubmission = async (selectedRating) => {
     setRating(selectedRating);
 
     // POST request for rating
     try {
-      const response = await axios.post(
-        `${baseURL}/v1/api/facility/${id}/rating`,
-        { rating: selectedRating },
+      const url = buildUrl();
+      const response = await axios.post(url,{ rating: selectedRating },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
