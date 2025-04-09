@@ -229,7 +229,7 @@ export default function ServiceListing() {
     }
     // Update URL
     setParams(newParams)
-    getFacilities()
+    // getFacilities()
   }
 
   const toggleSection = (sectionTitle: string) => {

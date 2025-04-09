@@ -230,7 +230,7 @@ export default function ContactPage() {
           className="bg-white shadow-xl rounded-2xl overflow-hidden"
           variants={containerVariants}
         >
-          <div className="p-8 md:p-12">
+          <div className="p-8 md:p-12 text-center">
             <motion.h2
               className="text-3xl sm:text-4xl font-bold mb-4 text-gray-900"
               variants={itemVariants}
@@ -245,7 +245,7 @@ export default function ContactPage() {
               convenience.
             </motion.p>
 
-            <div className="flex flex-row gap-5">
+            <div className="flex flex-row gap-5  text-balance justify-center">
               <div className="border basis-3/6 border-gray-300 rounded-lg shadow-md p-6 ">
                 <Formik
                   initialValues={initialValues}
@@ -365,7 +365,7 @@ export default function ContactPage() {
               </div>
 
               <motion.div
-                className="space-y-10 basis-2/6"
+                className="space-y-10 basis-2/6 text-start"
                 variants={containerVariants}
               >
                 {/* <motion.div variants={itemVariants}>
