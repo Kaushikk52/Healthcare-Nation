@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+"use client";
+
+import { useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useParams } from "react-router-dom";
 
-import { FaPhone, FaLocationDot, FaClock } from "react-icons/fa6";
-import { FaGlobeAmericas, FaCheck } from "react-icons/fa";
+import { FaPhone, FaLocationDot } from "react-icons/fa6";
+import { FaGlobeAmericas } from "react-icons/fa";
 import { Navigation, Pagination, Autoplay, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import publicSectorCorporates from "@/data/publicSector";
@@ -24,10 +25,13 @@ import Throphy from "/Images/hospital-details/dynamic-content-images/description
 import { CircleCheckBig } from "lucide-react";
 
 const Description = (props) => {
-  const [showAll, setShowAll] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [phones, setPhones] = useState([]);
   const { type } = useParams();
+
+  const [showAllDiagnostics, setShowAllDiagnostics] = useState(false);
+  const [showAllAltMed, setShowAllAltMed] = useState(false);
+  const [showAllSpecialities, setShowAllSpecialities] = useState(false);
 
   useEffect(() => {
     setPhones(props.phones);
@@ -89,92 +93,89 @@ const Description = (props) => {
         {/* Left Side */}
         <div className="lg:!col-span-8  xl:!col-span-8 ">
           {/* About Us Section */}
-          <div className="max-w-3xl mx-auto">
-            <div className="flex flex-col justify-center space-y-5 py-5 my-5 border border-gray-200 p-4 rounded-md ">
+          <div className="max-w-3xl mx-auto bg-slate-50">
+            <div className="flex flex-col justify-center space-y-5 py-5 my-5 border border-gray-200 p-4 rounded-md">
               <h1 className="text-2xl font-semibold">About Us</h1>
               <div className="relative">
-                <div
-                  className={`overflow-hidden transition-all duration-300 ${
-                    isExpanded ? "" : `line-clamp-6`
-                  }`}
-                >
-                  <p className="text-base text-gray-700">
-                    {" "}
-                    {props.details.description}
-                  </p>
+                {/* <div className={`${isExpanded ? "overflow-hidden h-auto " : " overflow-hidden"}`}>
+                  <p className="text-base text-gray-700">{props.details.description}</p>
+                </div> */}
+                <div className={`${isExpanded ? "  " : "line-clamp-6"}`}>
+                <p className="text-base text-gray-700">{props.details.description}</p>
                 </div>
 
-                <AnimatePresence>
-                  {!isExpanded && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-background to-transparent"
-                    />
-                  )}
-                </AnimatePresence>
+                {!isExpanded && (
+                  <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent" />
+                )}
               </div>
 
               <div className="mt-2 flex justify-center">
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={toggleExpand}
+                  onClick={() => setIsExpanded(!isExpanded)}
                   className="flex items-center gap-1 text-sm font-medium text-primary"
                 >
                   {isExpanded ? "Read less" : "Read more"}
-                  <motion.div
-                    animate={{ rotate: isExpanded ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <ChevronDown className="h-4 w-4" />
-                  </motion.div>
+                  <ChevronDown
+                    className="h-4 w-4"
+                    style={{
+                      transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)",
+                      transition: "transform 0.3s ease",
+                    }}
+                  />
                 </Button>
               </div>
             </div>
           </div>
 
           {/* Achievements */}
-          {props.details?.achievements && (
-            <div className="mb-5 border border-gray-200 !p-4 rounded-md bg-slate-50">
-              <h1 className="!text-2xl !font-semibold">Achievements</h1>
-              <div className="!py-4 sm:!py-2 ">
-                {props.details.achievements?.map((item, index) => (
-                  <div
-                    key={index}
-                    className="!flex !flex-col !justify-center !items-center !text-center !mb-6 !space-y-0 sm:!text-left sm:!space-y-0 sm:!flex-row sm:!justify-start sm:!items-center sm:!space-x-5 sm:!mb-4"
-                  >
-                    <img
-                      src={Throphy}
-                      alt={item}
-                      className="!rounded-full !h-15 !w-15 sm:!h-10 sm:!w-10"
-                    />
-                    <h1 className="!text-sm !font-medium uppercase">{item}</h1>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Facts */}
-          {props.details?.facts && (
-            <div className="border border-gray-200 !p-4 rounded-md bg-slate-50">
-              <h1 className="!text-2xl !font-semibold">Facts</h1>
-              <div className="!py-4 sm:!py-2">
-                <div className="grid grid-cols-2 gap-y-4">
-                  {props.details.facts?.map((fact) => {
-                    return (
-                      <span className="!flex !items-center !text-sm !font-medium uppercase">
-                        <CircleCheckBig className="!h-8 !w-8 !mr-3 sm:!mr-5 !flex-shrink-0" />
-                        {fact}
-                      </span>
-                    );
-                  })}
+          {props.details?.achievements &&
+            props.details?.achievements.some((item) => item.trim() !== "") && (
+              <div className="mb-5 border border-gray-200 !p-4 rounded-md bg-slate-50">
+                <h1 className="!text-2xl !font-semibold">Achievements</h1>
+                <div className="!py-4 sm:!py-2 ">
+                  {props.details.achievements?.map((item, index) => (
+                    <div
+                      key={index}
+                      className="!flex !flex-col !justify-center !items-center !text-center !mb-6 !space-y-0 sm:!text-left sm:!space-y-0 sm:!flex-row sm:!justify-start sm:!items-center sm:!space-x-5 sm:!mb-4"
+                    >
+                      <img
+                        src={Throphy || "/placeholder.svg"}
+                        alt={item}
+                        className="!rounded-full !h-15 !w-15 sm:!h-10 sm:!w-10"
+                      />
+                      <h1 className="!text-sm !font-medium uppercase">
+                        {item}
+                      </h1>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
-          )}
+            )}
+
+          {/* Facts */}
+          {props.details?.facts &&
+            props.details?.facts.some((item) => item.trim() !== "") && (
+              <div className="border border-gray-200 !p-4 rounded-md bg-slate-50">
+                <h1 className="!text-2xl !font-semibold">Facts</h1>
+                <div className="!py-4 sm:!py-2">
+                  <div className="grid grid-cols-2 gap-y-4">
+                    {props.details.facts?.map((fact, index) => {
+                      return (
+                        <span
+                          key={index}
+                          className="!flex !items-center !text-sm !font-medium uppercase"
+                        >
+                          <CircleCheckBig className="!h-8 !w-8 !mr-3 sm:!mr-5 !flex-shrink-0" />
+                          {fact}
+                        </span>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            )}
 
           {/* Diagnostics Section */}
           {props.details?.diagnostics && (
@@ -183,32 +184,30 @@ const Description = (props) => {
               <div className="!flex !flex-wrap !gap-3 !py-5">
                 {props.details.diagnostics?.map((diag, index) => (
                   <Link
+                    key={index}
                     to={`/listing?type=${type.replace(
                       "-details",
                       ""
                     )}&diagnostics=${diag}`}
                   >
-                    <button
-                      key={index}
-                      className="!bg-gray-200 !px-4 !py-2 !rounded-full !text-sm !text-gray-700 hover:!bg-gray-200 !transition"
-                    >
+                    <button className="!bg-gray-200 !px-4 !py-2 !rounded-full !text-sm !text-gray-700 hover:!bg-gray-200 !transition">
                       {diag}
                     </button>
                   </Link>
                 ))}
 
-                {!showAll && (
+                {!showAllDiagnostics && (
                   <button
                     className="!bg-cyan-600 !px-4 !py-2 !rounded-full !text-white !text-sm !font-medium hover:!bg-cyan-700 !transition"
-                    onClick={() => setShowAll(true)}
+                    onClick={() => setShowAllDiagnostics(true)}
                   >
                     More
                   </button>
                 )}
-                {showAll && (
+                {showAllDiagnostics && (
                   <button
                     className="!bg-cyan-600 !px-4 !py-2 !rounded-full !text-white !text-sm !font-medium hover:!bg-cyan-700 !transition"
-                    onClick={() => setShowAll(false)}
+                    onClick={() => setShowAllDiagnostics(false)}
                   >
                     Show Less
                   </button>
@@ -217,46 +216,47 @@ const Description = (props) => {
             </div>
           )}
 
-           {/* Alt Med Section */}
-           {props.details?.altMed && props.details?.altMed.some(item => item.trim() !== "") && (
-            <div className="!py-4 border border-gray-200 !p-4 rounded-md bg-slate-50 mt-5">
-              <h1 className="!text-2xl !font-semibold">Alternative & Complementary Medicine Services</h1>
-              <div className="!flex !flex-wrap !gap-3 !py-5">
-                {props.details.altMed?.map((med, index) => (
-                  <Link
-                    to={`/listing?type=${type.replace(
-                      "-details",
-                      ""
-                    )}&altMed=${med}`}
-                  >
-                    <button
+          {/* Alt Med Section */}
+          {props.details?.altMed &&
+            props.details?.altMed.some((item) => item.trim() !== "") && (
+              <div className="!py-4 border border-gray-200 !p-4 rounded-md bg-slate-50 mt-5">
+                <h1 className="!text-2xl !font-semibold">
+                  Alternative & Complementary Medicine Services
+                </h1>
+                <div className="!flex !flex-wrap !gap-3 !py-5">
+                  {props.details.altMed?.map((med, index) => (
+                    <Link
                       key={index}
-                      className="!bg-gray-200 !px-4 !py-2 !rounded-full !text-sm !text-gray-700 hover:!bg-gray-200 !transition"
+                      to={`/listing?type=${type.replace(
+                        "-details",
+                        ""
+                      )}&altMed=${med}`}
                     >
-                      {med}
-                    </button>
-                  </Link>
-                ))}
+                      <button className="!bg-gray-200 !px-4 !py-2 !rounded-full !text-sm !text-gray-700 hover:!bg-gray-200 !transition">
+                        {med}
+                      </button>
+                    </Link>
+                  ))}
 
-                {!showAll && (
-                  <button
-                    className="!bg-cyan-600 !px-4 !py-2 !rounded-full !text-white !text-sm !font-medium hover:!bg-cyan-700 !transition"
-                    onClick={() => setShowAll(true)}
-                  >
-                    More
-                  </button>
-                )}
-                {showAll && (
-                  <button
-                    className="!bg-cyan-600 !px-4 !py-2 !rounded-full !text-white !text-sm !font-medium hover:!bg-cyan-700 !transition"
-                    onClick={() => setShowAll(false)}
-                  >
-                    Show Less
-                  </button>
-                )}
+                  {!showAllAltMed && (
+                    <button
+                      className="!bg-cyan-600 !px-4 !py-2 !rounded-full !text-white !text-sm !font-medium hover:!bg-cyan-700 !transition"
+                      onClick={() => setShowAllAltMed(true)}
+                    >
+                      More
+                    </button>
+                  )}
+                  {showAllAltMed && (
+                    <button
+                      className="!bg-cyan-600 !px-4 !py-2 !rounded-full !text-white !text-sm !font-medium hover:!bg-cyan-700 !transition"
+                      onClick={() => setShowAllAltMed(false)}
+                    >
+                      Show Less
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
           {/* Corporates Section */}
           {props.details?.psu && (
@@ -300,7 +300,7 @@ const Description = (props) => {
                         >
                           <div className="!flex !flex-col !justify-center !items-center !text-center h-full">
                             <img
-                              src={corpImg}
+                              src={corpImg || "/placeholder.svg"}
                               alt={item}
                               className={`rounded-full h-full aspect-square w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-20 xl:max-w-20`}
                             />
@@ -360,7 +360,7 @@ const Description = (props) => {
                         >
                           <div className="!flex !flex-col mx-1 !justify-center !items-center !text-center h-full">
                             <img
-                              src={brandImg}
+                              src={brandImg || "/placeholder.svg"}
                               alt={item}
                               className={`rounded-full aspect-square ${bProperty} shadw-md shadow-[rgba(45,45,51,0.08)]  w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl`}
                             />
@@ -384,32 +384,30 @@ const Description = (props) => {
               <div className="!flex !flex-wrap !gap-3 !py-5">
                 {props.details.specialities?.map((speciality, index) => (
                   <Link
+                    key={index}
                     to={`/listing?type=${type.replace(
                       "-details",
                       ""
                     )}&specialities=${speciality}`}
                   >
-                    <button
-                      key={index}
-                      className="!bg-gray-200 !px-4 !py-2 !rounded-full !text-sm !text-gray-700 hover:!bg-gray-200 !transition"
-                    >
+                    <button className="!bg-gray-200 !px-4 !py-2 !rounded-full !text-sm !text-gray-700 hover:!bg-gray-200 !transition">
                       {speciality}
                     </button>
                   </Link>
                 ))}
 
-                {!showAll && (
+                {!showAllSpecialities && (
                   <button
                     className="!bg-cyan-600 !px-4 !py-2 !rounded-full !text-white !text-sm !font-medium hover:!bg-cyan-700 !transition"
-                    onClick={() => setShowAll(true)}
+                    onClick={() => setShowAllSpecialities(true)}
                   >
                     More
                   </button>
                 )}
-                {showAll && (
+                {showAllSpecialities && (
                   <button
                     className="!bg-cyan-600 !px-4 !py-2 !rounded-full !text-white !text-sm !font-medium hover:!bg-cyan-700 !transition"
-                    onClick={() => setShowAll(false)}
+                    onClick={() => setShowAllSpecialities(false)}
                   >
                     Show Less
                   </button>
@@ -454,11 +452,14 @@ const Description = (props) => {
                     <SwiperSlide key={index} className="!mt-4">
                       <div className="group">
                         <Link
-                          to={`/listing?type=${type.replace("-details","")}&insurance=${item}`}
+                          to={`/listing?type=${type.replace(
+                            "-details",
+                            ""
+                          )}&insurance=${item}`}
                         >
                           <div className="!flex flex-col mx-1 !justify-center !items-center !text-center h-full">
                             <img
-                              src={insImg}
+                              src={insImg || "/placeholder.svg"}
                               alt={item}
                               className={`rounded-[10px] ${bgColor} aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl`}
                             />
@@ -518,7 +519,7 @@ const Description = (props) => {
                         >
                           <div className="!flex !flex-col mx-1 !justify-center !items-center !text-center h-full">
                             <img
-                              src={tImg}
+                              src={tImg || "/placeholder.svg"}
                               alt={item}
                               className={`rounded-[10px] ${bgColor} aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl`}
                             />

@@ -6,12 +6,30 @@ import axios from "axios"
 interface ReviewModalProps {
   onClose: () => void
   id:string
+  type:string
 }
 
-const ReviewModal: React.FC<ReviewModalProps> = ({ onClose,id }) => {
+const ReviewModal: React.FC<ReviewModalProps> = ({ onClose,id,type }) => {
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
   const [review, setReview] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const buildUrl = () => {
+    let url = ``;
+    if(type === "hospitals-details" || type === "clinics-details"){
+     return url = `${baseURL}/v1/api/facility/${id}/review`;
+    }else if( type === "dialysis" ||
+     type === "ivf" ||
+     type === "burns" ||
+     type === "hairTransplant" ||
+     type === "checkup" ||
+     type === "rehabilitation"){
+     return url = `${baseURL}/v1/api/center/${id}/review`;
+    }else {
+       return url = `${baseURL}/v1/api/${type}/${id}/review`;
+    }
+
+ }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,7 +37,8 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ onClose,id }) => {
 
     // POST request for review
     try {
-      const response = await axios.post(`${baseURL}/v1/api/facility/${id}/review`, {comment : review},
+      const url = buildUrl();
+      const response = await axios.post(url, {comment : review},
         {headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}}
       )
       console.log("Review submitted successfully")
@@ -41,7 +60,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ onClose,id }) => {
       >
         <div className="p-6">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-semibold">Write Your Review</h3>
+            <h3 className="text-xl font-semibold">Write Your Review {type}</h3>
             <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
               <X className="h-6 w-6" />
             </button>

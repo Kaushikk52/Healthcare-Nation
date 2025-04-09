@@ -29,10 +29,10 @@ public class Review {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "facility_Id", nullable = true)
-    private MedicalFacility medicalFacility;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "facility_id", referencedColumnName = "id") // explicit reference
+    @JsonIgnore
+    private BaseFacility facility;
 
     @PastOrPresent(message = "Creation date must be in the past or present")
     @Temporal(TemporalType.TIMESTAMP)

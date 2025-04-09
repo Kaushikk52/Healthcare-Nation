@@ -14,7 +14,7 @@ import axios from "axios";
 import { User } from "lucide-react";
 import toast from "react-hot-toast";
 
-const Reviews = ({ id, avgRating, addRating,ratings }) => {
+const Reviews = ({ id, type, avgRating, addRating, ratings }) => {
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
   const token = localStorage.getItem("token");
   const [reviews, setReviews] = useState([]);
@@ -28,37 +28,37 @@ const Reviews = ({ id, avgRating, addRating,ratings }) => {
     3: 0,
     2: 0,
     1: 0,
-  })
+  });
 
-    // Process the reviews array to count ratings
-    useEffect(() => {
-      // Initialize counts object
-      const counts = {
-        5: 0,
-        4: 0,
-        3: 0,
-        2: 0,
-        1: 0,
+  // Process the reviews array to count ratings
+  useEffect(() => {
+    // Initialize counts object
+    const counts = {
+      5: 0,
+      4: 0,
+      3: 0,
+      2: 0,
+      1: 0,
+    };
+
+    // Count each rating
+    ratings.forEach((rating) => {
+      // Ensure rating is between 1-5
+      if (rating.rating >= 1 && rating.rating <= 5) {
+        counts[rating.rating as keyof typeof counts] += 1;
       }
-  
-      // Count each rating
-      ratings.forEach((rating) => {
-        // Ensure rating is between 1-5
-        if (rating.rating >= 1 && rating.rating <= 5) {
-          counts[rating.rating as keyof typeof counts] += 1
-        }
-      })
-  
-      setRatingCounts(counts)
-    }, [reviews])
+    });
 
-    const maxRating = Math.max(...Object.values(ratingCounts))
+    setRatingCounts(counts);
+  }, [reviews]);
 
-    const getBarWidth = (value: number) => {
-      return maxRating > 0 ? `${(value / maxRating) * 100}%` : "0%"
-    }
+  const maxRating = Math.max(...Object.values(ratingCounts));
 
-  const getReviews = async (id : string) => {
+  const getBarWidth = (value: number) => {
+    return maxRating > 0 ? `${(value / maxRating) * 100}%` : "0%";
+  };
+
+  const getReviews = async (id: string) => {
     try {
       const response = await axios.get(
         `${baseURL}/v1/api/review/facility/${id}`
@@ -70,15 +70,33 @@ const Reviews = ({ id, avgRating, addRating,ratings }) => {
     }
   };
 
-  const getRatings = async (id : string) => {
+  const getRatings = async (id: string) => {
     try {
-      const response = await axios.get(`${baseURL}/v1/api/rating/facility/${id}`
+      const response = await axios.get(
+        `${baseURL}/v1/api/rating/facility/${id}`
       );
       const data = response.data.ratings;
       ratings = data;
     } catch (err) {
       console.log(err.message);
     }
+  };
+
+  const buildUrl = () => {
+     let url = ``;
+     if(type === "hospitals" || type === "clinics"){
+      return url = `${baseURL}/v1/api/facility/${id}/rating`;
+     }else if( type === "dialysis" ||
+      type === "ivf" ||
+      type === "burns" ||
+      type === "hairTransplant" ||
+      type === "checkup" ||
+      type === "rehabilitation"){
+      return url = `${baseURL}/v1/api/center/${id}/rating`;
+     }else {
+        return url = `${baseURL}/v1/api/${type}/${id}/rating`;
+     }
+
   }
 
   const handleRatingSubmission = async (selectedRating) => {
@@ -86,9 +104,8 @@ const Reviews = ({ id, avgRating, addRating,ratings }) => {
 
     // POST request for rating
     try {
-      const response = await axios.post(
-        `${baseURL}/v1/api/facility/${id}/rating`,
-        { rating: selectedRating },
+      const url = buildUrl();
+      const response = await axios.post(url,{ rating: selectedRating },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -189,19 +206,19 @@ const Reviews = ({ id, avgRating, addRating,ratings }) => {
         {[...reviews]
           .sort((a, b) =>
             sort === "newest"
-              ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-              : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+              ? new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
+              : new Date(a.createdAt).getTime() -
+                new Date(b.createdAt).getTime()
           )
           .map((review, index) => (
             <div key={index} className="!my-4 sm:!my-6">
               {/* Reviewer Information */}
               <div className="!grid !grid-cols-1 !gap-y-2 sm:!grid-cols-7 md:!grid-cols-9 lg:!grid-cols-8 xl:!grid-cols-11">
                 <div className="sm:!col-span-1 md:!col-span-1 lg:!col-span-1 xl:!col-span-1">
-                  <img
-                    src={First_Reviewer}
-                    alt="reviewer image"
-                    className="!h-20 !w-20 !rounded-full !object-cover !object-center"
-                  />
+                  <div className="!h-20 !w-20 !rounded-full bg-gray-200 flex items-center justify-center">
+                    <User className="h-10 w-10 text-gray-600" />
+                  </div>
                 </div>
                 <div className="sm:!col-span-6 md:!col-span-8 lg:!col-span-7 xl:!col-span-10 sm:!px-2 md:!px-3 lg:!px-0 xl:!px-6 !flex !flex-col !justify-center">
                   <h1 className="!text-2xl !font-semibold">
@@ -285,9 +302,10 @@ const Reviews = ({ id, avgRating, addRating,ratings }) => {
                 key={star}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => token ? handleRatingSubmission(star) : 
-                  toast.error("Log In is required.")
-
+                onClick={() =>
+                  token
+                    ? handleRatingSubmission(star)
+                    : toast.error("Log In is required.")
                 }
                 onMouseEnter={() => setHoveredRating(star)}
                 onMouseLeave={() => setHoveredRating(null)}
@@ -324,8 +342,10 @@ const Reviews = ({ id, avgRating, addRating,ratings }) => {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               className="px-6 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-md font-medium transition-colors"
-              onClick={() => token ? setIsModalOpen(true) : 
-                toast.error("Log In is required.")
+              onClick={() =>
+                token
+                  ? setIsModalOpen(true)
+                  : toast.error("Log In is required.")
               }
             >
               Write a Review
@@ -335,7 +355,7 @@ const Reviews = ({ id, avgRating, addRating,ratings }) => {
 
         <AnimatePresence>
           {isModalOpen && (
-            <ReviewModal onClose={() => setIsModalOpen(false)} id={id} />
+            <ReviewModal onClose={() => setIsModalOpen(false)} id={id} type={type} />
           )}
         </AnimatePresence>
       </div>

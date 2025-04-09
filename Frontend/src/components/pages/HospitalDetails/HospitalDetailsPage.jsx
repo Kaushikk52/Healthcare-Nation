@@ -106,7 +106,7 @@ const HospitalDetailsPage = () => {
   const saveHospital = async (hospitalId) => {
     try {
       const response = await axios.post(
-        `${baseURL}/v1/api/saved/${hospitalId}`,
+        `${baseURL}/v1/api/saved/medical/${hospitalId}`,
         {},
         {
           headers: {
@@ -122,7 +122,7 @@ const HospitalDetailsPage = () => {
   };
 
   const removeSavedHospital = async (hospitalId) => {
-    return await axios.delete(`${baseURL}/v1/api/saved/${hospitalId}`, {
+    return await axios.delete(`${baseURL}/v1/api/saved/medical/${hospitalId}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -209,6 +209,7 @@ const HospitalDetailsPage = () => {
       component: (
         <Reviews
           id={hospital.id}
+          type={type}
           avgRating={hospital.avgRating?.toPrecision(2)}
           addRating={handleAddRating}
           ratings={hospital.ratings}
@@ -407,6 +408,7 @@ const HospitalDetailsPage = () => {
               <ReviewModal
                 onClose={() => setIsModalOpen(false)}
                 id={hospital.id}
+                type={type}
               />
             )}
           </AnimatePresence>

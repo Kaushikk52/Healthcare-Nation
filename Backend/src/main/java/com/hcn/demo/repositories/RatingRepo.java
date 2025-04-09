@@ -10,8 +10,8 @@ import java.util.List;
 
 @Repository
 public interface RatingRepo  extends JpaRepository<Rating,String> {
-    List<Rating> findByMedicalFacility_Id(String facilityId);
+    List<Rating> findByFacility_Id(String facilityId);
 
-    @Query("SELECT COALESCE(AVG(r.rating), 0) FROM Rating r WHERE r.medicalFacility.id = :facilityId")
+    @Query("SELECT COALESCE(AVG(r.rating), 0) FROM Rating r WHERE r.facility.id = :facilityId")
     Double calculateAverageRatingByFacilityId(@Param("facilityId") String facilityId);
 }

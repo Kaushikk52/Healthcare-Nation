@@ -356,6 +356,8 @@ export default function CenterForm() {
     { label: "Bangalore", value: "Bangalore", index: 2, disable: false },
     { label: "Chennai", value: "Chennai", index: 3, disable: false },
     { label: "Delhi", value: "Delhi", index: 4, disable: false },
+    { label: "Ahmedabad", value: "Ahmedabad", index: 5, disable: false },
+    { label: "Hyderabad", value: "Hyderabad", index: 6, disable: false },
   ];
 
   const facilitiesOptions = [
@@ -1392,14 +1394,28 @@ export default function CenterForm() {
                         Health Concerns
                       </label>
                       <MultipleSelector
-                        value={values.concerns
+                         value={values.concerns
                           .filter((c) => c.trim())
-                          .map((c) => ({ label: c, value: c }))}
+                          .map((c) => {
+                            const option = concernsOptions.find((opt) => opt.value === c);
+                            return option ? { label: option.label, value: option.value } : null;
+                          })
+                          .filter(Boolean)}
                         onChange={(newValue) => {
-                          setFieldValue(
-                            "concerns",
-                            newValue.map((item) => item.value)
-                          );
+                          // 1. Set the concerns field (array of string values)
+                          const selectedConcerns = newValue.map((item) => item.value);
+                          setFieldValue("concerns", selectedConcerns);
+                      
+                          // 2. Extract speciality values from the selected options
+                          const selectedSpecialities = newValue
+                            .map((item) => {
+                              const found = concernsOptions.find((opt) => opt.value === item.value);
+                              return found?.speciality || null;
+                            })
+                            .filter(Boolean); // Remove any nulls just in case
+                      
+                          // 3. Set the speciality field (can be an array or single value)
+                          setFieldValue("specialities", selectedSpecialities);
                         }}
                         options={concernsOptions}
                         placeholder="Select health concerns"

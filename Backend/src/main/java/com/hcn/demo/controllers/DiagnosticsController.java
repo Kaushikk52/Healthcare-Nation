@@ -1,8 +1,7 @@
 package com.hcn.demo.controllers;
 
 import com.hcn.demo.dto.DiagnosticsUpdateRequest;
-import com.hcn.demo.models.Bank;
-import com.hcn.demo.models.Diagnostics;
+import com.hcn.demo.models.*;
 import com.hcn.demo.services.DiagnosticsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,6 +118,38 @@ public class DiagnosticsController {
             response.put("diagnostics",filteredDiagnostics);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }catch (Exception e) {
+            log.warn("An Error occurred : {}", e.getMessage());
+            response.put("message",e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    @PostMapping(value = "/{id}/rating")
+    public ResponseEntity<Map<String, Object>> addRating(@PathVariable String id, @RequestBody Rating rating, Principal principal){
+        Map<String, Object> response = new HashMap<>();
+        try {
+            diagnosticsServ.addRating(id,rating,principal);
+            Diagnostics diagnostic = diagnosticsServ.updateAverageRating(id);
+            log.info("Rating {} added successfully : {}", rating,id);
+            response.put("message","Rating added successfully");
+            response.put("avgRating",diagnostic.getAvgRating());
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            log.warn("An Error occurred : {}", e.getMessage());
+            response.put("message",e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+        }
+    }
+
+    @PostMapping(value = "/{id}/review")
+    public ResponseEntity<Map<String,Object>> addReview(@PathVariable String id, @RequestBody Review review, Principal principal){
+        Map<String,Object> response = new HashMap<>();
+        try{
+            diagnosticsServ.addReview(id,review,principal);
+            log.info("Review added successfully : {}",id);
+            response.put("message","Review added successfully");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
             log.warn("An Error occurred : {}", e.getMessage());
             response.put("message",e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);

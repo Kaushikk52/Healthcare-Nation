@@ -103,7 +103,7 @@ const ServiceDetailsPage = () => {
   const saveService = async (id) => {
     try {
       const response = await axios.post(
-        `${baseURL}/v1/api/saved/${id}`,
+        `${baseURL}/v1/api/saved/${type}/${id}`,
         {},
         {
           headers: {
@@ -119,7 +119,7 @@ const ServiceDetailsPage = () => {
   };
 
   const removeSavedService = async (id) => {
-    return await axios.delete(`${baseURL}/v1/api/saved/${id}`, {
+    return await axios.delete(`${baseURL}/v1/api/saved/${type}/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -198,19 +198,19 @@ const ServiceDetailsPage = () => {
       marginX: "!mx-2",
       paddingX: "!px-1 min-[425px]:!px-2",
     },
-    // {
-    //   id: "reviews",
-    //   component: (
-    //     <Reviews
-    //       id={service.id}
-    //       avgRating={service.avgRating?.toPrecision(2)}
-    //       addRating={handleAddRating}
-    //     />
-    //   ),
-    //   title: "Reviews",
-    //   marginX: "!mx-2",
-    //   paddingX: "!px-1 min-[425px]:!px-2",
-    // },
+    {
+      id: "reviews",
+      component: (
+        <Reviews
+          id={service.id}
+          type={type}
+          avgRating={service.avgRating?.toPrecision(2)}
+          addRating={handleAddRating} ratings={service.ratings} />
+      ),
+      title: "Reviews",
+      marginX: "!mx-2",
+      paddingX: "!px-1 min-[425px]:!px-2",
+    },
   ];
 
   return (
@@ -360,7 +360,18 @@ const ServiceDetailsPage = () => {
           </span>
         </div>
 
-        {/* Right Side  */}
+         {/* Right Side  */}
+         <div className="!flex !flex-col !justify-center !text-white !my-2 sm:!my-0 !space-y-0.5 sm:!space-y-1.5 !text-left sm:!text-right">
+          <div className="!flex !justify-center !items-center !bg-[#267e3e] !rounded !py-0.5 !px-0">
+            <span className="!text-xl !font-semibold !mr-1 !px-0">
+              {service.avgRating?.toPrecision(2)}
+            </span>
+            <IoIosStar className="!h-5 !w-5 !mb-0.5 !px-0 !mx-0" />
+          </div>
+          <div className="!text-gray-600">
+            <span>{service.reviews?.length} Reviews</span>
+          </div>
+        </div>
       </div>
 
       {/* Buttons & Rounded Images*/}
@@ -383,6 +394,7 @@ const ServiceDetailsPage = () => {
               <ReviewModal
                 onClose={() => setIsModalOpen(false)}
                 id={service.id}
+                type={type}
               />
             )}
           </AnimatePresence>

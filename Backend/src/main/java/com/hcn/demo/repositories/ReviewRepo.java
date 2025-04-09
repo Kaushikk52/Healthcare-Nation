@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ReviewRepo extends JpaRepository<Review,String> {
-    List<Review> findByMedicalFacility_Id(String facilityId);
+    List<Review> findByFacility_Id(String facilityId);
 
 }

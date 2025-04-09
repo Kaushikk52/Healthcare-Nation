@@ -1,10 +1,9 @@
 package com.hcn.demo.controllers;
 
-import com.hcn.demo.models.MedicalFacility;
-import com.hcn.demo.models.SavedFacility;
-import com.hcn.demo.models.User;
+import com.hcn.demo.models.*;
 import com.hcn.demo.services.SavedFacilityService;
 import com.hcn.demo.services.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,55 +14,70 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/v1/api/saved")
 public class SavedFacilityController {
 
-    @Autowired
-    private SavedFacilityService savedFacilityServ;
+    private final SavedFacilityService savedFacilityServ;
 
-    @Autowired
-    private UserService userServ;
-    @PostMapping("/{hospitalId}")
-    public ResponseEntity<?> saveHospital(@PathVariable String hospitalId, Principal principal) {
+    @PostMapping("/{type}/{id}")
+    public ResponseEntity<?> save(@PathVariable String type, @PathVariable String id, Principal principal) {
         Map<String, Object> response = new HashMap<>();
         try{
-            User currentUser = userServ.getCurrentUserRole(principal);
-            savedFacilityServ.saveHospital(currentUser.getId(), hospitalId);
-            response.put("message","Hospital saved successfully");
+            savedFacilityServ.saveFacility(id, mapType(type), principal);
+            response.put("message","Saved successfully");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             log.warn("An Error occurred : {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-
     }
 
-    @GetMapping("/hospitals")
-    public ResponseEntity<List<MedicalFacility>> getSavedHospitals(Principal principal) {
-        User currentUser = userServ.getCurrentUserRole(principal);
-        return ResponseEntity.ok(savedFacilityServ.getSavedHospitals(currentUser.getId()));
-    }
-
-    @GetMapping("/clinics")
-    public ResponseEntity<List<MedicalFacility>> getSavedClinics(Principal principal){
-        User currentUser = userServ.getCurrentUserRole(principal);
-        return ResponseEntity.ok(savedFacilityServ.getSavedClinics(currentUser.getId()));
-    }
-
-    @DeleteMapping("/{hospitalId}")
-    public ResponseEntity<?> removeSavedHospital(Principal principal, @PathVariable String hospitalId) {
+    @DeleteMapping("/{type}/{id}")
+    public ResponseEntity<?> unsave(@PathVariable String type, @PathVariable String id, Principal principal) {
         Map<String, Object> response = new HashMap<>();
         try{
-            User currentUser = userServ.getCurrentUserRole(principal);
-            savedFacilityServ.removeSavedHospital(currentUser.getId(), hospitalId);
-            response.put("message","Hospital saved successfully");
+            savedFacilityServ.unsaveFacility(id, mapType(type), principal);
+            response.put("message","Unsaved successfully");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             log.warn("An Error occurred : {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Internal server Error");
         }
     }
+
+    @GetMapping
+    public ResponseEntity<List<SavedFacility>> getSavedFacilities(
+            Principal principal,
+            @RequestParam(name = "type", required = false) String type,
+            @RequestParam(name = "facilityType", required = false) MedicalFacility.FacilityType facilityType,
+            @RequestParam(name = "centerType", required = false) Center.CenterType centerType
+    ) {
+        List<SavedFacility> facilities = savedFacilityServ.getFilteredSavedFacilities(
+                principal,
+                Optional.ofNullable(type),
+                Optional.ofNullable(facilityType),
+                Optional.ofNullable(centerType)
+        );
+        return ResponseEntity.ok(facilities);
+    }
+
+
+    private Class<? extends BaseFacility> mapType(String type) {
+        return switch (type.toLowerCase()) {
+            case "medical" -> MedicalFacility.class;
+            case "bank" -> Bank.class;
+            case "diagnostics" -> Diagnostics.class;
+            case "homecare" -> Homecare.class;
+            case "transport" -> Transport.class;
+            case "orthotics" -> Orthotics.class;
+            case "center" -> Center.class;
+            default -> throw new IllegalArgumentException("Unknown type: " + type);
+        };
+    }
+
 }

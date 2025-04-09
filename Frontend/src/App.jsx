@@ -46,7 +46,6 @@ import TermsAndConditions from './components/pages/TermsAndConditions';
 
 function App() {
 
-
   return (
     <BrowserRouter>
       <ScrollToTop />
@@ -87,6 +86,7 @@ function App() {
 
           </Route>
           <Route path="brands-in-india" element={<BrandsInIndia />} />
+          
           <Route path=":type/:id" element={<HospitalDetailsPage />} />
           <Route path="/services/:type/:id" element={<ServiceDetailsPage />} />
           <Route path='/center/:type/:id' element={<CenterDetailsPage />} />

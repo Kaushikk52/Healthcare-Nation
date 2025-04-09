@@ -105,7 +105,7 @@ export default function CenterDetailsPage () {
   const saveHospital = async (hospitalId) => {
     try {
       const response = await axios.post(
-        `${baseURL}/v1/api/saved/${hospitalId}`,
+        `${baseURL}/v1/api/saved/center/${hospitalId}`,
         {},
         {
           headers: {
@@ -121,7 +121,7 @@ export default function CenterDetailsPage () {
   };
 
   const removeSavedHospital = async (hospitalId) => {
-    return await axios.delete(`${baseURL}/v1/api/saved/${hospitalId}`, {
+    return await axios.delete(`${baseURL}/v1/api/saved/center/${hospitalId}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -203,20 +203,21 @@ export default function CenterDetailsPage () {
       marginX: "!mx-2",
       paddingX: "!px-1 min-[425px]:!px-2",
     },
-    // {
-    //   id: "reviews",
-    //   component: (
-    //     <Reviews
-    //       id={center.id}
-    //       avgRating={center.avgRating?.toPrecision(2)}
-    //       addRating={handleAddRating}
-    //       ratings={center.ratings}
-    //     />
-    //   ),
-    //   title: "Reviews",
-    //   marginX: "!mx-2",
-    //   paddingX: "!px-1 min-[425px]:!px-2",
-    // },
+    {
+      id: "reviews",
+      component: (
+        <Reviews
+          id={center.id}
+          type={type}
+          avgRating={center.avgRating?.toPrecision(2)}
+          addRating={handleAddRating}
+          ratings={center.ratings}
+        />
+      ),
+      title: "Reviews",
+      marginX: "!mx-2",
+      paddingX: "!px-1 min-[425px]:!px-2",
+    },
   ];
 
   return (
@@ -394,6 +395,7 @@ export default function CenterDetailsPage () {
               <ReviewModal
                 onClose={() => setIsModalOpen(false)}
                 id={center.id}
+                type={type}
               />
             )}
           </AnimatePresence>

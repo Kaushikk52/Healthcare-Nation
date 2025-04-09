@@ -1,9 +1,11 @@
 package com.hcn.demo.services;
 
+import com.hcn.demo.helper.FacilityRepositoryRegistry;
 import com.hcn.demo.models.*;
 import com.hcn.demo.repositories.*;
 import com.hcn.demo.specifications.GenericSpecification;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -19,29 +21,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class MedicalFacilityService {
 
     private final MedicalFacilityRepo medicalFacilityRepo;
-    private final AddressRepo addressRepo;
+
     private final RatingRepo ratingRepo;
     private final ReviewRepo reviewRepo;
     private final UserDetailsService userDetailsService;
     private final UserRepo userRepo;
     private final ImageService imageServ;
-    private List<Rating> existingRating;
-
-    @Autowired
-    public MedicalFacilityService(MedicalFacilityRepo medicalFacilityRepo, AddressRepo addressRepo, RatingRepo ratingRepo,
-                                  ReviewRepo reviewRepo, UserRepo userRepo, UserDetailsService userDetailsService,
-                                  ImageService imageServ){
-        this.medicalFacilityRepo = medicalFacilityRepo;
-        this.addressRepo = addressRepo;
-        this.ratingRepo = ratingRepo;
-        this.reviewRepo = reviewRepo;
-        this.userRepo = userRepo;
-        this.userDetailsService = userDetailsService;
-        this.imageServ = imageServ;
-    }
+    private final FacilityRepositoryRegistry facilityRegistry;
 
     public MedicalFacility addHospital(MedicalFacility hospital,User principalUser) {
         hospital.setUser(principalUser);
@@ -55,7 +45,10 @@ public class MedicalFacilityService {
     }
 
     public void addRatingToMedicalFacility(String id, Rating rating, Principal principal) {
-        MedicalFacility facility = this.getFacilityById(id);
+        BaseFacilityRepo<MedicalFacility> repo = facilityRegistry.getRepository(MedicalFacility.class);
+        BaseFacility facility =  repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Facility not found with id: " + id));
+
         User principalUser = (User) userDetailsService.loadUserByUsername(principal.getName());
 
         List<Rating> existingRatings = facility.getRatings();
@@ -69,7 +62,7 @@ public class MedicalFacilityService {
             ratingRepo.save(existingUserRating.get());
         } else {
             // Add new rating
-            rating.setMedicalFacility(facility);
+            rating.setFacility(facility);
             rating.setUser(principalUser);
             facility.addRating(rating);
             ratingRepo.save(rating);
@@ -83,11 +76,12 @@ public class MedicalFacilityService {
         return medicalFacilityRepo.save(facility);
     }
 
-
     public void addReviewToMedicalFacility(String id, Review review,Principal principal){
-        MedicalFacility facility = this.getFacilityById(id);
+        BaseFacilityRepo<MedicalFacility> repo = facilityRegistry.getRepository(MedicalFacility.class);
+        BaseFacility facility =  repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Facility not found with id: " + id));
         facility.addReview(review);
-        review.setMedicalFacility(facility);
+        review.setFacility(facility);
         User principalUser = (User)userDetailsService.loadUserByUsername(principal.getName());
         review.setUser(principalUser);
         principalUser.setTotalReviews(principalUser.getTotalReviews()+1);
@@ -126,14 +120,14 @@ public class MedicalFacilityService {
     public MedicalFacility updateFacility(String id ,MedicalFacility facility,List<String> deleteImages){
         MedicalFacility existingFacility = medicalFacilityRepo.findById(id).orElseThrow(()-> new RuntimeException("Not Found..."));
         List<String> results = imageServ.deleteFiles(deleteImages,"Hospitals");
+        existingFacility.setBrands(facility.getBrands());
         BeanUtils.copyProperties(facility,existingFacility,"createdAt","ratings","reviews");
-        existingFacility.setUpdatedAt(LocalDateTime.now());
         return medicalFacilityRepo.save(existingFacility);
     }
 
     public void removeFacility(String id){
         MedicalFacility existingFacility = medicalFacilityRepo.findById(id).orElseThrow(()-> new RuntimeException("Not Found..."));
-        List<String> results = imageServ.deleteFiles(List.of(existingFacility.getImages()),"Hospitals");
+        List<String> results = imageServ.deleteFiles(existingFacility.getImages(),"Hospitals");
         medicalFacilityRepo.delete(existingFacility);
     }
 

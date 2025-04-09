@@ -1,13 +1,13 @@
 const servicesByHealthConcern = [
-    { title: "Depression or Anxiety ?", image: "/concerns/Depression Or Anxiety.webp" },
-    { title: "Pregnant ?", image: "/concerns/Pregnant.png" },
-    { title: "Joint Pains ?", image: "/concerns/Joint-Pains.png" },
-    { title: "Ear Problems ?", image: "/concerns/Ear-Problems.png" },
-    { title: "Digestion Issues ?", image: "/concerns/Digestion-Issues.png" },
-    { title: "Tooth Ache ?", image: "/concerns/Tooth Ache.webp" },
-    { title: "Persistent Coughing ?", image: "/concerns/Persistent Coughing.webp" },
-    { title: "Urinary Problems ?", image: "/concerns/Urinary Problems .webp" },
-    { title: "Eye Problems ?", image: "/concerns/Eye Problems .webp" },
+    { title: "Depression or Anxiety ?",value:"Mental Health", image: "/concerns/Depression Or Anxiety.webp" },
+    { title: "Pregnant ?",value:"Obstetrics & Gynecology" , image: "/concerns/Pregnant.png" },
+    { title: "Joint Pains ?",value:"Orthopedics", image: "/concerns/Joint-Pains.png" },
+    { title: "Ear Problems ?",value:"Ear Nose Throat", image: "/concerns/Ear-Problems.png" },
+    { title: "Digestion Issues ?",value:"Medical Gastroenterology", image: "/concerns/Digestion-Issues.png" },
+    { title: "Tooth Ache ?",value:"Dentistry", image: "/concerns/Tooth Ache.webp" },
+    { title: "Persistent Coughing ?",value:"Pulmonology", image: "/concerns/Persistent Coughing.webp" },
+    { title: "Urinary Problems ?",value:"Urology", image: "/concerns/Urinary Problems .webp" },
+    { title: "Eye Problems ?",value:"Ophthalmology", image: "/concerns/Eye Problems .webp" },
   ];
 
 
