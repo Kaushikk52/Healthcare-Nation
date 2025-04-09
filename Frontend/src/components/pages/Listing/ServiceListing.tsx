@@ -492,13 +492,16 @@ export default function ServiceListing() {
     }
 
     // Call getFacilities for all filter changes including saved
-    // This replaces the special handling for saved filter
-    getFacilities()
+    if (selectedFilters.sortBy.length == 0) {
+      getFacilities()
+    }
   }, [selectedFilters])
 
   // Fetch facilities on initial load and when type changes
   useEffect(() => {
-    getFacilities()
+    if (selectedFilters.sortBy.length == 0) {
+      getFacilities()
+    }
     // Reset location and search refs when type changes
     prevLocationRef.current = location
     prevSearchRef.current = search
@@ -860,6 +863,7 @@ ${
                                 onChange={() => handleFilterToggle(option.id, section.filterType)}
                               />
                               <span className="flex-1 text-gray-700">{option.text}</span>
+                              {option.count && <span className="text-gray-400 text-sm">({option.count})</span>}
                             </label>
                           ))}
                   </div>
