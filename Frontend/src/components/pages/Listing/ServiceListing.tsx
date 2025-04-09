@@ -588,7 +588,7 @@ export default function ServiceListing() {
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-semibold">Filters</h2>
                 <div className="flex items-center gap-4">
-                  <button onClick={clearAllFilters} className="text-blue-500 text-sm hover:text-blue-600">
+                  <button onClick={() => {clearAllFilters(); getFacilities(); }} className="text-blue-500 text-sm hover:text-blue-600">
                     Clear all
                   </button>
                   <button onClick={() => setFilterOpen(false)} className="text-gray-500 hover:text-gray-700">
@@ -741,7 +741,7 @@ ${
             <div className="bg-white rounded-lg shadow-sm border p-6">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-semibold">Filters</h2>
-                <button onClick={clearAllFilters} className="text-blue-500 text-sm hover:text-blue-600">
+                <button onClick={() => {clearAllFilters(); getFacilities(); }} className="text-blue-500 text-sm hover:text-blue-600">
                   Clear all
                 </button>
               </div>
