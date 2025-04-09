@@ -77,6 +77,7 @@ const concernsOptions = [
   ...servicesByHealthConcern.map((concern) => ({
     label: concern.title,
     value: concern.title,
+    speciality : concern.value
   })),
 ];
 
@@ -1322,19 +1323,18 @@ export default function HospitalForm() {
                           })
                           .filter(Boolean)}
                         onChange={(newValue) => {
-                          // 1. Set the concerns field (array of string values)
+                          // Update "concerns" field with selected concern values (titles)
                           const selectedConcerns = newValue.map((item) => item.value);
                           setFieldValue("concerns", selectedConcerns);
                       
-                          // 2. Extract speciality values from the selected options
+                          // Update "speciality" field with corresponding speciality values
                           const selectedSpecialities = newValue
                             .map((item) => {
                               const found = concernsOptions.find((opt) => opt.value === item.value);
                               return found?.speciality || null;
                             })
-                            .filter(Boolean); // Remove any nulls just in case
+                            .filter(Boolean);
                       
-                          // 3. Set the speciality field (can be an array or single value)
                           setFieldValue("specialities", selectedSpecialities);
                         }}
                         options={concernsOptions}
