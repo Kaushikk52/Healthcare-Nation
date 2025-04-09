@@ -121,12 +121,14 @@ public class MedicalFacilityController {
                                                                    @RequestParam(required = false) List<String> tpa,
                                                                    @RequestParam(required = false) List<String> altMed,
                                                                    @RequestParam(required = false) String location,
-                                                                   @RequestParam(required = false) String search
+                                                                   @RequestParam(required = false) String search,
+                                                                   @RequestParam(required = false) String saved
 
     ){
         Map<String,Object> response = new HashMap<>();
         try{
             Map<String,Object> filters = new HashMap<>();
+            if(saved != null) filters.put("saved",saved);
             if(type != null) filters.put("type",type);
             if(location != null) filters.put("location",location);
             if(search != null) filters.put("search",search);

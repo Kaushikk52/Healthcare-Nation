@@ -84,13 +84,15 @@ public class BankController {
                                                                    @RequestParam(required = false) String ownership,
                                                                    @RequestParam(required = false) List<String> brands,
                                                                    @RequestParam(required = false) String location,
-                                                                   @RequestParam(required = false) String search
+                                                                   @RequestParam(required = false) String search,
+                                                                   @RequestParam(required = false) String saved
 
 
     ){
         Map<String,Object> response = new HashMap<>();
         try {
             Map<String,Object> filters = new HashMap<>();
+            if(saved != null) filters.put("saved",saved);
             if(location != null) filters.put("location",location);
             if(search != null) filters.put("search",search);
             if (accreditations != null && !accreditations.isEmpty()) filters.put("accreditations", accreditations);
