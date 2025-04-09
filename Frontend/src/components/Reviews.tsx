@@ -355,7 +355,7 @@ const Reviews = ({ id, type, avgRating, addRating, ratings }) => {
 
         <AnimatePresence>
           {isModalOpen && (
-            <ReviewModal onClose={() => setIsModalOpen(false)} id={id} />
+            <ReviewModal onClose={() => setIsModalOpen(false)} id={id} type={type} />
           )}
         </AnimatePresence>
       </div>

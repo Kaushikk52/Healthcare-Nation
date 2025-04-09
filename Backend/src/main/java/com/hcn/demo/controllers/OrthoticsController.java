@@ -3,6 +3,7 @@ package com.hcn.demo.controllers;
 import com.hcn.demo.dto.OrthoticsUpdateRequest;
 import com.hcn.demo.models.Orthotics;
 import com.hcn.demo.models.Rating;
+import com.hcn.demo.models.Review;
 import com.hcn.demo.services.OrthoticsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,6 +130,21 @@ public class OrthoticsController {
             log.warn("An Error occurred : {}", e.getMessage());
             response.put("message",e.getMessage());
             return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+        }
+    }
+
+    @PostMapping(value = "/{id}/review")
+    public ResponseEntity<Map<String,Object>> addReview(@PathVariable String id, @RequestBody Review review, Principal principal){
+        Map<String,Object> response = new HashMap<>();
+        try{
+            orthoticsServ.addReview(id,review,principal);
+            log.info("Review added successfully : {}",id);
+            response.put("message","Review added successfully");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            log.warn("An Error occurred : {}", e.getMessage());
+            response.put("message",e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 

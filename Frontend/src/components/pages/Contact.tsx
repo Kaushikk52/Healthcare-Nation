@@ -84,10 +84,9 @@ export default function ContactPage() {
         setCurrentUser(undefined);
         return;
       }
-      const response = await axios.get(
-        `${baseURL}/v1/api/user/principal`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const response = await axios.get(`${baseURL}/v1/api/user/principal`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       if (response.status === 201 || response.status === 200) {
         setCurrentUser(response.data);
       }
@@ -114,11 +113,11 @@ export default function ContactPage() {
     try {
       const body = {
         userId: currentUser?.userId,
-          content: values.content,
-          email: values.email,
-          name: values.name,
-          phone: values.phone,
-          term: values.term,
+        content: values.content,
+        email: values.email,
+        name: values.name,
+        phone: values.phone,
+        term: values.term,
       };
 
       const response = await axios.post(
@@ -156,7 +155,9 @@ export default function ContactPage() {
       >
         <div className="w-full flex justify-center mb-12">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">Contact Out Friendly Team</h1>
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+              Contact Out Friendly Team
+            </h1>
             <div className="w-2/3 h-1 bg-blue-500 mx-auto"></div>
           </div>
         </div>
@@ -363,7 +364,10 @@ export default function ContactPage() {
                 </Formik>
               </div>
 
-              <motion.div className="space-y-10 basis-2/6" variants={containerVariants}>
+              <motion.div
+                className="space-y-10 basis-2/6"
+                variants={containerVariants}
+              >
                 {/* <motion.div variants={itemVariants}>
                   <h3 className="text-2xl font-semibold mb-6 text-gray-900">
                     With our services you can
@@ -389,13 +393,17 @@ export default function ContactPage() {
 
                 <motion.div variants={itemVariants}>
                   <p className=" mb-6 text-gray-900">
-                  At <b>HealthcareNation</b>, we are committed to helping you find the best
-healthcare services across India. If you have any questions, need assistance, or
-want to partner with us, feel free to reach out at
+                    At <b>HealthcareNation</b>, we are committed to helping you
+                    find the best healthcare services across India. If you have
+                    any questions, need assistance, or want to partner with us,
+                    feel free to reach out at
                   </p>
                   <ul className="space-y-4">
                     {[
-                      { icon: <Mail className="w-6 h-6 mr-3" />, text: 'info.healthcarenation@gmail.com' },
+                      {
+                        icon: <Mail className="w-6 h-6 mr-3" />,
+                        text: "info.healthcarenation@gmail.com",
+                      },
                     ].map((item, index) => (
                       <motion.li
                         key={index}
@@ -444,7 +452,6 @@ want to partner with us, feel free to reach out at
               </a>
             </div>
           </motion.div> */}
-
         </motion.div>
       </motion.div>
     </div>

@@ -2,6 +2,8 @@ package com.hcn.demo.controllers;
 
 import com.hcn.demo.dto.TransportUpdateRequest;
 import com.hcn.demo.models.Orthotics;
+import com.hcn.demo.models.Rating;
+import com.hcn.demo.models.Review;
 import com.hcn.demo.models.Transport;
 import com.hcn.demo.services.TransportService;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,6 +111,39 @@ public class TransportController {
             response.put("transport",filteredTransport);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }catch (Exception e) {
+            log.warn("An Error occurred : {}", e.getMessage());
+            response.put("message",e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    @PostMapping(value = "/{id}/rating")
+    public ResponseEntity<Map<String, Object>> addRating(@PathVariable String id, @RequestBody Rating rating, Principal principal){
+        Map<String, Object> response = new HashMap<>();
+        try {
+            transportServ.addRating(id,rating,principal);
+            Transport transport = transportServ.updateAverageRating(id);
+            log.info("Rating {} added successfully : {}", rating,id);
+            response.put("message","Rating added successfully");
+            response.put("avgRating",transport.getAvgRating());
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            log.warn("An Error occurred : {}", e.getMessage());
+            response.put("message",e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+        }
+    }
+
+
+    @PostMapping(value = "/{id}/review")
+    public ResponseEntity<Map<String,Object>> addReview(@PathVariable String id, @RequestBody Review review, Principal principal){
+        Map<String,Object> response = new HashMap<>();
+        try{
+            transportServ.addReview(id,review,principal);
+            log.info("Review added successfully : {}",id);
+            response.put("message","Review added successfully");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
             log.warn("An Error occurred : {}", e.getMessage());
             response.put("message",e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);

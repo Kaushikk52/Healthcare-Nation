@@ -394,6 +394,7 @@ const ServiceDetailsPage = () => {
               <ReviewModal
                 onClose={() => setIsModalOpen(false)}
                 id={service.id}
+                type={type}
               />
             )}
           </AnimatePresence>

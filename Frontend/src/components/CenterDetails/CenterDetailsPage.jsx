@@ -395,6 +395,7 @@ export default function CenterDetailsPage () {
               <ReviewModal
                 onClose={() => setIsModalOpen(false)}
                 id={center.id}
+                type={type}
               />
             )}
           </AnimatePresence>

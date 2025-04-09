@@ -408,6 +408,7 @@ const HospitalDetailsPage = () => {
               <ReviewModal
                 onClose={() => setIsModalOpen(false)}
                 id={hospital.id}
+                type={type}
               />
             )}
           </AnimatePresence>
