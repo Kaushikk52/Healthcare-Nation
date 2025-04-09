@@ -88,6 +88,7 @@ const concernsOptions = [
   ...servicesByHealthConcern.map((concern) => ({
     label: concern.title,
     value: concern.title,
+    speciality : concern.value
   })),
 ];
 
