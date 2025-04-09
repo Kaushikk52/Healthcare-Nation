@@ -60,7 +60,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ onClose,id,type }) => {
       >
         <div className="p-6">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-semibold">Write Your Review {type}</h3>
+            <h3 className="text-xl font-semibold">Write Your Review</h3>
             <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
               <X className="h-6 w-6" />
             </button>

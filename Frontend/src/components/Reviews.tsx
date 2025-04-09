@@ -84,7 +84,7 @@ const Reviews = ({ id, type, avgRating, addRating, ratings }) => {
 
   const buildUrl = () => {
      let url = ``;
-     if(type === "hospitals" || type === "clinics"){
+     if(type === "hospitals-details" || type === "clinics-details"){
       return url = `${baseURL}/v1/api/facility/${id}/rating`;
      }else if( type === "dialysis" ||
       type === "ivf" ||
