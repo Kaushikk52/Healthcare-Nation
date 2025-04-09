@@ -20,6 +20,12 @@ public class GenericSpecification<T>  {
                 predicates.add(criteriaBuilder.equal(root.get("facilityType"),type));
             }
 
+            if (filters.containsKey("saved")) {
+                String savedValue = filters.get("saved").toString(); // make sure it's a String
+                Boolean isSaved = Boolean.parseBoolean(savedValue);  // safely convert
+                predicates.add(criteriaBuilder.equal(root.get("isSaved"), isSaved));
+            }
+
             if(filters.containsKey("location")){
                 String location = (String) filters.get("location");
                 Join<T, Address> addressJoin = root.join("address");

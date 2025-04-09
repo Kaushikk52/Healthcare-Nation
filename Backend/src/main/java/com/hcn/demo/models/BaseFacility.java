@@ -39,7 +39,6 @@ public abstract class BaseFacility extends Auditable {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    private int bed;
     private String website;
     private String openDay;
     private String closeDay;

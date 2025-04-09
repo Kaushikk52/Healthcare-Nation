@@ -1,5 +1,3 @@
-"use client"
-
 import { AnimatePresence, motion } from "framer-motion"
 import { FaStar, FaFilter } from "react-icons/fa"
 import { Link, useSearchParams } from "react-router-dom"
@@ -144,7 +142,13 @@ export default function ServiceListing() {
 
     // Add all selected filters to URL parameters
     Object.entries(selectedFilters).forEach(([key, value]) => {
-      if (key === "saved") return // Skip saved filter
+      if (key === "saved") {
+        // Include saved=true in URL params when it's selected
+        if (value === true) {
+          newParams.set("saved", "true")
+        }
+        return
+      }
 
       if (Array.isArray(value) && value.length > 0) {
         // For arrays with multiple values, join with commas
@@ -171,6 +175,13 @@ export default function ServiceListing() {
 
     const newFilters = { ...initialSelectedFilters }
     let filtersChanged = false
+
+    // Check for saved parameter
+    const savedParam = params.get("saved")
+    if (savedParam === "true") {
+      newFilters.saved = true
+      filtersChanged = true
+    }
 
     // Check all possible filter parameters in the URL
     const filterTypes = [
@@ -232,9 +243,10 @@ export default function ServiceListing() {
       const newFilters = { ...prevFilters }
       if (filterType === "saved") {
         newFilters.saved = !newFilters.saved
-        if (newFilters.saved) {
-          handleSavedFilter(true)
-        }
+        // Remove the special handling for saved filter
+        // if (newFilters.saved) {
+        //   handleSavedFilter(true)
+        // }
       } else if (filterType === "sortBy") {
         // Handle sortBy as radio buttons - either select the new option or clear if clicking the same one
         const currentSortBy = newFilters.sortBy[0]
@@ -282,6 +294,11 @@ export default function ServiceListing() {
     // Add location and search if they exist
     location && query.append("location", location)
     search && query.append("search", search)
+
+    // Add saved filter to query if it's true
+    if (selectedFilters.saved) {
+      query.append("saved", "true")
+    }
 
     // Add all selected filters to the query EXCEPT sortBy
     Object.entries(selectedFilters).forEach(([key, value]) => {
@@ -474,28 +491,9 @@ export default function ServiceListing() {
       })
     }
 
-    // Handle saved filter
-    if (selectedFilters.saved) {
-      handleSavedFilter(selectedFilters.saved)
-      return
-    }
-
-    // Only call getFacilities if filters other than sortBy have changed
-    if (
-      selectedFilters.saved === false &&
-      (selectedFilters.brands.length > 0 ||
-        selectedFilters.diagnostics.length > 0 ||
-        selectedFilters.specialities.length > 0 ||
-        selectedFilters.psu.length > 0 ||
-        selectedFilters.accreditations.length > 0 ||
-        selectedFilters.concerns.length > 0 ||
-        selectedFilters.insurance.length > 0 ||
-        selectedFilters.tpa.length > 0 ||
-        selectedFilters.altMed.length > 0 ||
-        selectedFilters.ownership.length > 0)
-    ) {
-      getFacilities()
-    }
+    // Call getFacilities for all filter changes including saved
+    // This replaces the special handling for saved filter
+    getFacilities()
   }, [selectedFilters])
 
   // Fetch facilities on initial load and when type changes
@@ -862,7 +860,6 @@ ${
                                 onChange={() => handleFilterToggle(option.id, section.filterType)}
                               />
                               <span className="flex-1 text-gray-700">{option.text}</span>
-                              {option.count && <span className="text-gray-400 text-sm">({option.count})</span>}
                             </label>
                           ))}
                   </div>
