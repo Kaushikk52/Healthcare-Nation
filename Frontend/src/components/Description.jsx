@@ -145,7 +145,7 @@ const Description = (props) => {
                         alt={item}
                         className="!rounded-full !h-15 !w-15 sm:!h-10 sm:!w-10"
                       />
-                      <h1 className="!text-sm !font-medium uppercase">
+                      <h1 className="!text-sm !font-medium">
                         {item}
                       </h1>
                     </div>
@@ -165,7 +165,7 @@ const Description = (props) => {
                       return (
                         <span
                           key={index}
-                          className="!flex !items-center !text-sm !font-medium uppercase"
+                          className="!flex !items-center !text-sm !font-medium"
                         >
                           <CircleCheckBig className="!h-8 !w-8 !mr-3 sm:!mr-5 !flex-shrink-0" />
                           {fact}
