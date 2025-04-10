@@ -72,6 +72,7 @@ interface SelectedFilters {
 }
 
 export default function ServiceListing() {
+  const latestRequestId = useRef(0);
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL
   const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS
   const [expandedSections, setExpandedSections] = useState<string[]>([])
@@ -313,8 +314,54 @@ export default function ServiceListing() {
     return query
   }
 
+  // const getFacilities = async () => {
+  //   try {
+  //     let url = ``
+  //     const queryString = buildQuery()
+  //     if (type === "hospitals" || type === "clinics") {
+  //       if (queryString.size > 0) {
+  //         url = `${baseURL}/v1/api/facility/filter?type=${type}&${queryString}`
+  //       } else {
+  //         url = `${baseURL}/v1/api/facility/filter?type=${type}`
+  //       }
+  //     } else if (
+  //       type === "dialysis" ||
+  //       type === "ivf" ||
+  //       type === "burns" ||
+  //       type === "hairTransplant" ||
+  //       type === "checkup" ||
+  //       type === "rehabilitation"
+  //     ) {
+  //       if (queryString.size > 0) {
+  //         url = `${baseURL}/v1/api/center/filter?type=${type}&${queryString}`
+  //       } else {
+  //         url = `${baseURL}/v1/api/center/filter?type=${type}`
+  //       }
+  //     } else {
+  //       if (queryString.size > 0) {
+  //         url = `${baseURL}/v1/api/${type}/filter?${queryString}`
+  //       } else {
+  //         url = `${baseURL}/v1/api/${type}/filter`
+  //       }
+  //     }
+  //     const response = await axios.get(url)
+  //     const data = response.data[type] || []
+  //     if (response.data[type].length === 0) {
+  //       setFacilities([])
+  //     } else {
+  //       setFacilities(data)
+  //     }
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
+
   const getFacilities = async () => {
     try {
+      // Generate a unique ID for this request
+      const currentRequestId = latestRequestId.current + 1;
+      latestRequestId.current = currentRequestId;
+      
       let url = ``
       const queryString = buildQuery()
       if (type === "hospitals" || type === "clinics") {
@@ -343,17 +390,25 @@ export default function ServiceListing() {
           url = `${baseURL}/v1/api/${type}/filter`
         }
       }
+      
       const response = await axios.get(url)
-      const data = response.data[type] || []
-      if (response.data[type].length === 0) {
-        setFacilities([])
+      
+      // Only update state if this is still the latest request
+      if (currentRequestId === latestRequestId.current) {
+        const data = response.data[type] || []
+        if (response.data[type].length === 0) {
+          setFacilities([])
+        } else {
+          setFacilities(data)
+        }
       } else {
-        setFacilities(data)
+        // console.log('Ignoring stale response from older request')
       }
     } catch (err) {
       console.log(err)
     }
   }
+  
 
   // Add these utility functions for sorting
   const sortByRating = (facilities: any[]) => {
