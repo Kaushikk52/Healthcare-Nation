@@ -12,6 +12,10 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
 
+      - name: Verify MySQL is Running
+        run: |
+          systemctl is-active --quiet mysql || (echo "MySQL is not running!" && exit 1)
+
       - name: Backup Database Before Deployment
         run: |
           mysqldump -u root -p'root' HCNDB > /home/deployer/db_backup.sql
