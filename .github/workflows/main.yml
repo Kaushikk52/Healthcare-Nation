@@ -18,7 +18,10 @@ jobs:
 
       - name: Backup Database Before Deployment
         run: |
-          mysqldump -u root -p'root' HCNDB > /home/deployer/db_backup.sql
+          TIMESTAMP=$(date +"%F_%T")
+          mysqldump -u root -p'root' HCNDB > "/home/deployer/db_backup_$TIMESTAMP.sql"
+          ln -sf "/home/deployer/db_backup_$TIMESTAMP.sql" /home/deployer/db_backup_latest.sql
+
 
       - name: Build and Deploy Backend
         run: |
