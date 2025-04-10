@@ -365,7 +365,7 @@ export default function ContactPage() {
               </div>
 
               <motion.div
-                className="space-y-10 basis-2/6 text-start"
+                className="space-y-10 basis-3/6 text-center mt-10"
                 variants={containerVariants}
               >
                 {/* <motion.div variants={itemVariants}>
@@ -392,13 +392,13 @@ export default function ContactPage() {
                 </motion.div> */}
 
                 <motion.div variants={itemVariants}>
-                  <p className=" mb-6 text-gray-900">
+                  <p className=" mb-4 text-gray-900 text-center">
                     At <b>HealthcareNation</b>, we are committed to helping you
                     find the best healthcare services across India. If you have
                     any questions, need assistance, or want to partner with us,
                     feel free to reach out at
                   </p>
-                  <ul className="space-y-4">
+                  <ul className="space-y-4 text-center">
                     {[
                       {
                         icon: <Mail className="w-6 h-6 mr-3" />,
@@ -407,7 +407,7 @@ export default function ContactPage() {
                     ].map((item, index) => (
                       <motion.li
                         key={index}
-                        className="flex items-start"
+                        className="flex justify-center items-center"
                         variants={itemVariants}
                       >
                         <span>{item.icon}</span>
