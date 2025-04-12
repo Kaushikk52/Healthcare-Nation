@@ -54,8 +54,6 @@ const Photos = (props) => {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className=" max-w-[95vw] p-2 sm:max-w-[90vw] md:max-w-[80vw]">
           <div className="relative">
-
-         
             <Button
               variant="outline"
               size="icon"

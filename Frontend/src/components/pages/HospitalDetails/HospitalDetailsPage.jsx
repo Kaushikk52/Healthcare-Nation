@@ -1,63 +1,65 @@
-import React, { useState, useEffect } from "react";
-import toast from "react-hot-toast";
+import { useState, useEffect } from "react"
+import toast from "react-hot-toast"
 
 // Icons
-import { IoIosStar } from "react-icons/io";
-import { MdEdit } from "react-icons/md";
-import { MdOutlineDirections } from "react-icons/md";
-import { FaRegShareFromSquare } from "react-icons/fa6";
-import { BsBookmarkCheck, BsBookmark } from "react-icons/bs";
+import { IoIosStar } from "react-icons/io"
+import { MdEdit } from "react-icons/md"
+import { MdOutlineDirections } from "react-icons/md"
+import { FaRegShareFromSquare } from "react-icons/fa6"
+import { BsBookmark, BsBookmarkCheckFill } from "react-icons/bs"
+import { IoMdClose } from "react-icons/io"
 
 // Tippy React
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
+import Tippy from "@tippyjs/react"
+import "tippy.js/dist/tippy.css"
 
-import servicesByAccrediations from "@/data/accrediations";
+import servicesByAccrediations from "@/data/accrediations"
 
 // Dynamic Content Components imports
-import Description from "../../Description";
-import Photos from "../../Photos";
-import Videos from "../../Videos";
-import Reviews from "../../Reviews.tsx";
-import { Link, useParams } from "react-router-dom";
-import axios from "axios";
+import Description from "../../Description"
+import Photos from "../../Photos"
+import Videos from "../../Videos"
+import Reviews from "../../Reviews.tsx"
+import { Link, useNavigate, useParams } from "react-router-dom"
+import axios from "axios"
 
-import ReviewModal from "../../ReviewModal";
-import { motion, AnimatePresence } from "framer-motion";
+import ReviewModal from "../../ReviewModal"
+import { AnimatePresence, motion } from "framer-motion"
 
-const HospitalDetailsPage = () => {
-  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
-  const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS;
-  const clinicImgs = import.meta.env.VITE_APP_CLOUDINARY_CLINICS;
-  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 425);
-  const [activeTabButton, setActiveTabButton] = useState("description");
-  const [hospital, setHospital] = useState({});
-  const [saved, setSaved] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const token = localStorage.getItem("token");
+export default function HospitalDetailsPage() {
+  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL
+  const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS
+  const navigate = useNavigate()
+  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 425)
+  const [activeTabButton, setActiveTabButton] = useState("description")
+  const [hospital, setHospital] = useState({})
+  const [saved, setSaved] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const token = localStorage.getItem("token")
+  const [previewImage, setPreviewImage] = useState(null)
 
-  const { id, type } = useParams();
+  const { id, type } = useParams()
 
   useEffect(() => {
-      getHospitalDetails(id);
-  }, [id]);
+    getHospitalDetails(id)
+  }, [id])
 
   const handleAddRating = () => {
-    console.log("parent component updated");
-    getHospitalDetails(id);
-  };
+    console.log("parent component updated")
+    getHospitalDetails(id)
+  }
 
   const getHospitalDetails = async (id) => {
     try {
-      const response = await axios.get(`${baseURL}/v1/api/facility/id/${id}`);
-      const data = response.data.facility;
+      const response = await axios.get(`${baseURL}/v1/api/facility/id/${id}`)
+      const data = response.data.facility
       // console.log(data);
-      setHospital(data);
-      setSaved(data.isSaved);
+      setHospital(data)
+      setSaved(data.isSaved)
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  };
+  }
 
   const handleCopyUrl = () => {
     navigator.clipboard
@@ -66,42 +68,42 @@ const HospitalDetailsPage = () => {
         toast.success(`URL copied to clipboard!`, {
           position: "bottom-right",
           duration: 3000,
-        });
+        })
       })
       .catch(() => {
         toast.error(`Failed to copy URL`, {
           position: "bottom-right",
           duration: 3000,
-        });
-      });
-  };
+        })
+      })
+  }
 
   const handleDirection = () => {
     const hospitalAddress = `${hospital.address?.street}, ${hospital.address?.landmark} ${hospital.address?.city} 
-                  ${hospital.address?.state} - ${hospital.address?.zipCode}`;
+                  ${hospital.address?.state} - ${hospital.address?.zipCode}`
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const { latitude, longitude } = position.coords;
-          const start = `${latitude},${longitude}`; // User's current location
-          const end = encodeURIComponent(hospitalAddress); // Destination
-          const mapsUrl = `https://www.google.com/maps/dir/${start}/${end}`;
-          window.open(mapsUrl, "_blank");
+          const { latitude, longitude } = position.coords
+          const start = `${latitude},${longitude}` // User's current location
+          const end = encodeURIComponent(hospitalAddress) // Destination
+          const mapsUrl = `https://www.google.com/maps/dir/${start}/${end}`
+          window.open(mapsUrl, "_blank")
         },
         (error) => {
           toast.error("Failed to get your location. Please enable GPS.", {
             position: "bottom-right",
             duration: 3000,
-          });
-        }
-      );
+          })
+        },
+      )
     } else {
       toast.error("Geolocation is not supported by this browser.", {
         position: "bottom-right",
         duration: 3000,
-      });
+      })
     }
-  };
+  }
 
   const saveHospital = async (hospitalId) => {
     try {
@@ -112,50 +114,52 @@ const HospitalDetailsPage = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
-      );
+        },
+      )
 
-      return response.data.message;
+      return response.data.message
     } catch (err) {
-      console.log(err.message);
+      console.log(err.message)
     }
-  };
+  }
 
   const removeSavedHospital = async (hospitalId) => {
     return await axios.delete(`${baseURL}/v1/api/saved/medical/${hospitalId}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-    });
-  };
+    })
+  }
 
   const handleSave = async () => {
     if (saved) {
-      await removeSavedHospital(id);
-      setSaved(false);
+      await removeSavedHospital(id)
+      setSaved(false)
     } else {
-      await saveHospital(id);
-      setSaved(true);
+      await saveHospital(id)
+      setSaved(true)
     }
     // setSaved(!saved);
-  };
+  }
 
   useEffect(() => {
-    const handleResize = () => setIsWideScreen(window.innerWidth >= 425);
-    window.addEventListener("resize", handleResize);
+    const handleResize = () => setIsWideScreen(window.innerWidth >= 425)
+    window.addEventListener("resize", handleResize)
 
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
   const buttons = [
     {
       title: "Add Review",
       icon: <MdEdit className="!text-pink-400 !h-5 !w-5" />,
-      onClick: () => { 
-        token ? setIsModalOpen(true) :  toast.error(`Login is Required`, {
-          position: "bottom-right",
-          duration: 3000,
-        });
+      onClick: () => {
+        token
+          ? setIsModalOpen(true)
+          : toast.error(`Login is Required`, {
+              position: "bottom-right",
+              duration: 3000,
+            })
       },
     },
     {
@@ -166,7 +170,7 @@ const HospitalDetailsPage = () => {
     {
       title: saved ? "Saved" : "Save",
       icon: saved ? (
-        <BsBookmarkCheck className="text-pink-400 h-5 w-5 transition-transform duration-200 scale-110" />
+        <BsBookmarkCheckFill className="text-pink-400 h-5 w-5 transition-transform duration-200 scale-110" />
       ) : (
         <BsBookmark className="text-pink-400 h-5 w-5 transition-transform duration-200 hover:scale-110" />
       ),
@@ -178,14 +182,12 @@ const HospitalDetailsPage = () => {
       icon: <FaRegShareFromSquare className="!text-pink-400 !h-5 !w-5" />,
       onClick: handleCopyUrl,
     },
-  ];
+  ]
 
   const tabButtons = [
     {
       id: "description",
-      component: (
-        <Description details={hospital} phones={hospital.phoneNumbers} />
-      ),
+      component: <Description details={hospital} phones={hospital.phoneNumbers} />,
       title: "Description",
       marginX: "!mr-2",
       paddingX: "!pr-1 min-[425px]:!pr-2",
@@ -219,7 +221,7 @@ const HospitalDetailsPage = () => {
       marginX: "!mx-2",
       paddingX: "!px-1 min-[425px]:!px-2",
     },
-  ];
+  ]
 
   return (
     <div className="lg:max-w-5xl xl:max-w-6xl !mx-auto !px-4">
@@ -229,12 +231,12 @@ const HospitalDetailsPage = () => {
           <nav className="flex" aria-label="Breadcrumb">
             <ol className="inline-flex items-center space-x-1 md:space-x-3">
               <li className="inline-flex items-center">
-                <a
-                  href="#"
+                <Link
+                  to={`/`}
                   className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600"
                 >
                   Home
-                </a>
+                </Link>
               </li>
               <li>
                 <div className="flex items-center">
@@ -253,12 +255,12 @@ const HospitalDetailsPage = () => {
                       d="m1 9 4-4-4-4"
                     />
                   </svg>
-                  <a
-                    href="#"
+                  <Link
+                    to={`/listing?type=hospitals`}
                     className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 capitalize"
                   >
-                    {"Mumbai"}
-                  </a>
+                    {hospital.address?.state || "Mumbai"}
+                  </Link>
                 </div>
               </li>
               <li aria-current="page">
@@ -278,9 +280,7 @@ const HospitalDetailsPage = () => {
                       d="m1 9 4-4-4-4"
                     />
                   </svg>
-                  <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2 capitalize">
-                    {type}
-                  </span>
+                  <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2 capitalize">{hospital.name}</span>
                 </div>
               </li>
             </ol>
@@ -291,15 +291,20 @@ const HospitalDetailsPage = () => {
       {/* New Conditional Rendering Grid */}
       <div className="!grid !grid-cols-12 !gap-2 sm:!gap-4 lg:!gap-3 !py-4 ">
         {/* Main Image */}
-        <div
-          className={`col-span-12 ${
-            hospital.images?.length === 1 ? "lg:col-span-12" : "lg:col-span-8"
-          }`}
-        >
+        <div className={`col-span-12 ${hospital.images?.length === 1 ? "lg:col-span-12" : "lg:col-span-8"}`}>
           <img
-            src={type !== "hospitals-details"? hospitalImgs + hospital.images?.[0]  : hospitalImgs + hospital.images?.[0]}
+            src={
+              type !== "hospitals-details" ? hospitalImgs + hospital.images?.[0] : hospitalImgs + hospital.images?.[0]
+            }
             alt="main hospital"
-            className="h-[240px] min-[425px]:h-[280px] sm:h-[380px] lg:h-[510px] w-full rounded-sm object-cover"
+            className="h-[240px] min-[425px]:h-[280px] sm:h-[380px] lg:h-[510px] w-full rounded-sm object-cover cursor-pointer"
+            onClick={() =>
+              setPreviewImage(
+                type !== "hospitals-details"
+                  ? hospitalImgs + hospital.images?.[0]
+                  : hospitalImgs + hospital.images?.[0],
+              )
+            }
           />
         </div>
         {/* Conditional Grid for Other Images */}
@@ -308,9 +313,20 @@ const HospitalDetailsPage = () => {
             {/* First Additional Image */}
             <div>
               <img
-                 src={type !== "hospitals-details"? hospitalImgs + hospital.images?.[1]  : hospitalImgs + hospital.images?.[1]}
+                src={
+                  type !== "hospitals-details"
+                    ? hospitalImgs + hospital.images?.[1]
+                    : hospitalImgs + hospital.images?.[1]
+                }
                 alt="Patient Room"
-                className="h-full w-full object-cover object-center rounded-sm"
+                className="h-full w-full object-cover object-center rounded-sm cursor-pointer"
+                onClick={() =>
+                  setPreviewImage(
+                    type !== "hospitals-details"
+                      ? hospitalImgs + hospital.images?.[1]
+                      : hospitalImgs + hospital.images?.[1],
+                  )
+                }
               />
             </div>
 
@@ -318,9 +334,12 @@ const HospitalDetailsPage = () => {
             <div className="relative h-full w-full">
               {hospital.images?.length >= 4 ? (
                 <div
+                  onClick={() => setActiveTabButton("photos")}
                   style={{
                     backgroundImage: `url(${
-                      type !== "hospitals-details"? hospitalImgs + hospital.images?.[2]  : hospitalImgs + hospital.images?.[2]
+                      type !== "hospitals-details"
+                        ? hospitalImgs + hospital.images?.[2]
+                        : hospitalImgs + hospital.images?.[2]
                     })`,
                   }}
                   className="relative h-full w-full bg-cover bg-center rounded-sm"
@@ -336,9 +355,20 @@ const HospitalDetailsPage = () => {
                 <>
                   {hospital.images?.length > 2 && (
                     <img
-                    src={type !== "hospitals-details"? hospitalImgs + hospital.images?.[2]  : hospitalImgs + hospital.images?.[2]}
+                      src={
+                        type !== "hospitals-details"
+                          ? hospitalImgs + hospital.images?.[2]
+                          : hospitalImgs + hospital.images?.[2]
+                      }
                       alt="Hallway"
-                      className="h-full w-full object-cover object-center rounded-sm"
+                      className="h-full w-full object-cover object-center rounded-sm cursor-pointer"
+                      onClick={() =>
+                        setPreviewImage(
+                          type !== "hospitals-details"
+                            ? hospitalImgs + hospital.images?.[2]
+                            : hospitalImgs + hospital.images?.[2],
+                        )
+                      }
                     />
                   )}
                 </>
@@ -346,39 +376,29 @@ const HospitalDetailsPage = () => {
             </div>
           </div>
         )}
-
       </div>
 
-      
-    {/* Title & Contents */}
-    <div className="!flex !flex-col !items-start sm:!flex-row sm:!justify-between sm:!items-start !py-2 sm:!py-0">
+      {/* Title & Contents */}
+      <div className="!flex !flex-col !items-start sm:!flex-row sm:!justify-between sm:!items-start !py-2 sm:!py-0">
         {/* Left Side */}
         <div className="!flex !flex-col !justify-center !space-y-1.5">
-          <span className="!text-2xl lg:!text-4xl !font-medium !text-wrap">
-            {hospital.name}
-          </span>
+          <span className="!text-2xl lg:!text-4xl !font-medium !text-wrap">{hospital.name}</span>
           {/* <span className='!text-md lg:!text-xl !font-medium text-gray-600'>Andheri, Mumbai</span> */}
           <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 text-balance">
-                  {hospital.address?.street}, {hospital.address?.landmark}{" "}{hospital.address?.city}{" "}
-                  {hospital.address?.state} - {hospital.address?.zipCode}
-                  {/* 
+            {hospital.address?.city}, {hospital.address?.state}
+            {/* 
                   Rao Saheb, Achutrao Patwardhan Marg, Four Bungalows, Andheri
                   West, Mumbai, Maharashtra 400053 */}
-                </span>
-          <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-md !text-[#74c365] capitalize">
-
-          {hospital.openDay} - {hospital.closeDay}{" "}
-          {hospital.hours} Hrs
           </span>
-
+          <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-md !text-[#74c365] capitalize">
+            {hospital.openDay} - {hospital.closeDay} {hospital.hours} Hrs
+          </span>
         </div>
 
         {/* Right Side  */}
         <div className="!flex !flex-col !justify-center !text-white !my-2 sm:!my-0 !space-y-0.5 sm:!space-y-1.5 !text-left sm:!text-right">
           <div className="!flex !justify-center !items-center !bg-[#267e3e] !rounded !py-0.5 !px-0">
-            <span className="!text-xl !font-semibold !mr-1 !px-0">
-              {hospital.avgRating?.toPrecision(2)}
-            </span>
+            <span className="!text-xl !font-semibold !mr-1 !px-0">{hospital.avgRating ? hospital.avgRating?.toPrecision(2) : `0.0`}</span>
             <IoIosStar className="!h-5 !w-5 !mb-0.5 !px-0 !mx-0" />
           </div>
           <div className="!text-gray-600">
@@ -386,7 +406,6 @@ const HospitalDetailsPage = () => {
           </div>
         </div>
       </div>
-
 
       {/* Buttons & Rounded Images*/}
       <div className="!flex !flex-col sm:!flex-row !items-start sm:!items-center sm:!space-y-0 !space-y-5 !justify-between !pb-4 sm:!py-4">
@@ -404,36 +423,27 @@ const HospitalDetailsPage = () => {
             </Tippy>
           ))}
           <AnimatePresence>
-            {isModalOpen && (
-              <ReviewModal
-                onClose={() => setIsModalOpen(false)}
-                id={hospital.id}
-                type={type}
-              />
-            )}
+            {isModalOpen && <ReviewModal onClose={() => setIsModalOpen(false)} id={hospital.id} type={type} />}
           </AnimatePresence>
         </div>
 
         {/* Right Side for Rounded Images */}
         <div className="!flex !space-x-1.5 md:!space-x-2">
           {hospital.accreditations?.map((acc, index) => {
-            const accreditation = servicesByAccrediations.find(
-              (item) => item.title === acc
-            );
-            const accImg = accreditation?.image; // Get the image
-            const accTitle = accreditation?.title;
+            const accreditation = servicesByAccrediations.find((item) => item.title === acc)
+            const accImg = accreditation?.image // Get the image
+            const accTitle = accreditation?.title
 
             // Only render image if accImg is available
             return (
-              <Link to={`/listing?type=${type.replace("-details","")}&accreditations=${accTitle}`}>
+              <Link key={index} to={`/listing?type=${type.replace("-details", "")}&accreditations=${accTitle}`}>
                 <img
-                  key={index}
                   src={`/Images/${accImg}`}
                   alt={accImg}
                   className="!h-14 !w-14 md:!h-14 md:!w-14 !object-cover !object-center !rounded-full"
                 />
               </Link>
-            );
+            )
           })}
         </div>
       </div>
@@ -451,7 +461,7 @@ const HospitalDetailsPage = () => {
                 btn.paddingX
               } !pt-1 !pb-3 !text-xs sm:!text-base md:!text-lg !font-semibold !transition-all !duration-150 !ease-in-out ${
                 activeTabButton === btn.id
-                  ? "!text-gray-900 !border-b-[6px] !border-gray-700 !rounded-sm"
+                  ? "!text-gray-900 !border-b-[6px] !border-pink-400 !rounded-sm"
                   : "!border-b-[6px] !border-transparent !text-gray-500"
               } `}
             >
@@ -461,14 +471,41 @@ const HospitalDetailsPage = () => {
         </div>
 
         {/* For Contents */}
-        <div className="">
-          {tabButtons.map((btn) =>
-            activeTabButton === btn.id ? btn.component : null
-          )}
-        </div>
+        <div className="">{tabButtons.map((btn) => (activeTabButton === btn.id ? btn.component : null))}</div>
       </div>
-    </div>
-  );
-};
 
-export default HospitalDetailsPage;
+      {/* Image Preview Modal */}
+      <AnimatePresence>
+        {previewImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4"
+            onClick={() => setPreviewImage(null)}
+          >
+            <div className="relative max-w-4xl w-full max-h-[90vh]">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setPreviewImage(null)
+                }}
+                className="absolute top-2 right-2 z-10 bg-black bg-opacity-50 hover:bg-opacity-70 text-white p-2 rounded-full transition-all"
+              >
+                <IoMdClose className="w-6 h-6" />
+              </button>
+              <motion.img
+                initial={{ scale: 0.9 }}
+                animate={{ scale: 1 }}
+                src={previewImage}
+                alt="Preview"
+                className="w-full h-auto max-h-[90vh] object-contain rounded-lg"
+                onClick={(e) => e.stopPropagation()}
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}

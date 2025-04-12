@@ -43,7 +43,7 @@ export const CenterSchema = yup.object().shape({
     .oneOf(["PRIVATE", "PUBLIC", "GOVERNMENT"], "Invalid ownership type")
     .required("Ownership type is required"),
 
-  brands: yup.array().of(yup.string()),
+  brands: yup.array().of(yup.string()).max(1, "Only 1 brand allowed"),
   diagnostics: yup.array().of(yup.string()),
   specialities: yup
     .array()

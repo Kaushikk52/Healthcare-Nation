@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-
-// Icons
-import { IoIosStar } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
 import { MdOutlineDirections } from "react-icons/md";
 import { FaRegShareFromSquare } from "react-icons/fa6";
-import { BsBookmarkCheck, BsBookmark } from "react-icons/bs";
+import { BsBookmark, BsBookmarkCheckFill } from "react-icons/bs";
+import { IoMdClose,IoIosStar } from "react-icons/io";
 
 // Tippy React
 import Tippy from "@tippyjs/react";
@@ -19,26 +17,28 @@ import Description from "@/components/Description.jsx";
 import Photos from "@/components/Photos";
 import Videos from "@/components/Videos";
 import Reviews from "@/components/Reviews";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 import ReviewModal from "@/components/ReviewModal";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function CenterDetailsPage () {
+export default function CenterDetailsPage() {
   const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
   const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS;
+  const navigate = useNavigate();
   const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 425);
   const [activeTabButton, setActiveTabButton] = useState("description");
   const [center, setCenter] = useState({});
   const [saved, setSaved] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const token = localStorage.getItem("token");
+  const [previewImage, setPreviewImage] = useState(null);
 
   const { id, type } = useParams();
 
   useEffect(() => {
-      getCenterDetails(id);
+    getCenterDetails(id);
   }, [id]);
 
   const handleAddRating = () => {
@@ -150,11 +150,13 @@ export default function CenterDetailsPage () {
     {
       title: "Add Review",
       icon: <MdEdit className="!text-pink-400 !h-5 !w-5" />,
-      onClick: () => { 
-        token ? setIsModalOpen(true) :  toast.error(`Login is Required`, {
-          position: "bottom-right",
-          duration: 3000,
-        });
+      onClick: () => {
+        token
+          ? setIsModalOpen(true)
+          : toast.error(`Login is Required`, {
+              position: "bottom-right",
+              duration: 3000,
+            });
       },
     },
     {
@@ -165,7 +167,7 @@ export default function CenterDetailsPage () {
     {
       title: saved ? "Saved" : "Save",
       icon: saved ? (
-        <BsBookmarkCheck className="text-pink-400 h-5 w-5 transition-transform duration-200 scale-110" />
+        <BsBookmarkCheckFill className="text-pink-400 h-5 w-5 transition-transform duration-200 scale-110" />
       ) : (
         <BsBookmark className="text-pink-400 h-5 w-5 transition-transform duration-200 hover:scale-110" />
       ),
@@ -182,9 +184,7 @@ export default function CenterDetailsPage () {
   const tabButtons = [
     {
       id: "description",
-      component: (
-        <Description details={center} phones={center.phoneNumbers} />
-      ),
+      component: <Description details={center} phones={center.phoneNumbers} />,
       title: "Description",
       marginX: "!mr-2",
       paddingX: "!pr-1 min-[425px]:!pr-2",
@@ -228,12 +228,12 @@ export default function CenterDetailsPage () {
           <nav className="flex" aria-label="Breadcrumb">
             <ol className="inline-flex items-center space-x-1 md:space-x-3">
               <li className="inline-flex items-center">
-                <a
-                  href="#"
+                <Link
+                  to={`/`}
                   className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600"
                 >
                   Home
-                </a>
+                </Link>
               </li>
               <li>
                 <div className="flex items-center">
@@ -252,12 +252,12 @@ export default function CenterDetailsPage () {
                       d="m1 9 4-4-4-4"
                     />
                   </svg>
-                  <a
-                    href="#"
+                  <Link
+                    to={`/listing?type=${type}`}
                     className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 capitalize"
                   >
-                    {"Mumbai"}
-                  </a>
+                    {center.address?.state ||"Mumbai"}
+                  </Link>
                 </div>
               </li>
               <li aria-current="page">
@@ -278,7 +278,7 @@ export default function CenterDetailsPage () {
                     />
                   </svg>
                   <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2 capitalize">
-                    {type}
+                    {center.name}
                   </span>
                 </div>
               </li>
@@ -296,9 +296,10 @@ export default function CenterDetailsPage () {
           }`}
         >
           <img
-            src={hospitalImgs + center.images?.[0]}
+            src={hospitalImgs + center.images?.[0] || "/placeholder.svg"}
             alt="main center"
-            className="h-[240px] min-[425px]:h-[280px] sm:h-[380px] lg:h-[510px] w-full rounded-sm object-cover"
+            className="h-[240px] min-[425px]:h-[280px] sm:h-[380px] lg:h-[510px] w-full rounded-sm object-cover cursor-pointer"
+            onClick={() => setPreviewImage(hospitalImgs + center.images?.[0])}
           />
         </div>
         {/* Conditional Grid for Other Images */}
@@ -307,9 +308,12 @@ export default function CenterDetailsPage () {
             {/* First Additional Image */}
             <div>
               <img
-                 src={hospitalImgs + center.images?.[1]}
+                src={hospitalImgs + center.images?.[1] || "/placeholder.svg"}
                 alt="Patient Room"
-                className="h-full w-full object-cover object-center rounded-sm"
+                className="h-full w-full object-cover object-center rounded-sm cursor-pointer"
+                onClick={() =>
+                  setPreviewImage(hospitalImgs + center.images?.[1])
+                }
               />
             </div>
 
@@ -317,8 +321,11 @@ export default function CenterDetailsPage () {
             <div className="relative h-full w-full">
               {center.images?.length >= 4 ? (
                 <div
+                  onClick={() => setActiveTabButton("photos")}
                   style={{
-                    backgroundImage: `url(${hospitalImgs + center.images?.[2]})`,
+                    backgroundImage: `url(${
+                      hospitalImgs + center.images?.[2]
+                    })`,
                   }}
                   className="relative h-full w-full bg-cover bg-center rounded-sm"
                 >
@@ -333,9 +340,14 @@ export default function CenterDetailsPage () {
                 <>
                   {center.images?.length > 2 && (
                     <img
-                    src={hospitalImgs + center.images?.[2]}
+                      src={
+                        hospitalImgs + center.images?.[2] || "/placeholder.svg"
+                      }
                       alt="Hallway"
-                      className="h-full w-full object-cover object-center rounded-sm"
+                      className="h-full w-full object-cover object-center rounded-sm cursor-pointer"
+                      onClick={() =>
+                        setPreviewImage(hospitalImgs + center.images?.[2])
+                      }
                     />
                   )}
                 </>
@@ -343,12 +355,10 @@ export default function CenterDetailsPage () {
             </div>
           </div>
         )}
-
       </div>
 
-      
-    {/* Title & Contents */}
-    <div className="!flex !flex-col !items-start sm:!flex-row sm:!justify-between sm:!items-start !py-2 sm:!py-0">
+      {/* Title & Contents */}
+      <div className="!flex !flex-col !items-start sm:!flex-row sm:!justify-between sm:!items-start !py-2 sm:!py-0">
         {/* Left Side */}
         <div className="!flex !flex-col !justify-center !space-y-1.5">
           <span className="!text-2xl lg:!text-4xl !font-medium !text-wrap">
@@ -356,24 +366,29 @@ export default function CenterDetailsPage () {
           </span>
           {/* <span className='!text-md lg:!text-xl !font-medium text-gray-600'>Andheri, Mumbai</span> */}
           <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 text-balance">
-                  {center.address?.street}, {center.address?.landmark}{" "}{center.address?.city}{" "}
-                  {center.address?.state} - {center.address?.zipCode}
-                  {/* 
+            {center.address?.city}, {center.address?.state}
+            {/* 
                   Rao Saheb, Achutrao Patwardhan Marg, Four Bungalows, Andheri
                   West, Mumbai, Maharashtra 400053 */}
-                </span>
-          <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-md !text-[#74c365] capitalize">
-
-          {center.openDay} - {center.closeDay}{" "}
-          {center.hours} Hrs
           </span>
-
+          <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-md !text-[#74c365] capitalize">
+            {center.openDay} - {center.closeDay} {center.hours} Hrs
+          </span>
         </div>
 
         {/* Right Side  */}
-       
+        <div className="!flex !flex-col !justify-center !text-white !my-2 sm:!my-0 !space-y-0.5 sm:!space-y-1.5 !text-left sm:!text-right">
+          <div className="!flex !justify-center !items-center !bg-[#267e3e] !rounded !py-0.5 !px-0">
+            <span className="!text-xl !font-semibold !mr-1 !px-0">
+              {center.avgRating ? center.avgRating?.toPrecision(2) : `0.0`}
+            </span>
+            <IoIosStar className="!h-5 !w-5 !mb-0.5 !px-0 !mx-0" />
+          </div>
+          <div className="!text-gray-600">
+            <span>{center.reviews?.length} Reviews</span>
+          </div>
+        </div>
       </div>
-
 
       {/* Buttons & Rounded Images*/}
       <div className="!flex !flex-col sm:!flex-row !items-start sm:!items-center sm:!space-y-0 !space-y-5 !justify-between !pb-4 sm:!py-4">
@@ -412,9 +427,14 @@ export default function CenterDetailsPage () {
 
             // Only render image if accImg is available
             return (
-              <Link to={`/listing?type=${type.replace("-details","")}&accreditations=${accTitle}`}>
+              <Link
+                key={index}
+                to={`/listing?type=${type.replace(
+                  "-details",
+                  ""
+                )}&accreditations=${accTitle}`}
+              >
                 <img
-                  key={index}
                   src={`/Images/${accImg}`}
                   alt={accImg}
                   className="!h-14 !w-14 md:!h-14 md:!w-14 !object-cover !object-center !rounded-full"
@@ -438,7 +458,7 @@ export default function CenterDetailsPage () {
                 btn.paddingX
               } !pt-1 !pb-3 !text-xs sm:!text-base md:!text-lg !font-semibold !transition-all !duration-150 !ease-in-out ${
                 activeTabButton === btn.id
-                  ? "!text-gray-900 !border-b-[6px] !border-gray-700 !rounded-sm"
+                  ? "!text-gray-900 !border-b-[6px] !border-pink-400 !rounded-sm"
                   : "!border-b-[6px] !border-transparent !text-gray-500"
               } `}
             >
@@ -454,7 +474,39 @@ export default function CenterDetailsPage () {
           )}
         </div>
       </div>
+
+      {/* Image Preview Modal */}
+      <AnimatePresence>
+        {previewImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4"
+            onClick={() => setPreviewImage(null)}
+          >
+            <div className="relative max-w-4xl w-full max-h-[90vh]">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setPreviewImage(null);
+                }}
+                className="absolute top-2 right-2 z-10 bg-black bg-opacity-50 hover:bg-opacity-70 text-white p-2 rounded-full transition-all"
+              >
+                <IoMdClose className="w-6 h-6" />
+              </button>
+              <motion.img
+                initial={{ scale: 0.9 }}
+                animate={{ scale: 1 }}
+                src={previewImage}
+                alt="Preview"
+                className="w-full h-auto max-h-[90vh] object-contain rounded-lg"
+                onClick={(e) => e.stopPropagation()}
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
-};
-
+}

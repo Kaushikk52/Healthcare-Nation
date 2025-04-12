@@ -1,9 +1,8 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useParams } from "react-router-dom";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { FaPhone, FaLocationDot } from "react-icons/fa6";
 import { FaGlobeAmericas } from "react-icons/fa";
@@ -93,7 +92,8 @@ const Description = (props) => {
         {/* Left Side */}
         <div className="lg:!col-span-8  xl:!col-span-8 ">
           {/* About Us Section */}
-          <div className="max-w-3xl mx-auto bg-slate-50">
+        <ScrollArea className="h-[620px]">
+          <div className="max-w-3xl mx-auto">
             <div className="flex flex-col justify-center space-y-5 py-5 my-5 border border-gray-200 p-4 rounded-md">
               <h1 className="text-2xl font-semibold">About Us</h1>
               <div className="relative">
@@ -105,7 +105,7 @@ const Description = (props) => {
                 </div>
 
                 {!isExpanded && (
-                  <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 h-16" />
                 )}
               </div>
 
@@ -132,7 +132,7 @@ const Description = (props) => {
           {/* Achievements */}
           {props.details?.achievements &&
             props.details?.achievements.some((item) => item.trim() !== "") && (
-              <div className="mb-5 border border-gray-200 !p-4 rounded-md bg-slate-50">
+              <div className="mb-5 border border-gray-200 !p-4 rounded-md ">
                 <h1 className="!text-2xl !font-semibold">Achievements</h1>
                 <div className="!py-4 sm:!py-2 ">
                   {props.details.achievements?.map((item, index) => (
@@ -145,7 +145,7 @@ const Description = (props) => {
                         alt={item}
                         className="!rounded-full !h-15 !w-15 sm:!h-10 sm:!w-10"
                       />
-                      <h1 className="!text-sm !font-medium">
+                      <h1 className="!text-base !font-medium">
                         {item}
                       </h1>
                     </div>
@@ -157,7 +157,7 @@ const Description = (props) => {
           {/* Facts */}
           {props.details?.facts &&
             props.details?.facts.some((item) => item.trim() !== "") && (
-              <div className="border border-gray-200 !p-4 rounded-md bg-slate-50">
+              <div className="border border-gray-200 !p-4 rounded-md ">
                 <h1 className="!text-2xl !font-semibold">Facts</h1>
                 <div className="!py-4 sm:!py-2">
                   <div className="grid grid-cols-2 gap-y-4">
@@ -165,7 +165,7 @@ const Description = (props) => {
                       return (
                         <span
                           key={index}
-                          className="!flex !items-center !text-sm !font-medium"
+                          className="!flex !items-center !text-base !font-medium"
                         >
                           <CircleCheckBig className="!h-8 !w-8 !mr-3 sm:!mr-5 !flex-shrink-0" />
                           {fact}
@@ -179,8 +179,8 @@ const Description = (props) => {
 
           {/* Diagnostics Section */}
           {props.details?.diagnostics && (
-            <div className="!py-4 border border-gray-200 !p-4 rounded-md bg-slate-50 mt-5">
-              <h1 className="!text-2xl !font-semibold">Diagnostics</h1>
+            <div className="!py-4 border border-gray-200 !p-4 rounded-md  mt-5">
+              <h1 className="!text-2xl !font-semibold">Diagnostic & Laboratory Services</h1>
               <div className="!flex !flex-wrap !gap-3 !py-5">
                 {props.details.diagnostics?.map((diag, index) => (
                   <Link
@@ -219,7 +219,7 @@ const Description = (props) => {
           {/* Alt Med Section */}
           {props.details?.altMed &&
             props.details?.altMed.some((item) => item.trim() !== "") && (
-              <div className="!py-4 border border-gray-200 !p-4 rounded-md bg-slate-50 mt-5">
+              <div className="!py-4 border border-gray-200 !p-4 rounded-md  mt-5">
                 <h1 className="!text-2xl !font-semibold">
                   Alternative & Complementary Medicine Services
                 </h1>
@@ -260,8 +260,8 @@ const Description = (props) => {
 
           {/* Corporates Section */}
           {props.details?.psu && (
-            <div className="!py-4 border border-gray-200 !p-4 rounded-md bg-slate-50 my-5">
-              <h1 className="!text-2xl !font-semibold">Corporates</h1>
+            <div className="!py-4 border border-gray-200 !p-4 rounded-md  my-5">
+              <h1 className="!text-2xl !font-semibold">Public Sector health schemes</h1>
 
               <Swiper
                 modules={[Navigation, Pagination, Autoplay, A11y]}
@@ -302,7 +302,7 @@ const Description = (props) => {
                             <img
                               src={corpImg || "/placeholder.svg"}
                               alt={item}
-                              className={`rounded-full h-full aspect-square w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-20 xl:max-w-20`}
+                              className={`border-2 border-gray-300 rounded-full h-full aspect-square w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-20 xl:max-w-20`}
                             />
                             <h1 className="!py-2 !text-gray-700 !font-medium !text-sm sm:!text-base">
                               {item}
@@ -319,7 +319,7 @@ const Description = (props) => {
 
           {/* Brands Section */}
           {props.details?.brands && (
-            <div className="!py-4 border border-gray-200 !p-4 rounded-md bg-slate-50 my-5">
+            <div className="!py-4 border border-gray-200 !p-4 rounded-md  my-5">
               <h1 className="!text-2xl !font-semibold">Brands</h1>
 
               <Swiper
@@ -362,11 +362,11 @@ const Description = (props) => {
                             <img
                               src={brandImg || "/placeholder.svg"}
                               alt={item}
-                              className={`rounded-full aspect-square ${bProperty} shadw-md shadow-[rgba(45,45,51,0.08)]  w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl`}
+                              className={`rounded-full aspect-square border-2 border-gray-300 ${bProperty} shadw-md shadow-[rgba(45,45,51,0.08)]  w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl`}
                             />
-                            <h1 className="!py-2 !text-gray-700 !font-medium !text-sm sm:!text-base">
+                            {/* <h1 className="!py-2 !text-gray-700 !font-medium !text-sm sm:!text-base">
                               {item}
-                            </h1>
+                            </h1> */}
                           </div>
                         </Link>
                       </div>
@@ -379,7 +379,7 @@ const Description = (props) => {
 
           {/* Specialities Section */}
           {props.details?.specialities && (
-            <div className="!py-4 border border-gray-200 !p-4 rounded-md bg-slate-50 mt-5">
+            <div className="!py-4 border border-gray-200 !p-4 rounded-md  mt-5">
               <h1 className="!text-2xl !font-semibold">Specialities</h1>
               <div className="!flex !flex-wrap !gap-3 !py-5">
                 {props.details.specialities?.map((speciality, index) => (
@@ -418,7 +418,7 @@ const Description = (props) => {
 
           {/* Insurance Section */}
           {props.details?.insurance && (
-            <div className="!py-4 border border-gray-200 !p-4 rounded-md bg-slate-50 my-5">
+            <div className="!py-4 border border-gray-200 !p-4 rounded-md  my-5">
               <h1 className="!text-2xl !font-semibold">Insurance</h1>
 
               <Swiper
@@ -478,7 +478,7 @@ const Description = (props) => {
 
           {/* TPA Section */}
           {props.details?.tpa && (
-            <div className="!py-4 border border-gray-200 !p-4 rounded-md bg-slate-50 my-5">
+            <div className="!py-4 border border-gray-200 !p-4 rounded-md my-5">
               <h1 className="!text-2xl !font-semibold">TPA</h1>
 
               <Swiper
@@ -535,13 +535,14 @@ const Description = (props) => {
               </Swiper>
             </div>
           )}
+        </ScrollArea>
         </div>
 
         {/* Right Side */}
         <div className="lg:!col-span-4  xl:!col-span-4 !py-5">
-          <div className="!flex !flex-col !justify-center !space-y-10 !p-2">
+          <div className="!flex !flex-col !justify-center !space-y-10">
             {/* Contact And Address Details  */}
-            <div className="!flex !flex-col !space-y-6 !p-5 !bg-gray-50 !rounded-sm border">
+            <div className="!flex !flex-col !space-y-6 !p-5 !rounded-sm border">
               {/* Phone  */}
               {props.phones?.map((number) => (
                 <div key={number} className="!grid !grid-cols-12 !items-start">

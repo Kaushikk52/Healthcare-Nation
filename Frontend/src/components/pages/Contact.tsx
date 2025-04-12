@@ -231,7 +231,7 @@ export default function ContactPage() {
           variants={containerVariants}
         >
           <div className="p-8 md:p-12 text-center">
-            <motion.h2
+            {/* <motion.h2
               className="text-3xl sm:text-4xl font-bold mb-4 text-gray-900"
               variants={itemVariants}
             >
@@ -243,7 +243,7 @@ export default function ContactPage() {
             >
               Fill out the form below or schedule a meeting with us at your
               convenience.
-            </motion.p>
+            </motion.p> */}
 
             <div className="flex flex-row gap-5  text-balance justify-center">
               <div className="border basis-3/6 border-gray-300 rounded-lg shadow-md p-6 ">
@@ -322,7 +322,7 @@ export default function ContactPage() {
                           name="content"
                           as="textarea"
                           rows="7"
-                          placeholder="Hello, I am interested in your property. Please provide more details."
+                          placeholder="Write your message here..."
                           className="w-full p-2 border rounded"
                         />
                         <ErrorMessage

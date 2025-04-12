@@ -1009,11 +1009,13 @@ function BankForm() {
                         placeholder="Select brands"
                         className="w-full"
                       />
-                      <ErrorMessage
-                        name="brands"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
+                      {errors.brands &&
+                        <span
+                          className="text-red-500 text-sm mt-1"
+                        >
+                          {errors.brands} 
+                        </span>
+                      }
                     </div>
 
                     <div className="!mt-6">

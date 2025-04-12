@@ -6,7 +6,7 @@ import { IoIosStar } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
 import { MdOutlineDirections } from "react-icons/md";
 import { FaRegShareFromSquare } from "react-icons/fa6";
-import { BsBookmarkCheck, BsBookmark } from "react-icons/bs";
+import { BsBookmarkCheck, BsBookmark, BsBookmarkCheckFill } from "react-icons/bs";
 
 // Tippy React
 import Tippy from "@tippyjs/react";
@@ -33,6 +33,7 @@ const ServiceDetailsPage = () => {
   const [service, setService] = useState<any>({});
   const [saved, setSaved] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null)
 
   const { id, type } = useParams();
 
@@ -160,7 +161,7 @@ const ServiceDetailsPage = () => {
     {
       title: saved ? "Saved" : "Save",
       icon: saved ? (
-        <BsBookmarkCheck className="text-pink-400 h-5 w-5 transition-transform duration-200 scale-110" />
+        <BsBookmarkCheckFill className="text-pink-400 h-5 w-5 transition-transform duration-200 scale-110" />
       ) : (
         <BsBookmark className="text-pink-400 h-5 w-5 transition-transform duration-200 hover:scale-110" />
       ),
@@ -310,6 +311,7 @@ const ServiceDetailsPage = () => {
             <div className="relative min-h-[160px] max-h-[160px] md:min-h-[220px] md:max-h-[220px] lg:min-h-[247px] lg:max-h-[247px] w-full">
               {service.images?.length >= 4 ? (
                 <div
+                  onClick={() => setActiveTabButton("photos")}
                   style={{
                     backgroundImage: `url(${
                       hospitalImgs + service.images?.[2]
@@ -349,8 +351,7 @@ const ServiceDetailsPage = () => {
           </span>
           {/* <span className='!text-md lg:!text-xl !font-medium text-gray-600'>Andheri, Mumbai</span> */}
           <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 text-balance">
-            {service.address?.street}, {service.address?.landmark}{" "}{service.address?.city}{" "}
-            {service.address?.state}- {service.address?.zipCode}
+            {service.address?.city}, {service.address?.state}
             {/* 
                   Rao Saheb, Achutrao Patwardhan Marg, Four Bungalows, Andheri
                   West, Mumbai, Maharashtra 400053 */}
