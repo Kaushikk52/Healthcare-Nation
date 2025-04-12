@@ -115,7 +115,7 @@ public class DiagnosticsService {
     public Diagnostics edit(Diagnostics diagnostics,List<String> deleteImages){
         Diagnostics existingDiagnostics = this.getById(diagnostics.getId());
         List<String> results = imageServ.deleteFiles(deleteImages,"Hospitals");
-        BeanUtils.copyProperties(diagnostics,existingDiagnostics,"createdAt");
+        BeanUtils.copyProperties(diagnostics,existingDiagnostics,"createdAt","ratings","reviews");
         return diagnosticsRepo.save(existingDiagnostics);
     }
 

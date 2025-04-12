@@ -112,8 +112,7 @@ public class CenterService {
     public Center updateCenter(Center center,List<String> deleteImages){
         Center existingCenter =  centerRepo.findById(center.getId()).orElseThrow(() -> new RuntimeException("Not found ..."));
         List<String> results = imageServ.deleteFiles(deleteImages,"Hospitals");
-        existingCenter.setMedicalFacilities(center.getMedicalFacilities());
-        BeanUtils.copyProperties(center,existingCenter,"createdAt","medicalFacilities");
+        BeanUtils.copyProperties(center,existingCenter,"createdAt","ratings","reviews");
         return centerRepo.save(existingCenter);
     }
 

@@ -114,7 +114,7 @@ public class OrthoticsService {
     public Orthotics edit(Orthotics op,List<String> deleteImages){
         Orthotics existingOrthotics = this.getById(op.getId());
         List<String> results = imageServ.deleteFiles(deleteImages,"Hospitals");
-        BeanUtils.copyProperties(op,existingOrthotics,"createdAt");
+        BeanUtils.copyProperties(op,existingOrthotics,"createdAt","ratings","reviews");
         return orthoticsRepo.save(existingOrthotics);
     }
 

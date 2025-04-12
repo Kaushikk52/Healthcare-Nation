@@ -45,6 +45,9 @@ public class SecurityConfig {
                         // Allow OPTIONS requests
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
+                        //Prometheus endpoints
+                        .requestMatchers("/actuator/**").permitAll()
+
                         // Authentication endpoints
                         .requestMatchers(HttpMethod.POST, "/v1/api/auth/**").permitAll()
 

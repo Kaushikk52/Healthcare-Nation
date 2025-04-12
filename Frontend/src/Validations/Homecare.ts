@@ -42,6 +42,6 @@ export const HomecareSchema = yup.object().shape({
     .string()
     .oneOf(["PRIVATE", "PUBLIC", "GOVERNMENT"], "Invalid ownership type")
     .required("Ownership type is required"),
-  brands: yup.array().of(yup.string()),
+  brands: yup.array().of(yup.string()).max(1, "Only 1 brand allowed"),
   medicalFacilities: yup.array().of(yup.string()),
 });

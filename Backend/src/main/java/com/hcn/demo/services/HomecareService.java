@@ -114,7 +114,7 @@ public class HomecareService {
     public Homecare edit(Homecare homecare,List<String> deleteImages){
         Homecare existingHomecare = this.getById(homecare.getId());
         List<String> results = imageServ.deleteFiles(deleteImages,"Hospitals");
-        BeanUtils.copyProperties(homecare,existingHomecare,"createdAt");
+        BeanUtils.copyProperties(homecare,existingHomecare,"createdAt","ratings","reviews");
         return homecareRepo.save(existingHomecare);
     }
 

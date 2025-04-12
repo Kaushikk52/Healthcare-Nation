@@ -116,7 +116,7 @@ public class TransportService {
     public Transport edit(Transport transport,List<String> deleteImages){
         Transport existingTransport = this.getById(transport.getId());
         List<String> results = imageServ.deleteFiles(deleteImages,"Hospitals");
-        BeanUtils.copyProperties(transport,existingTransport,"createdAt");
+        BeanUtils.copyProperties(transport,existingTransport,"createdAt","ratings","reviews");
         return transportRepo.save(existingTransport);
     }
 

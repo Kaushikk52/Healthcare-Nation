@@ -1367,7 +1367,7 @@ export default function EditHospitalForm() {
                     className="space-y-6"
                   >
                     <div>
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                      <label className="block text-xl font-medium text-gray-900 mb-4" htmlFor="brands">
                         Brands
                       </label>
                       <MultipleSelector
@@ -1383,11 +1383,14 @@ export default function EditHospitalForm() {
                         placeholder="Select brands"
                         className="w-full"
                       />
-                      <ErrorMessage
-                        name="brands"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
+                      {errors.brands &&
+                        <span
+                          className="text-red-500 text-sm mt-1"
+                        >
+                          {errors.brands} 
+                        </span>
+                      }
+                     
                     </div>
 
                     <div className="!mt-6">

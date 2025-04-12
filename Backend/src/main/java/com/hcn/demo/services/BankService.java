@@ -116,7 +116,7 @@ public class BankService {
     public Bank edit(Bank bank,List<String> deleteImages){
         Bank existingBank = this.getById(bank.getId());
         List<String> results = imageServ.deleteFiles(deleteImages,"Hospitals");
-        BeanUtils.copyProperties(bank,existingBank,"createdAt");
+        BeanUtils.copyProperties(bank,existingBank,"createdAt","ratings","reviews");
         return bankRepo.save(existingBank);
     }
 
