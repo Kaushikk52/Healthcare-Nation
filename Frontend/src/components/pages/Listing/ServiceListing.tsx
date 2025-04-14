@@ -88,6 +88,18 @@ export default function ServiceListing() {
     setIsLoggedIn(!!token);
   }, []);
 
+  // Helper function to format time in 12-hour format
+  const formatTime = (time24: string): string => {
+    const [hourStr, minuteStr] = time24.split(":")
+    const hour24 = Number.parseInt(hourStr, 10)
+
+    let hour12 = hour24 % 12
+    if (hour12 === 0) hour12 = 12
+    const period = hour24 < 12 ? "AM" : "PM"
+
+    return `${hour12}:${minuteStr} ${period}`
+  }
+
   // Flag to prevent infinite loops when updating state
   const isUpdatingFilters = useRef(false);
   const isUpdatingParams = useRef(false);
@@ -1229,7 +1241,7 @@ ${
                                 {detail.address?.city}, {detail.address?.state}
                               </span>
                               <span className="text-sm text-green-700 capitalize">
-                                {`${detail.openDay} - ${detail.closeDay} ${detail.hours} hrs` ||
+                                {`${detail.openDay} - ${detail.closeDay} ${formatTime(detail.fromTime)} - ${formatTime(detail.toTime)}` ||
                                   "Open 24 hours"}
                               </span>
                             </div>

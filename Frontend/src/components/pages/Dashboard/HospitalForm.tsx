@@ -1,41 +1,26 @@
-import axios from "axios";
-import {
-  type FormikHelpers,
-  type FormikErrors,
-  Formik,
-  Field,
-  ErrorMessage,
-  Form,
-} from "formik";
-import { motion, AnimatePresence } from "framer-motion";
-import { jwtDecode } from "jwt-decode";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Loader2,
-  Check,
-  AlertCircle,
-  Plus,
-  X,
-} from "lucide-react";
-import React, { useEffect, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
-import DatePicker from "react-datepicker";
-import { MedicalFacilitySchema } from "@/Validations/MedicalFacility";
-import { useNavigate } from "react-router-dom";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import MultipleSelector from "@/components/ui/MultipleSelector";
+import axios from "axios"
+import { type FormikHelpers, type FormikErrors, Field, ErrorMessage, Form, useFormik, Formik } from "formik"
+import { motion, AnimatePresence } from "framer-motion"
+import { jwtDecode } from "jwt-decode"
+import { ChevronLeft, ChevronRight, Loader2, Check, AlertCircle, Plus, X, Calendar, Clock } from "lucide-react"
+import React, { useEffect, useState } from "react"
+import toast, { Toaster } from "react-hot-toast"
+import DatePicker from "react-datepicker"
+import { MedicalFacilitySchema } from "@/Validations/MedicalFacility"
+import { useNavigate } from "react-router-dom"
+import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import MultipleSelector from "@/components/ui/MultipleSelector"
 
-import servicesBySpecialities from "@/data/servicesBySpecialities";
-import popularBrands from "@/data/brands";
-import diagnosticCentres from "@/data/diagnostic";
-import publicSector from "@/data/publicSector";
-import servicesByAccrediations from "@/data/accrediations";
-import servicesByHealthConcern from "@/data/healthConcern";
-import chooseYourHealthInsurance from "@/data/healthInsurance";
-import chooseYourTPA from "@/data/tpa";
+import servicesBySpecialities from "@/data/servicesBySpecialities"
+import popularBrands from "@/data/brands"
+import diagnosticCentres from "@/data/diagnostic"
+import publicSector from "@/data/publicSector"
+import servicesByAccrediations from "@/data/accrediations"
+import servicesByHealthConcern from "@/data/healthConcern"
+import chooseYourHealthInsurance from "@/data/healthInsurance"
+import chooseYourTPA from "@/data/tpa"
 
 // Add these option arrays after all the imports
 const specialtiesOptions = [
@@ -43,7 +28,7 @@ const specialtiesOptions = [
     label: speciality.title,
     value: speciality.title,
   })),
-];
+]
 
 const servicesOptions = [
   { label: "Emergency Care", value: "Emergency Care" },
@@ -56,48 +41,42 @@ const servicesOptions = [
   { label: "Ambulance", value: "Ambulance" },
   { label: "Telemedicine", value: "Telemedicine" },
   { label: "Dialysis", value: "Dialysis" },
-];
+]
 
-const brandsOptions = [
-  ...popularBrands.map((brand) => ({ label: brand.title, value: brand.title })),
-];
+const brandsOptions = [...popularBrands.map((brand) => ({ label: brand.title, value: brand.title }))]
 
-const psuOptions = [
-  ...publicSector.map((psu) => ({ label: psu.title, value: psu.title })),
-];
+const psuOptions = [...publicSector.map((psu) => ({ label: psu.title, value: psu.title }))]
 
 const accreditationsOptions = [
   ...servicesByAccrediations.map((accreditation) => ({
     label: accreditation.title,
     value: accreditation.title,
   })),
-];
+]
 
 const concernsOptions = [
   ...servicesByHealthConcern.map((concern) => ({
     label: concern.title,
-    value: concern.title,
-    speciality : concern.value
+    value: concern.value,
+    speciality: concern.value,
   })),
-];
+]
 
 const insuranceOptions = [
   ...chooseYourHealthInsurance.map((insurance) => ({
     label: insurance.title,
     value: insurance.title,
   })),
-];
+]
 
-const tpaOptions = [
-  ...chooseYourTPA.map((tpa) => ({ label: tpa.title, value: tpa.title })),
-];
+const tpaOptions = [...chooseYourTPA.map((tpa) => ({ label: tpa.title, value: tpa.title }))]
 
 const diagnosticsOptions = [
   ...diagnosticCentres.map((diagnostic) => ({
     label: diagnostic.title,
     value: diagnostic.title,
   })),
-];
+]
 
 const DatePickerField = ({ field, form }: any) => {
   return (
@@ -108,8 +87,8 @@ const DatePickerField = ({ field, form }: any) => {
       onChange={(date) => form.setFieldValue(field.name, date)}
       className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
     />
-  );
-};
+  )
+}
 
 // Tag Input Component for reusability
 const TagInput = ({
@@ -122,24 +101,24 @@ const TagInput = ({
   errors,
   touched,
 }: {
-  values: string[];
-  fieldName: string;
-  placeholder: string;
-  label: string;
-  onAddTag: (tag: string) => void;
-  onRemoveTag: (index: number) => void;
-  errors: any;
-  touched: any;
+  values: string[]
+  fieldName: string
+  placeholder: string
+  label: string
+  onAddTag: (tag: string) => void
+  onRemoveTag: (index: number) => void
+  errors: any
+  touched: any
 }) => {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState("")
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && inputValue.trim()) {
-      e.preventDefault();
-      onAddTag(inputValue.trim());
-      setInputValue("");
+      e.preventDefault()
+      onAddTag(inputValue.trim())
+      setInputValue("")
     }
-  };
+  }
 
   return (
     <div className="space-y-2">
@@ -160,8 +139,8 @@ const TagInput = ({
           type="button"
           onClick={() => {
             if (inputValue.trim()) {
-              onAddTag(inputValue.trim());
-              setInputValue("");
+              onAddTag(inputValue.trim())
+              setInputValue("")
             }
           }}
           size="sm"
@@ -174,50 +153,42 @@ const TagInput = ({
         {values.map(
           (tag, index) =>
             tag.trim() && (
-              <Badge
-                key={index}
-                variant="secondary"
-                className="text-sm py-1 px-2"
-              >
+              <Badge key={index} variant="secondary" className="text-sm py-1 px-2">
                 {tag}
-                <X
-                  className="h-3 w-3 ml-1 cursor-pointer"
-                  onClick={() => onRemoveTag(index)}
-                />
+                <X className="h-3 w-3 ml-1 cursor-pointer" onClick={() => onRemoveTag(index)} />
               </Badge>
-            )
+            ),
         )}
       </div>
 
-      {errors && touched && (
-        <div className="text-red-500 text-xs mt-1">{errors}</div>
-      )}
+      {errors && touched && <div className="text-red-500 text-xs mt-1">{errors}</div>}
     </div>
-  );
-};
+  )
+}
+;("use client")
 
 export default function HospitalForm() {
-  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
-  const [phones, setPhones] = useState<string[]>([""]);
-  const [step, setStep] = useState(1);
-  const navigate = useNavigate();
+  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL
+  const [phones, setPhones] = useState<string[]>([""])
+  const [step, setStep] = useState(1)
+  const navigate = useNavigate()
 
   const handlePhoneChange = (index: number, value: string) => {
-    const updatedPhones = [...phones];
-    updatedPhones[index] = value;
-    setPhones(updatedPhones);
-  };
+    const updatedPhones = [...phones]
+    updatedPhones[index] = value
+    setPhones(updatedPhones)
+  }
 
   const addPhone = () => {
-    setPhones([...phones, ""]);
-  };
+    setPhones([...phones, ""])
+  }
 
   const removePhone = (index: number) => {
-    const updatedPhones = phones.filter((_, i) => i !== index);
-    setPhones(updatedPhones);
-  };
+    const updatedPhones = phones.filter((_, i) => i !== index)
+    setPhones(updatedPhones)
+  }
 
-  // Update the initialValues to match the schema
+  // Update the initialValues to include the time and day fields
   const initialValues = {
     name: "",
     address: {
@@ -228,9 +199,11 @@ export default function HospitalForm() {
       landmark: "",
     },
     website: "",
-    openDay: "",
-    closeDay: "",
-    hours: "",
+    openDay: "Monday",
+    closeDay: "Friday",
+    fromTime: "09:00",
+    toTime: "17:00",
+    timeRangeValid: true, // Add this field to track validation state
     description: "",
     phoneNumbers: [""],
     facts: [""],
@@ -250,103 +223,110 @@ export default function HospitalForm() {
     tpa: [""],
     altMed: [""],
     avgRating: 0,
-  };
+  }
+
+  const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+  // Generate time options in 30-minute intervals with AM/PM format
+  const timeOptions = Array.from({ length: 48 }, (_, i) => {
+    const totalMinutes = i * 30
+    const hour24 = Math.floor(totalMinutes / 60)
+    const minute = (totalMinutes % 60).toString().padStart(2, "0")
+
+    let hour12 = hour24 % 12
+    if (hour12 === 0) hour12 = 12
+    const period = hour24 < 12 ? "AM" : "PM"
+
+    return {
+      value: `${hour24.toString().padStart(2, "0")}:${minute}`, // Keep 24h format as value
+      label: `${hour12}:${minute} ${period}`, // Display in 12h format
+    }
+  })
+
+  // Helper function to format time in 12-hour format
+  const formatTime = (time24: string): string => {
+    const [hourStr, minuteStr] = time24.split(":")
+    const hour24 = Number.parseInt(hourStr, 10)
+
+    let hour12 = hour24 % 12
+    if (hour12 === 0) hour12 = 12
+    const period = hour24 < 12 ? "AM" : "PM"
+
+    return `${hour12}:${minuteStr} ${period}`
+  }
 
   useEffect(() => {
-    const token: any = localStorage.getItem("token");
+    const token: any = localStorage.getItem("token")
     if (!token) {
       toast.error("Please Login", {
         position: "bottom-right",
         duration: 3000,
-      });
+      })
     }
     try {
-      const decodedToken: any = jwtDecode(token);
-      const currentTime = Date.now() / 1000;
+      const decodedToken: any = jwtDecode(token)
+      const currentTime = Date.now() / 1000
       if (decodedToken.exp < currentTime) {
         toast.error("Please Login", {
           position: "bottom-right",
           duration: 3000,
-        });
-        localStorage.removeItem("token");
-        navigate("/");
+        })
+        localStorage.removeItem("token")
+        navigate("/")
       }
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
-  }, []);
+  }, [])
 
-  async function uploadSingleImage(
-    image: File,
-    type: string
-  ): Promise<string | null> {
+  async function uploadSingleImage(image: File, type: string): Promise<string | null> {
     try {
       toast.loading("Uploading Specialities Images ...", {
         position: "bottom-right",
         duration: 2000,
-      });
+      })
 
-      const formData = new FormData();
-      formData.append("file", image);
-      formData.append("type", type);
+      const formData = new FormData()
+      formData.append("file", image)
+      formData.append("type", type)
 
-      const res = await axios.post(
-        `${baseURL}/v1/api/images/upload/single`,
-        formData
-      );
-      return res.data ?? null;
+      const res = await axios.post(`${baseURL}/v1/api/images/upload/single`, formData)
+      return res.data ?? null
     } catch (err) {
-      console.error("Image upload failed:", err);
-      return null;
+      console.error("Image upload failed:", err)
+      return null
     }
   }
 
   async function uploadImages(images: File[], type: string): Promise<string[]> {
     if (!images?.length) {
-      showToast("Please select images first", "error");
-      return [];
+      showToast("Please select images first", "error")
+      return []
     }
 
     toast.loading("Uploading Images ...", {
       position: "bottom-right",
       duration: 2000,
-    });
+    })
 
-    const formData = new FormData();
-    images.forEach((image) => formData.append("files", image));
-    formData.append("type", type); // Pass the type (e.g., "PROJECT", "PROPERTY")
+    const formData = new FormData()
+    images.forEach((image) => formData.append("files", image))
+    formData.append("type", type) // Pass the type (e.g., "PROJECT", "PROPERTY")
 
     try {
-      const res = await axios.post(
-        `${baseURL}/v1/api/images/upload/multiple/${type}`,
-        formData
-      );
-      return res.data ?? [];
+      const res = await axios.post(`${baseURL}/v1/api/images/upload/multiple/${type}`, formData)
+      return res.data ?? []
     } catch (err) {
-      console.error("Batch upload failed:", err);
-      return [];
+      console.error("Batch upload failed:", err)
+      return []
     }
   }
 
   function showToast(message: string, type: "success" | "error") {
-    toast[type](message, { position: "bottom-right", duration: 3000 });
+    toast[type](message, { position: "bottom-right", duration: 3000 })
   }
 
-  const [startDay, setStartDay] = useState("mon");
-  const [endDay, setEndDay] = useState("sat");
-  const [hoursPerDay, setHoursPerDay] = useState(8);
-  const [displayText, setDisplayText] = useState("");
-
-  const daysOfWeek = [
-    { label: "Select day", value: "", index: 0, disable: true },
-    { label: "Monday", value: "mon", index: 1, disable: false },
-    { label: "Tuesday", value: "tue", index: 2, disable: false },
-    { label: "Wednesday", value: "wed", index: 3, disable: false },
-    { label: "Thursday", value: "thu", index: 4, disable: false },
-    { label: "Friday", value: "fri", index: 5, disable: false },
-    { label: "Saturday", value: "sat", index: 6, disable: false },
-    { label: "Sunday", value: "sun", index: 7, disable: false },
-  ];
+  const [error, setError] = useState<string | null>(null)
 
   const stateOptions = [
     { label: "Select Location", value: "", index: 0, disable: true },
@@ -356,120 +336,114 @@ export default function HospitalForm() {
     { label: "Delhi", value: "Delhi", index: 4, disable: false },
     { label: "Ahmedabad", value: "Ahmedabad", index: 5, disable: false },
     { label: "Hyderabad", value: "Hyderabad", index: 6, disable: false },
-  ];
+  ]
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: MedicalFacilitySchema,
+    onSubmit: handleSubmit,
+  })
 
   useEffect(() => {
-    if (startDay && endDay) {
-      const start = daysOfWeek.find((day) => day.value === startDay);
-      const end = daysOfWeek.find((day) => day.value === endDay);
+    const { values, errors, touched } = formik
 
-      if (start && end) {
-        // Calculate days
-        let days = 0;
-        if (end.index >= start.index) {
-          days = end.index - start.index + 1;
-        } else {
-          days = 7 - start.index + end.index + 1;
-        }
+    const { openDay, closeDay, fromTime, toTime } = values
 
-        // Calculate total hours based on hours per day
-        const totalHours = hoursPerDay;
-
-        // Format the display text
-        const formattedStart =
-          start.value.charAt(0).toUpperCase() + start.value.slice(1);
-        const formattedEnd =
-          end.value.charAt(0).toUpperCase() + end.value.slice(1);
-
-        setDisplayText(`${formattedStart} - ${formattedEnd} ${totalHours}hrs`);
-      }
+    if (!fromTime || !toTime || !openDay || !closeDay) {
+      formik.setFieldError("toTime", undefined)
+      return
     }
-  }, [startDay, endDay, hoursPerDay]);
+
+    const getDayIndex = (day: string): number => {
+      const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+      return daysOfWeek.indexOf(day)
+    }
+
+    const fromDayIndex = getDayIndex(openDay)
+    const toDayIndex = getDayIndex(closeDay)
+
+    const [fromHour, fromMinute] = fromTime.split(":").map(Number)
+    const [toHour, toMinute] = toTime.split(":").map(Number)
+
+    const fromTotalMinutes = fromDayIndex * 1440 + (fromHour * 60 + fromMinute)
+    const toTotalMinutes = toDayIndex * 1440 + (toHour * 60 + toMinute)
+
+    if (toTotalMinutes <= fromTotalMinutes) {
+      formik.setFieldError("toTime", "End day and time must be after start day and time")
+    } else {
+      formik.setFieldError("toTime", undefined)
+    }
+  }, [formik.values.openDay, formik.values.closeDay, formik.values.fromTime, formik.values.toTime])
 
   async function handleSubmit(
     values: typeof initialValues,
-    { setSubmitting, resetForm }: FormikHelpers<typeof initialValues>
+    { setSubmitting, resetForm }: FormikHelpers<typeof initialValues>,
   ) {
     if (step !== 4) {
-      setSubmitting(false);
-      return;
+      setSubmitting(false)
+      return
     }
 
     try {
-      setSubmitting(true);
-      const imageUrls: any = await uploadImages(values.images, "Hospitals");
+      setSubmitting(true)
+      const imageUrls: any = await uploadImages(values.images, "Hospitals")
       if (imageUrls.length > 0) {
-        values.images = imageUrls || [""];
+        values.images = imageUrls || [""]
       }
 
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token")
       const response = await axios.post(
         `${baseURL}/v1/api/facility/save`,
         { ...values, avgRating: 0.0 },
-        { headers: { Authorization: `Bearer ${token}`, timeout: 20000 } }
-      );
+        { headers: { Authorization: `Bearer ${token}`, timeout: 20000 } },
+      )
 
       if (response.status === 201) {
-        showToast("Form submitted successfully!", "success");
-        resetForm();
-        setStep(1);
+        showToast("Form submitted successfully!", "success")
+        resetForm()
+        setStep(1)
       }
     } catch (err: any) {
       if (err.response?.status === 401) {
-        showToast("Access denied! Authentication is required", "error");
+        showToast("Access denied! Authentication is required", "error")
       } else {
-        showToast(`An error occurred: ${err.message}`, "error");
+        showToast(`An error occurred: ${err.message}`, "error")
       }
     } finally {
-      setSubmitting(false);
+      setSubmitting(false)
     }
   }
 
-  const steps = ["General", "Details", "Images", "Tags"];
+  const steps = ["General", "Details", "Images", "Tags"]
 
   const getStepFields = (stepNumber: number) => {
     switch (stepNumber) {
       case 1:
-        return [
-          "name",
-          "phone",
-          "address.street",
-          "address.city",
-          "address.landmark",
-          "address.zipCode",
-        ];
+        return ["name", "phone", "address.street", "address.city", "address.landmark", "address.zipCode"]
       case 2:
-        return [
-          "description",
-          "ownership",
-          "specialities.name",
-          "specialities.image",
-        ];
+        return ["description", "ownership", "specialities.name", "specialities.image"]
       case 3:
-        return ["images"];
+        return ["images"]
       case 4:
-        return ["departments", "altMeds", "concern", "services"];
+        return ["departments", "altMeds", "concern", "services"]
       default:
-        return [];
+        return []
     }
-  };
+  }
 
-  const showErrorsToast = (
-    errors: FormikErrors<typeof initialValues>,
-    stepNumber: number
-  ) => {
-    const stepFields = getStepFields(stepNumber);
+  const showErrorsToast = (errors: FormikErrors<typeof initialValues>, stepNumber: number) => {
+    const stepFields = getStepFields(stepNumber)
     const errorMessages = stepFields.reduce((acc: string[], field) => {
-      const fieldParts = field.split(".");
-      let fieldError: any = errors;
+      const fieldParts = field.split(".")
+      let fieldError: any = errors
       for (const part of fieldParts) {
-        fieldError = fieldError && fieldError[part];
+        fieldError = fieldError && fieldError[part]
       }
       if (fieldError) {
-        acc.push(`${field}: ${fieldError}`);
+        acc.push(`${field}: ${fieldError}`)
       }
-      return acc;
-    }, []);
+      return acc
+    }, [])
 
     if (errorMessages.length > 0) {
       toast.error(
@@ -481,56 +455,52 @@ export default function HospitalForm() {
             ))}
           </ul>
         </div>,
-        { duration: 5000, position: "bottom-right" }
-      );
+        { duration: 5000, position: "bottom-right" },
+      )
     }
-  };
+  }
 
-  const hasStepErrors = (
-    errors: FormikErrors<typeof initialValues>,
-    touched: any,
-    stepNumber: number
-  ) => {
-    const stepFields = getStepFields(stepNumber);
+  const hasStepErrors = (errors: FormikErrors<typeof initialValues>, touched: any, stepNumber: number) => {
+    const stepFields = getStepFields(stepNumber)
     return stepFields.some((field) => {
-      const fieldParts = field.split(".");
-      let fieldError: any = errors;
-      let fieldTouched: any = touched;
+      const fieldParts = field.split(".")
+      let fieldError: any = errors
+      let fieldTouched: any = touched
       for (const part of fieldParts) {
-        fieldError = fieldError && fieldError[part];
-        fieldTouched = fieldTouched && fieldTouched[part];
+        fieldError = fieldError && fieldError[part]
+        fieldTouched = fieldTouched && fieldTouched[part]
       }
-      return fieldError && fieldTouched;
-    });
-  };
+      return fieldError && fieldTouched
+    })
+  }
 
   const showAllErrors = (errors: FormikErrors<typeof initialValues>) => {
-    console.log("Errors : ", errors);
+    console.log("Errors : ", errors)
     const allErrorMessages = steps.flatMap((_, index) => {
-      const stepNumber = index + 1;
-      const stepFields = getStepFields(stepNumber);
+      const stepNumber = index + 1
+      const stepFields = getStepFields(stepNumber)
       return stepFields.reduce((acc: string[], field) => {
-        const fieldParts = field.split(".");
-        let fieldError: any = errors;
+        const fieldParts = field.split(".")
+        let fieldError: any = errors
         for (const part of fieldParts) {
-          fieldError = fieldError && fieldError[part];
+          fieldError = fieldError && fieldError[part]
         }
         if (fieldError) {
-          acc.push(`Step ${stepNumber} - ${field}: ${fieldError}`);
+          acc.push(`Step ${stepNumber} - ${field}: ${fieldError}`)
         }
-        return acc;
-      }, []);
-    });
+        return acc
+      }, [])
+    })
 
     if (allErrorMessages.length > 0) {
       allErrorMessages.forEach((message) => {
         toast.error(`${message}`, {
           duration: 10000,
           position: "bottom-right",
-        });
-      });
+        })
+      })
     }
-  };
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center py-1 px-2 sm:px-3 lg:px-8">
@@ -541,12 +511,8 @@ export default function HospitalForm() {
         className="max-w-4xl w-full space-y-8 bg-white p-[1.70rem]  rounded-xl shadow-lg"
       >
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Add Hospital
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Please fill the details of your hospital
-          </p>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Add Hospital</h2>
+          <p className="mt-2 text-center text-sm text-gray-600">Please fill the details of your hospital</p>
         </div>
 
         <div className="flex justify-start items-center mb-8 flex-wrap">
@@ -555,16 +521,12 @@ export default function HospitalForm() {
               <div className="flex flex-col items-center">
                 <div
                   className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                    index + 1 <= step
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-200 text-gray-600"
+                    index + 1 <= step ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-600"
                   } font-bold text-lg transition-colors duration-300`}
                 >
                   {index + 1}
                 </div>
-                <div className="mt-2 text-xs font-medium text-gray-500">
-                  {s}
-                </div>
+                <div className="mt-2 text-xs font-medium text-gray-500">{s}</div>
               </div>
               {index < steps.length - 1 && (
                 <motion.div
@@ -597,19 +559,8 @@ export default function HospitalForm() {
           ))}
         </div>
 
-        <Formik
-          initialValues={initialValues}
-          validationSchema={MedicalFacilitySchema}
-          onSubmit={handleSubmit}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            setFieldValue,
-            isSubmitting,
-            handleChange,
-          }) => (
+        <Formik initialValues={initialValues} validationSchema={MedicalFacilitySchema} onSubmit={handleSubmit}>
+          {({ values, errors, touched, setFieldValue, isSubmitting, handleChange }) => (
             <Form className="mt-8 space-y-6">
               <AnimatePresence mode="wait">
                 {step === 1 && (
@@ -623,10 +574,7 @@ export default function HospitalForm() {
                   >
                     <div className="grid grid-cols-1 gap-6">
                       <div>
-                        <label
-                          htmlFor="name"
-                          className="block text-sm font-medium text-gray-700"
-                        >
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                           Hospital Name
                         </label>
                         <Field
@@ -635,18 +583,11 @@ export default function HospitalForm() {
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
-                        <ErrorMessage
-                          name="name"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
+                        <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
                       </div>
 
                       <div>
-                        <label
-                          htmlFor="website"
-                          className="block text-sm font-medium text-gray-700"
-                        >
+                        <label htmlFor="website" className="block text-sm font-medium text-gray-700">
                           Website
                         </label>
                         <Field
@@ -656,18 +597,11 @@ export default function HospitalForm() {
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                           placeholder="https://example.com"
                         />
-                        <ErrorMessage
-                          name="website"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
+                        <ErrorMessage name="website" component="div" className="text-red-500 text-sm mt-1" />
                       </div>
 
                       <div>
-                        <label
-                          htmlFor="address.street"
-                          className="block text-sm font-medium text-gray-700"
-                        >
+                        <label htmlFor="address.street" className="block text-sm font-medium text-gray-700">
                           Street
                         </label>
                         <Field
@@ -676,20 +610,13 @@ export default function HospitalForm() {
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
-                        <ErrorMessage
-                          name="address.street"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
+                        <ErrorMessage name="address.street" component="div" className="text-red-500 text-sm mt-1" />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-5">
                       <div>
-                        <label
-                          htmlFor="address.city"
-                          className="block text-sm font-medium text-gray-700"
-                        >
+                        <label htmlFor="address.city" className="block text-sm font-medium text-gray-700">
                           City
                         </label>
                         <Field
@@ -698,18 +625,11 @@ export default function HospitalForm() {
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
-                        <ErrorMessage
-                          name="address.city"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
+                        <ErrorMessage name="address.city" component="div" className="text-red-500 text-sm mt-1" />
                       </div>
 
                       <div>
-                        <label
-                          htmlFor="address.state"
-                          className="block text-sm font-medium text-gray-700 mb-1"
-                        >
+                        <label htmlFor="address.state" className="block text-sm font-medium text-gray-700 mb-1">
                           Location
                         </label>
                         <Field
@@ -719,29 +639,18 @@ export default function HospitalForm() {
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         >
                           {stateOptions.map((state) => (
-                            <option
-                              disabled={state.disable}
-                              key={state.value}
-                              value={state.value}
-                            >
+                            <option disabled={state.disable} key={state.value} value={state.value}>
                               {state.label}
                             </option>
                           ))}
                         </Field>
-                        <ErrorMessage
-                          name="address.state"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
+                        <ErrorMessage name="address.state" component="div" className="text-red-500 text-sm mt-1" />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-6">
                       <div className="mt-2">
-                        <label
-                          htmlFor="address.zipCode"
-                          className="block text-sm font-medium text-gray-700"
-                        >
+                        <label htmlFor="address.zipCode" className="block text-sm font-medium text-gray-700">
                           Zip Code
                         </label>
                         <Field
@@ -750,18 +659,11 @@ export default function HospitalForm() {
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
-                        <ErrorMessage
-                          name="address.zipCode"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
+                        <ErrorMessage name="address.zipCode" component="div" className="text-red-500 text-sm mt-1" />
                       </div>
 
                       <div>
-                        <label
-                          htmlFor="address.landmark"
-                          className="block text-sm font-medium text-gray-700"
-                        >
+                        <label htmlFor="address.landmark" className="block text-sm font-medium text-gray-700">
                           Landmark
                         </label>
                         <Field
@@ -770,153 +672,144 @@ export default function HospitalForm() {
                           type="text"
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
-                        <ErrorMessage
-                          name="address.landmark"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
+                        <ErrorMessage name="address.landmark" component="div" className="text-red-500 text-sm mt-1" />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-6">
-                      <h2 className="text-base font-bold tracking-tight col-span-2">
-                        Weekly Working Days
-                      </h2>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 col-span-2">
-                        <div>
-                          <label
-                            htmlFor="openDay"
-                            className="block text-sm font-medium text-gray-700 mb-1"
-                          >
-                            From
-                          </label>
-                          <Field
-                            as="select"
-                            id="openDay"
-                            name="openDay"
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                          >
-                            {daysOfWeek.map((day) => (
-                              <option
-                                key={day.value}
-                                value={day.value}
-                                disabled={day.disable}
-                              >
-                                {day.label}
-                              </option>
-                            ))}
-                          </Field>
-                          <ErrorMessage
-                            name="openDay"
-                            component="div"
-                            className="text-red-500 text-sm mt-1"
-                          />
-                        </div>
-
-                        <div>
-                          <label
-                            htmlFor="closeDay"
-                            className="block text-sm font-medium text-gray-700 mb-1"
-                          >
-                            To
-                          </label>
-                          <Field
-                            as="select"
-                            id="closeDay"
-                            name="closeDay"
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                          >
-                            {daysOfWeek.map((day) => (
-                              <option
-                                key={day.value}
-                                value={day.value}
-                                disabled={day.disable}
-                              >
-                                {day.label}
-                              </option>
-                            ))}
-                          </Field>
-                          <ErrorMessage
-                            name="closeDay"
-                            component="div"
-                            className="text-red-500 text-sm mt-1"
-                          />
-                        </div>
-                      </div>
+                      <h2 className="text-base font-bold tracking-tight col-span-2">Weekly Working Days</h2>
 
                       <div>
-                        <label
-                          htmlFor="hours"
-                          className="block text-sm font-medium text-gray-700 mt-4"
-                        >
-                          Hours per day
+                        <label htmlFor="openDay" className="block text-sm font-medium text-gray-700 mb-1">
+                          Start Day
                         </label>
                         <Field
-                          id="hours"
-                          name="hours"
-                          type="number"
-                          min="1"
-                          max="24"
-                          value={values.hours} // Formik state
-                          onChange={handleChange} // Formik's handleChange
-                          className="w-full border border-gray-300 rounded px-3 py-2 outline-none focus:ring-blue-500 focus:border-blue-500"
-                        />
-                        <ErrorMessage
-                          name="hours"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
+                          as="select"
+                          id="openDay"
+                          name="openDay"
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        >
+                          {daysOfWeek.map((day) => (
+                            <option key={`from-${day}`} value={day}>
+                              {day}
+                            </option>
+                          ))}
+                        </Field>
+                        <ErrorMessage name="openDay" component="div" className="text-red-500 text-sm mt-1" />
                       </div>
 
                       <div>
-                        {/* Tag-based Phone input */}
-                        <TagInput
-                          values={values.phoneNumbers}
-                          fieldName="phoneNumbers"
-                          placeholder="Enter phone number"
-                          label="Phone Numbers"
-                          onAddTag={(tag) => {
-                            // Validate phone number (only allow 10-digit numbers)
-                            const phoneRegex = /^\d{10}$/;
-                            if (phoneRegex.test(tag)) {
-                              const newPhones = [...values.phoneNumbers];
-                              const emptyIndex = newPhones.findIndex(
-                                (p) => !p.trim()
-                              );
-
-                              if (emptyIndex >= 0) {
-                                newPhones[emptyIndex] = tag;
-                              } else {
-                                newPhones.push(tag);
-                              }
-                              setFieldValue("phoneNumbers", newPhones);
-                            } else {
-                              toast.error(
-                                "Please enter a valid 10-digit phone number",
-                                {
-                                  duration: 3000,
-                                }
-                              );
-                            }
-                          }}
-                          onRemoveTag={(index) => {
-                            const newPhones = [...values.phoneNumbers];
-                            newPhones.splice(index, 1);
-
-                            // Ensure there's always at least one empty slot
-                            if (
-                              newPhones.length === 0 ||
-                              !newPhones.includes("")
-                            ) {
-                              newPhones.push("");
-                            }
-                            setFieldValue("phoneNumbers", newPhones);
-                          }}
-                          errors={errors.phoneNumbers}
-                          touched={touched.phoneNumbers}
-                        />
+                        <label htmlFor="closeDay" className="block text-sm font-medium text-gray-700 mb-1">
+                          End Day
+                        </label>
+                        <Field
+                          as="select"
+                          id="closeDay"
+                          name="closeDay"
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        >
+                          {daysOfWeek.map((day) => (
+                            <option key={`to-${day}`} value={day}>
+                              {day}
+                            </option>
+                          ))}
+                        </Field>
+                        <ErrorMessage name="closeDay" component="div" className="text-red-500 text-sm mt-1" />
                       </div>
+
+                      <div>
+                        <label htmlFor="fromTime" className="block text-sm font-medium text-gray-700 mb-1">
+                          From Time
+                        </label>
+                        <Field
+                          as="select"
+                          id="fromTime"
+                          name="fromTime"
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        >
+                          {timeOptions.map((time) => (
+                            <option key={`from-${time.value}`} value={time.value}>
+                              {time.label}
+                            </option>
+                          ))}
+                        </Field>
+                        <ErrorMessage name="fromTime" component="div" className="text-red-500 text-sm mt-1" />
+                      </div>
+
+                      <div>
+                        <label htmlFor="toTime" className="block text-sm font-medium text-gray-700 mb-1">
+                          To Time
+                        </label>
+                        <Field
+                          as="select"
+                          id="toTime"
+                          name="toTime"
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        >
+                          {timeOptions.map((time) => (
+                            <option key={`to-${time.value}`} value={time.value}>
+                              {time.label}
+                            </option>
+                          ))}
+                        </Field>
+                        <ErrorMessage name="toTime" component="div" className="text-red-500 text-sm mt-1" />
+                      </div>
+
+                      <div className="flex items-center gap-4 text-sm text-muted-foreground col-span-2">
+                        <div className="flex items-center">
+                          <Calendar className="mr-2 h-4 w-4" />
+                          <span>
+                            {values.openDay} - {values.closeDay}
+                          </span>
+                        </div>
+                        <div className="flex items-center">
+                          <Clock className="mr-2 h-4 w-4" />
+                          <span>
+                            {formatTime(values.fromTime)} - {formatTime(values.toTime)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      {/* Tag-based Phone input */}
+                      <TagInput
+                        values={values.phoneNumbers}
+                        fieldName="phoneNumbers"
+                        placeholder="Enter phone number"
+                        label="Phone Numbers"
+                        onAddTag={(tag) => {
+                          // Validate phone number (only allow 10-digit numbers)
+                          const phoneRegex = /^\d{10}$/
+                          if (phoneRegex.test(tag)) {
+                            const newPhones = [...values.phoneNumbers]
+                            const emptyIndex = newPhones.findIndex((p) => !p.trim())
+
+                            if (emptyIndex >= 0) {
+                              newPhones[emptyIndex] = tag
+                            } else {
+                              newPhones.push(tag)
+                            }
+                            setFieldValue("phoneNumbers", newPhones)
+                          } else {
+                            toast.error("Please enter a valid 10-digit phone number", {
+                              duration: 3000,
+                            })
+                          }
+                        }}
+                        onRemoveTag={(index) => {
+                          const newPhones = [...values.phoneNumbers]
+                          newPhones.splice(index, 1)
+
+                          // Ensure there's always at least one empty slot
+                          if (newPhones.length === 0 || !newPhones.includes("")) {
+                            newPhones.push("")
+                          }
+                          setFieldValue("phoneNumbers", newPhones)
+                        }}
+                        errors={errors.phoneNumbers}
+                        touched={touched.phoneNumbers}
+                      />
                     </div>
                   </motion.div>
                 )}
@@ -931,10 +824,7 @@ export default function HospitalForm() {
                     className="space-y-6"
                   >
                     <div>
-                      <label
-                        htmlFor="description"
-                        className="block text-sm font-medium text-gray-700 mb-1"
-                      >
+                      <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
                         Description
                       </label>
                       <Field
@@ -944,19 +834,12 @@ export default function HospitalForm() {
                         rows={4}
                         className="mt-1 block w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 touch-manipulation"
                       />
-                      <ErrorMessage
-                        name="description"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
+                      <ErrorMessage name="description" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
 
                     <div className="grid grid-cols-2 gap-6">
                       <div>
-                        <label
-                          htmlFor="ownership"
-                          className="block text-sm font-medium text-gray-700"
-                        >
+                        <label htmlFor="ownership" className="block text-sm font-medium text-gray-700">
                           Ownership
                         </label>
                         <Field
@@ -969,63 +852,43 @@ export default function HospitalForm() {
                           <option value="PRIVATE">Private</option>
                           <option value="GOVERNMENT">Government</option>
                         </Field>
-                        <ErrorMessage
-                          name="ownership"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
+                        <ErrorMessage name="ownership" component="div" className="text-red-500 text-sm mt-1" />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Specialities
-                        </label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Specialities</label>
                         <MultipleSelector
-                          value={values.specialities
-                            .filter((s) => s.trim())
-                            .map((s) => ({ label: s, value: s }))}
+                          value={values.specialities.filter((s) => s.trim()).map((s) => ({ label: s, value: s }))}
                           onChange={(newValue) => {
                             setFieldValue(
                               "specialities",
-                              newValue.map((item) => item.value)
-                            );
+                              newValue.map((item) => item.value),
+                            )
                           }}
                           options={specialtiesOptions}
                           placeholder="Select specialities"
                           className="w-full"
                         />
-                        <ErrorMessage
-                          name="specialities"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
+                        <ErrorMessage name="specialities" component="div" className="text-red-500 text-sm mt-1" />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Services
-                        </label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Services</label>
                         <MultipleSelector
-                          value={values.services
-                            .filter((s) => s.trim())
-                            .map((s) => ({ label: s, value: s }))}
+                          value={values.services.filter((s) => s.trim()).map((s) => ({ label: s, value: s }))}
                           onChange={(newValue) => {
                             setFieldValue(
                               "services",
-                              newValue.map((item) => item.value)
-                            );
+                              newValue.map((item) => item.value),
+                            )
                           }}
                           options={servicesOptions}
                           placeholder="Select services"
                           className="w-full"
                         />
-                        <ErrorMessage
-                          name="services"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
+                        <ErrorMessage name="services" component="div" className="text-red-500 text-sm mt-1" />
                       </div>
                     </div>
 
@@ -1037,28 +900,23 @@ export default function HospitalForm() {
                         label="Achievements"
                         onAddTag={(tag) => {
                           if (tag.trim()) {
-                            const newAchievements = [...values.achievements];
-                            const emptyIndex = newAchievements.findIndex(
-                              (a) => !a.trim()
-                            );
+                            const newAchievements = [...values.achievements]
+                            const emptyIndex = newAchievements.findIndex((a) => !a.trim())
                             if (emptyIndex >= 0) {
-                              newAchievements[emptyIndex] = tag;
+                              newAchievements[emptyIndex] = tag
                             } else {
-                              newAchievements.push(tag);
+                              newAchievements.push(tag)
                             }
-                            setFieldValue("achievements", newAchievements);
+                            setFieldValue("achievements", newAchievements)
                           }
                         }}
                         onRemoveTag={(index) => {
-                          const newAchievements = [...values.achievements];
-                          newAchievements.splice(index, 1);
-                          if (
-                            newAchievements.length === 0 ||
-                            !newAchievements.includes("")
-                          ) {
-                            newAchievements.push("");
+                          const newAchievements = [...values.achievements]
+                          newAchievements.splice(index, 1)
+                          if (newAchievements.length === 0 || !newAchievements.includes("")) {
+                            newAchievements.push("")
                           }
-                          setFieldValue("achievements", newAchievements);
+                          setFieldValue("achievements", newAchievements)
                         }}
                         errors={errors.achievements}
                         touched={touched.achievements}
@@ -1071,25 +929,23 @@ export default function HospitalForm() {
                         label="Facts"
                         onAddTag={(tag) => {
                           if (tag.trim()) {
-                            const newFacts = [...values.facts];
-                            const emptyIndex = newFacts.findIndex(
-                              (f) => !f.trim()
-                            );
+                            const newFacts = [...values.facts]
+                            const emptyIndex = newFacts.findIndex((f) => !f.trim())
                             if (emptyIndex >= 0) {
-                              newFacts[emptyIndex] = tag;
+                              newFacts[emptyIndex] = tag
                             } else {
-                              newFacts.push(tag);
+                              newFacts.push(tag)
                             }
-                            setFieldValue("facts", newFacts);
+                            setFieldValue("facts", newFacts)
                           }
                         }}
                         onRemoveTag={(index) => {
-                          const newFacts = [...values.facts];
-                          newFacts.splice(index, 1);
+                          const newFacts = [...values.facts]
+                          newFacts.splice(index, 1)
                           if (newFacts.length === 0 || !newFacts.includes("")) {
-                            newFacts.push("");
+                            newFacts.push("")
                           }
-                          setFieldValue("facts", newFacts);
+                          setFieldValue("facts", newFacts)
                         }}
                         errors={errors.facts}
                         touched={touched.facts}
@@ -1108,9 +964,7 @@ export default function HospitalForm() {
                     className="space-y-6"
                   >
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">
-                        Upload Hospital Images
-                      </label>
+                      <label className="block text-sm font-medium text-gray-700">Upload Hospital Images</label>
                       <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                         <div className="space-y-1 text-center">
                           <svg
@@ -1141,34 +995,23 @@ export default function HospitalForm() {
                                 accept="image/*"
                                 multiple
                                 onChange={(event) => {
-                                  const files = event.currentTarget.files;
+                                  const files = event.currentTarget.files
                                   if (files) {
-                                    setFieldValue("images", [
-                                      ...values.images,
-                                      ...Array.from(files),
-                                    ]);
+                                    setFieldValue("images", [...values.images, ...Array.from(files)])
                                   }
                                 }}
                               />
                             </label>
                             <p className="pl-1">or drag and drop</p>
                           </div>
-                          <p className="text-xs text-gray-500">
-                            PNG, JPG, GIF up to 10MB
-                          </p>
+                          <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
                         </div>
                       </div>
-                      <ErrorMessage
-                        name="images"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
+                      <ErrorMessage name="images" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
                     {values.images.length > 0 && (
                       <div>
-                        <h4 className="text-sm font-medium text-gray-700 mb-2">
-                          Uploaded Images:
-                        </h4>
+                        <h4 className="text-sm font-medium text-gray-700 mb-2">Uploaded Images:</h4>
                         <ul className="list-disc pl-5 text-sm text-gray-600">
                           {values.images.map((file: File, index: number) => (
                             <li key={index}>{file.name}</li>
@@ -1186,38 +1029,32 @@ export default function HospitalForm() {
                         label="Videos (URLs)"
                         onAddTag={(tag) => {
                           // Extract YouTube video ID
-                          const youtubeRegex =
-                            /(?:youtube\.com\/.*[?&]v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-                          const match = tag.match(youtubeRegex);
-                          const videoID = match ? match[1] : null;
+                          const youtubeRegex = /(?:youtube\.com\/.*[?&]v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/
+                          const match = tag.match(youtubeRegex)
+                          const videoID = match ? match[1] : null
 
                           if (videoID) {
-                            const newVideos = [...values.videos];
-                            const emptyIndex = newVideos.findIndex(
-                              (v) => !v.trim()
-                            );
+                            const newVideos = [...values.videos]
+                            const emptyIndex = newVideos.findIndex((v) => !v.trim())
                             if (emptyIndex >= 0) {
-                              newVideos[emptyIndex] = videoID;
+                              newVideos[emptyIndex] = videoID
                             } else {
-                              newVideos.push(videoID);
+                              newVideos.push(videoID)
                             }
-                            setFieldValue("videos", newVideos);
+                            setFieldValue("videos", newVideos)
                           } else {
                             toast.error("Please enter a valid YouTube URL", {
                               duration: 3000,
-                            });
+                            })
                           }
                         }}
                         onRemoveTag={(index) => {
-                          const newVideos = [...values.videos];
-                          newVideos.splice(index, 1);
-                          if (
-                            newVideos.length === 0 ||
-                            !newVideos.includes("")
-                          ) {
-                            newVideos.push("");
+                          const newVideos = [...values.videos]
+                          newVideos.splice(index, 1)
+                          if (newVideos.length === 0 || !newVideos.includes("")) {
+                            newVideos.push("")
                           }
-                          setFieldValue("videos", newVideos);
+                          setFieldValue("videos", newVideos)
                         }}
                         errors={errors.videos}
                         touched={touched.videos}
@@ -1236,30 +1073,20 @@ export default function HospitalForm() {
                     className="space-y-6"
                   >
                     <div>
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                        Brands
-                      </label>
+                      <label className="block text-xl font-medium text-gray-900 mb-4">Brands</label>
                       <MultipleSelector
-                        value={values.brands
-                          .filter((b) => b.trim())
-                          .map((b) => ({ label: b, value: b }))}
+                        value={values.brands.filter((b) => b.trim()).map((b) => ({ label: b, value: b }))}
                         onChange={(newValue) => {
                           setFieldValue(
                             "brands",
-                            newValue.map((item) => item.value)
-                          );
+                            newValue.map((item) => item.value),
+                          )
                         }}
                         options={brandsOptions}
                         placeholder="Select brands"
                         className="w-full"
                       />
-                       {errors.brands &&
-                        <span
-                          className="text-red-500 text-sm mt-1"
-                        >
-                          {errors.brands} 
-                        </span>
-                      }
+                      {errors.brands && <span className="text-red-500 text-sm mt-1">{errors.brands}</span>}
                     </div>
 
                     <div className="!mt-6">
@@ -1267,137 +1094,101 @@ export default function HospitalForm() {
                         PSU (Public Sector Undertaking)
                       </label>
                       <MultipleSelector
-                        value={values.psu
-                          .filter((p) => p.trim())
-                          .map((p) => ({ label: p, value: p }))}
+                        value={values.psu.filter((p) => p.trim()).map((p) => ({ label: p, value: p }))}
                         onChange={(newValue) => {
                           setFieldValue(
                             "psu",
-                            newValue.map((item) => item.value)
-                          );
+                            newValue.map((item) => item.value),
+                          )
                         }}
                         options={psuOptions}
                         placeholder="Select PSUs"
                         className="w-full"
                       />
-                      <ErrorMessage
-                        name="psu"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
+                      <ErrorMessage name="psu" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
 
                     <div className="!mt-6">
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                        Accreditations
-                      </label>
+                      <label className="block text-xl font-medium text-gray-900 mb-4">Accreditations</label>
                       <MultipleSelector
-                        value={values.accreditations
-                          .filter((a) => a.trim())
-                          .map((a) => ({ label: a, value: a }))}
+                        value={values.accreditations.filter((a) => a.trim()).map((a) => ({ label: a, value: a }))}
                         onChange={(newValue) => {
                           setFieldValue(
                             "accreditations",
-                            newValue.map((item) => item.value)
-                          );
+                            newValue.map((item) => item.value),
+                          )
                         }}
                         options={accreditationsOptions}
                         placeholder="Select accreditations"
                         className="w-full"
                       />
-                      <ErrorMessage
-                        name="accreditations"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
+                      <ErrorMessage name="accreditations" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
 
                     <div className="!mt-6">
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                        Health Concerns
-                      </label>
+                      <label className="block text-xl font-medium text-gray-900 mb-4">Health Concerns</label>
                       <MultipleSelector
-                         value={values.concerns
+                        value={values.concerns
                           .filter((c) => c.trim())
                           .map((c) => {
-                            const option = concernsOptions.find((opt) => opt.value === c);
-                            return option ? { label: option.label, value: option.value } : null;
+                            const option = concernsOptions.find((opt) => opt.value === c)
+                            return option ? { label: option.label, value: option.value } : null
                           })
                           .filter(Boolean)}
                         onChange={(newValue) => {
                           // Update "concerns" field with selected concern values (titles)
-                          const selectedConcerns = newValue.map((item) => item.value);
-                          setFieldValue("concerns", selectedConcerns);
-                      
+                          const selectedConcerns = newValue.map((item) => item.value)
+                          setFieldValue("concerns", selectedConcerns)
+
                           // Update "speciality" field with corresponding speciality values
                           const selectedSpecialities = newValue
                             .map((item) => {
-                              const found = concernsOptions.find((opt) => opt.value === item.value);
-                              return found?.speciality || null;
+                              const found = concernsOptions.find((opt) => opt.value === item.value)
+                              return found?.speciality || null
                             })
-                            .filter(Boolean);
-                      
-                          setFieldValue("specialities", selectedSpecialities);
+                            .filter(Boolean)
+
+                          setFieldValue("specialities", selectedSpecialities)
                         }}
                         options={concernsOptions}
                         placeholder="Select health concerns"
                         className="w-full"
                       />
-                      <ErrorMessage
-                        name="concerns"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
+                      <ErrorMessage name="concerns" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
 
                     <div className="!mt-6">
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                        Diagnostics
-                      </label>
+                      <label className="block text-xl font-medium text-gray-900 mb-4">Diagnostics</label>
                       <MultipleSelector
-                        value={values.diagnostics
-                          .filter((c) => c.trim())
-                          .map((c) => ({ label: c, value: c }))}
+                        value={values.diagnostics.filter((c) => c.trim()).map((c) => ({ label: c, value: c }))}
                         onChange={(newValue) => {
                           setFieldValue(
                             "diagnostics",
-                            newValue.map((item) => item.value)
-                          );
+                            newValue.map((item) => item.value),
+                          )
                         }}
                         options={diagnosticsOptions}
                         placeholder="Select diagnostics"
                         className="w-full"
                       />
-                      <ErrorMessage
-                        name="diagnostics"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
+                      <ErrorMessage name="diagnostics" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
 
                     <div className="!mt-6">
-                      <label className="block text-xl font-medium text-gray-900 mb-4">
-                        Insurance Accepted
-                      </label>
+                      <label className="block text-xl font-medium text-gray-900 mb-4">Insurance Accepted</label>
                       <MultipleSelector
-                        value={values.insurance
-                          .filter((i) => i.trim())
-                          .map((i) => ({ label: i, value: i }))}
+                        value={values.insurance.filter((i) => i.trim()).map((i) => ({ label: i, value: i }))}
                         onChange={(newValue) => {
                           setFieldValue(
                             "insurance",
-                            newValue.map((item) => item.value)
-                          );
+                            newValue.map((item) => item.value),
+                          )
                         }}
                         options={insuranceOptions}
                         placeholder="Select insurance providers"
                         className="w-full"
                       />
-                      <ErrorMessage
-                        name="insurance"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
+                      <ErrorMessage name="insurance" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
 
                     <div className="!mt-6">
@@ -1405,24 +1196,18 @@ export default function HospitalForm() {
                         TPA (Third Party Administrators)
                       </label>
                       <MultipleSelector
-                        value={values.tpa
-                          .filter((t) => t.trim())
-                          .map((t) => ({ label: t, value: t }))}
+                        value={values.tpa.filter((t) => t.trim()).map((t) => ({ label: t, value: t }))}
                         onChange={(newValue) => {
                           setFieldValue(
                             "tpa",
-                            newValue.map((item) => item.value)
-                          );
+                            newValue.map((item) => item.value),
+                          )
                         }}
                         options={tpaOptions}
                         placeholder="Select TPAs"
                         className="w-full"
                       />
-                      <ErrorMessage
-                        name="tpa"
-                        component="div"
-                        className="text-red-500 text-sm mt-1"
-                      />
+                      <ErrorMessage name="tpa" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
 
                     {/* <div className="!mt-6">
@@ -1461,9 +1246,9 @@ export default function HospitalForm() {
                     type="button"
                     onClick={() => {
                       if (!hasStepErrors(errors, touched, step)) {
-                        setStep((prev) => prev + 1);
+                        setStep((prev) => prev + 1)
                       } else {
-                        showErrorsToast(errors, step);
+                        showErrorsToast(errors, step)
                       }
                     }}
                     className="ml-auto bg-blue-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 items-center"
@@ -1476,7 +1261,7 @@ export default function HospitalForm() {
                     type="submit"
                     onClick={() => {
                       if (Object.keys(errors).length > 0) {
-                        showAllErrors(errors);
+                        showAllErrors(errors)
                       }
                     }}
                     disabled={isSubmitting}
@@ -1502,8 +1287,7 @@ export default function HospitalForm() {
                   <div className="flex items-center">
                     <AlertCircle className="h-5 w-5 text-yellow-400 mr-2" />
                     <p className="text-sm text-yellow-700">
-                      There are errors in your form. Please review all steps
-                      before submitting.
+                      There are errors in your form. Please review all steps before submitting.
                     </p>
                   </div>
                   <button
@@ -1521,5 +1305,5 @@ export default function HospitalForm() {
       </motion.div>
       <Toaster />
     </div>
-  );
+  )
 }

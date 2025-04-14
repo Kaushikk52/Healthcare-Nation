@@ -16,7 +16,8 @@ export interface MedicalFacility {
     brands:string[];
     openDay:string;
     closeDay:string;
-    hours:string;
+    fromTime:string;
+    toTime:string;
 
     facilityType: FacilityType; // HOSPITAL or CLINIC
     specialities: string[]; // Ex: Cardiology, Neurology

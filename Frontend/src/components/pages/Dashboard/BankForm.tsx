@@ -13,13 +13,16 @@ import {
   Formik,
   FormikErrors,
   FormikHelpers,
+  useFormik,
 } from "formik";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertCircle,
+  Calendar,
   Check,
   ChevronLeft,
   ChevronRight,
+  Clock,
   Loader2,
   Plus,
   X,
@@ -29,6 +32,14 @@ import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { MedicalFacility } from "@/models/MedicalFacility";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
 const TagInput = ({
   values,
@@ -146,9 +157,11 @@ function BankForm() {
       landmark: "",
     },
     website: "",
-    openDay: "",
-    closeDay: "",
-    hours: "",
+    openDay: "Monday",
+    closeDay: "Friday",
+    fromTime: "09:00",
+    toTime: "17:00",
+    timeRangeValid: true, // Add this field to track validation state
     description: "",
     phoneNumbers: [""],
     images: [] as File[],
@@ -159,16 +172,95 @@ function BankForm() {
     medicalFacilities: [],
   };
 
+  const [openDay, setOpenDay] = useState<string>("Monday");
+  const [closeDay, setCloseDay] = useState<string>("Friday");
+  const [fromTime, setFromTime] = useState<string>("09:00");
+  const [toTime, setToTime] = useState<string>("17:00");
+  const [error, setError] = useState<string | null>(null);
+
   const daysOfWeek = [
-    { label: "Select day", value: "", index: 0, disable: true },
-    { label: "Monday", value: "mon", index: 1, disable: false },
-    { label: "Tuesday", value: "tue", index: 2, disable: false },
-    { label: "Wednesday", value: "wed", index: 3, disable: false },
-    { label: "Thursday", value: "thu", index: 4, disable: false },
-    { label: "Friday", value: "fri", index: 5, disable: false },
-    { label: "Saturday", value: "sat", index: 6, disable: false },
-    { label: "Sunday", value: "sun", index: 7, disable: false },
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
   ];
+
+  // Generate time options in 30-minute intervals with AM/PM format
+  const timeOptions = Array.from({ length: 48 }, (_, i) => {
+    const totalMinutes = i * 30;
+    const hour24 = Math.floor(totalMinutes / 60);
+    const minute = (totalMinutes % 60).toString().padStart(2, "0");
+
+    let hour12 = hour24 % 12;
+    if (hour12 === 0) hour12 = 12;
+    const period = hour24 < 12 ? "AM" : "PM";
+
+    return {
+      value: `${hour24.toString().padStart(2, "0")}:${minute}`, // Keep 24h format as value
+      label: `${hour12}:${minute} ${period}`, // Display in 12h format
+    };
+  });
+
+  // Helper function to format time in 12-hour format
+  const formatTime = (time24: string): string => {
+    const [hourStr, minuteStr] = time24.split(":");
+    const hour24 = Number.parseInt(hourStr, 10);
+
+    let hour12 = hour24 % 12;
+    if (hour12 === 0) hour12 = 12;
+    const period = hour24 < 12 ? "AM" : "PM";
+
+    return `${hour12}:${minuteStr} ${period}`;
+  };
+
+  // Get day index for comparison
+  const getDayIndex = (day: any): number => {
+    return daysOfWeek.indexOf(day);
+  };
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: BankSchema,
+    onSubmit: handleSubmit,
+  });
+
+  useEffect(() => {
+    const { setFieldError, setFieldTouched, values } = formik;
+
+    const { openDay, closeDay, fromTime, toTime } = values;
+
+    if (!fromTime || !toTime || !openDay || !closeDay) {
+      setFieldError("toTime", undefined);
+      return;
+    }
+
+    const fromDayIndex = getDayIndex(openDay);
+    const toDayIndex = getDayIndex(closeDay);
+
+    const [fromHour, fromMinute] = fromTime.split(":").map(Number);
+    const [toHour, toMinute] = toTime.split(":").map(Number);
+
+    const fromTotalMinutes = fromDayIndex * 1440 + (fromHour * 60 + fromMinute);
+    const toTotalMinutes = toDayIndex * 1440 + (toHour * 60 + toMinute);
+
+    if (toTotalMinutes <= fromTotalMinutes) {
+      setFieldError(
+        "toTime",
+        "End day and time must be after start day and time"
+      );
+    } else {
+      setFieldError("toTime", undefined);
+    }
+  }, [
+    formik.values.openDay,
+    formik.values.closeDay,
+    formik.values.fromTime,
+    formik.values.toTime,
+    formik.setFieldError,
+  ]);
 
   const stateOptions = [
     { label: "Select Location", value: "", index: 0, disable: true },
@@ -388,32 +480,6 @@ function BankForm() {
   useEffect(() => {
     getCurrentUserFacilities();
   }, []);
-
-  useEffect(() => {
-    if (startDay && endDay) {
-      const start = daysOfWeek.find((day) => day.value === startDay);
-      const end = daysOfWeek.find((day) => day.value === endDay);
-
-      if (start && end) {
-        // Calculate days
-        let days = 0;
-        if (end.index >= start.index) {
-          days = end.index - start.index + 1;
-        } else {
-          days = 7 - start.index + end.index + 1;
-        }
-
-        // Calculate total hours based on hours per day
-        const totalHours = hoursPerDay;
-
-        // Format the display text
-        const formattedStart =
-          start.value.charAt(0).toUpperCase() + start.value.slice(1);
-        const formattedEnd =
-          end.value.charAt(0).toUpperCase() + end.value.slice(1);
-      }
-    }
-  }, [startDay, endDay, hoursPerDay]);
 
   return (
     <div className="flex bg-gray-100 justify-center items-center lg:px-8 min-h-screen px-2 py-1 sm:px-3">
@@ -660,138 +726,140 @@ function BankForm() {
                         />
                       </div>
                     </div>
-
                     <div className="grid grid-cols-2 gap-6">
-                      <h2 className="col-span-2 text-base font-bold tracking-tight">
-                        Weekly Working Days
-                      </h2>
-
-                      <div className="col-span-2 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <div>
-                          <label
-                            htmlFor="openDay"
-                            className="text-gray-700 text-sm block font-medium mb-1"
-                          >
-                            From
-                          </label>
-                          <Field
-                            as="select"
-                            id="openDay"
-                            name="openDay"
-                            className="border border-gray-300 rounded-md shadow-sm w-full block focus:border-blue-500 focus:outline-none focus:ring-blue-500 mt-1 px-3 py-2"
-                          >
-                            {daysOfWeek.map((day) => (
-                              <option key={day.value} value={day.value} disabled={day.disable}>
-                                {day.label}
-                              </option>
-                            ))}
-                          </Field>
-                          <ErrorMessage
-                            name="openDay"
-                            component="div"
-                            className="text-red-500 text-sm mt-1"
-                          />
-                        </div>
-
-                        <div>
-                          <label
-                            htmlFor="closeDay"
-                            className="text-gray-700 text-sm block font-medium mb-1"
-                          >
-                            To
-                          </label>
-                          <Field
-                            as="select"
-                            id="closeDay"
-                            name="closeDay"
-                            className="border border-gray-300 rounded-md shadow-sm w-full block focus:border-blue-500 focus:outline-none focus:ring-blue-500 mt-1 px-3 py-2"
-                          >
-                            {daysOfWeek.map((day) => (
-                              <option key={day.value} value={day.value} disabled={day.disable}>
-                                {day.label}
-                              </option>
-                            ))}
-                          </Field>
-                          <ErrorMessage
-                            name="closeDay"
-                            component="div"
-                            className="text-red-500 text-sm mt-1"
-                          />
-                        </div>
-                      </div>
+                      <h2 className="text-base font-bold tracking-tight col-span-2">Weekly Working Days</h2>
 
                       <div>
-                        <label
-                          htmlFor="hours"
-                          className="text-gray-700 text-sm block font-medium mt-4"
-                        >
-                          Hours per day
+                        <label htmlFor="openDay" className="block text-sm font-medium text-gray-700 mb-1">
+                          Start Day
                         </label>
                         <Field
-                          id="hours"
-                          name="hours"
-                          type="number"
-                          min="1"
-                          max="24"
-                          value={values.hours} // Formik state
-                          onChange={handleChange} // Formik's handleChange
-                          className="border border-gray-300 rounded w-full focus:border-blue-500 focus:ring-blue-500 outline-none px-3 py-2"
-                        />
-                        <ErrorMessage
-                          name="hours"
-                          component="div"
-                          className="text-red-500 text-sm mt-1"
-                        />
+                          as="select"
+                          id="openDay"
+                          name="openDay"
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        >
+                          {daysOfWeek.map((day) => (
+                            <option key={`from-${day}`} value={day}>
+                              {day}
+                            </option>
+                          ))}
+                        </Field>
+                        <ErrorMessage name="openDay" component="div" className="text-red-500 text-sm mt-1" />
                       </div>
 
                       <div>
-                        {/* Tag-based Phone input */}
-                        <TagInput
-                          values={values.phoneNumbers}
-                          fieldName="phoneNumbers"
-                          placeholder="Enter phone number"
-                          label="Phone Numbers"
-                          onAddTag={(tag) => {
-                            // Validate phone number (only allow 10-digit numbers)
-                            const phoneRegex = /^\d{10}$/;
-                            if (phoneRegex.test(tag)) {
-                              const newPhones = [...values.phoneNumbers];
-                              const emptyIndex = newPhones.findIndex(
-                                (p) => !p.trim()
-                              );
-
-                              if (emptyIndex >= 0) {
-                                newPhones[emptyIndex] = tag;
-                              } else {
-                                newPhones.push(tag);
-                              }
-                              setFieldValue("phoneNumbers", newPhones);
-                            } else {
-                              toast.error(
-                                "Please enter a valid 10-digit phone number",
-                                {
-                                  duration: 3000,
-                                }
-                              );
-                            }
-                          }}
-                          onRemoveTag={(index) => {
-                            const newPhones = [...values.phoneNumbers];
-                            newPhones.splice(index, 1);
-
-                            // Ensure there's always at least one empty slot
-                            if (
-                              newPhones.length === 0 ||
-                              !newPhones.includes("")
-                            ) {
-                              newPhones.push("");
-                            }
-                            setFieldValue("phoneNumbers", newPhones);
-                          }}
-                          errors={errors.phoneNumbers}
-                          touched={touched.phoneNumbers}
-                        />
+                        <label htmlFor="closeDay" className="block text-sm font-medium text-gray-700 mb-1">
+                          End Day
+                        </label>
+                        <Field
+                          as="select"
+                          id="closeDay"
+                          name="closeDay"
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        >
+                          {daysOfWeek.map((day) => (
+                            <option key={`to-${day}`} value={day}>
+                              {day}
+                            </option>
+                          ))}
+                        </Field>
+                        <ErrorMessage name="closeDay" component="div" className="text-red-500 text-sm mt-1" />
                       </div>
+
+                      <div>
+                        <label htmlFor="fromTime" className="block text-sm font-medium text-gray-700 mb-1">
+                          From Time
+                        </label>
+                        <Field
+                          as="select"
+                          id="fromTime"
+                          name="fromTime"
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        >
+                          {timeOptions.map((time) => (
+                            <option key={`from-${time.value}`} value={time.value}>
+                              {time.label}
+                            </option>
+                          ))}
+                        </Field>
+                        <ErrorMessage name="fromTime" component="div" className="text-red-500 text-sm mt-1" />
+                      </div>
+
+                      <div>
+                        <label htmlFor="toTime" className="block text-sm font-medium text-gray-700 mb-1">
+                          To Time
+                        </label>
+                        <Field
+                          as="select"
+                          id="toTime"
+                          name="toTime"
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        >
+                          {timeOptions.map((time) => (
+                            <option key={`to-${time.value}`} value={time.value}>
+                              {time.label}
+                            </option>
+                          ))}
+                        </Field>
+                        <ErrorMessage name="toTime" component="div" className="text-red-500 text-sm mt-1" />
+                      </div>
+
+                      <div className="flex items-center gap-4 text-sm text-muted-foreground col-span-2">
+                        <div className="flex items-center">
+                          <Calendar className="mr-2 h-4 w-4" />
+                          <span>
+                            {values.openDay} - {values.closeDay}
+                          </span>
+                        </div>
+                        <div className="flex items-center">
+                          <Clock className="mr-2 h-4 w-4" />
+                          <span>
+                            {formatTime(values.fromTime)} - {formatTime(values.toTime)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      {/* Tag-based Phone input */}
+                      <TagInput
+                        values={values.phoneNumbers}
+                        fieldName="phoneNumbers"
+                        placeholder="Enter phone number"
+                        label="Phone Numbers"
+                        onAddTag={(tag) => {
+                          // Validate phone number (only allow 10-digit numbers)
+                          const phoneRegex = /^\d{10}$/
+                          if (phoneRegex.test(tag)) {
+                            const newPhones = [...values.phoneNumbers]
+                            const emptyIndex = newPhones.findIndex((p) => !p.trim())
+
+                            if (emptyIndex >= 0) {
+                              newPhones[emptyIndex] = tag
+                            } else {
+                              newPhones.push(tag)
+                            }
+                            setFieldValue("phoneNumbers", newPhones)
+                          } else {
+                            toast.error("Please enter a valid 10-digit phone number", {
+                              duration: 3000,
+                            })
+                          }
+                        }}
+                        onRemoveTag={(index) => {
+                          const newPhones = [...values.phoneNumbers]
+                          newPhones.splice(index, 1)
+
+                          // Ensure there's always at least one empty slot
+                          if (newPhones.length === 0 || !newPhones.includes("")) {
+                            newPhones.push("")
+                          }
+                          setFieldValue("phoneNumbers", newPhones)
+                        }}
+                        errors={errors.phoneNumbers}
+                        touched={touched.phoneNumbers}
+                      />
                     </div>
                   </motion.div>
                 )}
@@ -1009,13 +1077,11 @@ function BankForm() {
                         placeholder="Select brands"
                         className="w-full"
                       />
-                      {errors.brands &&
-                        <span
-                          className="text-red-500 text-sm mt-1"
-                        >
-                          {errors.brands} 
+                      {errors.brands && (
+                        <span className="text-red-500 text-sm mt-1">
+                          {errors.brands}
                         </span>
-                      }
+                      )}
                     </div>
 
                     <div className="!mt-6">
