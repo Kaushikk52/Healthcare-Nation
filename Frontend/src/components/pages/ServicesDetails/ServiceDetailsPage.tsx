@@ -129,6 +129,31 @@ export default function ServiceDetailsPage (){
     })
   }
 
+   // Helper function to format time in 12-hour format
+   function formatTime(time24) {
+    if (!time24 || typeof time24 !== "string" || !time24.includes(":")) {
+      return "Invalid time";
+    }
+  
+    const [hourStr, minuteStr] = time24.split(":");
+    const hour24 = parseInt(hourStr, 10);
+    const minute = parseInt(minuteStr, 10);
+  
+    if (isNaN(hour24) || isNaN(minute)) {
+      return "Invalid time";
+    }
+  
+    let hour12 = hour24 % 12;
+    if (hour12 === 0) hour12 = 12;
+  
+    const period = hour24 < 12 ? "AM" : "PM";
+    const paddedMinute = String(minute).padStart(2, '0');
+  
+    return `${hour12}:${paddedMinute} ${period}`;
+  }
+  
+  
+
   const handleSave = async () => {
     if (saved) {
       await removeSavedService(id)
@@ -346,7 +371,7 @@ export default function ServiceDetailsPage (){
                   West, Mumbai, Maharashtra 400053 */}
           </span>
           <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-md !text-[#74c365] capitalize">
-            {service.openDay} - {service.closeDay} {service.hours} Hrs
+          {service.openDay} - {service.closeDay} {formatTime(service.fromTime)} - {formatTime(service.toTime)} 
           </span>
         </div>
 

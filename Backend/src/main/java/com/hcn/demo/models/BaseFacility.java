@@ -42,7 +42,8 @@ public abstract class BaseFacility extends Auditable {
     private String website;
     private String openDay;
     private String closeDay;
-    private String hours;
+    private String fromTime;
+    private String toTime;
 
     @Lob
     @Column(name = "description",columnDefinition = "TEXT")

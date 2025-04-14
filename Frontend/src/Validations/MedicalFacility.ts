@@ -13,13 +13,8 @@ export const MedicalFacilitySchema = yup.object().shape({
     website: yup.string().url("Website must be a valid URL").required("Website is required"),
     openDay: yup.string().required("Opening day is required"),
     closeDay: yup.string().required("Closing day is required"),
-    hours: yup
-  .number()
-  .typeError("Hours must be a number")
-  .required("Hours are required")
-  .min(1, "Hours must be at least 1")
-  .max(24, "Hours cannot exceed 24")
-  .integer("Hours must be a whole number"),
+    fromTime: yup.string().required("From Time  is required"),
+    toTime: yup.string().required("To Time is required"),
 
     description: yup.string().required("Description is required"),
     phoneNumbers: yup.array()

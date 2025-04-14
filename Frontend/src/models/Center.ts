@@ -9,7 +9,8 @@ export interface Center {
     website:string;
     openDay:string;
     closeDay:string;
-    hours:string;
+    fromTime:string;
+    toTime:string;
     description:string;
     phoneNumbers:string[];
     facts: string[];

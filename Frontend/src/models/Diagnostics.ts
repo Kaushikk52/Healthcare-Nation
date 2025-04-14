@@ -15,7 +15,8 @@ export interface Diagnostics{
         brands:string[];
         openDay:string;
         closeDay:string;
-        hours:string;
+        fromTime:string;
+        toTime:string;
 
         diagnostic: string[]; // Ex: MRI, CT Scan
         thirdPartyAdministrators: string[]; // Ex: Medi Assist, Vidal Health
