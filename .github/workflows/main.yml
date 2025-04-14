@@ -12,9 +12,9 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
 
-      - name: Backup Database Before Deployment
-        run: |
-          mysqldump -u root -p'root' HCNDB > /home/deployer/db_backup.sql
+      # - name: Backup Database Before Deployment
+      #   run: |
+      #     mysqldump -u root -p'root' HCNDB > /home/deployer/db_backup.sql
 
       - name: Build and Deploy Backend
         run: |
