@@ -97,12 +97,12 @@ function Footer() {
     <>
     <footer className="w-full bg-[#0580c4] text-white">
       <div className="!max-w-7xl !mx-auto !px-4">
-        <div className="mx-auto px-4 text-center py-5">
-          <div className="mb-4">
+        <div className="mx-auto px-4 text-center py-0">
+          <div className="mb-0">
             <img
-              src={path + "HCN-white-logo.png" || "/placeholder.svg"}
+              src={path + "white-logo.png" || "/placeholder.svg"}
               alt="Healthcare Nation Logo"
-              className="mx-auto h-16 w-auto"
+              className="mx-auto h-28 w-auto"
             />
           </div>
 
