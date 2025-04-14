@@ -1126,35 +1126,41 @@ export default function HospitalForm() {
                     </div>
 
                     <div className="!mt-6">
-                      <label className="block text-xl font-medium text-gray-900 mb-4">Health Concerns</label>
+                      <label className="block text-xl font-medium text-gray-900 mb-4">
+                        Health Concerns
+                      </label>
                       <MultipleSelector
-                        value={values.concerns
+                         value={values.concerns
                           .filter((c) => c.trim())
                           .map((c) => {
-                            const option = concernsOptions.find((opt) => opt.value === c)
-                            return option ? { label: option.label, value: option.value } : null
+                            const option = concernsOptions.find((opt) => opt.value === c);
+                            return option ? { label: option.label, value: option.value } : null;
                           })
                           .filter(Boolean)}
                         onChange={(newValue) => {
                           // Update "concerns" field with selected concern values (titles)
-                          const selectedConcerns = newValue.map((item) => item.value)
-                          setFieldValue("concerns", selectedConcerns)
-
+                          const selectedConcerns = newValue.map((item) => item.value);
+                          setFieldValue("concerns", selectedConcerns);
+                      
                           // Update "speciality" field with corresponding speciality values
                           const selectedSpecialities = newValue
                             .map((item) => {
-                              const found = concernsOptions.find((opt) => opt.value === item.value)
-                              return found?.speciality || null
+                              const found = concernsOptions.find((opt) => opt.value === item.value);
+                              return found?.speciality || null;
                             })
-                            .filter(Boolean)
-
-                          setFieldValue("specialities", selectedSpecialities)
+                            .filter(Boolean);
+                      
+                          setFieldValue("specialities", selectedSpecialities);
                         }}
                         options={concernsOptions}
                         placeholder="Select health concerns"
                         className="w-full"
                       />
-                      <ErrorMessage name="concerns" component="div" className="text-red-500 text-sm mt-1" />
+                      <ErrorMessage
+                        name="concerns"
+                        component="div"
+                        className="text-red-500 text-sm mt-1"
+                      />
                     </div>
 
                     <div className="!mt-6">
