@@ -100,7 +100,7 @@ function Footer() {
         <div className="mx-auto px-4 text-center py-0">
           <div className="mb-0">
             <img
-              src={path + "white-logo.png" || "/placeholder.svg"}
+              src={path + "white-logo.webp" || "/placeholder.svg"}
               loading="eager"
               alt="Healthcare Nation Logo"
               className="mx-auto h-28 w-auto"
