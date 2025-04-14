@@ -4,7 +4,7 @@ import { MdEdit } from "react-icons/md";
 import { MdOutlineDirections } from "react-icons/md";
 import { FaRegShareFromSquare } from "react-icons/fa6";
 import { BsBookmark, BsBookmarkCheckFill } from "react-icons/bs";
-import { IoMdClose,IoIosStar } from "react-icons/io";
+import { IoMdClose, IoIosStar } from "react-icons/io";
 
 // Tippy React
 import Tippy from "@tippyjs/react";
@@ -128,30 +128,28 @@ export default function CenterDetailsPage() {
     });
   };
 
-    // Helper function to format time in 12-hour format
-    function formatTime(time24) {
-      if (!time24 || typeof time24 !== "string" || !time24.includes(":")) {
-        return "Invalid time";
-      }
-    
-      const [hourStr, minuteStr] = time24.split(":");
-      const hour24 = parseInt(hourStr, 10);
-      const minute = parseInt(minuteStr, 10);
-    
-      if (isNaN(hour24) || isNaN(minute)) {
-        return "Invalid time";
-      }
-    
-      let hour12 = hour24 % 12;
-      if (hour12 === 0) hour12 = 12;
-    
-      const period = hour24 < 12 ? "AM" : "PM";
-      const paddedMinute = String(minute).padStart(2, '0');
-    
-      return `${hour12}:${paddedMinute} ${period}`;
+  // Helper function to format time in 12-hour format
+  function formatTime(time24) {
+    if (!time24 || typeof time24 !== "string" || !time24.includes(":")) {
+      return "Invalid time";
     }
-    
-    
+
+    const [hourStr, minuteStr] = time24.split(":");
+    const hour24 = parseInt(hourStr, 10);
+    const minute = parseInt(minuteStr, 10);
+
+    if (isNaN(hour24) || isNaN(minute)) {
+      return "Invalid time";
+    }
+
+    let hour12 = hour24 % 12;
+    if (hour12 === 0) hour12 = 12;
+
+    const period = hour24 < 12 ? "AM" : "PM";
+    const paddedMinute = String(minute).padStart(2, "0");
+
+    return `${hour12}:${paddedMinute} ${period}`;
+  }
 
   const handleSave = async () => {
     if (saved) {
@@ -281,7 +279,7 @@ export default function CenterDetailsPage() {
                     to={`/listing?type=${type}`}
                     className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 capitalize"
                   >
-                    {center.address?.state ||"Mumbai"}
+                    {center.address?.state || "Mumbai"}
                   </Link>
                 </div>
               </li>
@@ -397,7 +395,11 @@ export default function CenterDetailsPage() {
                   West, Mumbai, Maharashtra 400053 */}
           </span>
           <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-md !text-[#74c365] capitalize">
-          {center.openDay} - {center.closeDay} {formatTime(center.fromTime)} - {formatTime(center.toTime)}
+            {center.fromTime === center.toTime
+              ? `${center.openDay} - ${center.closeDay} Open 24 hours`
+              : `${center.openDay} - ${center.closeDay} ${formatTime(
+                  center.fromTime
+                )} - ${formatTime(center.toTime)}`}
           </span>
         </div>
 
