@@ -101,6 +101,7 @@ function Footer() {
           <div className="mb-0">
             <img
               src={path + "white-logo.png" || "/placeholder.svg"}
+              loading="eager"
               alt="Healthcare Nation Logo"
               className="mx-auto h-28 w-auto"
             />
