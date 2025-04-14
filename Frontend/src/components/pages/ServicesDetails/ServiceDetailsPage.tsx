@@ -1,64 +1,64 @@
-import { useState, useEffect } from "react"
-import toast from "react-hot-toast"
+import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 
 //Icons
-import { IoIosStar } from "react-icons/io"
-import { MdEdit } from "react-icons/md"
-import { MdOutlineDirections } from "react-icons/md"
-import { FaRegShareFromSquare } from "react-icons/fa6"
-import { BsBookmark, BsBookmarkCheckFill } from "react-icons/bs"
-import { IoMdClose } from "react-icons/io"
+import { IoIosStar } from "react-icons/io";
+import { MdEdit } from "react-icons/md";
+import { MdOutlineDirections } from "react-icons/md";
+import { FaRegShareFromSquare } from "react-icons/fa6";
+import { BsBookmark, BsBookmarkCheckFill } from "react-icons/bs";
+import { IoMdClose } from "react-icons/io";
 
 // Tippy React
-import Tippy from "@tippyjs/react"
-import "tippy.js/dist/tippy.css"
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 
-import servicesByAccrediations from "@/data/accrediations"
+import servicesByAccrediations from "@/data/accrediations";
 
 // Dynamic Content Components imports
-import Description from "../../Description"
-import Photos from "../../Photos"
-import Videos from "../../Videos"
-import Reviews from "../../Reviews"
-import { Link, useNavigate, useParams } from "react-router-dom"
-import axios from "axios"
+import Description from "../../Description";
+import Photos from "../../Photos";
+import Videos from "../../Videos";
+import Reviews from "../../Reviews";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
-import ReviewModal from "../../ReviewModal"
-import { motion, AnimatePresence } from "framer-motion"
+import ReviewModal from "../../ReviewModal";
+import { motion, AnimatePresence } from "framer-motion";
 
-export default function ServiceDetailsPage (){
-  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL
-  const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS
-  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 425)
-  const [activeTabButton, setActiveTabButton] = useState("description")
-  const [service, setService] = useState<any>({})
-  const [saved, setSaved] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [previewImage, setPreviewImage] = useState(null)
+export default function ServiceDetailsPage() {
+  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
+  const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS;
+  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 425);
+  const [activeTabButton, setActiveTabButton] = useState("description");
+  const [service, setService] = useState<any>({});
+  const [saved, setSaved] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
   const navigate = useNavigate();
 
-  const { id, type } = useParams()
+  const { id, type } = useParams();
 
   useEffect(() => {
-    getServiceDetails(id)
-  }, [id])
+    getServiceDetails(id);
+  }, [id]);
 
   const handleAddRating = () => {
-    console.log("parent component updated")
-    getServiceDetails(id)
-  }
+    console.log("parent component updated");
+    getServiceDetails(id);
+  };
 
   const getServiceDetails = async (id) => {
     try {
-      const response = await axios.get(`${baseURL}/v1/api/${type}/id/${id}`)
-      const data = response.data[type]
-      console.log("type & resData serv", type, data)
-      setService(data)
-      setSaved(data.isSaved)
+      const response = await axios.get(`${baseURL}/v1/api/${type}/id/${id}`);
+      const data = response.data[type];
+      console.log("type & resData serv", type, data);
+      setService(data);
+      setSaved(data.isSaved);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   const handleCopyUrl = () => {
     navigator.clipboard
@@ -67,41 +67,41 @@ export default function ServiceDetailsPage (){
         toast.success(`URL copied to clipboard!`, {
           position: "bottom-right",
           duration: 3000,
-        })
+        });
       })
       .catch(() => {
         toast.error(`Failed to copy URL`, {
           position: "bottom-right",
           duration: 3000,
-        })
-      })
-  }
+        });
+      });
+  };
 
   const handleDirection = () => {
-    const clinicAddress = `${service.name} ${service.address.street},${service.address.landmark} ${service.address.city}, ${service.address.state} - ${service.address.zipCode}`
+    const clinicAddress = `${service.name} ${service.address.street},${service.address.landmark} ${service.address.city}, ${service.address.state} - ${service.address.zipCode}`;
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const { latitude, longitude } = position.coords
-          const start = `${latitude},${longitude}` // User's current location
-          const end = encodeURIComponent(clinicAddress) // Destination
-          const mapsUrl = `https://www.google.com/maps/dir/${start}/${end}`
-          window.open(mapsUrl, "_blank")
+          const { latitude, longitude } = position.coords;
+          const start = `${latitude},${longitude}`; // User's current location
+          const end = encodeURIComponent(clinicAddress); // Destination
+          const mapsUrl = `https://www.google.com/maps/dir/${start}/${end}`;
+          window.open(mapsUrl, "_blank");
         },
         (error) => {
           toast.error("Failed to get your location. Please enable GPS.", {
             position: "bottom-right",
             duration: 3000,
-          })
-        },
-      )
+          });
+        }
+      );
     } else {
       toast.error("Geolocation is not supported by this browser.", {
         position: "bottom-right",
         duration: 3000,
-      })
+      });
     }
-  }
+  };
 
   const saveService = async (id) => {
     try {
@@ -112,72 +112,70 @@ export default function ServiceDetailsPage (){
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        },
-      )
+        }
+      );
 
-      return response.data.message
+      return response.data.message;
     } catch (err) {
-      console.log(err.message)
+      console.log(err.message);
     }
-  }
+  };
 
   const removeSavedService = async (id) => {
     return await axios.delete(`${baseURL}/v1/api/saved/${type}/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-    })
-  }
+    });
+  };
 
-   // Helper function to format time in 12-hour format
-   function formatTime(time24) {
+  // Helper function to format time in 12-hour format
+  function formatTime(time24) {
     if (!time24 || typeof time24 !== "string" || !time24.includes(":")) {
       return "Invalid time";
     }
-  
+
     const [hourStr, minuteStr] = time24.split(":");
     const hour24 = parseInt(hourStr, 10);
     const minute = parseInt(minuteStr, 10);
-  
+
     if (isNaN(hour24) || isNaN(minute)) {
       return "Invalid time";
     }
-  
+
     let hour12 = hour24 % 12;
     if (hour12 === 0) hour12 = 12;
-  
+
     const period = hour24 < 12 ? "AM" : "PM";
-    const paddedMinute = String(minute).padStart(2, '0');
-  
+    const paddedMinute = String(minute).padStart(2, "0");
+
     return `${hour12}:${paddedMinute} ${period}`;
   }
-  
-  
 
   const handleSave = async () => {
     if (saved) {
-      await removeSavedService(id)
-      setSaved(false)
+      await removeSavedService(id);
+      setSaved(false);
     } else {
-      await saveService(id)
-      setSaved(true)
+      await saveService(id);
+      setSaved(true);
     }
     // setSaved(!saved);
-  }
+  };
 
   useEffect(() => {
-    const handleResize = () => setIsWideScreen(window.innerWidth >= 425)
-    window.addEventListener("resize", handleResize)
+    const handleResize = () => setIsWideScreen(window.innerWidth >= 425);
+    window.addEventListener("resize", handleResize);
 
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const buttons = [
     {
       title: "Add Review",
       icon: <MdEdit className="!text-pink-400 !h-5 !w-5" />,
       onClick: () => {
-        setIsModalOpen(true)
+        setIsModalOpen(true);
       },
     },
     {
@@ -200,12 +198,14 @@ export default function ServiceDetailsPage (){
       icon: <FaRegShareFromSquare className="!text-pink-400 !h-5 !w-5" />,
       onClick: handleCopyUrl,
     },
-  ]
+  ];
 
   const tabButtons = [
     {
       id: "description",
-      component: <Description details={service} phones={service.phoneNumbers} />,
+      component: (
+        <Description details={service} phones={service.phoneNumbers} />
+      ),
       title: "Description",
       marginX: "!mr-2",
       paddingX: "!pr-1 min-[425px]:!pr-2",
@@ -239,7 +239,7 @@ export default function ServiceDetailsPage (){
       marginX: "!mx-2",
       paddingX: "!px-1 min-[425px]:!px-2",
     },
-  ]
+  ];
 
   return (
     <div className="lg:max-w-5xl xl:max-w-6xl !mx-auto !px-4">
@@ -249,7 +249,10 @@ export default function ServiceDetailsPage (){
           <nav className="flex" aria-label="Breadcrumb">
             <ol className="inline-flex items-center space-x-1 md:space-x-3">
               <li className="inline-flex items-center">
-                <Link to={`/`} className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                <Link
+                  to={`/`}
+                  className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600"
+                >
                   Home
                 </Link>
               </li>
@@ -270,7 +273,10 @@ export default function ServiceDetailsPage (){
                       d="m1 9 4-4-4-4"
                     />
                   </svg>
-                  <Link to={`/listing?type=${type}`} className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 capitalize">
+                  <Link
+                    to={`/listing?type=${type}`}
+                    className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 capitalize"
+                  >
                     {service.address?.state || "Mumbai"}
                   </Link>
                 </div>
@@ -292,7 +298,9 @@ export default function ServiceDetailsPage (){
                       d="m1 9 4-4-4-4"
                     />
                   </svg>
-                  <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2 capitalize">{service.name}</span>
+                  <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2 capitalize">
+                    {service.name}
+                  </span>
                 </div>
               </li>
             </ol>
@@ -303,7 +311,11 @@ export default function ServiceDetailsPage (){
       {/* New Conditional Rendering Grid */}
       <div className="!grid !grid-cols-12 !gap-2 sm:!gap-4 lg:!gap-3 !py-4 ">
         {/* Main Image */}
-        <div className={`col-span-12 ${service.images?.length === 1 ? "lg:col-span-12" : "lg:col-span-8"} `}>
+        <div
+          className={`col-span-12 ${
+            service.images?.length === 1 ? "lg:col-span-12" : "lg:col-span-8"
+          } `}
+        >
           <img
             src={hospitalImgs + service.images?.[0] || "/placeholder.svg"}
             alt="main service"
@@ -320,7 +332,9 @@ export default function ServiceDetailsPage (){
                 src={hospitalImgs + service.images?.[1] || "/placeholder.svg"}
                 alt="Patient Room"
                 className="min-h-[160px] max-h-[160px] md:min-h-[220px] md:max-h-[220px] lg:min-h-[247px] lg:max-h-[247px] border w-full object-cover object-center rounded-sm cursor-pointer"
-                onClick={() => setPreviewImage(hospitalImgs + service.images?.[1])}
+                onClick={() =>
+                  setPreviewImage(hospitalImgs + service.images?.[1])
+                }
               />
             </div>
 
@@ -330,7 +344,9 @@ export default function ServiceDetailsPage (){
                 <div
                   onClick={() => setActiveTabButton("photos")}
                   style={{
-                    backgroundImage: `url(${hospitalImgs + service.images?.[2]})`,
+                    backgroundImage: `url(${
+                      hospitalImgs + service.images?.[2]
+                    })`,
                   }}
                   className="relative h-full w-full bg-cover bg-center rounded-sm"
                 >
@@ -345,10 +361,14 @@ export default function ServiceDetailsPage (){
                 <>
                   {service.images?.length > 2 && (
                     <img
-                      src={hospitalImgs + service.images?.[2] || "/placeholder.svg"}
+                      src={
+                        hospitalImgs + service.images?.[2] || "/placeholder.svg"
+                      }
                       alt="Hallway"
                       className="h-full w-full object-cover object-center rounded-sm cursor-pointer"
-                      onClick={() => setPreviewImage(hospitalImgs + service.images?.[2])}
+                      onClick={() =>
+                        setPreviewImage(hospitalImgs + service.images?.[2])
+                      }
                     />
                   )}
                 </>
@@ -362,7 +382,9 @@ export default function ServiceDetailsPage (){
       <div className="!flex !flex-col !items-start sm:!flex-row sm:!justify-between sm:!items-start !py-2 sm:!py-0">
         {/* Left Side */}
         <div className="!flex !flex-col !justify-center !space-y-1.5">
-          <span className="!text-2xl lg:!text-4xl !font-medium !text-wrap">{service.name}</span>
+          <span className="!text-2xl lg:!text-4xl !font-medium !text-wrap">
+            {service.name}
+          </span>
           {/* <span className='!text-md lg:!text-xl !font-medium text-gray-600'>Andheri, Mumbai</span> */}
           <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 text-balance">
             {service.address?.city}, {service.address?.state}
@@ -371,14 +393,20 @@ export default function ServiceDetailsPage (){
                   West, Mumbai, Maharashtra 400053 */}
           </span>
           <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-md !text-[#74c365] capitalize">
-          {service.openDay} - {service.closeDay} {formatTime(service.fromTime)} - {formatTime(service.toTime)} 
+            {service.fromTime === service.toTime
+              ? `${service.openDay} - ${service.closeDay} Open 24 hours`
+              : `${service.openDay} - ${service.closeDay} ${formatTime(
+                  service.fromTime
+                )} - ${formatTime(service.toTime)}`}
           </span>
         </div>
 
         {/* Right Side  */}
         <div className="!flex !flex-col !justify-center !text-white !my-2 sm:!my-0 !space-y-0.5 sm:!space-y-1.5 !text-left sm:!text-right">
           <div className="!flex !justify-center !items-center !bg-[#267e3e] !rounded !py-0.5 !px-0">
-            <span className="!text-xl !font-semibold !mr-1 !px-0">{service.avgRating?.toPrecision(2)}</span>
+            <span className="!text-xl !font-semibold !mr-1 !px-0">
+              {service.avgRating?.toPrecision(2)}
+            </span>
             <IoIosStar className="!h-5 !w-5 !mb-0.5 !px-0 !mx-0" />
           </div>
           <div className="!text-gray-600">
@@ -403,23 +431,32 @@ export default function ServiceDetailsPage (){
             </Tippy>
           ))}
           <AnimatePresence>
-            {isModalOpen && <ReviewModal onClose={() => setIsModalOpen(false)} id={service.id} type={type} />}
+            {isModalOpen && (
+              <ReviewModal
+                onClose={() => setIsModalOpen(false)}
+                id={service.id}
+                type={type}
+              />
+            )}
           </AnimatePresence>
         </div>
 
         {/* Right Side for Rounded Images */}
         <div className="!flex !space-x-1.5 md:!space-x-2">
           {service.accreditations?.map((acc, index) => {
-            const accreditation = servicesByAccrediations.find((item) => item.title === acc)
+            const accreditation = servicesByAccrediations.find(
+              (item) => item.title === acc
+            );
 
-            if (!accreditation || !accreditation.image) return null // Skip if no accreditation or image
+            if (!accreditation || !accreditation.image) return null; // Skip if no accreditation or image
 
             return (
               <Link
                 key={index} // Moved key to the correct element
-                to={`/listing?type=${type.replace("-details", "")}&accreditations=${encodeURIComponent(
-                  accreditation.title,
-                )}`}
+                to={`/listing?type=${type.replace(
+                  "-details",
+                  ""
+                )}&accreditations=${encodeURIComponent(accreditation.title)}`}
               >
                 <img
                   src={`/Images/${accreditation.image}`} // Corrected to use accreditation.image
@@ -427,7 +464,7 @@ export default function ServiceDetailsPage (){
                   className="!h-14 !w-14 md:!h-14 md:!w-14 !object-cover !object-center !rounded-full"
                 />
               </Link>
-            )
+            );
           })}
         </div>
       </div>
@@ -455,7 +492,11 @@ export default function ServiceDetailsPage (){
         </div>
 
         {/* For Contents */}
-        <div className="">{tabButtons.map((btn) => (activeTabButton === btn.id ? btn.component : null))}</div>
+        <div className="">
+          {tabButtons.map((btn) =>
+            activeTabButton === btn.id ? btn.component : null
+          )}
+        </div>
       </div>
 
       {/* Image Preview Modal */}
@@ -471,8 +512,8 @@ export default function ServiceDetailsPage (){
             <div className="relative max-w-4xl w-full max-h-[90vh]">
               <button
                 onClick={(e) => {
-                  e.stopPropagation()
-                  setPreviewImage(null)
+                  e.stopPropagation();
+                  setPreviewImage(null);
                 }}
                 className="absolute top-2 right-2 z-10 bg-black bg-opacity-50 hover:bg-opacity-70 text-white p-2 rounded-full transition-all"
               >
@@ -491,5 +532,5 @@ export default function ServiceDetailsPage (){
         )}
       </AnimatePresence>
     </div>
-  )
+  );
 }

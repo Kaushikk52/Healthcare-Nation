@@ -90,15 +90,15 @@ export default function ServiceListing() {
 
   // Helper function to format time in 12-hour format
   const formatTime = (time24: string): string => {
-    const [hourStr, minuteStr] = time24.split(":")
-    const hour24 = Number.parseInt(hourStr, 10)
+    const [hourStr, minuteStr] = time24.split(":");
+    const hour24 = Number.parseInt(hourStr, 10);
 
-    let hour12 = hour24 % 12
-    if (hour12 === 0) hour12 = 12
-    const period = hour24 < 12 ? "AM" : "PM"
+    let hour12 = hour24 % 12;
+    if (hour12 === 0) hour12 = 12;
+    const period = hour24 < 12 ? "AM" : "PM";
 
-    return `${hour12}:${minuteStr} ${period}`
-  }
+    return `${hour12}:${minuteStr} ${period}`;
+  };
 
   // Flag to prevent infinite loops when updating state
   const isUpdatingFilters = useRef(false);
@@ -1241,8 +1241,13 @@ ${
                                 {detail.address?.city}, {detail.address?.state}
                               </span>
                               <span className="text-sm text-green-700 capitalize">
-                                {`${detail.openDay} - ${detail.closeDay} ${formatTime(detail.fromTime)} - ${formatTime(detail.toTime)}` ||
-                                  "Open 24 hours"}
+                                {detail.fromTime === detail.toTime
+                                  ? `${detail.openDay} - ${detail.closeDay} Open 24 hours`
+                                  : `${detail.openDay} - ${
+                                      detail.closeDay
+                                    } ${formatTime(
+                                      detail.fromTime
+                                    )} - ${formatTime(detail.toTime)}`}
                               </span>
                             </div>
 
@@ -1252,7 +1257,9 @@ ${
                                 <>
                                   <div className="!flex !justify-center !items-center !bg-[#267e3e] !rounded !py-0.5 !px-0">
                                     <span className="!text-base !font-semibold !mr-1 !px-0">
-                                      {detail.avgRating ? detail.avgRating?.toPrecision(2) : `0.0`}
+                                      {detail.avgRating
+                                        ? detail.avgRating?.toPrecision(2)
+                                        : `0.0`}
                                     </span>
                                     <FaStar className="!h-4 !w-4 !mb-0.5 !px-0 !mx-0" />
                                   </div>
