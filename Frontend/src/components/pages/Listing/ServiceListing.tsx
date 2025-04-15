@@ -599,7 +599,7 @@ export default function ServiceListing() {
   }, [type]);
 
   return (
-    <div className="relative bg-gray-50 min-h-screen">
+    <div className="relative min-h-screen">
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-3">
@@ -1237,7 +1237,7 @@ ${
                               <span className="line-clamp-1 text-lg min-[425px]:text-2xl sm:text-2xl lg:text-2xl xl:text-2xl font-bold text-gray-700">
                                 {detail.name}
                               </span>
-                              <span className="text-sm min-[425px]:text-base sm:text-lg lg:text-base xl:text-lg font-semibold text-gray-700">
+                              <span className="text-sm min-[425px]:text-base sm:text-lg lg:text-base xl:text-lg font-base text-gray-700">
                                 {detail.address?.city}, {detail.address?.state}
                               </span>
                               <span className="text-sm text-green-700 capitalize">
