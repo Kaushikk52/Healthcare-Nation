@@ -343,7 +343,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="w-full bg-white px-3 pt-3">
+    <nav className="w-full bg-white px-3 pt-2">
       <div className="max-w-7xl mx-auto flex items-center justify-between space-x-4">
         {/* Logo and mobile menu button */}
         <div className="flex items-center space-x-4">
@@ -361,7 +361,7 @@ export default function Navbar() {
         </div>
 
         {/* Location dropdown and search bar (desktop) */}
-        <div className="hidden md:flex items-center space-x-4 flex-grow justify-center">
+        <div className="hidden md:flex items-center space-x-4 flex-grow justify-center pb-2">
           <div className="relative p-1 rounded-md flex items-center space-x-1 h-12 w-full max-w-2xl">
             <div className="px-3 bg-[#EDDBE9] md:w-1/3 lg:w-3/12 xl:w-4/12 flex items-center h-full rounded-l-md">
               <FaLocationDot className="w-5 h-5 text-[#9B2482] flex-shrink-0 absolute left-3 top-1/2 transform -translate-y-1/2" />
