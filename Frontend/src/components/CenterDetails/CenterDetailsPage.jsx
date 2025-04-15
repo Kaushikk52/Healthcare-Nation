@@ -485,7 +485,7 @@ export default function CenterDetailsPage() {
                 btn.paddingX
               } !pt-1 !pb-3 !text-xs sm:!text-base md:!text-lg !font-semibold !transition-all !duration-150 !ease-in-out ${
                 activeTabButton === btn.id
-                  ? "!text-gray-900 !border-b-[6px] !border-pink-400 !rounded-sm"
+                  ? "!text-gray-900 !border-b-[6px] !border-[#9B2482] !rounded-sm"
                   : "!border-b-[6px] !border-transparent !text-gray-500"
               } `}
             >
