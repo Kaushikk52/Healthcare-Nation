@@ -311,44 +311,38 @@ export default function ServiceDetailsPage() {
       {/* New Conditional Rendering Grid */}
       <div className="!grid !grid-cols-12 !gap-2 sm:!gap-4 lg:!gap-3 !py-4 ">
         {/* Main Image */}
-        <div
-          className={`col-span-12 ${
-            service.images?.length === 1 ? "lg:col-span-12" : "lg:col-span-8"
-          } `}
-        >
+        <div className={`col-span-12 ${service.images?.length === 1 ? "lg:col-span-12" : "lg:col-span-8"}`}>
           <img
             src={hospitalImgs + service.images?.[0] || "/placeholder.svg"}
-            alt="main service"
-            className="h-[240px] min-[425px]:h-[280px] sm:h-[380px] lg:h-[510px] w-full rounded-sm object-cover cursor-pointer"
+            alt="main hospital"
+            className={`h-[505px] ${service.images?.length === 1 ? "w-full" : "w-auto"} mx-auto rounded-sm object-cover cursor-pointer`}
             onClick={() => setPreviewImage(hospitalImgs + service.images?.[0])}
           />
         </div>
         {/* Conditional Grid for Other Images */}
         {service.images?.length > 1 && (
-          <div className="h-full grid grid-cols-2 gap-2 sm:gap-3 md:gap-4 lg:gap-0 col-span-12 lg:col-span-4 lg:flex lg:flex-col lg:justify-between lg:space-y-4">
+          <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4 lg:gap-0 col-span-12 lg:col-span-4 lg:flex lg:flex-col lg:justify-between lg:space-y-4">
             {/* First Additional Image */}
             <div>
               <img
                 src={hospitalImgs + service.images?.[1] || "/placeholder.svg"}
                 alt="Patient Room"
-                className="min-h-[160px] max-h-[160px] md:min-h-[220px] md:max-h-[220px] lg:min-h-[247px] lg:max-h-[247px] border w-full object-cover object-center rounded-sm cursor-pointer"
-                onClick={() =>
-                  setPreviewImage(hospitalImgs + service.images?.[1])
-                }
+                className="h-[245px] w-full object-cover object-center rounded-sm cursor-pointer"
+                onClick={() =>setPreviewImage(hospitalImgs + service.images?.[1])}
               />
             </div>
 
             {/* Show the third image only if there are 3 or more images */}
-            <div className="relative min-h-[160px] max-h-[160px] md:min-h-[220px] md:max-h-[220px] lg:min-h-[247px] lg:max-h-[247px] w-full">
+            <div className="relative h-full w-full">
               {service.images?.length >= 4 ? (
                 <div
                   onClick={() => setActiveTabButton("photos")}
                   style={{
-                    backgroundImage: `url(${
+                    backgroundImage:  `url(${
                       hospitalImgs + service.images?.[2]
                     })`,
                   }}
-                  className="relative h-full w-full bg-cover bg-center rounded-sm"
+                  className="relative h-[245px] w-full bg-cover bg-center rounded-sm"
                 >
                   <div className="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center">
                     <div className="flex flex-col justify-center items-center text-white text-2xl">
@@ -361,14 +355,10 @@ export default function ServiceDetailsPage() {
                 <>
                   {service.images?.length > 2 && (
                     <img
-                      src={
-                        hospitalImgs + service.images?.[2] || "/placeholder.svg"
-                      }
+                      src={hospitalImgs + service.images?.[2] || "/placeholder.svg"}
                       alt="Hallway"
-                      className="h-full w-full object-cover object-center rounded-sm cursor-pointer"
-                      onClick={() =>
-                        setPreviewImage(hospitalImgs + service.images?.[2])
-                      }
+                      className="h-[245px] w-full object-cover object-center rounded-sm cursor-pointer"
+                      onClick={() =>setPreviewImage(hospitalImgs + service.images?.[2])}
                     />
                   )}
                 </>

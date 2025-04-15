@@ -313,15 +313,11 @@ export default function CenterDetailsPage() {
       {/* New Conditional Rendering Grid */}
       <div className="!grid !grid-cols-12 !gap-2 sm:!gap-4 lg:!gap-3 !py-4 ">
         {/* Main Image */}
-        <div
-          className={`col-span-12 ${
-            center.images?.length === 1 ? "lg:col-span-12" : "lg:col-span-8"
-          }`}
-        >
+        <div className={`col-span-12 ${center.images?.length === 1 ? "lg:col-span-12" : "lg:col-span-8"}`}>
           <img
             src={hospitalImgs + center.images?.[0] || "/placeholder.svg"}
-            alt="main center"
-            className="h-[240px] min-[425px]:h-[280px] sm:h-[380px] lg:h-[510px] w-full rounded-sm object-cover cursor-pointer"
+            alt="main hospital"
+            className={`h-[505px] ${center.images?.length === 1 ? "w-full" : "w-auto"} mx-auto rounded-sm object-cover cursor-pointer`}
             onClick={() => setPreviewImage(hospitalImgs + center.images?.[0])}
           />
         </div>
@@ -333,10 +329,8 @@ export default function CenterDetailsPage() {
               <img
                 src={hospitalImgs + center.images?.[1] || "/placeholder.svg"}
                 alt="Patient Room"
-                className="h-full w-full object-cover object-center rounded-sm cursor-pointer"
-                onClick={() =>
-                  setPreviewImage(hospitalImgs + center.images?.[1])
-                }
+                className="h-[245px] w-full object-cover object-center rounded-sm cursor-pointer"
+                onClick={() =>setPreviewImage(hospitalImgs + center.images?.[1])}
               />
             </div>
 
@@ -346,11 +340,11 @@ export default function CenterDetailsPage() {
                 <div
                   onClick={() => setActiveTabButton("photos")}
                   style={{
-                    backgroundImage: `url(${
+                    backgroundImage:  `url(${
                       hospitalImgs + center.images?.[2]
                     })`,
                   }}
-                  className="relative h-full w-full bg-cover bg-center rounded-sm"
+                  className="relative h-[245px] w-full bg-cover bg-center rounded-sm"
                 >
                   <div className="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center">
                     <div className="flex flex-col justify-center items-center text-white text-2xl">
@@ -363,14 +357,10 @@ export default function CenterDetailsPage() {
                 <>
                   {center.images?.length > 2 && (
                     <img
-                      src={
-                        hospitalImgs + center.images?.[2] || "/placeholder.svg"
-                      }
+                      src={hospitalImgs + center.images?.[2] || "/placeholder.svg"}
                       alt="Hallway"
-                      className="h-full w-full object-cover object-center rounded-sm cursor-pointer"
-                      onClick={() =>
-                        setPreviewImage(hospitalImgs + center.images?.[2])
-                      }
+                      className="h-[245px] w-full object-cover object-center rounded-sm cursor-pointer"
+                      onClick={() =>setPreviewImage(hospitalImgs + center.images?.[2])}
                     />
                   )}
                 </>

@@ -1,65 +1,65 @@
-import { useState, useEffect } from "react";
-import toast from "react-hot-toast";
+import { useState, useEffect } from "react"
+import toast from "react-hot-toast"
 
 // Icons
-import { IoIosStar } from "react-icons/io";
-import { MdEdit } from "react-icons/md";
-import { MdOutlineDirections } from "react-icons/md";
-import { FaRegShareFromSquare } from "react-icons/fa6";
-import { BsBookmark, BsBookmarkCheckFill } from "react-icons/bs";
-import { IoMdClose } from "react-icons/io";
+import { IoIosStar } from "react-icons/io"
+import { MdEdit } from "react-icons/md"
+import { MdOutlineDirections } from "react-icons/md"
+import { FaRegShareFromSquare } from "react-icons/fa6"
+import { BsBookmark, BsBookmarkCheckFill } from "react-icons/bs"
+import { IoMdClose } from "react-icons/io"
 
 // Tippy React
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
+import Tippy from "@tippyjs/react"
+import "tippy.js/dist/tippy.css"
 
-import servicesByAccrediations from "@/data/accrediations";
+import servicesByAccrediations from "@/data/accrediations"
 
 // Dynamic Content Components imports
-import Description from "../../Description";
-import Photos from "../../Photos";
-import Videos from "../../Videos";
-import Reviews from "../../Reviews.tsx";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import Description from "../../Description"
+import Photos from "../../Photos"
+import Videos from "../../Videos"
+import Reviews from "../../Reviews.tsx"
+import { Link, useNavigate, useParams } from "react-router-dom"
+import axios from "axios"
 
-import ReviewModal from "../../ReviewModal";
-import { AnimatePresence, motion } from "framer-motion";
+import ReviewModal from "../../ReviewModal"
+import { AnimatePresence, motion } from "framer-motion"
 
 export default function HospitalDetailsPage() {
-  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
-  const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS;
-  const navigate = useNavigate();
-  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 425);
-  const [activeTabButton, setActiveTabButton] = useState("description");
-  const [hospital, setHospital] = useState({});
-  const [saved, setSaved] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const token = localStorage.getItem("token");
-  const [previewImage, setPreviewImage] = useState(null);
+  const baseURL = import.meta.env.VITE_APP_BACKEND_BASE_URL
+  const hospitalImgs = import.meta.env.VITE_APP_CLOUDINARY_HOSPITALS
+  const navigate = useNavigate()
+  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 425)
+  const [activeTabButton, setActiveTabButton] = useState("description")
+  const [hospital, setHospital] = useState({})
+  const [saved, setSaved] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const token = localStorage.getItem("token")
+  const [previewImage, setPreviewImage] = useState(null)
 
-  const { id, type } = useParams();
+  const { id, type } = useParams()
 
   useEffect(() => {
-    getHospitalDetails(id);
-  }, [id]);
+    getHospitalDetails(id)
+  }, [id])
 
   const handleAddRating = () => {
-    console.log("parent component updated");
-    getHospitalDetails(id);
-  };
+    console.log("parent component updated")
+    getHospitalDetails(id)
+  }
 
   const getHospitalDetails = async (id) => {
     try {
-      const response = await axios.get(`${baseURL}/v1/api/facility/id/${id}`);
-      const data = response.data.facility;
+      const response = await axios.get(`${baseURL}/v1/api/facility/id/${id}`)
+      const data = response.data.facility
       // console.log(data);
-      setHospital(data);
-      setSaved(data.isSaved);
+      setHospital(data)
+      setSaved(data.isSaved)
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  };
+  }
 
   const handleCopyUrl = () => {
     navigator.clipboard
@@ -68,65 +68,65 @@ export default function HospitalDetailsPage() {
         toast.success(`URL copied to clipboard!`, {
           position: "bottom-right",
           duration: 3000,
-        });
+        })
       })
       .catch(() => {
         toast.error(`Failed to copy URL`, {
           position: "bottom-right",
           duration: 3000,
-        });
-      });
-  };
+        })
+      })
+  }
 
   // Helper function to format time in 12-hour format
   function formatTime(time24) {
     if (!time24 || typeof time24 !== "string" || !time24.includes(":")) {
-      return "Invalid time";
+      return "Invalid time"
     }
 
-    const [hourStr, minuteStr] = time24.split(":");
-    const hour24 = parseInt(hourStr, 10);
-    const minute = parseInt(minuteStr, 10);
+    const [hourStr, minuteStr] = time24.split(":")
+    const hour24 = Number.parseInt(hourStr, 10)
+    const minute = Number.parseInt(minuteStr, 10)
 
     if (isNaN(hour24) || isNaN(minute)) {
-      return "Invalid time";
+      return "Invalid time"
     }
 
-    let hour12 = hour24 % 12;
-    if (hour12 === 0) hour12 = 12;
+    let hour12 = hour24 % 12
+    if (hour12 === 0) hour12 = 12
 
-    const period = hour24 < 12 ? "AM" : "PM";
-    const paddedMinute = String(minute).padStart(2, "0");
+    const period = hour24 < 12 ? "AM" : "PM"
+    const paddedMinute = String(minute).padStart(2, "0")
 
-    return `${hour12}:${paddedMinute} ${period}`;
+    return `${hour12}:${paddedMinute} ${period}`
   }
 
   const handleDirection = () => {
     const hospitalAddress = `${hospital.address?.street}, ${hospital.address?.landmark} ${hospital.address?.city} 
-                  ${hospital.address?.state} - ${hospital.address?.zipCode}`;
+                  ${hospital.address?.state} - ${hospital.address?.zipCode}`
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const { latitude, longitude } = position.coords;
-          const start = `${latitude},${longitude}`; // User's current location
-          const end = encodeURIComponent(hospitalAddress); // Destination
-          const mapsUrl = `https://www.google.com/maps/dir/${start}/${end}`;
-          window.open(mapsUrl, "_blank");
+          const { latitude, longitude } = position.coords
+          const start = `${latitude},${longitude}` // User's current location
+          const end = encodeURIComponent(hospitalAddress) // Destination
+          const mapsUrl = `https://www.google.com/maps/dir/${start}/${end}`
+          window.open(mapsUrl, "_blank")
         },
         (error) => {
           toast.error("Failed to get your location. Please enable GPS.", {
             position: "bottom-right",
             duration: 3000,
-          });
-        }
-      );
+          })
+        },
+      )
     } else {
       toast.error("Geolocation is not supported by this browser.", {
         position: "bottom-right",
         duration: 3000,
-      });
+      })
     }
-  };
+  }
 
   const saveHospital = async (hospitalId) => {
     try {
@@ -137,40 +137,40 @@ export default function HospitalDetailsPage() {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
-      );
+        },
+      )
 
-      return response.data.message;
+      return response.data.message
     } catch (err) {
-      console.log(err.message);
+      console.log(err.message)
     }
-  };
+  }
 
   const removeSavedHospital = async (hospitalId) => {
     return await axios.delete(`${baseURL}/v1/api/saved/medical/${hospitalId}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-    });
-  };
+    })
+  }
 
   const handleSave = async () => {
     if (saved) {
-      await removeSavedHospital(id);
-      setSaved(false);
+      await removeSavedHospital(id)
+      setSaved(false)
     } else {
-      await saveHospital(id);
-      setSaved(true);
+      await saveHospital(id)
+      setSaved(true)
     }
     // setSaved(!saved);
-  };
+  }
 
   useEffect(() => {
-    const handleResize = () => setIsWideScreen(window.innerWidth >= 425);
-    window.addEventListener("resize", handleResize);
+    const handleResize = () => setIsWideScreen(window.innerWidth >= 425)
+    window.addEventListener("resize", handleResize)
 
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
   const buttons = [
     {
@@ -182,7 +182,7 @@ export default function HospitalDetailsPage() {
           : toast.error(`Login is Required`, {
               position: "bottom-right",
               duration: 3000,
-            });
+            })
       },
     },
     {
@@ -205,14 +205,12 @@ export default function HospitalDetailsPage() {
       icon: <FaRegShareFromSquare className="!text-pink-400 !h-5 !w-5" />,
       onClick: handleCopyUrl,
     },
-  ];
+  ]
 
   const tabButtons = [
     {
       id: "description",
-      component: (
-        <Description details={hospital} phones={hospital.phoneNumbers} />
-      ),
+      component: <Description details={hospital} phones={hospital.phoneNumbers} />,
       title: "Description",
       marginX: "!mr-2",
       paddingX: "!pr-1 min-[425px]:!pr-2",
@@ -246,7 +244,7 @@ export default function HospitalDetailsPage() {
       marginX: "!mx-2",
       paddingX: "!px-1 min-[425px]:!px-2",
     },
-  ];
+  ]
 
   return (
     <div className="lg:max-w-5xl xl:max-w-6xl !mx-auto !px-4">
@@ -305,9 +303,7 @@ export default function HospitalDetailsPage() {
                       d="m1 9 4-4-4-4"
                     />
                   </svg>
-                  <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2 capitalize">
-                    {hospital.name}
-                  </span>
+                  <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2 capitalize">{hospital.name}</span>
                 </div>
               </li>
             </ol>
@@ -318,24 +314,18 @@ export default function HospitalDetailsPage() {
       {/* New Conditional Rendering Grid */}
       <div className="!grid !grid-cols-12 !gap-2 sm:!gap-4 lg:!gap-3 !py-4 ">
         {/* Main Image */}
-        <div
-          className={`col-span-12 ${
-            hospital.images?.length === 1 ? "lg:col-span-12" : "lg:col-span-8"
-          }`}
-        >
+        <div className={`col-span-12 ${hospital.images?.length === 1 ? "lg:col-span-12" : "lg:col-span-8"}`}>
           <img
             src={
-              type !== "hospitals-details"
-                ? hospitalImgs + hospital.images?.[0]
-                : hospitalImgs + hospital.images?.[0]
+              type !== "hospitals-details" ? hospitalImgs + hospital.images?.[0] : hospitalImgs + hospital.images?.[0]
             }
             alt="main hospital"
-            className="h-[240px] min-[425px]:h-[280px] sm:h-[380px] lg:h-[510px] w-full rounded-sm object-cover cursor-pointer"
+            className={`h-[505px] ${hospital.images?.length === 1 ? "w-full" : "w-auto"} mx-auto rounded-sm object-cover cursor-pointer`}
             onClick={() =>
               setPreviewImage(
                 type !== "hospitals-details"
                   ? hospitalImgs + hospital.images?.[0]
-                  : hospitalImgs + hospital.images?.[0]
+                  : hospitalImgs + hospital.images?.[0],
               )
             }
           />
@@ -352,12 +342,12 @@ export default function HospitalDetailsPage() {
                     : hospitalImgs + hospital.images?.[1]
                 }
                 alt="Patient Room"
-                className="h-full w-full object-cover object-center rounded-sm cursor-pointer"
+                className="h-[245px] w-full object-cover object-center rounded-sm cursor-pointer"
                 onClick={() =>
                   setPreviewImage(
                     type !== "hospitals-details"
                       ? hospitalImgs + hospital.images?.[1]
-                      : hospitalImgs + hospital.images?.[1]
+                      : hospitalImgs + hospital.images?.[1],
                   )
                 }
               />
@@ -375,7 +365,7 @@ export default function HospitalDetailsPage() {
                         : hospitalImgs + hospital.images?.[2]
                     })`,
                   }}
-                  className="relative h-full w-full bg-cover bg-center rounded-sm"
+                  className="relative h-[245px] w-full bg-cover bg-center rounded-sm"
                 >
                   <div className="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center">
                     <div className="flex flex-col justify-center items-center text-white text-2xl">
@@ -394,12 +384,12 @@ export default function HospitalDetailsPage() {
                           : hospitalImgs + hospital.images?.[2]
                       }
                       alt="Hallway"
-                      className="h-full w-full object-cover object-center rounded-sm cursor-pointer"
+                      className="h-[245px] w-full object-cover object-center rounded-sm cursor-pointer"
                       onClick={() =>
                         setPreviewImage(
                           type !== "hospitals-details"
                             ? hospitalImgs + hospital.images?.[2]
-                            : hospitalImgs + hospital.images?.[2]
+                            : hospitalImgs + hospital.images?.[2],
                         )
                       }
                     />
@@ -415,9 +405,7 @@ export default function HospitalDetailsPage() {
       <div className="!flex !flex-col !items-start sm:!flex-row sm:!justify-between sm:!items-start !py-2 sm:!py-0">
         {/* Left Side */}
         <div className="!flex !flex-col !justify-center !space-y-1.5">
-          <span className="!text-2xl lg:!text-4xl !font-medium !text-wrap">
-            {hospital.name}
-          </span>
+          <span className="!text-2xl lg:!text-4xl !font-medium !text-wrap">{hospital.name}</span>
           {/* <span className='!text-md lg:!text-xl !font-medium text-gray-600'>Andheri, Mumbai</span> */}
           <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 text-balance">
             {hospital.address?.city}, {hospital.address?.state}
@@ -429,7 +417,7 @@ export default function HospitalDetailsPage() {
             {hospital.fromTime === hospital.toTime
               ? `${hospital.openDay} - ${hospital.closeDay} Open 24 hours`
               : `${hospital.openDay} - ${hospital.closeDay} ${formatTime(
-                hospital.fromTime
+                  hospital.fromTime,
                 )} - ${formatTime(hospital.toTime)}`}
           </span>
         </div>
@@ -464,41 +452,27 @@ export default function HospitalDetailsPage() {
             </Tippy>
           ))}
           <AnimatePresence>
-            {isModalOpen && (
-              <ReviewModal
-                onClose={() => setIsModalOpen(false)}
-                id={hospital.id}
-                type={type}
-              />
-            )}
+            {isModalOpen && <ReviewModal onClose={() => setIsModalOpen(false)} id={hospital.id} type={type} />}
           </AnimatePresence>
         </div>
 
         {/* Right Side for Rounded Images */}
         <div className="!flex !space-x-1.5 md:!space-x-2">
           {hospital.accreditations?.map((acc, index) => {
-            const accreditation = servicesByAccrediations.find(
-              (item) => item.title === acc
-            );
-            const accImg = accreditation?.image; // Get the image
-            const accTitle = accreditation?.title;
+            const accreditation = servicesByAccrediations.find((item) => item.title === acc)
+            const accImg = accreditation?.image // Get the image
+            const accTitle = accreditation?.title
 
             // Only render image if accImg is available
             return (
-              <Link
-                key={index}
-                to={`/listing?type=${type.replace(
-                  "-details",
-                  ""
-                )}&accreditations=${accTitle}`}
-              >
+              <Link key={index} to={`/listing?type=${type.replace("-details", "")}&accreditations=${accTitle}`}>
                 <img
                   src={`/Images/${accImg}`}
                   alt={accImg}
                   className="!h-14 !w-14 md:!h-14 md:!w-14 !object-cover !object-center !rounded-full"
                 />
               </Link>
-            );
+            )
           })}
         </div>
       </div>
@@ -526,11 +500,7 @@ export default function HospitalDetailsPage() {
         </div>
 
         {/* For Contents */}
-        <div className="">
-          {tabButtons.map((btn) =>
-            activeTabButton === btn.id ? btn.component : null
-          )}
-        </div>
+        <div className="">{tabButtons.map((btn) => (activeTabButton === btn.id ? btn.component : null))}</div>
       </div>
 
       {/* Image Preview Modal */}
@@ -546,8 +516,8 @@ export default function HospitalDetailsPage() {
             <div className="relative max-w-4xl w-full max-h-[90vh]">
               <button
                 onClick={(e) => {
-                  e.stopPropagation();
-                  setPreviewImage(null);
+                  e.stopPropagation()
+                  setPreviewImage(null)
                 }}
                 className="absolute top-2 right-2 z-10 bg-black bg-opacity-50 hover:bg-opacity-70 text-white p-2 rounded-full transition-all"
               >
@@ -566,5 +536,5 @@ export default function HospitalDetailsPage() {
         )}
       </AnimatePresence>
     </div>
-  );
+  )
 }
