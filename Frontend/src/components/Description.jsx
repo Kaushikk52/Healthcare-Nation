@@ -590,7 +590,9 @@ const Description = (props) => {
               <h1 className="!text-2xl !font-semibold">Map</h1>
               <iframe
                 className="!my-3 !w-full !rounded-sm !h-[250px] sm:!h-[400px] md:!h-[500px] lg:!h-[300px] xl:!h-[280px]"
-                src="https://www.google.com/maps/embed?pb=!1m23!1m12!1m3!1d1169.3441339678525!2d72.82530259490001!3d19.13455891093334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m8!3e0!4m0!4m5!1s0x3be7b61f1a191fff%3A0xf3d2dd13d26ba8df!2sRao%20Saheb%20Achutrao%20Patwardhan%20Marg%2C%20Four%20Bungalows%2C%20Andheri%20West%2C%20Mumbai%2C%20Maharashtra%20400047!3m2!1d19.1343778!2d72.8256808!5e1!3m2!1sen!2sin!4v1737193864693!5m2!1sen!2sin"
+                src={`https://www.google.com/maps?q=${props.details.address?.street},
+                ${props.details.address?.landmark}${props.details.address?.city},
+                ${props.details.address?.state} - ${props.details.address?.zipCode}&output=embed`}
                 width=""
                 height=""
                 allowfullscreen=""
