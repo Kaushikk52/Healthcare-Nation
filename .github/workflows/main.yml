@@ -12,10 +12,6 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
 
-      - name: Backup Database Before Deployment
-        run: |
-          mysqldump -u root -p'root' HCNDB > /home/deployer/db_backup.sql
-
       - name: Build and Deploy Backend
         run: |
           if [ -d "Backend" ]; then
@@ -29,10 +25,6 @@ jobs:
             echo "Backend directory does not exist."
             exit 1
           fi
-
-      - name: Apply Database Migrations
-        run: |
-          mysql -u root -p'root' HCNDB < /home/deployer/db_backup.sql
 
       - name: Build and Deploy Frontend
         run: |
