@@ -23,7 +23,7 @@ import "swiper/swiper-bundle.css"
 import Throphy from "/Images/hospital-details/dynamic-content-images/description-images/throphy.jpg"
 import { CircleCheckBig } from "lucide-react"
 
-export default function Description(props) {
+export default function Description (props) {
   const [isExpanded, setIsExpanded] = useState(false)
   const [phones, setPhones] = useState([])
   const { type } = useParams()
@@ -74,6 +74,7 @@ export default function Description(props) {
       bgColor: tpa.bgColor,
     })),
   ]
+  
   return (
     <>
       <div className="!grid !grid-cols-1 lg:!grid-cols-12 !gap-6 w-full">
@@ -258,7 +259,7 @@ export default function Description(props) {
                               <img
                                 src={corpImg || "/placeholder.svg"}
                                 alt={item}
-                                className="border-2 border-gray-300 rounded-full h-full aspect-square w-full max-w-[80px] sm:max-w-[100px] md:max-w-[120px] lg:max-w-20 xl:max-w-20"
+                                className="border-2 border-gray-300 rounded-full h-16 w-16 sm:h-20 sm:w-20 object-cover"
                               />
                               <h1 className="!py-2 !text-gray-700 !font-medium !text-sm sm:!text-base">{item}</h1>
                             </div>
@@ -311,7 +312,7 @@ export default function Description(props) {
                               <img
                                 src={brandImg || "/placeholder.svg"}
                                 alt={item}
-                                className={`rounded-full aspect-square border-2 border-gray-300 ${bProperty} shadw-md shadow-[rgba(45,45,51,0.08)] w-full max-w-[80px] sm:max-w-[100px] md:max-w-[120px] lg:max-w-xl xl:max-w-2xl`}
+                                className={`rounded-full aspect-square border-2 border-gray-300 ${bProperty} shadow-md shadow-[rgba(45,45,51,0.08)] w-16 h-16 sm:w-20 sm:h-20 object-contain`}
                               />
                               {/* <h1 className="!py-2 !text-gray-700 !font-medium !text-sm sm:!text-base">
                                 {item}
@@ -399,7 +400,7 @@ export default function Description(props) {
                               <img
                                 src={insImg || "/placeholder.svg"}
                                 alt={item}
-                                className={`rounded-[10px] ${bgColor} aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-[80px] sm:max-w-[100px] md:max-w-[120px] lg:max-w-xl xl:max-w-2xl`}
+                                className={`rounded-[10px] ${bgColor} aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-[120px]`}
                               />
                               <h1 className="!py-2 !text-gray-700 !font-medium !text-sm sm:!text-base">{item}</h1>
                             </div>
@@ -452,7 +453,7 @@ export default function Description(props) {
                               <img
                                 src={tImg || "/placeholder.svg"}
                                 alt={item}
-                                className={`rounded-[10px] ${bgColor} aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-[80px] sm:max-w-[100px] md:max-w-[120px] lg:max-w-xl xl:max-w-2xl`}
+                                className={`rounded-[10px] ${bgColor} aspect-[4.2/3] shadow-md shadow-[rgba(45,45,51,0.08)] w-full max-w-[120px]`}
                               />
                               <h1 className="!py-2 !text-gray-700 !font-medium !text-sm sm:!text-base">{item}</h1>
                             </div>
@@ -476,7 +477,7 @@ export default function Description(props) {
               {props.phones?.map((number) => (
                 <div key={number} className="!grid !grid-cols-12 !items-start">
                   <FaPhone className="!col-span-2 sm:!col-span-1 lg:!col-span-2 !h-6 !w-6 !mt-1" />
-                  <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-xl lg:!text-xl">{number}</span>
+                  <span className="!col-span-10 sm:!col-span-11 lg:!col-span-10 !text-xl">{number}</span>
                 </div>
               ))}
 
@@ -502,7 +503,7 @@ export default function Description(props) {
             <div>
               <h1 className="!text-2xl !font-semibold">Map</h1>
               <iframe
-                className="!my-3 !w-full !rounded-sm !h-[250px] sm:!h-[400px] md:!h-[500px] lg:!h-[300px] xl:!h-[280px]"
+                className="!my-3 !w-full !rounded-sm !h-[250px] sm:!h-[300px]"
                 src={`https://www.google.com/maps?q=${props.details.address?.street},
                 ${props.details.address?.landmark}${props.details.address?.city},
                 ${props.details.address?.state} - ${props.details.address?.zipCode}&output=embed`}
@@ -519,4 +520,3 @@ export default function Description(props) {
     </>
   )
 }
-
