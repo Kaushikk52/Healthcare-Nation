@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: HCNDB
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - hcn-network
+
+  backend:
+    build: 
+      context: ./Backend
+      dockerfile: Dockerfile
+    container_name: hcn-backend
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SERVER_PORT: 8081
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/HCNDB
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EMAIL_HOST: smtp.gmail.com
+      EMAIL_PORT: 587
+      EMAIL_USERNAME: kaushikkarnik635@gmail.com
+      EMAIL_PASSWORD: ejao rpfr rlgl bdrg
+      CLOUDINARY_API_KEY: 592864215367616
+      CLOUDINARY_API_SECRET: tnUjgE5Q-tn0Pme8G7q3tqWeBMw
+      CLOUDINARY_NAME: dsig0ikjq
+    networks:
+      - hcn-network
+
+  frontend:
+    build: 
+      context: ./Frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    volumes:
+      - /home/deployer/dist:/usr/share/nginx/html
+    ports:
+      - "3000:3000"
+    networks:
+      - hcn-network
+    depends_on:
+      - backend
+
+volumes:
+  db_data:
+
+networks:
+  hcn-network:
