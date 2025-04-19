@@ -17,7 +17,7 @@ jobs:
         run: echo "Docker already installed on self-hosted runner"
 
       - name: Pull latest changes
-        run: git pull origin main
+        run: git pull origin master
 
       - name: Rebuild and deploy
         run: |
