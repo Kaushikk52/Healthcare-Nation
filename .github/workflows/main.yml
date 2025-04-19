@@ -13,10 +13,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+      - name: Log in to Docker (if needed)
+        run: echo "Docker already installed on self-hosted runner"
 
-      - name: Build and Deploy with Docker Compose
+      - name: Pull latest changes
+        run: git pull origin main
+
+      - name: Rebuild and deploy
         run: |
           docker compose -f docker-compose.yml down
           docker compose -f docker-compose.yml up -d --build
