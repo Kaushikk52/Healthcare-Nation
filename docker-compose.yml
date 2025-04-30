@@ -44,7 +44,7 @@ services:
       dockerfile: Dockerfile
     container_name: frontend
     volumes:
-      - /home/deployer/dist:/usr/share/nginx/html
+      - /home/deployer/dist:/build-output
     ports:
       - "3000:3000"
     networks:
