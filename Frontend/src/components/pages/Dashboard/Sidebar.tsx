@@ -12,6 +12,7 @@ import {
   PlusCircle,
   Edit,
   ClipboardPlus,
+  Users,
 } from "lucide-react";
 import { FaClinicMedical } from "react-icons/fa";
 import { MdOutlineMedicalInformation } from "react-icons/md";
@@ -21,12 +22,12 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   const [isOpen, setIsOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [isPostingOpen, setIsPostingOpen] = useState(false);
   const [isEditingOpen, setIsEditingOpen] = useState(false);
-  
+
   const [currentUser, setCurrentUser] = useState({ userId: "", role: "" });
 
   const navItems = [
@@ -35,7 +36,11 @@ function Sidebar() {
     { icon: ShieldPlus, label: "Bank", href: "/dashboard/bank" },
     { icon: Accessibility, label: "Homecare", href: "/dashboard/homecare" },
     { icon: Ambulance, label: "Transport", href: "/dashboard/transport" },
-    { icon: MdOutlineMedicalInformation, label: "Orthotics & Prosthetics", href: "/dashboard/op" },
+    {
+      icon: MdOutlineMedicalInformation,
+      label: "Orthotics & Prosthetics",
+      href: "/dashboard/op",
+    },
     { icon: Activity, label: "Diagnostics", href: "/dashboard/diagnostics" },
     { icon: ClipboardPlus, label: "Centers", href: "/dashboard/center" },
   ];
@@ -93,7 +98,11 @@ function Sidebar() {
                 <PlusCircle className="h-5 w-5 flex-shrink-0" />
                 {isOpen && !isMobile && <span className="ml-2">Posting</span>}
               </div>
-              {isPostingOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+              {isPostingOpen ? (
+                <ChevronUp className="h-5 w-5" />
+              ) : (
+                <ChevronDown className="h-5 w-5" />
+              )}
             </button>
             {isPostingOpen && (
               <ul className="pl-6 space-y-2">
@@ -105,7 +114,9 @@ function Sidebar() {
                       className="flex items-center text-gray-800 hover:bg-gray-100 rounded-md p-2"
                     >
                       <item.icon className="h-5 w-5 flex-shrink-0" />
-                      {isOpen && !isMobile && <span className="ml-2">Add {item.label}</span>}
+                      {isOpen && !isMobile && (
+                        <span className="ml-2">Add {item.label}</span>
+                      )}
                     </Link>
                   </li>
                 ))}
@@ -123,7 +134,11 @@ function Sidebar() {
                 <Edit className="h-5 w-5 flex-shrink-0" />
                 {isOpen && !isMobile && <span className="ml-2">Listing</span>}
               </div>
-              {isEditingOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+              {isEditingOpen ? (
+                <ChevronUp className="h-5 w-5" />
+              ) : (
+                <ChevronDown className="h-5 w-5" />
+              )}
             </button>
             {isEditingOpen && (
               <ul className="pl-6 space-y-2">
@@ -135,12 +150,26 @@ function Sidebar() {
                       className="flex items-center text-gray-800 hover:bg-gray-100 rounded-md p-2"
                     >
                       <item.icon className="h-5 w-5 flex-shrink-0" />
-                      {isOpen && !isMobile && <span className="ml-2">{item.label}</span>}
+                      {isOpen && !isMobile && (
+                        <span className="ml-2">{item.label}</span>
+                      )}
                     </Link>
                   </li>
                 ))}
               </ul>
             )}
+          </li>
+
+          <li>
+            <Link
+              to={`/dashboard/users/all`}
+              className="flex items-center text-gray-800 hover:bg-gray-100 rounded-md p-2"
+            >
+              <Users className="h-5 w-5 flex-shrink-0" />
+              {isOpen && !isMobile && (
+                <span className="ml-2">Users</span>
+              )}
+            </Link>
           </li>
         </ul>
       </nav>

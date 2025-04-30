@@ -53,6 +53,7 @@ public class SecurityConfig {
 
                         // Users endpoints
                         .requestMatchers(HttpMethod.GET, "/v1/api/user/**").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/v1/api/user/role/**").permitAll()
 
                         // Facilities endpoints
                         .requestMatchers(HttpMethod.GET, "/v1/api/facility/type/**",

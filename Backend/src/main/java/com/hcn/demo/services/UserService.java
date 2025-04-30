@@ -72,6 +72,17 @@ public class UserService implements UserDetailsService {
         return userRepo.save(user);
     }
 
+    public User editRoleById(String id){
+        User existingUser = this.getUserById(id);
+        User.UserRole role = existingUser.getRole();
+        if(role.equals(User.UserRole.ROLE_USER)){
+            existingUser.setRole(User.UserRole.ROLE_ADMIN);
+        }else {
+            existingUser.setRole(User.UserRole.ROLE_USER);
+        }
+        return userRepo.save(existingUser);
+    }
+
     public void deleteUser(Principal principal){
         User principalUser = (User) loadUserByUsername(principal.getName());
         userRepo.delete(principalUser);

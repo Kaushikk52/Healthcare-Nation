@@ -100,4 +100,26 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
+
+    @PostMapping(value = "/role/{id}")
+    public ResponseEntity<Map<String,Object>> editRoleById(@PathVariable String id){
+        Map<String,Object> response = new HashMap<>();
+        try{
+            User user = userServ.editRoleById(id);
+            User userDTO = User.builder()
+                    .id(user.getEmail())
+                    .firstName(user.getFirstName())
+                    .lastName(user.getLastName())
+                    .role(user.getRole())
+                    .build();
+            log.info("User role by ID edited : {}", id);
+            response.put("message","User role edited");
+            response.put("user",userDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (RuntimeException e) {
+            log.warn("An Error occurred : {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
 }
