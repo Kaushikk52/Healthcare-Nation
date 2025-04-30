@@ -46,6 +46,7 @@ services:
     volumes:
       - /home/deployer/dist:/usr/share/nginx/html
     ports:
+      - "443:443"
       - "3000:3000"
     networks:
       - hcn-network
