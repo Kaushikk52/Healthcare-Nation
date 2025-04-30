@@ -69,8 +69,8 @@ function Sidebar() {
   return (
     <div
       className={`flex flex-col bg-white text-gray-800 border-r transition-all duration-300 ${
-        isOpen ? "w-64" : "w-16"
-      } ${isMobile ? "w-16" : ""}`}
+        isOpen ? "w-64" : "w-24"
+      } ${isMobile ? "w-24" : ""}`}
     >
       {/* Sidebar Toggle Button */}
       <div className="p-4">
@@ -88,6 +88,7 @@ function Sidebar() {
       {/* Navigation */}
       <nav className="flex-grow overflow-y-auto">
         <ul className="space-y-2 p-4">
+          
           {/* Posting Section */}
           <li>
             <button
